@@ -2,9 +2,13 @@
 
 ## 🧩 Phrase TMS ↔ GitHub Automation Workflow
 
-[![AsciiDoc Preprocess](https://github.com/eoinmurphy-vt/eoin-adoc-test-two/actions/workflows/preprocess.yml/badge.svg)](https://github.com/eoinmurphy-vt/eoin-adoc-test-two/actions/workflows/preprocess.yml)
+[![Sync from Repo 1](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-from-repo1.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-from-repo1.yaml)
 
-[![AsciiDoc Postprocess](https://github.com/eoinmurphy-vt/eoin-adoc-test-two/actions/workflows/postprocess.yml/badge.svg)](https://github.com/eoinmurphy-vt/eoin-adoc-test-two/actions/workflows/postprocess.yml)
+[![AsciiDoc Preprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yml)
+
+[![AsciiDoc Postprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yml)
+
+[![Sync to Repo 1](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-to-repo1.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-to-repo1.yaml)
 
 ### 🔄 Overview
 
