@@ -1,0 +1,61 @@
+name: Sync Processed Files to Repo1
+
+on:
+  push:
+    paths:
+      - 'processed/**'  # Trigger on changes to processed folder
+  workflow_dispatch:
+
+jobs:
+  sync-back:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo2
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: Clone Repo1 for writing
+        run: |
+          git clone https://github.com/Account1/Repo1.git temp_repo1  # No PAT needed due to collaborator access
+          cd temp_repo1
+          git checkout main  # Assume main branch
+
+      - name: Copy processed files to Repo1
+        run: |
+          mkdir -p temp_repo1/processed_from_repo2/  # Destination folder in Repo1; adjust as needed
+          cp -r ../processed/* temp_repo1/processed_from_repo2/
+
+      - name: Commit and push to Repo1
+        working-directory: temp_repo1
+        run: |
+          git add processed_from_repo2/
+          git commit -m "Added processed files from Repo2" || echo "No changes to commit"
+          git push origin main
+
+      - name: Clean up
+        run: rm -rf temp_repo1
+
+  notify:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: sync-back
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.EMAIL_HOST }}
+          server_port: ${{ secrets.EMAIL_PORT }}
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Workflow Update: ${{ github.workflow }} in Repo2"
+          to: ${{ secrets.EMAIL_TO }}
+          from: GitHub Actions <noreply@github.com>
+          body: |
+            Job: ${{ github.job }}
+            Status: ${{ job.status }}
+            Run ID: ${{ github.run_id }}
+            Details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}

@@ -1,0 +1,91 @@
+name: Sync Changes from Repo1
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes; adjust as needed
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo2
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: Clone Repo1
+        run: |
+          git clone https://${{ secrets.REPO1_READ_PAT }}@github.com/Account1/Repo1.git temp_repo1  # Remove ${{ secrets.REPO1_READ_PAT }}@ if Repo1 is public
+          cd temp_repo1
+          git fetch origin
+
+      - name: Get last synced commit from Repo2 state
+        id: get-last-commit
+        run: |
+          if [ -f .last_synced_commit ]; then
+            LAST_COMMIT=$(cat .last_synced_commit)
+          else
+            LAST_COMMIT=""
+          fi
+          echo "last_commit=$LAST_COMMIT" >> $GITHUB_OUTPUT
+
+      - name: Get changed files since last sync
+        working-directory: temp_repo1
+        id: get-changes
+        run: |
+          CURRENT_COMMIT=$(git rev-parse HEAD)
+          if [ -z "${{ steps.get-last-commit.outputs.last_commit }}" ]; then
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD source_files/)  # Adjust path if needed
+          else
+            CHANGED_FILES=$(git diff --name-only ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- source_files/)
+          fi
+          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "current_commit=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
+
+      - name: Copy changed files to incoming folder in Repo2
+        if: steps.get-changes.outputs.changed_files != ''
+        run: |
+          mkdir -p incoming
+          CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
+          for file in $CHANGED_FILES; do
+            cp temp_repo1/$file incoming/
+          done
+
+      - name: Update last synced commit and commit changes to Repo2
+        if: steps.get-changes.outputs.changed_files != ''
+        run: |
+          echo "${{ steps.get-changes.outputs.current_commit }}" > .last_synced_commit
+          git add incoming/ .last_synced_commit
+          git commit -m "Synced changed files from Repo1"
+          git push origin main  # Assume main branch; adjust if needed
+
+      - name: Clean up
+        run: rm -rf temp_repo1
+
+  notify:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: sync
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.EMAIL_HOST }}
+          server_port: ${{ secrets.EMAIL_PORT }}
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Workflow Update: ${{ github.workflow }} in Repo2"
+          to: ${{ secrets.EMAIL_TO }}
+          from: GitHub Actions <noreply@github.com>
+          body: |
+            Job: ${{ github.job }}
+            Status: ${{ job.status }}
+            Run ID: ${{ github.run_id }}
+            Details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Changed files: ${{ needs.sync.outputs.changed_files }}  # Includes changed files if any

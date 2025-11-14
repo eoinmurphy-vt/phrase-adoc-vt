@@ -1,0 +1,13 @@
+Preprocess started: 2025-11-12 21:18:21.592892
+
+✅ source/test_vt_one/test_vt_five.adoc decoded successfully as Windows-1252 (0.73)
+Processed: source/test_vt_one/test_vt_five.adoc → processed/test_vt_one/test_vt_five.adoc
+✅ source/test_vt_one/test_vt_four/test_vt_six.adoc decoded successfully as Windows-1252 (0.73)
+Processed: source/test_vt_one/test_vt_four/test_vt_six.adoc → processed/test_vt_one/test_vt_four/test_vt_six.adoc
+
+Summary:
+  ✅ Files processed: 2
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Backticks skipped (apostrophes/plain): 4
+
+Completed: 2025-11-12 21:18:21.676438

@@ -1,0 +1,54 @@
+name: Postprocess Translated Files
+
+on:
+  # Automatically run when Phrase (or a translator) pushes to main branch
+  push:
+    branches:
+      - main
+    paths:
+      - 'translated/**/*.adoc'
+      - 'postprocess_adoc.py'
+
+  # Still allow manual run
+  workflow_dispatch:
+
+permissions:
+  contents: write   # Needed for pushing commits
+
+
+jobs:
+  postprocess:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          pip install chardet
+
+      - name: Run Postprocessing
+        run: |
+          mkdir -p final
+          python postprocess_adoc.py
+
+      - name: Commit Restored Files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add final/ postprocess_log.txt || true
+          git commit -m "Auto-restored final AsciiDoc files after translation" || echo "No changes to commit"
+          git push origin main || echo "No permission to push changes"
+
+      - name: Upload Postprocess Log
+        uses: actions/upload-artifact@v4
+        with:
+          name: postprocess-log
+          path: postprocess_log.txt
