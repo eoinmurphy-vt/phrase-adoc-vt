@@ -1,9 +1,15 @@
-Preprocess started: 2025-11-14 18:35:06.555354
+Preprocess started: 2025-11-14 19:43:02.508826
 
+✅ source/multicluster.adoc decoded successfully as ascii (1.00)
+Processed: source/multicluster.adoc → processed/multicluster.adoc
+✅ source/adfs.adoc decoded successfully as ascii (1.00)
+Processed: source/adfs.adoc → processed/adfs.adoc
+✅ source/cli.adoc decoded successfully as ascii (1.00)
+Processed: source/cli.adoc → processed/cli.adoc
 
 Summary:
-  ✅ Files processed: 0
+  ✅ Files processed: 3
   ⚠️ Encoding errors fixed: 0
-  ⏩ Backticks skipped (apostrophes/plain): 0
+  ⏩ Backticks skipped (apostrophes/plain): 5
 
-Completed: 2025-11-14 18:35:06.555603
+Completed: 2025-11-14 19:43:02.518885
