@@ -1,2 +1,0 @@
-# SUSECopy
-Copy of neuvector
