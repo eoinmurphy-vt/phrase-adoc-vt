@@ -1,4 +1,4 @@
-name: Sync Changes from Repo1
+name: Sync Changes from phrase-adoc-client
 
 on:
   schedule:
@@ -8,8 +8,10 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    outputs:
+      changed_files: ${{ steps.get-changes.outputs.changed_files }}
     steps:
-      - name: Checkout Repo2
+      - name: Checkout phrase-adoc-vt
         uses: actions/checkout@v4
 
       - name: Set up Git
@@ -17,13 +19,13 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
 
-      - name: Clone Repo1
+      - name: Clone phrase-adoc-client
         run: |
-          git clone https://${{ secrets.REPO1_READ_PAT }}@github.com/Account1/Repo1.git temp_repo1  # Remove ${{ secrets.REPO1_READ_PAT }}@ if Repo1 is public
+          git clone https://github.com/e-murph/phrase-adoc-client.git temp_repo1  # Remove ${{ secrets.REPO1_READ_PAT }}@ if phrase-adoc-client is public
           cd temp_repo1
           git fetch origin
 
-      - name: Get last synced commit from Repo2 state
+      - name: Get last synced commit from phrase-adoc-vt state
         id: get-last-commit
         run: |
           if [ -f .last_synced_commit ]; then
@@ -39,53 +41,31 @@ jobs:
         run: |
           CURRENT_COMMIT=$(git rev-parse HEAD)
           if [ -z "${{ steps.get-last-commit.outputs.last_commit }}" ]; then
-            CHANGED_FILES=$(git ls-tree -r --name-only HEAD source_files/)  # Adjust path if needed
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/)  # Path to outgoing folder in Repo1
           else
-            CHANGED_FILES=$(git diff --name-only ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- source_files/)
+            CHANGED_FILES=$(git diff --name-only ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/)
           fi
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           echo "current_commit=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
 
-      - name: Copy changed files to incoming folder in Repo2
+      - name: Copy changed files to source folder in phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != ''
         run: |
-          mkdir -p incoming
+          mkdir -p source
           CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
           for file in $CHANGED_FILES; do
-            cp temp_repo1/$file incoming/
+            cp temp_repo1/$file source/
           done
 
-      - name: Update last synced commit and commit changes to Repo2
+      - name: Update last synced commit and commit changes to phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != ''
         run: |
           echo "${{ steps.get-changes.outputs.current_commit }}" > .last_synced_commit
-          git add incoming/ .last_synced_commit
-          git commit -m "Synced changed files from Repo1"
+          git add source/ .last_synced_commit
+          git commit -m "Synced changed files from phrase-adoc-client"
           git push origin main  # Assume main branch; adjust if needed
 
       - name: Clean up
         run: rm -rf temp_repo1
-
-  notify:
-    runs-on: ubuntu-latest
-    if: always()
-    needs: sync
-    steps:
-      - name: Send email notification
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: ${{ secrets.EMAIL_HOST }}
-          server_port: ${{ secrets.EMAIL_PORT }}
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Workflow Update: ${{ github.workflow }} in Repo2"
-          to: ${{ secrets.EMAIL_TO }}
-          from: GitHub Actions <noreply@github.com>
-          body: |
-            Job: ${{ github.job }}
-            Status: ${{ job.status }}
-            Run ID: ${{ github.run_id }}
-            Details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            Changed files: ${{ needs.sync.outputs.changed_files }}  # Includes changed files if any
