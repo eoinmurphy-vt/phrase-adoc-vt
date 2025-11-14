@@ -27,7 +27,11 @@ jobs:
       - name: Copy processed files to phrase-adoc-client
         run: |
           mkdir -p temp_repo1/final/  # Incoming folder in Repo1
-          cp -r ../final/* temp_repo1/final/
+          if ls ../final/* > /dev/null 2>&1; then
+            cp -r ../final/* temp_repo1/final/
+          else
+            echo "No files in final/ to copy; skipping."
+          fi
 
       - name: Commit and push to phrase-adoc-client
         working-directory: temp_repo1
