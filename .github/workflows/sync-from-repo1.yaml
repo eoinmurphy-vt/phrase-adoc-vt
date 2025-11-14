@@ -41,9 +41,9 @@ jobs:
         run: |
           CURRENT_COMMIT=$(git rev-parse HEAD)
           if [ -z "${{ steps.get-last-commit.outputs.last_commit }}" ]; then
-            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/)  # Path to outgoing folder in Repo1
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/ | grep '\.adoc$')  # Filter for .adoc only
           else
-            CHANGED_FILES=$(git diff --name-only ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/)
+            CHANGED_FILES=$(git diff --name-only ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/ | grep '\.adoc$')  # Filter for .adoc only
           fi
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
@@ -64,7 +64,7 @@ jobs:
         run: |
           echo "${{ steps.get-changes.outputs.current_commit }}" > .last_synced_commit
           git add source/ .last_synced_commit
-          git commit -m "Synced changed files from phrase-adoc-client"
+          git commit -m "Synced changed .adoc files from phrase-adoc-client"
           git push origin main  # Assume main branch; adjust if needed
 
       - name: Clean up
