@@ -58,14 +58,16 @@ jobs:
           for file in $CHANGED_FILES; do
             cp temp_repo1/$file source/
           done
-
+          
       - name: Update last synced commit and commit changes to phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != ''
         run: |
           echo "${{ steps.get-changes.outputs.current_commit }}" > .last_synced_commit
           git add source/ .last_synced_commit
           git commit -m "Synced changed .adoc files from phrase-adoc-client"
+          git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
           git push origin main  # Assume main branch; adjust if needed
+
 
       - name: Clean up
         run: rm -rf temp_repo1
