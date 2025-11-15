@@ -106,4 +106,5 @@ jobs:
         with:
           name: preprocess-logs
           path: logs/preprocess_log_*.txt
+          if-no-files-found: ignore  # Prevents the warning if no logs exist
 
