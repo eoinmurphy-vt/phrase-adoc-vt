@@ -1,4 +1,9 @@
-import os, re, codecs, datetime, chardet
+import os
+import re
+import codecs
+import datetime
+import chardet
+import sys
 
 SRC_DIR = "source"
 DST_DIR = "processed"
@@ -49,12 +54,22 @@ def replace_backticks(match):
 with open(LOG_FILE, "w", encoding="utf-8") as f:
     f.write(f"Preprocess started: {datetime.datetime.now()}\n\n")
 
-for root, _, files in os.walk(SRC_DIR):
-    for file in files:
-        if not file.endswith(".adoc"):
+# Get files from command-line arguments (passed from YAML)
+files_to_process = sys.argv[1:]
+
+if not files_to_process:
+    log("No files provided to process in the source folder. Exiting.")
+else:
+    for src_path in files_to_process:
+        if not src_path.endswith(".adoc"):
+            log(f"Skipping non-.adoc file: {src_path}")
             continue
 
-        src_path = os.path.join(root, file)
+        # Ensure file exists (safety check)
+        if not os.path.exists(src_path):
+            log(f"File not found: {src_path}. Skipping.")
+            continue
+
         rel_path = os.path.relpath(src_path, SRC_DIR)
         dst_path = os.path.join(DST_DIR, rel_path)
         os.makedirs(os.path.dirname(dst_path), exist_ok=True)
