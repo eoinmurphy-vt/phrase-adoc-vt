@@ -13,15 +13,18 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # Needed for pushing commits
-
+  contents: write
 
 jobs:
   preprocess:
     runs-on: ubuntu-latest
+    outputs:
+      changed_files: ${{ steps.changed.outputs.changed_files }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Required for git diff
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -32,23 +35,51 @@ jobs:
         run: |
           pip install chardet
 
-      - name: Run Preprocessing
+      - name: Detect Changed AsciiDoc Files
+        id: changed
         run: |
-          mkdir -p processed
-          python preprocess_adoc.py
+          echo "Detecting changed AsciiDoc files..."
+          if [ "$(git rev-parse --verify HEAD^)" = "" ]; then
+            echo "No previous commit; assuming all source/*.adoc are new."
+            git ls-files 'source/**/*.adoc' > changed_files.txt || true
+          else
+            git diff --name-only HEAD^ HEAD -- 'source/**/*.adoc' > changed_files.txt || true
+          fi
+          echo "Changed files:"
+          cat changed_files.txt || echo "None found."
+          if [ ! -s changed_files.txt ]; then
+            echo "No changed AsciiDoc files found. Exiting."
+            echo "no_changes=true" >> $GITHUB_ENV
+            echo "changed_files=" >> $GITHUB_OUTPUT
+          else
+            echo "no_changes=false" >> $GITHUB_ENV
+            echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+            cat changed_files.txt >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Preprocessing
+        if: env.no_changes == 'false'
+        run: |
+          mkdir -p processed logs
+          python preprocess_adoc.py $(cat changed_files.txt)
 
       - name: Commit Processed Files
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: env.no_changes == 'false'
         run: |
           git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add processed/ preprocess_log.txt || true
-          git commit -m "Auto-preprocessed AsciiDoc files" || echo "No changes to commit"
-          git push origin main || echo "No permission to push changes"
+          git config user.email actions@github.com
+          git add processed/ logs/ || true
+          if git diff --staged --quiet; then
+            echo "No changes after preprocessing; skipping commit."
+          else
+            git commit -m "Auto-preprocessed changed AsciiDoc files"
+            git push origin main || echo "No permission to push changes"
+          fi
 
-      - name: Upload Preprocess Log
+      - name: Upload Preprocess Logs
+        if: env.no_changes == 'false'
         uses: actions/upload-artifact@v4
         with:
-          name: preprocess-log
-          path: preprocess_log.txt
+          name: preprocess-logs
+          path: logs/preprocess_log_*.txt
