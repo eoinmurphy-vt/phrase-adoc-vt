@@ -24,27 +24,29 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for reliable diff (temporary for debug; can set back to 2 later)
+          fetch-depth: 0  # Full history to ensure HEAD^ is available
 
-      - name: Debug Directory Structure
+      - name: Debug Current Branch
         run: |
-          echo "Current directory structure:"
-          ls -R .
+          echo "Current branch:"
+          git branch --show-current
+
+      - name: Debug Commit History
+        run: |
+          echo "HEAD commit:"
+          git rev-parse HEAD || echo "No HEAD"
+          echo "HEAD^ commit:"
+          git rev-parse HEAD^ || echo "No HEAD^ (this is the first commit)"
 
       - name: Debug Source Folder Contents
         run: |
-          echo "Files in source/ (recursive):"
-          ls -R source/ || echo "Source folder is empty or does not exist."
+          echo "All files in source/ (recursive):"
+          find source/ -type f -name "*.adoc" 2>/dev/null || echo "No .adoc files found in source/"
 
-      - name: Debug Git Status
+      - name: Debug Last Commit Changes
         run: |
-          echo "Git status:"
-          git status
-
-      - name: Debug Git Log
-        run: |
-          echo "Last 3 commits:"
-          git log -3 --oneline --graph --stat  # Includes file changes in commits
+          echo "Files added/modified in last commit:"
+          git log --name-status -1 -- source/ | grep -E '^[AM]\t.*\.adoc$' || echo "No .adoc changes in last commit"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -55,16 +57,15 @@ jobs:
         run: |
           pip install chardet
 
-          
       - name: Detect Changed AsciiDoc Files
         id: changed
         run: |
           echo "Detecting changed AsciiDoc files..."
-          if [ "$(git rev-parse --verify HEAD^)" = "" ]; then
+          if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            git diff --name-only HEAD^ HEAD -- source/ | grep '\.adoc$' > changed_files.txt || true
+          else
             echo "No previous commit; assuming all source/*.adoc are new."
             git ls-files 'source/**/*.adoc' > changed_files.txt || true
-          else
-            git diff --name-only HEAD^ HEAD -- source/ | grep '\.adoc$' > changed_files.txt || true
           fi
           echo "Changed files:"
           cat changed_files.txt || echo "None found."
