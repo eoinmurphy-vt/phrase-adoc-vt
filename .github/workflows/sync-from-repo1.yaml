@@ -74,9 +74,11 @@ jobs:
       - name: Dispatch Preprocess Workflow
         if: steps.get-changes.outputs.changed_files != ''
         run: |
+          CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
+          PAYLOAD=$(jq -n --arg et "trigger-preprocess" --arg cf "$CHANGED_FILES" '{event_type: $et, client_payload: {changed_files: $cf}}')
           curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/eoinmurphy-vt/phrase-adoc-vt/dispatches \
-            -d '{"event_type":"trigger-preprocess","client_payload":{"changed_files":"${{ steps.get-changes.outputs.changed_files }}"}}'
+            -d "$PAYLOAD"
 
