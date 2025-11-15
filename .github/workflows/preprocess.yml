@@ -24,7 +24,27 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Required for git diff
+          fetch-depth: 0  # Full history for reliable diff (temporary for debug; can set back to 2 later)
+
+      - name: Debug Directory Structure
+        run: |
+          echo "Current directory structure:"
+          ls -R .
+
+      - name: Debug Source Folder Contents
+        run: |
+          echo "Files in source/ (recursive):"
+          ls -R source/ || echo "Source folder is empty or does not exist."
+
+      - name: Debug Git Status
+        run: |
+          echo "Git status:"
+          git status
+
+      - name: Debug Git Log
+        run: |
+          echo "Last 3 commits:"
+          git log -3 --oneline --graph --stat  # Includes file changes in commits
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -68,7 +88,7 @@ jobs:
         if: env.no_changes == 'false'
         run: |
           git config user.name "github-actions"
-          git config user.email actions@github.com
+          git config user.email "actions@github.com"
           git add processed/ logs/ || true
           if git diff --staged --quiet; then
             echo "No changes after preprocessing; skipping commit."
