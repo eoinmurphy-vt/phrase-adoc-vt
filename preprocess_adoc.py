@@ -7,6 +7,25 @@ import sys
 
 SRC_DIR = "source"
 DST_DIR = "processed"
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+LOG_FILE = f"{LOG_DIR}/preprocess_log_{timestamp}.txt"
+
+stats = {"processed": 0, "errors": 0, "skipped": 0}
+
+def log(msg):
+    with open(LOG_FILE, "a", encoding="utf-8") as log_f:
+        log_f.write(msg + "\n")
+
+with open(LOG_FILE, "w", encoding="utf-8") as f:
+    f.write(f"Preprocess started: {datetime.datetime.now()}\n\n")
+
+files_to_process = sys.argv[1:]
+
+if not files_to_process:
+    log("No files provided to process. Exiting early.")
+
 LOG_FILE = "preprocess_log.txt"
 
 os.makedirs(DST_DIR, exist_ok=True)
