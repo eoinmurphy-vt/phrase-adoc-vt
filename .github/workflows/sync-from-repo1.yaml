@@ -2,7 +2,7 @@ name: Sync Changes from phrase-adoc-client
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Every 15 minutes; adjust as needed
+    - cron: '*/60 * * * *'  # Every 60 minutes; adjust as needed
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
