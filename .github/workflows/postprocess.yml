@@ -51,8 +51,24 @@ jobs:
           git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
           if [ "$COMMITTED" = "true" ]; then
             git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git  # Use PAT to trigger downstream workflows
-            git pull origin main --rebase  # Pull and rebase to resolve conflicts
-            git push origin main
+            MAX_ATTEMPTS=10  # Increased for more retries
+            ATTEMPT=1
+            while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+              git fetch origin main
+              git pull origin main --rebase
+              if git push origin main; then
+                echo "Push succeeded on attempt $ATTEMPT."
+                break
+              else
+                echo "Push failed on attempt $ATTEMPT. Retrying..."
+                ATTEMPT=$((ATTEMPT+1))
+                sleep 10  # Increased delay to allow remote updates to settle
+              fi
+            done
+            if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
+              echo "Failed to push after $MAX_ATTEMPTS attempts."
+              exit 1
+            fi
           else
             echo "No push needed as there were no changes."
           fi
