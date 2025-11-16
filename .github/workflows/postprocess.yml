@@ -34,16 +34,8 @@ jobs:
 
       - name: Run Postprocessing
         run: |
-          mkdir -p final logs  # Ensure logs/ exists
+          mkdir -p final logs  # Ensure logs/ exists (though script now creates it)
           python postprocess_adoc.py
-          if [ -f postprocess_log.txt ]; then
-            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-            RUN_ID="${{ github.run_id }}"  # Unique per run
-            mv postprocess_log.txt "logs/postprocess_log_${TIMESTAMP}_${RUN_ID}.txt"
-            echo "Moved and renamed log to logs/postprocess_log_${TIMESTAMP}_${RUN_ID}.txt"
-          else
-            echo "No log file generated; skipping rename."
-          fi
 
       - name: Debug Final Folder Contents  # Temporary for testing
         run: |
@@ -54,7 +46,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email actions@github.com
-          git add final/ logs/ || true  # Add final/ and all logs/
+          git add final/ logs/ || true  # Add final/ and logs/
           COMMITTED=false
           git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
           if [ "$COMMITTED" = "true" ]; then

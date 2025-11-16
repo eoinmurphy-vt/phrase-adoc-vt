@@ -8,6 +8,7 @@ from pathlib import Path
 SRC_DIR = "translated"
 DST_DIR = "final"
 LOG_FILE = "postprocess_log.txt"
+LOG_DIR = "logs"  # Fix: Define LOG_DIR early, before using it
 os.makedirs(LOG_DIR, exist_ok=True)
 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 run_id = os.getenv('GITHUB_RUN_ID', 'local')  # Use run ID if available, fallback for local testing
@@ -81,7 +82,6 @@ for root, _, files in os.walk(SRC_DIR):
         os.makedirs(os.path.dirname(dst_path), exist_ok=True)
         with open(dst_path, "w", encoding="utf-8", newline="\n") as f:
             f.write(content)
-
 
         log(f"📝 Saved {dst_path} as UTF-8 (LF) — final restored from {src_path}")
         stats["processed"] += 1
