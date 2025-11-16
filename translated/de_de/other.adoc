@@ -1,0 +1,142 @@
+= Testintegrationen und andere Komponenten
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /14.releasenotes/02.other/02.other.md
+:page-opendocs-slug:  /releasenotes/other
+
+== Testveröffentlichungshinweise für Integrationsmodule, Plug-Ins und andere Komponenten
+
+=== Test Github-Aktionen
+
+* Github-Aktionen für die Schwachstellenscannung jetzt veröffentlicht unter https://github.com/neuvector/neuvector-image-scan-action.
+
+=== Test Helm-Chart 1.8.9
+
+* Helm-Chart v1.8.9 ist für 5.0.0-Bereitstellungen veröffentlicht. Wenn Sie dies mit der Vorschauversion von 5.0.0 verwenden, sollten die folgenden Änderungen an values.yml vorgenommen werden:
+** Aktualisieren Sie das Registry auf docker.io
+** Aktualisieren Sie die Bildnamen/Tags auf die Vorschauversion im Docker-Hub
+** Lassen Sie die imagePullSecrets leer
+
+=== Test Splunk-App veröffentlicht
+
+* Neue Splunk-App für \{product-name} ist veröffentlicht unter https://splunkbase.splunk.com/app/6205/
+
+=== Test Helm-Chart-Update 1.8.7
+
+* Unterstützung für Anpassungen von Affinität und Toleranz für Controller, Scanner und Manager.
+* Fügen Sie die Unterstützung für nodeSelector für Controller-, Manager-, Scanner- und Aktualisierungs-Pods hinzu.
+* Unterstützung für benutzerdefinierte Umgebungsvariablen für den Controller-Container.
+
+=== Test Community Operator v1.2.7 für Helm-Chart 1.8.2
+
+* Erlauben Sie Benutzern, die \{product-name} Veröffentlichungsversion anzugeben.
+* Bereitstellung der neuesten Scanner-CVE-Datenbankversion
+* Standort des Container-Betreiber-Images wurde nach registry.neuvector.com/public verschoben
+* Der Standardname der \{product-name}-Instanz lautet neuvector (zuvor war es example-neuvector)
+* Aktualisiertes README-Dokument auf der Installationsseite und Link zu den Versionshinweisen hinzugefügt
+
+=== Test Helm Chart 1.8.2
+
+* Controller-Ingress- und Routen-Host-Optionen hinzufügen.
+
+=== Test Certified Operator v1.2.8 für \{product-name} v4.3.1
+
+* Unterstützt Helm-Chart-Version 1.8.2
+* Bereitstellung von \{product-name} Version 4.3.1
+* Bereitstellung der Scanner-Datenbankversion 2.360
+* Weitere Änderungen von der vorherigen Version 1.2.7
+** Der Name der neuvector-Instanz lautet standardmäßig neuvector, zuvor war es example-neuvector
+** Aktualisiertes README-Dokument auf der Installationsseite
+** Problem mit der Anzeige des \{product-name}-Logos behoben
+* Bekannte Probleme
+** Das Upgrade von 1.2.7 auf 1.2.8 aktualisiert die Scanner-Datenbank nicht.
+Umgehung: Scanner-Image auf registry.connect.redhat.com/neuvector/scanner@sha256:a802c012eee80444d9deea8c4402a1d977cf57d7b2b2044f90c9acc0e7ca3e06 beim Scanner-Bereitstellung aktualisieren
+** README-Dokument auf der Installationsseite ist nicht richtig ausgerichtet
+** Die Scanner-Datenbank wird nicht vom Updater aktualisiert
+
+=== Test Helm Chart-Update 1.8.0 Juli 2021
+
+* Helm Chart v1.8.0 wurde aktualisiert, um standardmäßig registry.neuvector.com als Standard-Registry zu verwenden. HINWEIS: Muss das Versions-Tag manuell angeben.
+* Fügen Sie konfigurierbare Parameter wie Controller-API-Anmerkungen im Helm-Diagramm hinzu. Verfügbar ab Version 1.7.6+.
+* Community Operator 1.2.6, Certified Operator 1.2.7 aktualisiert, um die Helm-Diagramm-Updates widerzuspiegeln, einschließlich der Hinzufügung der OpenShift-Route, wenn controller.apisvc.type aktiviert ist.
+
+=== Testen Sie andere Integrationen Juli 2021
+
+* Fügen Sie das HTML-Ausgabeformat für Scanergebnisse in Jenkins-Pipeline-Scanergebnissen hinzu.
+* Fügen Sie den Namespace der betroffenen Arbeitslast in den Prometheus-Exporter-Alarmen hinzu. Jetzt unterstützt in neuvector/prometheus-exporter:4.2.2 und später.
+
+=== Testen Sie das Helm-Diagramm-Update 1.7.5 Mai 2021
+
+* Unterstützen Sie die Änderungen, die für das neue Image-Registry registry.neuvector.com erforderlich sind.  Änderungen daran führen zu Bildpfaden (d.h. entfernen Sie neuvector aus dem Pfad von neuvector/controller zu controller).
+
+=== Testen Sie das Helm-Diagramm-Update 1.7.2 April 2021
+
+* Fügen Sie Unterstützung für separate Komponentenressourcenanforderungen und -grenzen hinzu, z.B. Controller, Enforcer CPU-, Speicheranforderungen.
+
+=== Testen Sie das Jenkins-Plugin-Update v1.13 April 2021
+
+* Beheben Sie den Scanfehler, der auftritt, wenn mehrere Scanner gleichzeitig ausgeführt werden.
+* Zeigen Sie die Red Hat-Sicherheitsbewertung im Scanergebnis für auf Red Hat basierende Images an.
+
+=== Testen Sie Operator-Updates April 2021
+
+* OpenShift-Operator/Helm, um selbstsignierte Zertifikate ersetzen zu können. Helm-Diagramm ist 1.7.1. Community Operator ist 1.2.4 und Certified Operator ist 1.2.3.
+
+=== Test Jenkins Plug-In v1.12 März 2021
+
+* Überschreiben Sie die Schwere der Sicherheitsanfälligkeit nach Punktzahl. Möglichkeit, den Bereich der Sicherheitsanfälligkeit (CVE) zu bearbeiten, der für hohe und mittlere Klassifizierungen verwendet wird. Dies ermöglicht die Anpassung, welche Punktzahl verwendet werden kann, um Builds in der Pipeline fehlschlagen zu lassen.
+* Fügen Sie Fehlermeldungen zu den JAVA-Ausnahmen hudson.AbortException hinzu. Aktivieren Sie eine bessere Fehlermeldungsberichterstattung von \{product-name}, wenn ein Fehler auftritt.
+
+=== Test Update Helm Chart auf 1.7.1 März 2021
+
+* Fügen Sie die IP des Loadbalancer-Dienstes und Anmerkungen hinzu.
+* Fügen Sie eine Einstellung hinzu, um die PVC-Kapazität festzulegen.
+* Fügen Sie Runtime-Socket-Einstellungen für k3s und AWS Bottlerocket hinzu.
+* Fügen Sie Einstellungen hinzu, um die Zertifikate von Controller und Manager zu ersetzen.
+
+=== Test Scanner Februar 2021
+
+* Beheben Sie CVE-2020-1938, das während des Scans in den Scanner-Versionen 1.191 und früher nicht entdeckt wurde. Aktualisieren Sie auf die neueste Scanner-Version nach 1.191.
+
+=== Test Jenkins Plug-In v1.11 Februar 2021
+
+==== Testverbesserungen
+
+* Fügen Sie Unterstützung für die Bereitstellung des eigenständigen \{product-name} Scanners hinzu. Dies erfordert keinen Controller und muss auf demselben Host wie die Jenkins-Installation bereitgestellt werden. Docker muss ebenfalls auf dem Host installiert sein. Derzeit wird nur die Linux-Version von Jenkins unterstützt (nicht die Container-Version). Fügen Sie auch den _jenkins_ Benutzer zur _docker_ Gruppe hinzu.
+
+[,bash]
+----
+sudo usermod -aG docker jenkins
+----
+
+Referenzen:
+https://plugins.jenkins.io/neuvector-vulnerability-scanner/
+https://github.com/jenkinsci/neuvector-vulnerability-scanner-plugin/releases/tag/neuvector-vulnerability-scanner-1.11
+
+=== Test Rancher-Katalogaktualisierungen Januar 2021
+
+* Aktualisieren Sie \{product-name} im Rancher-Katalog, um 4.x zu unterstützen
+
+=== Test Helm-Chart-Aktualisierungen Januar 2021
+
+* Erstellen Sie die erforderlichen \{product-name} CRDs bei der Bereitstellung
+* Fehler beheben, wenn der Controller-Ingress auf true gesetzt wird
+
+=== Test Operator-Aktualisierungen Januar 2021
+
+* Aktualisieren Sie die Operatoren (Community, zertifiziert), um 4.x zu unterstützen
+
+=== Test Helm-Chart-Änderungen Dezember 2020
+
+* Erlauben Sie dem Benutzer, die PriorityClass der Manager/Controller/Enforcer/Scanner-Bereitstellung anzupassen. Wir empfehlen, den \{product-name} Containern eine höhere Priorität zu geben, um sicherzustellen, dass die Sicherheitsrichtlinien durchgesetzt werden, wenn die Ressourcen des Knotens unter Druck stehen oder während eines Cluster-Upgrade-Prozesses.
+
+=== Test Wichtige Helm-Chart-Aktualisierung November 2020
+
+[IMPORTANT]
+====
+Änderungen an der Helm-Chart-Struktur
+====
+
+* Das Verzeichnis für das \{product-name} Chart hat sich von ./neuvector-helm/ zu ./neuvector-helm/charts/core/ geändert
+
+Wenn Sie Helm zum Upgrade verwenden, aktualisieren Sie bitte den Speicherort auf den oben genannten Pfad.
