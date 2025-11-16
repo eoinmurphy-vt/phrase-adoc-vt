@@ -51,6 +51,7 @@ jobs:
           git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
           if [ "$COMMITTED" = "true" ]; then
             git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git  # Use PAT to trigger downstream workflows
+            git pull origin main --rebase  # Pull and rebase to resolve conflicts
             git push origin main
           else
             echo "No push needed as there were no changes."
