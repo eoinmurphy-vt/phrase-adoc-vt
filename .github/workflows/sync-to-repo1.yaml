@@ -13,6 +13,11 @@ jobs:
       - name: Checkout phrase-adoc-vt
         uses: actions/checkout@v4
 
+      - name: Debug Final Folder Contents
+        run: |
+          echo "Contents of final/ after checkout:"
+          ls -R final/ 2>/dev/null || echo "final/ folder not found or empty."
+
       - name: Set up Git
         run: |
           git config --global user.name "GitHub Action"
@@ -30,11 +35,11 @@ jobs:
       - name: Copy processed files to phrase-adoc-client
         run: |
           mkdir -p temp_repo1/final/  # Incoming folder in Repo1
-          if find ../final -type f | grep . > /dev/null 2>&1; then  # Check for any files recursively
+          if [ -d "../final" ] && find ../final -type f 2>/dev/null | grep . > /dev/null 2>&1; then  # Check if folder exists and has files
             cp -r ../final/* temp_repo1/final/
-            echo "Copied files from final/"
+            echo "Copied files from final/ (including subdirs)"
           else
-            echo "No files in final/ to copy; skipping."
+            echo "No files in final/ to copy (or folder missing); skipping."
           fi
 
       - name: Commit and push to phrase-adoc-client
