@@ -34,16 +34,16 @@ jobs:
 
       - name: Run Postprocessing
         run: |
-          mkdir -p final
+          mkdir -p final logs  # Ensure logs/ exists
           python postprocess_adoc.py
           if [ -f postprocess_log.txt ]; then
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-            mv postprocess_log.txt "postprocess_log_$TIMESTAMP.txt"
-            echo "Renamed log to postprocess_log_$TIMESTAMP.txt"
+            RUN_ID="${{ github.run_id }}"  # Unique per run
+            mv postprocess_log.txt "logs/postprocess_log_${TIMESTAMP}_${RUN_ID}.txt"
+            echo "Moved and renamed log to logs/postprocess_log_${TIMESTAMP}_${RUN_ID}.txt"
           else
             echo "No log file generated; skipping rename."
           fi
-
 
       - name: Debug Final Folder Contents  # Temporary for testing
         run: |
@@ -54,7 +54,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email actions@github.com
-          git add . || true  # Stage all changes to ensure clean tree (covers final/, logs, etc.)
+          git add final/ logs/ || true  # Add final/ and all logs/
           COMMITTED=false
           git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
           if [ "$COMMITTED" = "true" ]; then
@@ -80,10 +80,10 @@ jobs:
           else
             echo "No push needed as there were no changes."
           fi
-
+      
       - name: Upload Postprocess Log
         uses: actions/upload-artifact@v4
         with:
           name: postprocess-log
-          path: postprocess_log_*.txt
+          path: logs/postprocess_log_*.txt
           if-no-files-found: ignore  # Suppress warning if no log
