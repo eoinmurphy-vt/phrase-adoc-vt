@@ -22,7 +22,9 @@ jobs:
         run: |
           git clone https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git temp_repo1  # Use PAT for authenticated write access
           cd temp_repo1
-          DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')  # Detect default branch
+          git remote set-url origin https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git  # Explicitly set for push
+          DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' || echo "main")  # Fallback to 'main' if detection fails
+          echo "Detected default branch: $DEFAULT_BRANCH"
           git checkout $DEFAULT_BRANCH
 
       - name: Copy processed files to phrase-adoc-client
@@ -30,6 +32,7 @@ jobs:
           mkdir -p temp_repo1/final/  # Incoming folder in Repo1
           if find ../final -type f | grep . > /dev/null 2>&1; then  # Check for any files recursively
             cp -r ../final/* temp_repo1/final/
+            echo "Copied files from final/"
           else
             echo "No files in final/ to copy; skipping."
           fi
@@ -38,8 +41,13 @@ jobs:
         working-directory: temp_repo1
         run: |
           git add final/
-          git commit -m "Added processed files from phrase-adoc-vt" || echo "No changes to commit"
-          git push origin $(git symbolic-ref --short HEAD)  # Push to current branch
+          COMMITTED=false
+          git commit -m "Added processed files from phrase-adoc-vt" && COMMITTED=true || echo "No changes to commit"
+          if [ "$COMMITTED" = "true" ]; then
+            git push origin $(git symbolic-ref --short HEAD)  # Push to current branch
+          else
+            echo "No push needed as there were no changes."
+          fi
 
       - name: Clean up
         run: rm -rf temp_repo1
