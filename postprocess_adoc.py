@@ -8,8 +8,10 @@ from pathlib import Path
 SRC_DIR = "translated"
 DST_DIR = "final"
 LOG_FILE = "postprocess_log.txt"
-
-os.makedirs(DST_DIR, exist_ok=True)
+os.makedirs(LOG_DIR, exist_ok=True)
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+run_id = os.getenv('GITHUB_RUN_ID', 'local')  # Use run ID if available, fallback for local testing
+LOG_FILE = f"{LOG_DIR}/postprocess_log_{timestamp}_{run_id}.txt"
 
 stats = {"processed": 0, "errors": 0, "skipped": 0}
 
