@@ -53,8 +53,8 @@ jobs:
       - name: Commit Restored Files
         run: |
           git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add final/ postprocess_log_*.txt || true
+          git config user.email actions@github.com
+          git add . || true  # Stage all changes to ensure clean tree (covers final/, logs, etc.)
           COMMITTED=false
           git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
           if [ "$COMMITTED" = "true" ]; then
