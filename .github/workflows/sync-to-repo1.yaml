@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'final/**'  # Trigger on changes to outgoing folder in Repo2
+  repository_dispatch:
+    types: [trigger-sync-to-repo1]
   workflow_dispatch:
 
 jobs:

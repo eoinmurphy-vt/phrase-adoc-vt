@@ -72,7 +72,16 @@ jobs:
           else
             echo "No push needed as there were no changes."
           fi
-      
+
+      - name: Dispatch Sync to Repo1
+        if: env.COMMITTED == 'true'  # Only if changes were committed
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/eoinmurphy-vt/phrase-adoc-vt/dispatches \
+            -d '{"event_type":"trigger-sync-to-repo1"}'
+
       - name: Upload Postprocess Log
         uses: actions/upload-artifact@v4
         with:
