@@ -1,9 +1,21 @@
-Postprocess started: 2025-11-16 17:18:58.303894
+Postprocess started: 2025-11-16 17:54:38.505908
 
+✅ translated/fr_fr/groups.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/groups.adoc as UTF-8 (LF) — final restored from translated/fr_fr/groups.adoc
+✅ translated/fr_fr/scanners.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/scanners.adoc as UTF-8 (LF) — final restored from translated/fr_fr/scanners.adoc
+✅ translated/fr_fr/adfs.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/adfs.adoc as UTF-8 (LF) — final restored from translated/fr_fr/adfs.adoc
+✅ translated/de_de/groups.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/groups.adoc as UTF-8 (LF) — final restored from translated/de_de/groups.adoc
+✅ translated/de_de/scanners.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/scanners.adoc as UTF-8 (LF) — final restored from translated/de_de/scanners.adoc
+✅ translated/de_de/adfs.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/adfs.adoc as UTF-8 (LF) — final restored from translated/de_de/adfs.adoc
 
 Summary:
-  ✅ Final Files restored: 0
+  ✅ Final Files restored: 6
   ⚠️ Encoding errors fixed: 0
   ⏩ Skipped non-code reverts: 0
 
-Completed: 2025-11-16 17:18:58.304101
+Completed: 2025-11-16 17:54:38.539760
