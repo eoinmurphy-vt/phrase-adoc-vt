@@ -41,12 +41,18 @@ jobs:
         run: |
           CURRENT_COMMIT=$(git rev-parse HEAD)
           if [ -z "${{ steps.get-last-commit.outputs.last_commit }}" ]; then
-            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/ | grep '\.adoc$')  # Filter for .adoc only
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/ | grep '\.adoc$')
+            DELETED_FILES=""
           else
-            CHANGED_FILES=$(git diff --name-only ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/ | grep '\.adoc$')  # Filter for .adoc only
+            DIFF_OUTPUT=$(git diff --name-status ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/)
+            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 != "D" {print $2}' | grep '\.adoc$' || true)
+            DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 == "D" {print $2}' | grep '\.adoc$' || true)
           fi
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "deleted_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$DELETED_FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           echo "current_commit=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
 
@@ -59,13 +65,22 @@ jobs:
             cp temp_repo1/$file source/
           done
 
+      - name: Remove deleted files from source folder in phrase-adoc-vt
+        if: steps.get-changes.outputs.deleted_files != ''
+        run: |
+          DELETED_FILES="${{ steps.get-changes.outputs.deleted_files }}"
+          for file in $DELETED_FILES; do
+            BASE_FILE=$(basename "$file")
+            rm -f source/$BASE_FILE || echo "File source/$BASE_FILE not found; skipping removal."
+          done
+
       - name: Update last synced commit and commit changes to phrase-adoc-vt
-        if: steps.get-changes.outputs.changed_files != ''
+        if: steps.get-changes.outputs.changed_files != '' || steps.get-changes.outputs.deleted_files != ''
         run: |
           echo "${{ steps.get-changes.outputs.current_commit }}" > .last_synced_commit
           git add source/ .last_synced_commit
-          git commit -m "Synced changed .adoc files from phrase-adoc-client"
-          git remote set-url origin https://${{ secrets.REPO2_TRIGGER_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
+          git commit -m "Synced changed .adoc files from phrase-adoc-client (including deletions)" || echo "No changes to commit"
+          git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
           git push origin main  # Assume main branch; adjust if needed
 
       - name: Clean up
