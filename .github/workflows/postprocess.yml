@@ -36,6 +36,14 @@ jobs:
         run: |
           mkdir -p final
           python postprocess_adoc.py
+          if [ -f postprocess_log.txt ]; then
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            mv postprocess_log.txt "postprocess_log_$TIMESTAMP.txt"
+            echo "Renamed log to postprocess_log_$TIMESTAMP.txt"
+          else
+            echo "No log file generated; skipping rename."
+          fi
+
 
       - name: Debug Final Folder Contents  # Temporary for testing
         run: |
@@ -46,12 +54,12 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add final/ postprocess_log.txt || true
+          git add final/ postprocess_log_*.txt || true
           COMMITTED=false
           git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
           if [ "$COMMITTED" = "true" ]; then
-            git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git  # Use PAT to trigger downstream workflows
-            MAX_ATTEMPTS=10  # Increased for more retries
+            git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
+            MAX_ATTEMPTS=10
             ATTEMPT=1
             while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
               git fetch origin main
@@ -62,7 +70,7 @@ jobs:
               else
                 echo "Push failed on attempt $ATTEMPT. Retrying..."
                 ATTEMPT=$((ATTEMPT+1))
-                sleep 10  # Increased delay to allow remote updates to settle
+                sleep 10
               fi
             done
             if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
@@ -77,5 +85,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: postprocess-log
-          path: postprocess_log.txt
+          path: postprocess_log_*.txt
           if-no-files-found: ignore  # Suppress warning if no log
