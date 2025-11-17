@@ -1,0 +1,11 @@
+Postprocess started: 2025-11-17 12:19:52.719296
+
+✅ translated/fr_fr/updating.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/updating.adoc as UTF-8 (LF) — final restored from translated/fr_fr/updating.adoc
+
+Summary:
+  ✅ Final Files restored: 1
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+
+Completed: 2025-11-17 12:19:52.727813
