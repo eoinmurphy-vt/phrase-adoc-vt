@@ -1,0 +1,25 @@
+Postprocess started: 2025-11-17 12:42:20.621092
+
+✅ translated/fr_fr/reporting.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/reporting.adoc as UTF-8 (LF) — final restored from translated/fr_fr/reporting.adoc
+✅ translated/fr_fr/production.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/production.adoc as UTF-8 (LF) — final restored from translated/fr_fr/production.adoc
+✅ translated/fr_fr/updating.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/fr_fr/updating.adoc as UTF-8 (LF) — final restored from translated/fr_fr/updating.adoc
+✅ translated/de_de/reporting.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/reporting.adoc as UTF-8 (LF) — final restored from translated/de_de/reporting.adoc
+✅ translated/de_de/operators.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/operators.adoc as UTF-8 (LF) — final restored from translated/de_de/operators.adoc
+✅ translated/de_de/production.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/production.adoc as UTF-8 (LF) — final restored from translated/de_de/production.adoc
+✅ translated/de_de/updating.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/updating.adoc as UTF-8 (LF) — final restored from translated/de_de/updating.adoc
+✅ translated/de_de/responserules.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/responserules.adoc as UTF-8 (LF) — final restored from translated/de_de/responserules.adoc
+
+Summary:
+  ✅ Final Files restored: 8
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+
+Completed: 2025-11-17 12:42:20.682229
