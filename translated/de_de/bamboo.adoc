@@ -1,0 +1,31 @@
+= Test Bamboo
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /06.scanning/03.build/02.bamboo/02.bamboo.md
+:page-opendocs-slug:  /scanning/build/bamboo
+
+== Test Scan auf Schwachstellen während der Bamboo-Bau-Pipeline
+
+Das Bamboo-Plugin für \{product-name} kann verwendet werden, um nach Schwachstellen in der Bamboo-Pipeline zu scannen. Das Plugin kann über das Admin -> Add-ons-Menü in Bamboo heruntergeladen werden. Verwenden Sie "Neue Apps suchen", um nach \{product-name} zu suchen. Das Plugin wird auch im https://marketplace.atlassian.com/apps/1221199/neuvector[Atlassian Marketplace] beschrieben.
+
+Stellen Sie das \{product-name} All-in-One- oder Controller-Container bereit, falls Sie dies noch nicht auf einem von Bamboo erreichbaren Host getan haben. Notieren Sie die IP-Adresse des Hosts, auf dem das All-in-One- oder Controller-Container läuft.
+
+Stellen Sie außerdem sicher, dass ein \{product-name} Scanner-Container bereitgestellt und konfiguriert ist, um sich mit dem All-in-One oder Controller zu verbinden. In 4.0 und später muss der neuvector/scanner-Container separat vom All-in-One oder Controller bereitgestellt werden.
+
+=== Test Konfigurieren der globalen Einstellungen
+
+Konfigurieren Sie die Einstellungen für den \{product-name} Controller/All-in-One, einschließlich der \{product-name} Authentifizierung sowie der Registry-Authentifizierung.
+
+image:bamboo_nv_global_config.png[global-image]
+
+=== Test Konfigurieren des Repositories und der Build-Richtlinie
+
+Erstellen Sie eine Aufgabe und geben Sie das Repository und das Tag zum Scannen sowie die Build-Richtlinie an, um den Build zu fehlschlagen, wenn Schwachstellen erkannt werden. Aktivieren Sie das geschichtete Scannen, wenn die Ergebnisse eine Analyse der Schwachstellen für jede Schicht im Bild enthalten sollen.
+
+image:bamboo_nv_local_config_2.png[local-image]
+
+=== Test Überprüfen der Ergebnisse
+
+Überprüfen Sie die Ergebnisse in den Scan-Protokollen, einschließlich der Scan-Zusammenfassung, des Grundes für das Scheitern, falls zutreffend, und der Einzelheiten zu jedem erkannten CVE.
+
+image:bamboo_set_criteria_to_fail_3.png[fail-image]
