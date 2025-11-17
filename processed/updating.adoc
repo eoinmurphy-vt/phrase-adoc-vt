@@ -6,7 +6,7 @@
 
 == Test_TwoUpdating {product-name} Components
 
-It's super easy to update your {product-name} containers. If there is a new release available, pull it from Docker Hub. It is recommended to use a '`+rolling update+`' strategy to keep at least one Allinone or Controller container running at any time during an update.
+It's super easy to update your {product-name} containers. If there is a new release available, pull it from Docker Hub. It is recommended to use a '`rolling update`' strategy to keep at least one Allinone or Controller container running at any time during an update.
 
 [IMPORTANT]
 ====
