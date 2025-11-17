@@ -1,0 +1,31 @@
+= Tester Bamboo
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /06.scanning/03.build/02.bamboo/02.bamboo.md
+:page-opendocs-slug:  /scanning/build/bamboo
+
+== Tester la numérisation des vulnérabilités pendant le pipeline de construction Bamboo
+
+Le plug-in Bamboo pour \{product-name} peut être utilisé pour scanner les vulnérabilités dans le pipeline Bamboo. Le plug-in peut être téléchargé depuis le menu Admin -> Add-ons dans Bamboo. Utilisez Trouver de nouvelles applications pour rechercher \{product-name}. Le plug-in est également décrit dans le https://marketplace.atlassian.com/apps/1221199/neuvector[Atlassian Marketplace].
+
+Déployez le conteneur \{product-name} Allinone ou Controller si vous ne l'avez pas déjà fait sur un hôte accessible par Bamboo. Notez l'adresse IP de l'hôte où l'Allinone ou le Controller est en cours d'exécution.
+
+De plus, assurez-vous qu'il y a un conteneur de scanner \{product-name} déployé et configuré pour se connecter à l'Allinone ou au Controller. Dans la version 4.0 et ultérieure, le conteneur neuvector/scanner doit être déployé séparément de l'allinone ou du controller.
+
+=== Tester Configurer les paramètres globaux
+
+Configurer les paramètres pour le Controller/Allinone \{product-name} y compris l'authentification \{product-name} ainsi que l'authentification du registre.
+
+image:bamboo_nv_global_config.png[global-image]
+
+=== Tester Configurer le dépôt et la politique de construction
+
+Créez une tâche et entrez le dépôt et le tag à scanner ainsi que la politique de construction pour échouer la construction si des vulnérabilités sont détectées. Activez la numérisation par couches si les résultats doivent contenir une analyse des vulnérabilités pour chaque couche de l'image.
+
+image:bamboo_nv_local_config_2.png[local-image]
+
+=== Tester Examiner les résultats
+
+Examinez les résultats dans les journaux de numérisation, y compris le résumé de la numérisation, la raison de l'échec si approprié, et les détails pour chaque CVE détecté.
+
+image:bamboo_set_criteria_to_fail_3.png[fail-image]
