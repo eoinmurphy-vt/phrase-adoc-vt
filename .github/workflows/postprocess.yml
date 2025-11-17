@@ -29,8 +29,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Dependencies
-        run: |
-          pip install chardet
+        run: pip install chardet
 
       - name: Run Postprocessing
         run: |
@@ -46,31 +45,16 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email actions@github.com
-          git add final/ logs/ || true  # Add final/ and logs/
-          COMMITTED=false
-          git commit -m "Auto-restored final AsciiDoc files after translation" && COMMITTED=true || echo "No changes to commit"
-          if [ "$COMMITTED" = "true" ]; then
+          git add final/ logs/ || true
+          if git commit -m "Auto-restored final AsciiDoc files after translation"; then
+            echo "COMMITTED=true" >> $GITHUB_ENV
             git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
-            MAX_ATTEMPTS=10
-            ATTEMPT=1
-            while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
-              git fetch origin main
-              git pull origin main --rebase
-              if git push origin main; then
-                echo "Push succeeded on attempt $ATTEMPT."
-                break
-              else
-                echo "Push failed on attempt $ATTEMPT. Retrying..."
-                ATTEMPT=$((ATTEMPT+1))
-                sleep 10
-              fi
-            done
-            if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
-              echo "Failed to push after $MAX_ATTEMPTS attempts."
-              exit 1
-            fi
+            git fetch origin main
+            git pull origin main --rebase
+            git push origin main
           else
-            echo "No push needed as there were no changes."
+            echo "COMMITTED=false" >> $GITHUB_ENV
+            echo "No changes to commit"
           fi
 
       - name: Dispatch Sync to Repo1
