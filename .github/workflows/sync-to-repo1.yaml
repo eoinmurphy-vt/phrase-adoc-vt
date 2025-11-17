@@ -36,10 +36,10 @@ jobs:
 
       - name: Copy processed files to phrase-adoc-client
         run: |
-          mkdir -p temp_repo1/final/  # Incoming folder in Repo1
-          if [ -d "../final" ] && find ../final -type f 2>/dev/null | grep . > /dev/null 2>&1; then  # Check if folder exists and has files
-            cp -r ../final/* temp_repo1/final/
-            echo "Copied files from final/ (including subdirs)"
+          mkdir -p temp_repo1/final/
+          if [ -d "final" ] && find final -type f 2>/dev/null | grep . > /dev/null 2>&1; then
+            rsync -a --delete final/ temp_repo1/final/
+            echo "Synced files from final/ (preserving structure)"
           else
             echo "No files in final/ to copy (or folder missing); skipping."
           fi
