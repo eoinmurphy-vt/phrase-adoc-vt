@@ -27,9 +27,9 @@ jobs:
 
       - name: Clone phrase-adoc-client for writing
         run: |
-          git clone https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git temp_repo1  # Use PAT for authenticated write access
+          git clone https://${{ secrets.REPO2_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git temp_repo1  # Use PAT for authenticated write access
           cd temp_repo1
-          git remote set-url origin https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git  # Explicitly set for push
+          git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git  # Explicitly set for push
           DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' || echo "main")  # Fallback to 'main' if detection fails
           echo "Detected default branch: $DEFAULT_BRANCH"
           git checkout $DEFAULT_BRANCH
