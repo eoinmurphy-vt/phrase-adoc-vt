@@ -6,11 +6,11 @@
 
 == Test_TwoMise à jour \{product-name} Composants
 
-Il est très facile de mettre à jour vos conteneurs \{product-name}. S'il y a une nouvelle version disponible, tirez-la de Docker Hub. Il est recommandé d'utiliser une stratégie de '`+mise à jour continue+`' pour garder au moins un conteneur Allinone ou Controller en cours d'exécution à tout moment pendant une mise à jour.
+Il est très facile de mettre à jour vos conteneurs \{product-name}. S'il y a une nouvelle version disponible, tirez-la de Docker Hub. Il est recommandé d'utiliser une stratégie de '`mise à jour continue`' pour garder au moins un conteneur Allinone ou Controller en cours d'exécution à tout moment pendant une mise à jour.
 
 [IMPORTANT]
 ====
-Les mises à jour du système d'exploitation hôte, les redémarrages et les mises à jour de l'orchestrateur peuvent provoquer l'éviction ou l'arrêt des pods. Si un Controller est affecté, et qu'il n'y a pas d'autres Controllers actifs pour maintenir l'état, les Controllers peuvent devenir indisponibles pendant un certain temps pendant que de nouveaux controllers sont démarrés, un cluster est formé avec un leader, et la sauvegarde de stockage persistant de la configuration est tentée d'être accédée pour restaurer le cluster. Faites attention lors de la planification des mises à jour et des redémarrages de l'hôte ou de l'orchestrateur qui peuvent affecter le nombre de controllers disponibles à tout moment. Voir le Budget de Disruption des Pods ci-dessous pour des moyens possibles d'atténuer cela.
+Les mises à jour du système d'exploitation hôte, les redémarrages et les mises à jour de l'orchestrateur peuvent provoquer l'éviction ou l'arrêt des pods. Si un Controller est affecté, et qu'il n'y a pas d'autres Controllers actifs pour maintenir l'état, les Controllers peuvent devenir disponibles pendant un certain temps pendant que de nouveaux controllers sont démarrés, un cluster est formé avec un leader, et la sauvegarde de stockage persistant de la configuration est tentée d'être accédée pour restaurer le cluster. Faites attention lors de la planification des mises à jour et des redémarrages de l'hôte ou de l'orchestrateur qui peuvent affecter le nombre de controllers disponibles à tout moment. Voir le Budget de Disruption des Pods ci-dessous pour des moyens possibles d'atténuer cela.
 
 Si le déploiement a été effectué en utilisant les graphiques Helm \{product-name}, la mise à jour s'occupera des services supplémentaires, des liaisons de rôle ou d'autres exigences de mise à niveau.
 
@@ -50,7 +50,7 @@ Nous recommandons que tous les composants de \{product-name} soient mis à jour 
 
 == Test_TwoMises à jour progressives
 
-Les outils d'orchestration tels que Kubernetes, RedHat OpenShift et Rancher prennent en charge les mises à jour progressives avec des stratégies configurables. Vous pouvez utiliser cette fonctionnalité pour mettre à jour les conteneurs \{product-name}. Le plus important sera de s'assurer qu'il y a au moins un Allinone/Contrôleur en cours d'exécution afin que les stratégies, les journaux et les données de connexion ne soient pas perdus. Assurez-vous qu'il y a un minimum de 30 secondes entre les mises à jour des conteneurs afin qu'un nouveau leader puisse être élu et que les données soient synchronisées entre les contrôleurs.
+Les outils d'orchestration tels que Kubernetes, RedHat OpenShift et Rancher prennent en charge les mises à jour progressives avec des politiques configurables. Vous pouvez utiliser cette fonctionnalité pour mettre à jour les conteneurs \{product-name}. Le plus important sera de s'assurer qu'il y a au moins un Allinone/Contrôleur en cours d'exécution afin que les politiques, les journaux et les données de connexion ne soient pas perdus. Assurez-vous qu'il y a un minimum de 30 secondes entre les mises à jour des conteneurs afin qu'un nouveau leader puisse être élu et que les données soient synchronisées entre les contrôleurs.
 
 === Test_TwoMise à jour progressive Kubernetes
 
@@ -126,7 +126,7 @@ kubectl logs neuvector-controller-pod-777fdc5668-4jkjn -n neuvector | grep versi
 
 == Test_TwoPod Budget de Disruption
 
-Une fonctionnalité de Kubernetes permet de s'assurer qu'un nombre minimum de contrôleurs fonctionne à tout moment. Ceci est utile pour le drainage des nœuds ou d'autres activités de maintenance qui pourraient retirer des pods de contrôleur. Par exemple, créez et appliquez le fichier ci-dessous nv_pdb.yaml pour vous assurer qu'il y a au moins 2 contrôleurs fonctionnant à tout moment.
+Une fonctionnalité de Kubernetes permet de s'assurer qu'un nombre minimum de contrôleurs fonctionne à tout moment. Ceci est utile pour le drainage des nœuds ou d'autres activités de maintenance qui pourraient supprimer des pods de contrôleur. Par exemple, créez et appliquez le fichier ci-dessous nv_pdb.yaml pour vous assurer qu'il y a au moins 2 contrôleurs fonctionnant à tout moment.
 
 [,yaml]
 ----
@@ -144,7 +144,7 @@ spec:
 
 == Test_TwoMise à niveau de \{product-name} 4.x à 5.1.x
 
-Mettez d'abord à niveau vers une version 5.1.x telle que 5.1.3, puis consultez la {1<section de déploiement Kubernetes] pour mettre à jour vers 5.2.x+ pour des changements importants concernant les comptes de services et les liaisons.
+Mettez d'abord à niveau vers une version 5.1.x telle que 5.1.3, puis consultez la {1)section de déploiement Kubernetes] pour mettre à jour vers 5.2.x+ pour des changements importants concernant les comptes de services et les liaisons.
 
 Pour les utilisateurs de Helm, mettez à jour vers le chart Helm \{product-name} 2.0.0 ou ultérieur (avant \{product-name} 5.2.0). Si vous mettez à jour un installateur ou une installation Helm sur OpenShift, consultez la note ci-dessous.
 
@@ -199,7 +199,7 @@ Les images sont sur le registre Docker Hub de \{product-name}. Utilisez le tag d
 * neuvector/scanner:latest
 * neuvector/updater:latest
 
-En option, supprimez toutes les références à la licence et aux secrets de \{product-name} dans les graphiques Helm, le yaml de déploiement, le configmap, les scripts, etc., car ils ne sont plus nécessaires pour tirer les images ou commencer à utiliser \{product-name}.
+Optionnellement, supprimez toutes les références à la licence et aux secrets de \{product-name} dans les charts Helm, le yaml de déploiement, le configmap, les scripts, etc., car ceux-ci ne sont plus nécessaires pour tirer les images ou commencer à utiliser \{product-name}.
 
 === Test_TwoNote sur SCC et mise à niveau via Operator/Helm
 
