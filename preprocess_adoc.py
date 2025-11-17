@@ -62,6 +62,11 @@ def replace_backticks(match):
         stats["skipped"] += 1
         return f"`{inner}`"
 
+    # Skip if no code-like patterns
+    if not re.search(r'[A-Z]|\.|_|/|-|\d', inner):
+        stats["skipped"] += 1
+        return f"`{inner}`"
+
     # Convert to literal monospaced
     return f"`+{inner}+`"
 
