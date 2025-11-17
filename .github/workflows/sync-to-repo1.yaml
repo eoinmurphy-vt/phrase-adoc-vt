@@ -23,14 +23,14 @@ jobs:
       - name: Set up Git
         run: |
           git config --global user.name "GitHub Action"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.email github-actions@github.com
 
       - name: Clone phrase-adoc-client for writing
         run: |
-          git clone https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git temp_repo1  # Use PAT for authenticated write access
+          git clone https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git temp_repo1
           cd temp_repo1
-          git remote set-url origin https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git  # Explicitly set for push
-          DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' || echo "main")  # Fallback to 'main' if detection fails
+          git remote set-url origin https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git
+          DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' || echo "main")
           echo "Detected default branch: $DEFAULT_BRANCH"
           git checkout $DEFAULT_BRANCH
 
@@ -39,7 +39,7 @@ jobs:
           mkdir -p temp_repo1/final/
           if [ -d "final" ] && find final -type f 2>/dev/null | grep . > /dev/null 2>&1; then
             rsync -a --delete final/ temp_repo1/final/
-            echo "Synced files from final/ (preserving structure)"
+            echo "Copied files from final/ (preserving structure)"
           else
             echo "No files in final/ to copy (or folder missing); skipping."
           fi
@@ -48,12 +48,31 @@ jobs:
         working-directory: temp_repo1
         run: |
           git add final/
-          COMMITTED=false
-          git commit -m "Added processed files from phrase-adoc-vt" && COMMITTED=true || echo "No changes to commit"
-          if [ "$COMMITTED" = "true" ]; then
-            git push origin $(git symbolic-ref --short HEAD)  # Push to current branch
+          if git commit -m "Added processed files from phrase-adoc-vt"; then
+            MAX_ATTEMPTS=10
+            ATTEMPT=1
+            while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+              echo "Attempt $ATTEMPT: rebasing and pushing..."
+              git fetch origin main
+              if ! git rebase origin/main; then
+                echo "Rebase failed, aborting."
+                exit 1
+              fi
+              if git push --force-with-lease origin main; then
+                echo "Push succeeded on attempt $ATTEMPT."
+                break
+              else
+                echo "Push failed on attempt $ATTEMPT. Retrying..."
+                ATTEMPT=$((ATTEMPT+1))
+                sleep 10
+              fi
+            done
+            if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
+              echo "Failed to push after $MAX_ATTEMPTS attempts."
+              exit 1
+            fi
           else
-            echo "No push needed as there were no changes."
+            echo "No changes to commit"
           fi
 
       - name: Clean up
