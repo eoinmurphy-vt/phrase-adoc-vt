@@ -1,63 +1,63 @@
-= Test_ZweiParallel & Standalone Scanner
+= Test_Drei parallele und eigenständige Scanner
 :revdate: 2024-09-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /06.scanning/06.scanners/06.scanners.md
-:page-opendocs-slug:  /scanning/scanner
+:page-opendocs-slug:  /scanning/scanners
 
-== Test_ZweiErhöhung der Scanner-Skalierbarkeit mit mehreren Scannern
+== Test_Drei Erhöhung der Scanner-Skalierbarkeit mit mehreren Scannern
 
-Um die Scanner-Leistung und -Skalierbarkeit zu erhöhen, unterstützt \{product-name} die Bereitstellung mehrerer Scanner-Pods, die parallel Bilder in Registries scannen können. Der Controller weist jedem verfügbaren Scanner-Pod Scanning-Aufgaben zu. Scanner-Pods können bei Bedarf einfach mit Kubernetes hoch- oder heruntergefahren werden.
+Um die Scanner-Leistung und Skalierbarkeit zu erhöhen, unterstützt \{product-name} die Bereitstellung mehrerer Scanner-Pods, die parallel Bilder in Registrierungen scannen können. Der Controller weist jedem verfügbaren Scanner-Pod Scanning-Aufgaben zu. Scanner-Pods können bei Bedarf einfach mit Kubernetes hoch- oder heruntergefahren werden.
 
-Scanner-Pods sollten auf separaten Knoten bereitgestellt werden, um die Arbeitslast auf verschiedene Host-Ressourcen zu verteilen. Denken Sie daran, dass ein Scanner genügend Speicher benötigt, um das Bild herunterzuladen und zu entpacken, sodass ihm mehr als die größte Bildgröße, die gescannt werden soll, zur Verfügung stehen sollte. Falls erforderlich, können Scanner auf bestimmten Knoten platziert oder die Platzierung mehrerer Pods auf einem Knoten mithilfe von Standard-Kubernetes-Knoten-Labels, Taints/Toleranzen oder Knotenaffinitätskonfigurationen vermieden werden.
+Scanner-Pods sollten auf separaten Knoten bereitgestellt werden, um die Arbeitslast auf verschiedene Host-Ressourcen zu verteilen. Denken Sie daran, dass ein Scanner genügend Speicher benötigt, um das Bild herunterzuladen und zu entpacken, sodass ihm mehr als die größte Bildgröße, die gescannt werden soll, zur Verfügung stehen sollte. Falls erforderlich, können Scanner auf bestimmten Knoten platziert oder die Platzierung mehrerer Pods auf einem Knoten vermieden werden, indem die Standard-Kubernetes-Knotenlabels, Taints/Toleranzen oder Knotenaffinitätskonfigurationen verwendet werden.
 
-Standardmäßig stellt \{product-name} 2 Scanner-Pods als Teil der Beispielbereitstellungen im Abschnitt Bereitstellung von \{product-name} bereit. Diese Replica-Sets können bei Bedarf hoch- oder heruntergefahren werden.
+Standardmäßig stellt \{product-name} 2 Scanner-Pods als Teil der Beispielbereitstellungen im Abschnitt Bereitstellung von \{product-name} bereit. Diese Replikate können bei Bedarf hoch- oder heruntergefahren werden.
 
-Der Scanner-Container enthält die neueste CVE-Datenbank und wird regelmäßig (mit dem 'latest'-Tag) von \{product-name} aktualisiert. Der Updater stellt den Scanner erneut bereit und zwingt einen Abruf des neuesten Scanner-Bildes, um die neueste CVE-Datenbank zu erhalten. Siehe den Abschnitt xref:updating.adoc[Aktualisierung der CVE-Datenbank] für weitere Details zum Updater.
+Der Scanner-Container hat die neueste CVE-Datenbank und wird regelmäßig (mit dem 'latest'-Tag) von \{product-name} aktualisiert. Der Updater stellt den Scanner erneut bereit und zwingt einen Abruf des neuesten Scanner-Bildes, um die neueste CVE-Datenbank zu erhalten. Siehe den Abschnitt xref:updating.adoc[Aktualisierung der CVE-Datenbank] für weitere Details zum Updater.
 
 Bitte beachten Sie, dass in den ersten Versionen die Anwesenheit und der Status mehrerer Scanner nur in Kubernetes mit 'kubectl get pods -n neuvector' sichtbar sind und nicht in der Webkonsole angezeigt werden.
 
 Die Scan-Ergebnisse aller Scanner werden im Menü Assets -> Registries angezeigt. Zusätzliche Funktionen zur Überwachung von Scannern werden in zukünftigen Versionen hinzugefügt.
 
-=== Test_ZweiAuto-Skalierung von Scanner-Pods
+=== Test_Drei Automatische Skalierung von Scanner-Pods
 
 Scanner-Pods können so konfiguriert werden, dass sie basierend auf bestimmten Kriterien automatisch skalieren. Dies wird sicherstellen, dass Scan-Jobs schnell und effizient bearbeitet werden, insbesondere wenn es Tausende von Bildern zu scannen oder erneut zu scannen gibt. Es gibt drei mögliche Einstellungen: verzögert, sofort und deaktiviert. Wenn Bilder vom Controller zum Scannen in die Warteschlange gestellt werden, behält er eine 'Aufgabenanzahl' der Warteschlangengröße bei.
 
 * Verzögerte Strategie:
-** Wenn der Hauptcontroller kontinuierlich sieht, dass die "Aufgabenanzahl" > 0 für > 90 Sekunden ist, wird ein neuer Scanner-Pod gestartet, wenn die maxScannerPods noch nicht erreicht sind.
-** Wenn der Hauptcontroller kontinuierlich sieht, dass die "Aufgabenanzahl" 0 für > 180 Sekunden ist, wird ein Scanner-Pod heruntergefahren, wenn die minScannerPods noch nicht erreicht sind.
+** Wenn der Hauptcontroller kontinuierlich sieht, dass die "Aufgabenanzahl" > 0 für > 90 Sekunden ist, wird ein neuer Scanner-Pod gestartet, wenn maxScannerPods noch nicht erreicht ist.
+** Wenn der Hauptcontroller kontinuierlich sieht, dass die "Aufgabenanzahl" 0 für > 180 Sekunden ist, wird ein Scanner-Pod heruntergefahren, wenn minScannerPods noch nicht erreicht sind.
 * Sofortige Strategie:
-** Jedes Mal, wenn der Hauptcontroller sieht, dass die "Aufgabenanzahl" > 0 ist, wird ein neuer Scanner-Pod gestartet, wenn die maxScannerPods noch nicht erreicht sind.
-** Wenn der Hauptcontroller kontinuierlich sieht, dass die "Aufgabenanzahl" 0 für > 180 Sekunden ist, wird ein Scanner-Pod heruntergefahren, wenn die minScannerPods noch nicht erreicht sind.
+** Jedes Mal, wenn der Hauptcontroller sieht, dass die "Aufgabenanzahl" > 0 ist, wird ein neuer Scanner-Pod gestartet, wenn maxScannerPods noch nicht erreicht ist.
+** Wenn der Hauptcontroller kontinuierlich sieht, dass die "Aufgabenanzahl" 0 für > 180 Sekunden ist, wird ein Scanner-Pod heruntergefahren, wenn minScannerPods noch nicht erreicht sind.
 
-Die automatische Skalierung des Scanners ist in den Einstellungen -> konfiguriert. Die Einstellung minimumScannerPods legt die Mindestanzahl an Scanner-Pods fest, die jederzeit ausgeführt werden, während die maxScannerPods die maximale Anzahl von Pods festlegt, auf die die automatische Skalierungsstrategie hochskaliert werden kann. HINWEIS: Das Festlegen eines Mindestwerts wird den ursprünglichen Wert des Replikatsatzes der Scanner-Bereitstellung nicht anpassen. Der Mindestwert wird während des ersten Hoch-/Herunterskalierungsereignisses angewendet.
+Die automatische Skalierung des Scanners ist in den Einstellungen -> konfiguriert. Die Einstellung minimumScannerPods legt die Mindestanzahl an Scanner-Pods fest, die jederzeit ausgeführt werden, während maxScannerPods die maximale Anzahl von Pods festlegt, auf die die automatische Skalierungsstrategie hochskaliert werden kann. HINWEIS: Das Festlegen eines Mindestwerts passt nicht den ursprünglichen Wert des Replikatsatzes der Scanner-Bereitstellung an. Der Mindestwert wird während des ersten Hoch-/Herunterskalierungsereignisses angewendet.
 
 [IMPORTANT]
 ====
-Die automatische Skalierung des Scanners wird nicht unterstützt, wenn der Scanner mit einem OpenShift-Operator bereitgestellt wird, da der Operator die Anzahl der Pods immer auf den konfigurierten Wert ändern wird.
+Die automatische Skalierung des Scanners wird nicht unterstützt, wenn der Scanner mit einem OpenShift-Operator bereitgestellt wird, da der Operator die Anzahl der Pods immer auf den konfigurierten Wert ändert.
 ====
 
-=== Test_ZweiOperationen und Debugging
+=== Test_DreiOperationen und Debugging
 
-Jeder Scanner-Pod wird die zu scannenden Registrierungen abfragen, um die vollständige Liste der verfügbaren Bilder und anderer Daten herunterzuladen. Jeder Scanner wird dann ein Bild zugewiesen, das aus dem Repository heruntergeladen und gescannt werden soll.
+Jeder Scanner-Pod wird die zu scannenden Registrierungen abfragen, um die vollständige Liste der verfügbaren Bilder und anderer Daten abzurufen. Jeder Scanner wird dann ein Bild zugewiesen, das er aus dem Repository abrufen und scannen soll.
 
-Um das Verhalten des Scanners zu überprüfen, können die Protokolle jedes Scanner-Pods untersucht werden, indem man
+Um das Verhalten des Scanners zu überprüfen, können die Protokolle jedes Scanner-Pods mit Hilfe von
 
 [,shell]
 ----
 kubectl logs <scanner-pod-name> -n neuvector
 ----
 
-== Test_TwoPerformance Planning
+== Test_ThreePerformance Planning
 
-Experimentieren Sie mit unterschiedlichen Anzahl von Scannern auf Registrierungen mit einer großen Anzahl von Bildern, um das Verhalten der Scanabschlusszeit in Ihrer Umgebung zu beobachten. 2-5 Scanner als die Replikateinstellung sollten für die meisten Fälle ausreichend sein.
+Experimentieren Sie mit unterschiedlichen Anzahl von Scannern auf Registrierungen mit einer großen Anzahl von Bildern, um das Verhalten der Scanabschlusszeit in Ihrer Umgebung zu beobachten. 2-5 Scanner als die Replikateinstellung sollten in den meisten Fällen ausreichend sein.
 
 Wenn eine Scan-Aufgabe einem Scanner zugewiesen wird, zieht er das Bild aus dem Registry (nachdem er das Registry nach der Liste der verfügbaren Bilder abgefragt hat). Die Zeit, die benötigt wird, um das Bild herunterzuladen, verbraucht typischerweise die meiste Zeit. Mehrere Scanner können parallel Bilder aus demselben Registry abrufen, sodass die Leistung durch das Registry oder die Netzwerkbandbreite begrenzt sein kann.
 
 Große Bilder benötigen mehr Zeit zum Abrufen und müssen auch entpackt werden, um sie zu scannen, was mehr Speicher verbraucht. Stellen Sie sicher, dass jedem Scanner genügend Speicher zugewiesen ist, um mehr als das größte erwartete Bild zu verarbeiten (mindestens 10 % mehr).
 
-Mehrere Scanner-Pods können auf demselben Host/Knoten bereitgestellt werden, aber es sollten Überlegungen angestellt werden, um sicherzustellen, dass der Host über genügend Speicher, CPU und Netzwerkbandbreite verfügt, um die Scannerleistung zu maximieren.
+Mehrere Scanner-Pods können auf demselben Host/Knoten bereitgestellt werden, aber es sollte darauf geachtet werden, dass der Host über genügend Speicher, CPU und Netzwerkbandbreite verfügt, um die Scannerleistung zu maximieren.
 
-== Test_TwoStandalone Scanner für lokale Scans
+== Test_DreiStandalone Scanner für lokale Scans
 
 \{product-name} unterstützt die Bereitstellung von Standalone-Scannern für lokale Bildscans (die keinen Controller erfordern). Im folgenden Beispiel für den Docker-Befehl wird das lokale Bild gescannt und die Ergebnisse lokal unter /var/neuvector gespeichert. Für lokale Scans muss das Bild über den gemounteten docker.sock zugänglich sein, andernfalls kann ein Registry angegeben werden.
 
@@ -68,17 +68,17 @@ docker run --name neuvector.scanner --rm -e SCANNER_REPOSITORY=ubuntu -e SCANNER
 
 Die folgenden Umgebungsvariablen für Scanner können im Docker-Befehl verwendet werden:
 
-* SCANNER_REGISTRY= Test_Twourl des Registrys (optional anstelle des lokalen Scans)
-* SCANNER_REPOSITORY= Test_Tworepository zum Scannen
-* SCANNER_TAG= Test_Twoversionstag
-* SCANNER_REGISTRY_USERNAME= Test_Twouser (optional anstelle des lokalen Scans)
-* SCANNER_REGISTRY_PASSWORD= Test_Twopasswort (optional anstelle des lokalen Scans)
-* SCANNER_SCAN_LAYERS= Test_Twowahr oder falsch (um geschichtete Scannergebnisse zurückzugeben)
+* SCANNER_REGISTRY= Test_DreiURL des Registrys (optional anstelle des lokalen Scans)
+* SCANNER_REPOSITORY= Test_DreiRepository zum Scannen
+* SCANNER_TAG= Test_DreiVersions-Tag
+* SCANNER_REGISTRY_USERNAME= Test_DreiBenutzer (optional anstelle des lokalen Scans)
+* SCANNER_REGISTRY_PASSWORD= Test_DreiPasswort (optional anstelle des lokalen Scans)
+* SCANNER_SCAN_LAYERS= Test_DreiWahr oder falsch (um geschichtete Scannergebnisse zurückzugeben)
 * SCANNER_ON_DEMAND=true (erforderlich)
 * CLUSTER_JOIN_ADDR (optional), CLUSTER_JOIN_PORT (optional) - um Ergebnisse an den Controller zu senden, die in den Zulassungssteuerungsregeln verwendet werden (Kubernetes-bereitgestellter Controller).
 * CLUSTER_ADVERTISED_ADDR (optional) - wenn der Scanner auf einem anderen Host als der Controller ist, um Ergebnisse für die Verwendung in Admission-Control-Regeln (Kubernetes-deployter Controller) zu senden.
 
-=== Test_TwoHost-Scanning im Standalone-Modus
+=== Test_ThreeHost Scannen im Standalone-Modus
 
 Verwenden Sie den folgenden Befehl, um den Host zu scannen.
 
@@ -93,7 +93,7 @@ Erfordert privilegierten Modus!
 docker run --rm --privileged --pid=host neuvector/scanner -n neuvector
 ----
 
-=== Test_TwoManual Bereitstellung mehrerer Scanner auf Kubernetes
+=== Test_ThreeManual Bereitstellung mehrerer Scanner auf Kubernetes
 
 Um Scanner manuell als Teil einer bestehenden Kubernetes-Bereitstellung bereitzustellen, erstellen Sie eine neue Rollenbindung:
 
