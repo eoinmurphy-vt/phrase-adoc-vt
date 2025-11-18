@@ -1,18 +1,18 @@
-= Test_ZweiBewertung und Testen \{product-name}
+= Test_DreiBewertung und Testen \{product-name}
 :revdate: 2025-05-08
 :page-revdate: {revdate}
 :page-opendocs-origin: /09.testing/01.testing/01.testing.md
 :page-opendocs-slug:  /testen/testen
 
-== Test_ZweiBeispielanwendungen
+== Test_DreiBeispielanwendungen
 
-Nachdem Sie die \{product-name} Komponenten bereitgestellt haben, können Sie sie mit den Beispiel-Testanwendungen, die wir bereitstellen, bewerten. Diese befinden sich im `'nvbeta`' Repository auf Docker Hub.
+Nachdem Sie die \{product-name} Komponenten bereitgestellt haben, können Sie sie mit den bereitgestellten Beispiel-Testanwendungen bewerten. Diese befinden sich im `'nvbeta`' Repository auf Docker Hub.
 
 Eine typische Kubernetes-basierte Testumgebung hätte einen Master-Knoten und zwei bis drei Arbeitsknoten. Sie können steuern, ob Anwendungs-Pods und \{product-name} Container auf einem Master-Knoten bereitgestellt werden (standardmäßig deaktiviert).
 
-== Test_TwoKubernetes Test Plan
+== Test_ThreeKubernetes Test Plan
 
-Um eine mehrschichtige Anwendung mit Nginx, Nodejs und Redis bereitzustellen, verwenden Sie die untenstehenden Beispiele (in der untenstehenden Reihenfolge). Diese müssen möglicherweise für die Bereitstellung auf OpenShift, Rancher und anderen Kubernetes-basierten Tools bearbeitet werden.
+Um eine mehrschichtige Anwendung mit Nginx, Nodejs und Redis bereitzustellen, verwenden Sie die folgenden Beispiele (in der angegebenen Reihenfolge). Diese müssen möglicherweise für die Bereitstellung auf OpenShift, Rancher und anderen Kubernetes-basierten Tools bearbeitet werden.
 
 Erstellen Sie einen Demo-Namespace
 
@@ -147,7 +147,7 @@ spec:
           protocol: TCP
 ----
 
-Um auf den Nginx-webui-Dienst extern zuzugreifen, finden Sie den zufällig zugewiesenen Port (auf Port 80 abgebildet) durch den NodePort:
+Um auf den Nginx-Webui-Dienst extern zuzugreifen, finden Sie den zufällig zugewiesenen Port (auf Port 80 abgebildet) durch den NodePort:
 
 [,shell]
 ----
@@ -158,16 +158,16 @@ Verbinden Sie sich dann mit der öffentlichen IP-Adresse/Port eines der Kubernet
 
 Nach der Bereitstellung von \{product-name} können Sie Testverkehr durch die Demo-Anwendungen leiten, um die Whitelist-Regeln zu generieren, und dann alle Dienste in den Überwachungs- oder Schutzmodus versetzen, um Verstöße und Angriffe zu sehen.
 
-=== Test_ZweiGenerierung von Netzwerkverletzungen auf Kubernetes
+=== Test_DreiGenerierung von Netzwerkverletzungen auf Kubernetes
 
-Um einen Verstoß von einem Node.js-Pod zu erzeugen, finden Sie einen Pod:
+Um eine Verletzung von einem Node.js-Pod zu erzeugen, finden Sie einen Pod:
 
 [,shell]
 ----
 kubectl get pod -n demo
 ----
 
-Versuchen Sie dann einige Verstöße (ersetzen Sie node-pod-name):
+Versuchen Sie dann einige Verletzungen (ersetzen Sie node-pod-name):
 
 [,shell]
 ----
@@ -181,7 +181,7 @@ Oder finden Sie die interne IP-Adresse eines anderen Node-Pods, wie 172.30.2.21 
 kubectl exec node-pod-name curl 172.30.2.21:8888 -n demo
 ----
 
-==== Test_ZweiGenerieren Sie eine Bedrohung/Angriff
+==== Test_DreiErzeugen Sie eine Bedrohung/Angriff
 
 Um einen Angriff zu simulieren, melden Sie sich in einem Container an und versuchen Sie dann einen Ping-Angriff:
 
@@ -199,27 +199,27 @@ ping 172.30.2.21 -s 40000
 
 Für all das oben Genannte können Sie die Sicherheitsereignisse in der \{product-name} Konsole Netzwerkaktivitätskarte sowie im Tab Benachrichtigungen anzeigen.
 
-=== Test_ZweiProzess- und Dateischutztests
+=== Test_DreiProzess- und Dateischutztests
 
 Versuchen Sie verschiedene Prozess- und Dateiaktivitäten, indem Sie in einen Container exec'en und Befehle wie apt-get update, ssh, scp oder andere ausführen. Jede nicht erlaubte Prozessaktivität oder Dateizugriff wird Benachrichtigungen auslösen.
 
-=== Test_ZweiRegistry-Scannen und Zulassungssteuerung
+=== Test_DreiRegistry-Scanning und Zulassungssteuerung
 
-Ein beliebter Test besteht darin, das Scannen von Bildern eines Registrys in Assets -> Registries zu konfigurieren. Nachdem der Scan abgeschlossen ist, konfigurieren Sie eine Zulassungssteuerungsregel in der Richtlinie. Stellen Sie sicher, dass Sie die Zulassungssteuerungen aktivieren und eine Regel zum Verweigern festlegen, wenn es hohe Schwachstellen in einem Bild gibt. Wählen Sie dann ein Bild mit hohen Schwachstellen aus und versuchen Sie, es in Kubernetes bereitzustellen. Die Bereitstellung wird im Schutzmodus blockiert und Sie sehen ein Ereignis in den Benachrichtigungen -> Sicherheitsrisiken.
+Ein beliebter Test besteht darin, das Scannen von Bildern eines Registrys in Assets -> Registries zu konfigurieren. Nachdem der Scan abgeschlossen ist, konfigurieren Sie eine Zulassungssteuerungsregel in der Richtlinie. Stellen Sie sicher, dass Sie die Zulassungssteuerungen aktivieren und eine Regel festlegen, um abzulehnen, wenn es hohe Schwachstellen in einem Bild gibt. Wählen Sie dann ein Bild mit hohen Schwachstellen aus und versuchen Sie, es in Kubernetes bereitzustellen. Die Bereitstellung wird im Schutzmodus blockiert und Sie sehen ein Ereignis in den Benachrichtigungen -> Sicherheitsrisiken.
 
-Fortgeschrittene Tests der Zulassungssteuerung können unter Verwendung verschiedener Kriterien in Regeln oder durch Kombination von Kriterien durchgeführt werden.
+Fortgeschrittenere Tests der Zulassungssteuerung können unter Verwendung verschiedener Kriterien in Regeln oder durch Kombination von Kriterien durchgeführt werden.
 
-==== Test_ZweiEine andere App bereitstellen
+==== Test_ThreeDeploy Another App
 
-Die Kubernetes Guestbook-Demoanwendung kann ebenfalls auf Kubernetes bereitgestellt werden. Es wird empfohlen, sie in ihren eigenen Namespace bereitzustellen, damit Sie die namespacenbasierte Filterung in der \{product-name} Konsole sehen können.
+Die Kubernetes Guestbook-Demo-Anwendung kann ebenfalls auf Kubernetes bereitgestellt werden. Es wird empfohlen, sie in ihrem eigenen Namespace bereitzustellen, damit Sie die namespacenbasierte Filterung in der \{product-name} Konsole sehen können.
 
-== Test_TwoDocker-native Test Plan
+== Test_DreiDocker-native Testplan
 
 Nach der Bereitstellung der \{product-name}-Komponenten und der Beispielanwendung(en) können Sie laufende Container entdecken, überwachen und schützen. Der untenstehende Testplan bietet Vorschläge zur Erzeugung von Laufzeitverletzungen des erlaubten Anwendungsverhaltens und zum Scannen von Containern auf Schwachstellen.
 
 xref:attachment$testplan.pdf[\{product-name} Testplan]
 
-Wenn der obige Link nicht funktioniert, können Sie ihn http://neuvector.com/sample-applications-test-plan/[von unserer Website herunterladen] mit dem Passwort nv1851blvd.
+Wenn der obige Link nicht funktioniert, können Sie http://neuvector.com/sample-applications-test-plan/[es von unserer Website herunterladen] mit dem Passwort nv1851blvd.
 
 \{product-name} kann auch Bedrohungen für Ihre Container erkennen, wie z.B. DDOS-Angriffe. Wenn Sie ein Tool ausführen, um solche Angriffe auf Ihre Container zu generieren, werden diese Ergebnisse in der Netzwerkaktivität und im Dashboard angezeigt.
 
