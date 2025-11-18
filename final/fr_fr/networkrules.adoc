@@ -1,34 +1,34 @@
-= Test_TwoRègles de Réseau
+= Test_TroisRègles Réseau
 :revdate: 2024-09-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /05.policy/05.networkrules/05.networkrules.md
 :page-opendocs-slug:  /stratégie/règlesréseau
 
-== Test_TwoPolicy: Règles de Réseau
+== Test_ThreePolicy: Règles Réseau
 
-\{product-name} crée automatiquement des Règles de Réseau à partir de vos applications en cours d'exécution en mode Découverte. Vous pouvez également les ajouter manuellement dans n'importe quel mode, Découverte, Surveillance ou Protection. Les règles peuvent être ajoutées ou modifiées depuis l'interface de ligne de commande ou l'API REST.
+\{product-name} crée automatiquement des Règles Réseau à partir de vos applications en cours d'exécution en mode Découverte. Vous pouvez également les ajouter manuellement dans n'importe quel mode, Découverte, Surveillance ou Protection. Les règles peuvent être ajoutées ou modifiées depuis l'interface de ligne de commande ou l'API REST.
 
 \{product-name} utilise une stratégie déclarative qui consiste en des règles qui régissent les connexions de couche Application autorisées et refusées. \{product-name} analyse et protège non seulement en fonction de l'adresse IP et du port, mais en déterminant le comportement réseau réel basé sur les protocoles d'application. Cela permet à \{product-name} de protéger automatiquement tout nouveau conteneur d'application, quelle que soit l'adresse IP et le port.
 
-Les règles de réseau spécifient le comportement AUTORISÉ ou REFUSÉ pour vos applications. Ces règles déterminent quelles connexions sont un comportement normal pour vos services ainsi que ce qui constitue des violations. Vous pouvez supprimer automatiquement les règles '`apprises`' ainsi qu'ajouter de nouvelles règles à votre stratégie.
+Les règles réseau spécifient le comportement AUTORISÉ ou REFUSÉ pour vos applications. Ces règles déterminent quelles connexions sont un comportement normal pour vos services ainsi que ce qui constitue des violations. Vous pouvez supprimer automatiquement les règles '`apprises`' ainsi qu'ajouter de nouvelles règles à votre stratégie.
 
 [IMPORTANT]
 ====
-Les règles de réseau sont appliquées dans l'ordre dans lequel elles apparaissent dans la liste, de haut en bas. Pour réorganiser les règles, sélectionnez la règle que vous souhaitez déplacer, puis vous verrez une boîte 'Déplacer vers' apparaître en haut, et vous pouvez déplacer la règle sélectionnée à la position avant ou après une règle spécifiée.
+Les règles réseau sont appliquées dans l'ordre dans lequel elles apparaissent dans la liste, de haut en bas. Pour réorganiser les règles, sélectionnez la règle que vous souhaitez déplacer, puis vous verrez une boîte 'Déplacer vers' apparaître en haut, et vous pouvez déplacer la règle sélectionnée à la position avant ou après une règle spécifiée.
 ====
 
 [IMPORTANT]
 ====
-Si vous modifiez (ajoutez, supprimez, changez) des règles, vos modifications ne seront PAS appliquées tant que vous n'aurez pas cliqué sur le bouton Enregistrer en haut. Si vous quittez cette page sans déployer vos modifications, elles seront perdues.
+Si vous modifiez (ajoutez, supprimez, changez) des règles, vos modifications ne sont PAS appliquées tant que vous n'avez pas cliqué sur le bouton Enregistrer en haut. Si vous quittez cette page sans déployer vos modifications, elles seront perdues.
 ====
 
-=== Test_TwoAjout de Nouvelles Règles
+=== Test_TroisAjout de Nouvelles Règles
 Ajoutez une règle en utilisant le '`+`' soit en dessous d'une autre règle dans la colonne de droite, soit en utilisant le bouton en bas à droite.
 
 * *ID*
 +
 ____
-(Optionnel) Entrez un numéro. Les règles réseau sont initialement ordonnées de la plus basse à la plus haute, mais l'ordre des règles peut être modifié en les faisant glisser et en les déposant dans la liste.
+(Optionnel) Entrez un numéro. Les règles réseau sont initialement classées de la plus basse à la plus haute, mais l'ordre des règles peut être modifié en les faisant glisser et en les déposant dans la liste.
 ____
 
 * *De*
@@ -52,7 +52,7 @@ ____
 
 [NOTE]
 ====
-Pour sélectionner Tout/All, laissez ce champ vide
+Pour sélectionner Tout/Tous, laissez ce champ vide
 ====
 --
 
@@ -65,7 +65,7 @@ ____
 
 [NOTE]
 ====
-Pour sélectionner Tout/All, laissez ce champ vide
+Pour sélectionner Tout/Tous, laissez ce champ vide
 ====
 --
 
@@ -84,7 +84,7 @@ Si Refuser est sélectionné, \{product-name} enregistrera cela comme une violat
 N'oubliez pas de Déployer/Mise à jour si vous apportez des modifications !
 ====
 
-== Test_TwoEgress Control : Autoriser les connexions aux services internes de confiance sur d'autres réseaux
+== Test_TroisContrôle de Sortie : Autoriser les connexions aux services internes de confiance sur d'autres réseaux
 
 Un cas d'utilisation courant pour personnaliser les règles est de permettre à un service de conteneur de se connecter à un réseau en dehors du réseau géré par le cluster \{product-name}. Dans de nombreux cas, puisque \{product-name} ne reconnaît pas ce réseau, il le classera comme un réseau '`Externe`', même s'il s'agit d'un réseau interne.
 
@@ -97,7 +97,7 @@ Assurez-vous de cliquer sur Déployer pour enregistrer la nouvelle règle.
 
 Enfin, passez en revue la liste des règles pour vous assurer que la nouvelle règle est dans l'ordre et la priorité souhaités. Les règles sont appliquées de haut en bas.
 
-=== Test_TwoIngress IP Politique Basée sur X-FORWARDED-FOR
+=== Test_TroisIngress IP Politique Basée sur X-FORWARDED-FOR
 
 Dans un cluster Kubernetes, une application peut être exposée à l'extérieur du cluster par un NodePort, un LoadBalancer ou des services Ingress. Ces services remplacent généralement l'IP source tout en effectuant le NAT source (SNAT) sur les paquets. Comme l'IP source d'origine est masquée, cela empêche \{product-name} de reconnaître que la connexion provient en réalité de l'"externe".
 
@@ -108,29 +108,29 @@ Pour préserver l'adresse IP source d'origine, l'utilisateur doit ajouter la lig
 "externalTrafficPolicy":"Local"
 ----
 
-De nombreuses implémentations de services LoadBalancer et de contrôleurs Ingress ajouteront la ligne X-FORWARDED-FOR à l'en-tête de requête HTTP pour communiquer la véritable adresse IP source aux applications backend. Ce produit peut reconnaître cet ensemble d'en-têtes HTTP, identifier l'adresse IP source d'origine et appliquer la stratégie en conséquence.
+De nombreuses implémentations de services LoadBalancer et de contrôleurs Ingress ajouteront la ligne X-FORWARDED-FOR à l'en-tête de la requête HTTP pour communiquer la véritable adresse IP source aux applications backend. Ce produit peut reconnaître cet ensemble d'en-têtes HTTP, identifier l'adresse IP source d'origine et appliquer la stratégie en conséquence.
 
 Cette amélioration a créé des problèmes inattendus dans certaines configurations. Si la ligne ci-dessus a été ajoutée aux services exposés et que les politiques réseau de \{product-name} ont été créées de manière à s'attendre à ce que les connexions réseau proviennent de services proxy/ingress internes, car nous identifions maintenant que les connexions proviennent de "l'extérieur" du cluster, le trafic normal des applications pourrait déclencher des alertes ou être bloqué si les applications sont mises en mode "Protection".
 
 Un interrupteur est disponible pour désactiver cette fonctionnalité. La désactivation indique à \{product-name} de ne pas identifier que la connexion provient de "l'extérieur" en utilisant les en-têtes X-FORWARDED-FOR. Par défaut, cela est activé, et l'en-tête X-FORWARDED-FOR est utilisé dans l'application des politiques. Pour le désactiver, allez dans Paramètres -> Configuration, et désactivez le paramètre "Correspondance de politique basée sur X-Forwarded-For".
 
-=== Test_TwoSpecial Enforcement pour les destinations ServiceEntry d'Istio
+=== Test_TroisApplication Spéciale pour les Destinations Istio ServiceEntry
 
-La fonctionnalité d'application de politique réseau Egress a été ajoutée dans la version 5.1.0 pour les pods vers les destinations ServiceEntry déclarées avec Istio. Typiquement, un ServiceEntry définit comment un service externe référencé par un nom DNS est résolu en une adresse IP de destination. Avant la v5.1, \{product-name} ne pouvait pas détecter et appliquer des règles pour les connexions à un ServiceEntry, donc toutes les connexions étaient classées comme externes. Avec la version 5.1, des règles peuvent être appliquées pour des destinations ServiceEntry spécifiques. Les violations implicites seront signalées pour le trafic nouvellement visible si des règles d'autorisation n'existent pas. Ces règles peuvent être apprises et auto-créées en mode Découverte. Pour autoriser ce trafic, vous pouvez mettre le groupe en mode découverte ou créer un groupe personnalisé avec des adresses de destination (ou nom DNS) et ajouter une nouvelle règle réseau à cette destination pour autoriser le trafic.
+La fonctionnalité d'application de politique réseau Egress a été ajoutée dans la version 5.1.0 pour les pods vers les destinations ServiceEntry déclarées avec Istio. Typiquement, un ServiceEntry définit comment un service externe référencé par un nom DNS est résolu en une adresse IP de destination. Avant la v5.1, \{product-name} ne pouvait pas détecter et appliquer des règles pour les connexions à un ServiceEntry, donc toutes les connexions étaient classées comme externes. Avec la version 5.1, des règles peuvent être appliquées pour des destinations spécifiques de ServiceEntry. Les violations implicites seront signalées pour le trafic nouvellement visible si des règles d'autorisation n'existent pas. Ces règles peuvent être apprises et auto-créées en mode Découverte. Pour autoriser ce trafic, vous pouvez mettre le groupe en mode découverte ou créer un groupe personnalisé avec des adresses de destination (ou un nom DNS) et ajouter une nouvelle règle réseau à cette destination pour autoriser le trafic.
 
-=== Test_TwoVirtual Host Based Network Policy
+=== Test_TroisPolitique Réseau Basée sur l'Hôte Virtuel
 
-Les groupes personnalisés peuvent prendre en charge des groupes d'adresses basés sur des hôtes virtuels. Cela permet un cas d'utilisation où deux adresses FQDN différentes sont résolues à la même adresse IP, mais des règles différentes pour chaque FQDN doivent être appliquées. Un nouveau groupe personnalisé avec '`adresse=vh:xxx.yyy`' peut être créé en utilisant l'indicateur '`vh:`' pour activer cette protection. Une règle réseau peut ensuite utiliser le groupe personnalisé comme source '`De`' en fonction du nom d'hôte virtuel (au lieu de l'adresse IP résolue) pour appliquer différentes règles aux hôtes virtuels.
+Les groupes personnalisés peuvent prendre en charge des groupes d'adresses basés sur l'hôte virtuel. Cela permet un cas d'utilisation où deux adresses FQDN différentes sont résolues à la même adresse IP, mais des règles différentes pour chaque FQDN doivent être appliquées. Un nouveau groupe personnalisé avec '`adresse=vh:xxx.yyy`' peut être créé en utilisant l'indicateur '`vh:`' pour activer cette protection. Une règle réseau peut ensuite utiliser le groupe personnalisé comme source '`De`' en fonction du nom d'hôte virtuel (au lieu de l'adresse IP résolue) pour appliquer différentes règles aux hôtes virtuels.
 
-== Test_Mode de protection réseau à deux volets
+== Test_ThreeSplit Mode Network Protections
 
 Les groupes de conteneurs peuvent avoir des règles de processus/fichier dans un mode différent de celui des règles réseau, comme décrit xref:modes.adoc#_network_service_policy_mode[ici].
 
-== Test_Détection des menaces réseau intégrées à deux volets
+== Test_Détection de menaces réseau intégrée Three
 
-\{product-name} détecte automatiquement certaines attaques réseau, quel que soit le mode de protection. En mode Découverte et Surveillance, ces menaces seront signalées et peuvent être trouvées dans les Notifications -> Événements de sécurité. En mode Protection, celles-ci seront également signalées et bloquées. Des règles de réponse peuvent également être créées en fonction de la détection des menaces.
+\{product-name} détecte automatiquement certaines attaques réseau, quel que soit le mode de protection. En mode Découverte et Surveillance, ces menaces seront signalées et peuvent être trouvées dans les Notifications -> Événements de sécurité. En mode Protection, celles-ci seront également signalées et bloquées. Des règles de réponse peuvent également être créées en fonction de la détection de menaces.
 
-Notez que la détection des menaces réseau personnalisée peut être configurée via la section des règles WAF.
+Notez que la détection de menaces réseau personnalisée peut être configurée via la section des règles WAF.
 
 \{product-name} inclut les détections suivantes pour les menaces :
 
