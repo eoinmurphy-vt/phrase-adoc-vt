@@ -60,24 +60,22 @@ jobs:
         if: steps.get-changes.outputs.changed_files != ''
         run: |
           mkdir -p source
-          CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
-          # Preserve directory structure and handle spaces; skip missing files
-          for file in $CHANGED_FILES; do
-            if [ -f "temp_repo1/$file" ]; then
+          # Iterate line by line to preserve spaces in paths
+          echo "${{ steps.get-changes.outputs.changed_files }}" | while IFS= read -r file; do
+            if [ -n "$file" ] && [ -f "temp_repo1/$file" ]; then
               cp --parents "temp_repo1/$file" source/
               echo "Copied $file"
             else
-              echo "Skipping $file (not found, probably deleted)"
+              echo "Skipping $file (not found or empty line)"
             fi
           done
 
       - name: Remove deleted files from source folder in phrase-adoc-vt
         if: steps.get-changes.outputs.deleted_files != ''
         run: |
-          DELETED_FILES="${{ steps.get-changes.outputs.deleted_files }}"
-          # Remove by full relative path to preserve structure
-          for file in $DELETED_FILES; do
-            if [ -f "source/$file" ]; then
+          # Iterate line by line to preserve spaces in paths
+          echo "${{ steps.get-changes.outputs.deleted_files }}" | while IFS= read -r file; do
+            if [ -n "$file" ] && [ -f "source/$file" ]; then
               rm -f "source/$file"
               echo "Removed source/$file"
             else
