@@ -1,0 +1,17 @@
+Postprocess started: 2025-11-18 18:42:56.285260
+
+✅ translated/de_de/updates/test project files four/folder one/folder two/operators.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/updates/test project files four/folder one/folder two/operators.adoc as UTF-8 (LF) — final restored from translated/de_de/updates/test project files four/folder one/folder two/operators.adoc
+✅ translated/de_de/updates/test project files four/folder one/folder two/production.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/updates/test project files four/folder one/folder two/production.adoc as UTF-8 (LF) — final restored from translated/de_de/updates/test project files four/folder one/folder two/production.adoc
+✅ translated/de_de/updates/test project files six/requirements.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/updates/test project files six/requirements.adoc as UTF-8 (LF) — final restored from translated/de_de/updates/test project files six/requirements.adoc
+✅ translated/de_de/updates/test project files two/folder one/folder two/operators.adoc decoded successfully as utf-8 (0.99)
+📝 Saved final/de_de/updates/test project files two/folder one/folder two/operators.adoc as UTF-8 (LF) — final restored from translated/de_de/updates/test project files two/folder one/folder two/operators.adoc
+
+Summary:
+  ✅ Final Files restored: 4
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+
+Completed: 2025-11-18 18:42:56.316648
