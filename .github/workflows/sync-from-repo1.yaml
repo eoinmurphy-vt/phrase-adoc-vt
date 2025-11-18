@@ -55,7 +55,16 @@ jobs:
             echo "DIFF_OUTPUT:"
             echo "$DIFF_OUTPUT"
 
-            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 != "D" {print $2}' | grep '\.adoc$' || true)
+            # Capture added/modified files
+            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 ~ /^[AM]/ {print $2}' | grep '\.adoc$' || true)
+
+            # Capture renamed files (new path is $3)
+            RENAMED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 ~ /^R/ {print $3}' | grep '\.adoc$' || true)
+
+            # Combine
+            CHANGED_FILES=$(printf "%s\n%s" "$CHANGED_FILES" "$RENAMED_FILES" | sort -u)
+
+            # Capture deleted files
             DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 == "D" {print $2}' | grep '\.adoc$' || true)
           fi
 
