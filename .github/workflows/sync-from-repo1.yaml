@@ -83,6 +83,13 @@ jobs:
             fi
           done
 
+      - name: Debug source folder contents
+        run: |
+          echo "Workspace path:"
+          pwd
+          echo "Contents of source/ after copy/delete:"
+          ls -R source/ 2>/dev/null || echo "source/ folder not found or empty."
+
       - name: Update last synced commit and commit changes to phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != '' || steps.get-changes.outputs.deleted_files != ''
         run: |
