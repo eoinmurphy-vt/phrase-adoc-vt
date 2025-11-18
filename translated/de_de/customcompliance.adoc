@@ -1,16 +1,16 @@
-= Test_ZweiBenutzerdefinierte Compliance-Prüfungen
+= Test_Drei benutzerdefinierte Compliance-Prüfungen
 :revdate: 2024-09-25
 :page-revdate: {revdate}
 :page-opendocs-origin: /05.policy/11.customcompliance/11.customcompliance.md
 :page-opendocs-slug:  /policy/customcompliance
 
-== Test_ZweiErstellen von benutzerdefinierten Skripten für Compliance-Prüfungen
+== Test_Drei benutzerdefinierte Skripte für Compliance-Prüfungen erstellen
 
 Benutzerdefinierte Skripte können auf Containern und Hosts für Compliance-Prüfungen und andere Bewertungen ausgeführt werden. Die benutzerdefinierte Compliance-Prüfung ist ein Bash-Skript, das auf jedem Container ausgeführt werden kann, um eine Bedingung zu validieren und das Ergebnis im Compliance-Bereich des Containers oder Knotens zu melden.
 
 [NOTE]
 ====
-Die Möglichkeit, benutzerdefinierte Skripte zu erstellen, ist standardmäßig deaktiviert, um Missbrauch zu verhindern. Dies kann aktiviert werden, indem die Umgebungsvariable CUSTOM_CHECK_CONTROL xref:details.adoc#_environment_variables[Umgebungsvariable] im Controller und Durchsetzer gesetzt wird. Werte sind "deaktivieren" (Standard, nicht erlaubt), "streng" (nur Admin-Rolle) oder "locker" (Admin-, Compliance- und Laufzeit-Policy-Rollen).
+Die Möglichkeit, benutzerdefinierte Skripte zu erstellen, ist standardmäßig deaktiviert, um Missbrauch zu verhindern. Dies kann aktiviert werden, indem die Umgebungsvariable CUSTOM_CHECK_CONTROL xref:details.adoc#_environment_variables[Umgebungsvariable] im Controller und Enforcer gesetzt wird. Werte sind "deaktivieren" (Standard, nicht erlaubt), "streng" (nur Admin-Rolle) oder "locker" (Admin-, Compliance- und Runtime-Policy-Rollen).
 ====
 
 [CAUTION]
@@ -18,7 +18,7 @@ Die Möglichkeit, benutzerdefinierte Skripte zu erstellen, ist standardmäßig d
 Benutzerdefinierte Skripte sollten mit äußerster Vorsicht verwendet werden. Das benutzerdefinierte Skript kann jede ausführbare Datei im Container-Namespace mit Containerprivileg ausführen. Ausführbare Dateien können sehr zerstörerisch sein, wie rm, format, fdisk usw. Diese Vorsicht gilt auch für Hosts/Knoten. Benutzerdefinierte Prüfskripte auf Hosts können noch zerstörerischer sein, wenn sie auf den Master-Knoten im Cluster zugreifen können.
 ====
 
-* Ein benutzerdefiniertes Skript wird durch die Berechtigung der Laufzeit-Policy mit namespaced RBAC gesteuert; Benutzer sollten die Kubernetes-Benutzerrollen ordnungsgemäß einrichten.
+* Ein benutzerdefiniertes Skript wird durch die Berechtigung der Laufzeitpolitik mit namespaced RBAC gesteuert; Benutzer sollten die Kubernetes-Benutzerrollen ordnungsgemäß einrichten.
 * Benutzerdefinierte Skripte werden mit denselben Rechten wie der laufende Container ausgeführt.
 * Das Compliance-Ergebnis wird entfernt, sobald ein benutzerdefiniertes Skript gelöscht wird.
 * Benutzerdefinierte Compliance-Prüfungen müssen einem Format folgen, um das Ergebnis korrekt im Compliance-Bericht für den Container oder Knoten zu melden.
@@ -26,7 +26,7 @@ Benutzerdefinierte Skripte sollten mit äußerster Vorsicht verwendet werden. Da
 ** Die benutzerdefinierte Überprüfung besteht, wenn der Exit-Code 0 ist.
 ** Die benutzerdefinierte Überprüfung schlägt fehl, wenn der Exit-Code 1 ist.
 
-=== Test_TwoSample-Skript zur Überprüfung, ob der Container ein Root-Konto ohne Passwort hat.
+=== Test_ThreeSample-Skript zur Überprüfung, ob der Container ein Root-Konto ohne Passwort hat.
 
 [,bash]
 ----
@@ -40,7 +40,7 @@ else
 fi
 ----
 
-==== Test_TwoSample-Skript zur Überprüfung der schmutzigen Cow-Datei im Container.
+==== Test_ThreeSample-Skript zur Überprüfung der schmutzigen Cow-Datei im Container.
 
 [,bash]
 ----
@@ -59,7 +59,7 @@ Weitere Hinweise
 * Skripte haben eine Zeitüberschreitung von 1 Minute, um abzuschließen, andernfalls werden sie beendet und als Fehler im Compliance-Ergebnis gemeldet.
 * Das Skript kann in allen 3 Betriebsmodi, Entdecken, Überwachen und Schützen, ausgeführt werden.
 
-== Test_TwoErstellen eines benutzerdefinierten Überprüfungsskripts
+== Test_ThreeErstellen eines benutzerdefinierten Überprüfungsskripts
 
 * Wählen Sie die Dienstgruppe (benutzerdefiniert oder automatisch gelernt) aus der Richtlinie -> Gruppe aus.
 * Klicken Sie auf die Registerkarte benutzerdefinierte Überprüfung.
@@ -70,7 +70,7 @@ Weitere Hinweise
 * Skripte werden auf den Containern ausgeführt, die von der Dienstgruppe abgedeckt sind, sobald das Skript erstellt wird, sowie wenn das Skript aktualisiert wird.
 * Sehen Sie sich das Skriptergebnis von Assets -> Container -> Compliance oder Assets -> Nodes -> Compliance an.
 
-=== Test_TwoSamples
+=== Test_ThreeSamples
 
 Erstellen eines benutzerdefinierten Überprüfungsskripts in der Demogruppe, die aus 3 Containern besteht.
 
@@ -88,18 +88,18 @@ Anzeige des Compliance-Ergebnisses für den nginx-Container für eine benutzerde
 
 image:compliance_timeout.png[ComplianceTimeout]
 
-== Test_ZweiErstellen einer Antwortregel für den Compliance-Bericht
+== Test_DreiErstellen einer Antwortregel für den Compliance-Bericht
 
-Antwortregeln können in der Richtlinie -> Antwortregeln erstellt werden, die auf den Ergebnissen von benutzerdefinierten Compliance-Überprüfungen basieren. Die Ergebnisse sind Teil der Kategorie Compliance, und es können Antworten für alle Ereignisse eines bestimmten Niveaus erstellt werden.
+Antwortregeln können in der Richtlinie -> Antwortregeln erstellt werden, die auf den Ergebnissen von benutzerdefinierten Compliance-Überprüfungen basieren. Die Ergebnisse sind Teil der Kategorie Compliance, und es können Antworten für alle Ereignisse eines bestimmten Levels erstellt werden.
 
 * Kategorie Compliance auswählen
 * Geben Sie den Namen der Dienstgruppe im Gruppenfeld ein und wählen Sie die gewünschte Gruppe aus der automatischen Auswahl aus.
-* Geben Sie das Niveau ein und wählen Sie das Niveau: Warnung aus der automatischen Auswahl aus.
+* Geben Sie das Level ein und wählen Sie das Level:Warnung aus der automatischen Auswahl aus.
 * Aktivieren Sie die gewünschten Aktionen Quarantäne, Webhook und/oder Protokoll unterdrücken.
 * Aktivieren Sie die Statusschaltfläche
 * Klicken Sie auf die Schaltfläche Hinzufügen, um die Antwortregel hinzuzufügen.
 
-Das nächste Compliance-Ereignis mit dem Ergebnis Warnung löst die entsprechende Aktion der Antwortregel aus.
+Das nächste Compliance-Ereignis mit dem Ergebnis Warnung wird die entsprechende Aktion der Antwortregel auslösen.
 
 image:compliance_response_1.png[ComplianceResponse]
 
@@ -112,6 +112,6 @@ Erstellen Sie eine Antwortregel für den Compliance-Bericht und das benutzerdefi
 * Aktivieren Sie die Statusschaltfläche
 * Klicken Sie auf die Schaltfläche Hinzufügen, um die Antwortregel hinzuzufügen.
 
-Das nächste Compliance-Ereignis mit Warnung löst die entsprechende Aktion der Antwortregel aus.
+Das nächste Compliance-Ereignis mit Warnung wird die entsprechende Aktion der Antwortregel auslösen.
 
 image:compliance_report_2.png[ComplianceResponse]
