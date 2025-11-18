@@ -61,17 +61,28 @@ jobs:
         run: |
           mkdir -p source
           CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
-          # Preserve directory structure and handle spaces
+          # Preserve directory structure and handle spaces; skip missing files
           for file in $CHANGED_FILES; do
-            cp --parents "temp_repo1/$file" source/
+            if [ -f "temp_repo1/$file" ]; then
+              cp --parents "temp_repo1/$file" source/
+              echo "Copied $file"
+            else
+              echo "Skipping $file (not found, probably deleted)"
+            fi
           done
 
       - name: Remove deleted files from source folder in phrase-adoc-vt
         if: steps.get-changes.outputs.deleted_files != ''
         run: |
           DELETED_FILES="${{ steps.get-changes.outputs.deleted_files }}"
+          # Remove by full relative path to preserve structure
           for file in $DELETED_FILES; do
-            rm -f "source/$file" || echo "File source/$file not found; skipping removal."
+            if [ -f "source/$file" ]; then
+              rm -f "source/$file"
+              echo "Removed source/$file"
+            else
+              echo "File source/$file not found; skipping removal."
+            fi
           done
 
       - name: Update last synced commit and commit changes to phrase-adoc-vt
