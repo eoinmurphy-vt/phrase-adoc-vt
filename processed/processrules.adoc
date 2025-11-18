@@ -1,10 +1,10 @@
-= Test_TwoProcess Profile Rules
+= Test_ThreeProcess Profile Rules
 :revdate: 2025-03-31
 :page-revdate: {revdate}
 :page-opendocs-origin: /05.policy/06.processrules/06.processrules.md
 :page-opendocs-slug:  /policy/processrules
 
-== Test_TwoPolicy -> Groups -> Process Profile Rules
+== Test_ThreePolicy -> Groups -> Process Profile Rules
 
 There are two types of Process/File protections in {product-name}. One is Zero-drift, where allowed process and file activity are automatically determined based on the container image, and second is a behavioral learning based. Each can be customized (rules added manually) if desired.
 
@@ -13,7 +13,7 @@ There are two types of Process/File protections in {product-name}. One is Zero-d
 There is a limitation when running on systems with the AUFS file system, whereby a race condition can be experienced and the process rules are not enforced for blocking (Protect mode). However, these violations are still reported in the security event logs.
 ====
 
-=== Test_TwoZero-drift Process Protection
+=== Test_ThreeZero-drift Process Protection
 
 This is the default mode for process and file protections. Zero-drift automatically allows only processes which originate from the parent process that is in the original container image, and does not allow file updates or new files to be installed. When in Discover or Monitor mode, zero-drift will alert on any suspicious process or file activity. In Protect mode, it will block such activity. Zero-drift does not require processes to be learned or added to an allow-list. Disabling zero-drift for a group will cause the process and file rules listed for the group to take effect instead.
 
@@ -26,11 +26,11 @@ This is the default mode for process and file protections. Zero-drift automatica
 
 The ability to enable/disable zero-drift mode is in the console in Policy -> Groups. Multiple groups can be selected to toggle this setting for all selected groups.
 
-=== Test_TwoBasic Mode Process Protection
+=== Test_ThreeBasic Mode Process Protection
 
 Zero-drift can be disabled, switching to Basic process protection. Basic protection enforces process/file activity based on the listed process and/or file rules for each Group. This means that there must be a list of process rules and/or file rules in place for protection to occur. Rules can be auto-created through Behavioral Learning while in Discover mode, manually created through the console or rest API, or programmatically created by applying a CRD. With Basic enabled if there are no rules in place, all activity will be alerted/blocked while in Monitor or Protect modes.
 
-=== Test_TwoBehavioral Learning Based Process Protection
+=== Test_ThreeBehavioral Learning Based Process Protection
 
 Process profile rules use baseline learning to profile the processes that should be allowed to run in a group of containers (i.e. a Group). Under normal conditions in a microservices environment, for containers with a particular image, only a limited set of processes by specific users would run. If the container is attacked, the malicious attacker would likely initiate some new programs commonly not seen in this container. These abnormal events can be detected by {product-name} and alerts and actions generated (see also Response Rules).
 
@@ -43,15 +43,15 @@ Note that in addition to baseline processes, {product-name} has built-in detecti
 Kubernetes liveness probes are automatically allowed, and added to the learned process rules even in Monitor/Protect mode.
 ====
 
-=== Test_TwoProcess Rules for Nodes
+=== Test_ThreeProcess Rules for Nodes
 
 The special reserved group 'nodes' can be configured to enforce process profile rules on each node (host) in the cluster. Select the group 'nodes' and review the process rules, editing if required. Then switch the protection mode to Monitor or Protect. The 'local' (learned) process rule list is a combination of all processes from all nodes in the cluster while in Discover mode.
 
-=== Test_TwoProcess Rules for Custom Groups
+=== Test_ThreeProcess Rules for Custom Groups
 
 For user defined custom Groups, process rules, if desired, must be manually added. Custom Groups do not learn process rules automatically.
 
-=== Test_TwoProcess Rules Precedence
+=== Test_ThreeProcess Rules Precedence
 
 Process rules can exist for user defined custom Groups as well as auto-learned Groups. Rules created for custom Groups take precedence over rules for auto-learned Groups.
 
@@ -61,7 +61,7 @@ Process rules with name and path both containing wildcards take precedence over 
 
 Process rules with a Deny action and wildcard in the name will take precedence over Allow actions with wildcard in the name.
 
-=== Test_TwoDiscover mode
+=== Test_ThreeDiscover mode
 
 * All new processed are profiled with action allow
 * Users can change the action into 'deny' for generating alert or blocking when same new process is started
@@ -74,7 +74,7 @@ Process rules with a Deny action and wildcard in the name will take precedence o
 A suspicious process (built-in detect), such as nmap, ncat, etc., is reported as a suspicious process event and will NOT be learned. If a service needs this process, the process needs to be added with an 'allow' profile rule explicitly.
 ====
 
-=== Test_TwoMonitor/Protect mode (new container started in monitor or protect mode)
+=== Test_ThreeMonitor/Protect mode (new container started in monitor or protect mode)
 
 * Every new process generates an alert
 * Process profile rules can contain name and/or path
@@ -95,7 +95,7 @@ Container platforms with the AUFS storage driver will introduce a delay in block
 In Protect mode, system containers such as Kubernetes ones, will not enable the block action but will generate a process violation event if there is a process violation.
 ====
 
-=== Test_TwoCreating process profile rules
+=== Test_ThreeCreating process profile rules
 
 Multiple rules can be created for the same process. The rules are executed sequentially and the first matching rule will be executed.
 
@@ -111,7 +111,7 @@ Violations will be logged in Notifications -> Security Events.
 
 image:process_event.png[violation]
 
-=== Test_TwoBuilt-in Suspicious Process Detection
+=== Test_ThreeBuilt-in Suspicious Process Detection
 
 The following built-in detections are automatically enabled in {product-name}.
 
@@ -187,6 +187,6 @@ In addition the following detections are enabled:
 
 Suspicious processes are alerted when in Discover or Monitor mode, and blocked when in Protect mode. Detection applies to containers as well as hosts, with the exception of 'sshd' which is not considered suspicious on hosts. Processes listed above can be added to the Allow List for containers (Groups) including hosts if it should be allowed.
 
-== Test_TwoSplit Mode Process/File Protections
+== Test_ThreeSplit Mode Process/File Protections
 
 Container Groups can have Process/File rules in a different mode than Network rules, as described xref:modes.adoc#_network_service_policy_mode[here].
