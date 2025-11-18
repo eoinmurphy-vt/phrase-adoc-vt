@@ -40,14 +40,30 @@ jobs:
         id: get-changes
         run: |
           CURRENT_COMMIT=$(git rev-parse HEAD)
-          if [ -z "${{ steps.get-last-commit.outputs.last_commit }}" ]; then
-            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/ | grep '\.adoc$')
+          LAST_COMMIT="${{ steps.get-last-commit.outputs.last_commit }}"
+
+          echo "Last synced commit: $LAST_COMMIT"
+          echo "Current commit: $CURRENT_COMMIT"
+
+          if [ -z "$LAST_COMMIT" ]; then
+            echo "No last commit recorded, listing all .adoc files under updates/"
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/ | grep '\.adoc$' || true)
             DELETED_FILES=""
           else
-            DIFF_OUTPUT=$(git diff --name-status ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/)
+            echo "Diffing from $LAST_COMMIT to $CURRENT_COMMIT..."
+            DIFF_OUTPUT=$(git diff --name-status "$LAST_COMMIT" "$CURRENT_COMMIT" -- updates/ || true)
+            echo "DIFF_OUTPUT:"
+            echo "$DIFF_OUTPUT"
+
             CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 != "D" {print $2}' | grep '\.adoc$' || true)
             DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 == "D" {print $2}' | grep '\.adoc$' || true)
           fi
+
+          echo "=== Final changed files list ==="
+          echo "$CHANGED_FILES"
+          echo "=== Final deleted files list ==="
+          echo "$DELETED_FILES"
+
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
