@@ -51,21 +51,8 @@ jobs:
             DELETED_FILES=""
           else
             echo "Diffing from $LAST_COMMIT to $CURRENT_COMMIT..."
-            DIFF_OUTPUT=$(git diff --name-status "$LAST_COMMIT" "$CURRENT_COMMIT" -- updates/ || true)
-            echo "DIFF_OUTPUT:"
-            echo "$DIFF_OUTPUT"
-
-            # Capture added/modified files
-            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 ~ /^[AM]/ {print $2}' | grep '\.adoc$' || true)
-
-            # Capture renamed files (new path is $3)
-            RENAMED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 ~ /^R/ {print $3}' | grep '\.adoc$' || true)
-
-            # Combine
-            CHANGED_FILES=$(printf "%s\n%s" "$CHANGED_FILES" "$RENAMED_FILES" | sort -u)
-
-            # Capture deleted files
-            DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 == "D" {print $2}' | grep '\.adoc$' || true)
+            CHANGED_FILES=$(git diff --name-only "$LAST_COMMIT" "$CURRENT_COMMIT" -- updates/ | grep '\.adoc$' || true)
+            DELETED_FILES=$(git diff --name-only --diff-filter=D "$LAST_COMMIT" "$CURRENT_COMMIT" -- updates/ | grep '\.adoc$' || true)
           fi
 
           echo "=== Final changed files list ==="
