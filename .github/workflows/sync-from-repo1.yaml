@@ -61,18 +61,18 @@ jobs:
         run: |
           mkdir -p source
           CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
-          for file in $CHANGED_FILES; do
-            cp temp_repo1/$file source/
-          done
+          while IFS= read -r file; do
+            cp "temp_repo1/$file" source/
+          done <<< "$CHANGED_FILES"
 
       - name: Remove deleted files from source folder in phrase-adoc-vt
         if: steps.get-changes.outputs.deleted_files != ''
         run: |
           DELETED_FILES="${{ steps.get-changes.outputs.deleted_files }}"
-          for file in $DELETED_FILES; do
+          while IFS= read -r file; do
             BASE_FILE=$(basename "$file")
-            rm -f source/$BASE_FILE || echo "File source/$BASE_FILE not found; skipping removal."
-          done
+            rm -f "source/$BASE_FILE" || echo "File source/$BASE_FILE not found; skipping removal."
+          done <<< "$DELETED_FILES"
 
       - name: Update last synced commit and commit changes to phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != '' || steps.get-changes.outputs.deleted_files != ''
