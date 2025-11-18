@@ -1,18 +1,18 @@
-= Test_TwoRègles d'accès aux fichiers
+= Test_TroisRègles d'accès aux fichiers
 :revdate: 2024-09-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /05.policy/07.filerules/07.filerules.md
-:page-opendocs-slug:  /stratégie/règlesfichiers
+:page-opendocs-slug:  /stratégie/règlesfichier
 
-== Test_TwoPolicy: Règles d'accès aux fichiers
+== Test_ThreePolicy: Règles d'accès aux fichiers
 
-Il existe deux types de protections de Processus/Fichier dans \{product-name}. L'une est le Zero-drift, où l'activité de processus et de fichiers autorisée est automatiquement déterminée en fonction de l'image du conteneur, et la seconde est basée sur un apprentissage comportemental. Chacune peut être personnalisée (règles ajoutées manuellement) si désiré.
+Il existe deux types de protections de Processus/Fichier dans \{product-name}. L'une est le Zero-drift, où l'activité de processus et de fichier autorisée est automatiquement déterminée en fonction de l'image du conteneur, et la seconde est basée sur un apprentissage comportemental. Chacune peut être personnalisée (règles ajoutées manuellement) si désiré.
 
-\{product-name} dispose d'une détection intégrée d'activité suspecte du système de fichiers. Les fichiers sensibles dans les conteneurs ne changent normalement pas à l'exécution. En modifiant le contenu des fichiers sensibles, un attaquant peut obtenir des privilèges non autorisés, comme dans l'attaque Dirty-Cow du noyau Linux, ou endommager l'intégrité du système, par exemple en manipulant le fichier /etc/hosts. La plupart des conteneurs ne fonctionnent pas en mode lecture seule. Toute activité suspecte dans les conteneurs, les hôtes ou le conteneur \{product-name} Enforcer lui-même sera détectée et enregistrée dans Notifications -> Événements de sécurité.
+\{product-name} dispose d'une détection intégrée d'activité suspecte du système de fichiers. Les fichiers sensibles dans les conteneurs ne changent normalement pas à l'exécution. En modifiant le contenu des fichiers sensibles, un attaquant peut obtenir des privilèges non autorisés, comme dans l'attaque Dirty-Cow du noyau linux, ou endommager l'intégrité du système, par exemple en manipulant le fichier /etc/hosts. La plupart des conteneurs ne fonctionnent pas en mode lecture seule. Toute activité suspecte dans les conteneurs, hôtes, ou le conteneur \{product-name} Enforcer lui-même sera détectée et enregistrée dans Notifications -> Événements de sécurité.
 
-=== Test_TwoProtection de fichier Zero-drift
+=== Test_ThreeZero-drift File Protection
 
-C'est le mode par défaut pour les protections de processus et de fichiers. Le Zero-drift autorise automatiquement uniquement les processus qui proviennent du processus parent qui se trouve dans l'image de conteneur d'origine, et n'autorise pas les mises à jour de fichiers ou l'installation de nouveaux fichiers. Lorsqu'il est en mode Découverte ou Surveillance, le zero-drift alertera sur toute activité suspecte de processus ou de fichiers. En mode Protection, il bloquera une telle activité. Le Zero-drift ne nécessite pas que l'activité de fichier soit ajoutée à une liste d'autorisation. Désactiver le zero-drift pour un groupe fera en sorte que les règles de processus et de fichiers énumérées pour le groupe prennent effet à la place.
+C'est le mode par défaut pour les protections de processus et de fichiers. Le Zero-drift permet automatiquement uniquement les processus qui proviennent du processus parent qui se trouve dans l'image de conteneur d'origine, et n'autorise pas les mises à jour de fichiers ou l'installation de nouveaux fichiers. Lorsqu'il est en mode Découverte ou Surveillance, le zero-drift alertera sur toute activité suspecte de processus ou de fichier. En mode Protection, il bloquera une telle activité. Le Zero-drift ne nécessite pas que l'activité de fichier soit ajoutée à une liste d'autorisation. Désactiver le zero-drift pour un groupe fera en sorte que les règles de processus et de fichiers énumérées pour le groupe prennent effet à la place.
 
 [NOTE]
 ====
@@ -21,15 +21,15 @@ Les règles de processus/fichier énumérées pour chaque groupe sont toujours a
 
 La possibilité d'activer/désactiver le mode dérive zéro se trouve dans la console dans la Politique -> Groupes. Plusieurs groupes peuvent être sélectionnés pour basculer ce paramètre pour tous les groupes sélectionnés.
 
-=== Test_TwoBasic Protections de Fichiers
+=== Test_TroisProtections de Fichiers de Base
 
-Si une installation de paquet est détectée, un rescannage automatique du conteneur ou de l'hôte sera déclenché pour détecter d'éventuelles vulnérabilités, SI le scan automatique a été activé dans les Risques de Sécurité -> Vulnérabilités.
+Si une installation de paquet est détectée, un rescannage automatique du conteneur ou de l'hôte sera déclenché pour détecter d'éventuelles vulnérabilités, SI le scan automatique a été activé dans Risques de Sécurité -> Vulnérabilités.
 
 En plus de surveiller des fichiers/répertoires prédéfinis, les utilisateurs peuvent ajouter des fichiers/répertoires personnalisés à surveiller, et bloquer ces fichiers/répertoires pour qu'ils ne soient pas modifiés.
 
 [IMPORTANT]
 ====
-\{product-name} alerte, et ne bloque pas les modifications des fichiers/répertoires prédéfinis ou dans des conteneurs système tels que ceux de Kubernetes. Le blocage n'est une option que pour les fichiers/répertoires personnalisés configurés par l'utilisateur pour des conteneurs non-système. C'est pour que les mises à jour régulières des dossiers système ou des configurations sensibles ne soient pas bloquées involontairement, entraînant un comportement erratique du système.
+Les alertes \{nom-du-produit}, et ne bloquent pas les modifications des fichiers/répertoires prédéfinis ou dans des conteneurs système tels que ceux de Kubernetes. Le blocage n'est une option que pour les fichiers/répertoires personnalisés configurés par l'utilisateur pour des conteneurs non-système. C'est pour que les mises à jour régulières des dossiers système ou des configurations sensibles ne soient pas bloquées involontairement, entraînant un comportement erratique du système.
 ====
 
 Les fichiers et répertoires suivants sont surveillés par défaut :
@@ -55,11 +55,11 @@ Voici une liste de la surveillance du système de fichiers et de ce qui est surv
 * /etc/hosts, /etc/passwd, /etc/resolv.conf - conteneur, hôte, application
 * Binaires des processus en cours d'exécution - conteneur
 
-=== Test_TwoApplications autorisées basées sur l'apprentissage comportemental en mode Découverte
+=== Test_TroisApplications autorisées basées sur l'apprentissage comportemental en mode Découverte
 
 En mode Découverte, \{product-name} peut apprendre et mettre sur liste blanche des applications UNIQUEMENT pour des répertoires ou fichiers spécifiés. Pour activer l'apprentissage, une règle personnalisée doit être créée et l'Action doit être définie sur Bloquer, comme décrit ci-dessous.
 
-=== Test_TwoCréation de règles de surveillance de fichiers/répertoires personnalisées
+=== Test_TroisCréation de règles de surveillance de fichiers/répertoires personnalisées
 
 Des règles d'accès aux fichiers personnalisées peuvent être créées pour des groupes définis par l'utilisateur ainsi que pour des groupes appris automatiquement.
 
@@ -76,7 +76,7 @@ Actions :
 
 * Surveiller les modifications de fichiers. Générer des alertes (Notifications) pour tout changement
 * Bloquer l'accès non autorisé.
-** Service en mode Découverte : le comportement d'accès au fichier est appris (les processus/applications qui accèdent au fichier protégé) et ajouté aux Applications Autorisées.
+** Service en mode Découverte : le comportement d'accès aux fichiers est appris (les processus/applications qui accèdent au fichier protégé) et ajouté aux Applications Autorisées.
 ** Service en mode Surveillance : un comportement de fichier inattendu est signalé.
 ** Service en mode Protection : un accès inattendu (lecture, modification) est bloqué. La création de nouveaux fichiers dans des dossiers protégés sera également bloquée.
 
@@ -90,18 +90,18 @@ Si la règle est définie sur Bloquer, et que le service est en mode Découverte
 Les plateformes de conteneurs utilisant le pilote de stockage AUFS ne prendront pas en charge l'action de refus (blocage) en mode Protection pour la création/modification de fichiers en raison des limitations du pilote. Le comportement sera le même qu'en mode Surveillance, alertant en cas d'activité suspecte.
 ====
 
-=== Ordre de priorité de la règle d'accès au fichier Test_TwoFile
+=== Ordre de priorité de la règle d'accès au fichier Test_ThreeFile
 
-Un conteneur peut hériter de la règle d'accès au fichier de plusieurs groupes personnalisés et de la règle d'accès au fichier créée par l'utilisateur sur le groupe appris automatiquement.
+Un conteneur peut hériter de la règle d'accès aux fichiers de plusieurs groupes personnalisés et de la règle d'accès aux fichiers créée par l'utilisateur sur le groupe appris automatiquement.
 
-Les règles d'accès au fichier sont priorisées dans l'ordre ci-dessous si le nom de fichier entre en conflit avec les règles d'accès prédéfinies du groupe appris automatiquement et l'héritage des règles de plusieurs groupes.
+Les règles d'accès aux fichiers sont priorisées dans l'ordre ci-dessous si le nom de fichier entre en conflit avec les règles d'accès prédéfinies du groupe appris automatiquement et l'héritage des règles de plusieurs groupes.
 
 * Règle d'accès au fichier avec blocage d'accès (ordre le plus élevé)
 * Règle d'accès au fichier avec récursivité activée
 * Règle d'accès au fichier avec récursivité désactivée
-* Règle d'accès au fichier créée par l'utilisateur autre que les règles d'accès au fichier prédéfinies
+* Règle d'accès au fichier créée par l'utilisateur autre que les règles d'accès aux fichiers prédéfinies
 
-==== Test_TwoExamples
+==== Test_ThreeExamples
 
 Affichage de la règle d'accès au fichier pour protéger le fichier /etc/hostname du service node-pod et permettre à l'application vi de modifier le fichier.
 
@@ -111,11 +111,11 @@ Affichage de la règle d'accès au fichier pour protéger les fichiers sous le r
 
 image:example2.png[RèglesFichiers]
 
-Affichage de la règle d'accès qui protège le fichier /etc/passwd, qui est l'un des fichiers couverts par la règle d'accès prédéfinie afin de modifier l'action d'accès au fichier, pour la modification ainsi que la lecture. Cette règle personnalisée change l'action par défaut de la règle d'accès aux fichiers prédéfinie. L'application Nano peut avoir un accès 'lecture et modification' à ces fichiers. Il faut également ajouter l'application Nano (processus) en tant que règle 'autoriser' dans la règle de profil de processus pour que ce service exécute l'application Nano à l'intérieur du service (si elle n'était pas déjà sur la liste blanche), sinon le processus sera bloqué par \{product-name}.
+Affichage de la règle d'accès qui protège le fichier /etc/passwd, qui est l'un des fichiers couverts par la règle d'accès prédéfinie afin de modifier l'action d'accès au fichier, pour la modification ainsi que la lecture. Cette règle personnalisée change l'action par défaut de la règle d'accès au fichier prédéfinie. L'application Nano peut avoir un accès 'lecture et modification' à ces fichiers. Il faut également ajouter l'application Nano (processus) en tant que règle 'autoriser' dans la règle de profil de processus pour que ce service exécute l'application Nano à l'intérieur du service (si elle n'était pas déjà sur la liste blanche), sinon le processus sera bloqué par \{product-name}.
 
 image:example3.png[RèglesFichiers]
 
-Affichage que l'application python a été apprise en accédant au fichier sous le répertoire /var/opt lorsque le mode service du node-pod était en Découverte. Cela se produit uniquement lorsque la règle est définie sur Bloquer et que le service est en mode Découverte.
+Affichage que l'application python a été apprise en accédant au fichier sous le répertoire /var/opt lorsque le mode service du node-pod était en Découverte. Cela ne se produit que lorsque la règle est définie sur Bloquer et que le service est en mode Découverte.
 
 image:example4.png[RèglesFichiers]
 
@@ -123,16 +123,16 @@ Affichage des règles d'accès aux fichiers prédéfinies pour le service node-p
 
 image:predefined.png[RèglesFichiers]
 
-Affichage d'un événement de sécurité échantillon dans Notifications -> Événements de sécurité, alerté comme refus d'accès au fichier lorsque la modification du fichier /etc/hostname par l'application python a été refusée en raison d'une règle d'accès aux fichiers personnalisée avec action de blocage.
+Affichage d'un événement de sécurité d'exemple dans Notifications -> Événements de sécurité, alerté comme refus d'accès au fichier lorsque la modification du fichier /etc/hostname par l'application python a été refusée en raison d'une règle d'accès au fichier personnalisée avec action de blocage.
 
 image:securityevent.png[RèglesFichiers]
 
-=== Test_D'autres Réponses
+=== Test_TroisAutres Réponses
 
 Si d'autres atténuations spéciales, réponses ou alertes sont souhaitées pour les violations du système de fichiers, une règle de réponse peut être créée. Voir l'exemple ci-dessous et la section Politique de sécurité à l'exécution -> Règles de réponse pour plus de détails.
 
 image:file-response1.png[FileResponse]
 
-== Test_Mode de protection des fichiers en mode fractionné
+== Test_ThreeSplit Mode File Protections
 
 Les groupes de conteneurs peuvent avoir des règles de processus/fichier dans un mode différent de celui des règles réseau, comme décrit xref:modes.adoc#_network_service_policy_mode[ici].
