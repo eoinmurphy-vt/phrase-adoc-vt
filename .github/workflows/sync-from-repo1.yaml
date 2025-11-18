@@ -45,8 +45,8 @@ jobs:
             DELETED_FILES=""
           else
             DIFF_OUTPUT=$(git diff --name-status ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/)
-            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 != "D" {print $2}' | grep '\.adoc$' || true)
-            DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 == "D" {print $2}' | grep '\.adoc$' || true)
+            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk -F'\t' '$1 != "D" {print $2}' | grep '\.adoc$' || true)
+            DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk -F'\t' '$1 == "D" {print $2}' | grep '\.adoc$' || true)
           fi
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
