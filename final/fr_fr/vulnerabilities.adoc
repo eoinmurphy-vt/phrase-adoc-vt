@@ -1,34 +1,34 @@
-= Test_TwoGestion des vulnérabilités
+= Test_TroisGestion des Vulnérabilités
 :revdate: 2024-09-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /06.scanning/01.scanning/01.vulnerabilities/01.vulnerabilities.md
 :page-opendocs-slug:  /scanning/scanning/vulnérabilités
 
-== Test_TwoGestion des vulnérabilités avec \{product-name}
+== Test_TroisGestion des Vulnérabilités avec \{product-name}
 
 \{product-name} permet une analyse et une gestion automatisées des vulnérabilités tout au long du pipeline. Les meilleures pratiques pour gérer les vulnérabilités dans \{product-name} incluent :
 
 * Analyser pendant la xref:build-image-scanning.adoc[phase-de-construction], échouant la construction s'il y a des vulnérabilités critiques 'avec correction disponible.' Cela oblige les développeurs à traiter les vulnérabilités corrigibles avant de les stocker dans les registres.
-* Analyser en continu les registres de staging et de production pour rechercher de nouvelles vulnérabilités découvertes. Les vulnérabilités avec des corrections disponibles peuvent être exigées d'être corrigées immédiatement, ou une période de grâce peut être accordée pour fournir du temps pour les remédier.
-* Configurer les règles de xref:admission.adoc[Contrôle d'admission] pour bloquer les déploiements en production en fonction de critères tels que critique/élevé, correction disponible et date de rapportée.
-* Analyser en continu les nœuds/hôtes de production, les conteneurs et la plateforme d'orchestration pour les vulnérabilités nouvellement découvertes. Mettre en œuvre des réponses basées sur la criticité/sévérité qui peuvent être des alertes webhook (qui contactent la sécurité et le développeur), mettre en quarantaine le conteneur, ou commencer une période de grâce pour la remédiation.
-* S'assurer que les conteneurs en cours d'exécution sont en mode Monitor ou Protect avec des règles de liste blanche appropriées pour 'patcher virtuellement' les vulnérabilités afin d'empêcher toute exploitation en production.
+* Analyser en continu les registres de staging et de production pour rechercher de nouvelles vulnérabilités découvertes. Les vulnérabilités avec des corrections disponibles peuvent être exigées d'être corrigées immédiatement, ou une période bonus peut être accordée pour fournir du temps pour les remédier.
+* Configurer les règles de xref:admission.adoc[Contrôle d'Admission] pour bloquer les déploiements en production en fonction de critères tels que critique/élevé, correction disponible et date de rapportée.
+* Analyser en continu les nœuds/hôtes de production, les conteneurs et la plateforme d'orchestration pour les vulnérabilités nouvellement découvertes. Mettre en œuvre des réponses basées sur la criticité/sévérité qui peuvent être des alertes webhook (qui contactent la sécurité et le développeur), mettre en quarantaine le conteneur, ou commencer une période bonus pour la remédiation.
+* Assurez-vous que les conteneurs en cours d'exécution sont en mode Monitor ou Protect avec des règles de liste blanche appropriées pour 'patcher virtuellement' les vulnérabilités afin d'empêcher toute exploitation en production.
 * Analyser les images basées sur distroless et PhotonOS.
 
 Le tableau de bord dans \{product-name} présente un score de risque résumé qui inclut les vulnérabilités, qui peut être utilisé pour réduire le risque des vulnérabilités. Voir xref:improve-score.adoc[comment améliorer le score de risque] pour plus de détails.
 
-L'autre outil principal pour examiner, filtrer et rapporter sur les vulnérabilités se trouve dans le menu Risques de sécurité.
+L'autre outil principal pour examiner, filtrer et rapporter sur les vulnérabilités se trouve dans le menu Risques de Sécurité.
 
-=== Test_TwoMenu des risques de sécurité - Vulnérabilités
+=== Test_TroisMenu des Risques de Sécurité - Vulnérabilités
 
 Ce menu combine les résultats des analyses de vulnérabilités et des vérifications de conformité des registres (image), des nœuds et des conteneurs trouvés dans le menu Actifs pour permettre une gestion et un reporting des vulnérabilités de bout en bout.
 
-Le menu Vulnérabilités fournit un outil d'exploration puissant pour :
+Le menu Vulnérabilités fournit un puissant outil d'exploration pour :
 
 * Facilitez le filtrage pour la visualisation ou le téléchargement de rapports, en saisissant une chaîne de recherche ou en utilisant le filtre avancé à côté de la boîte. Le filtre avancé permet aux utilisateurs de filtrer les vulnérabilités par correctif disponible (ou non disponible), urgence, charges de travail, service, conteneur, nœuds ou noms d'espace de noms.
 * Comprenez l'impact des vulnérabilités et des vérifications de conformité en cliquant sur la ligne d'impact et en examinant les remédiations et les images, nœuds ou conteneurs impactés.
 * Consultez l'état de protection (risque d'exploitation) de toute vulnérabilité ou problème de conformité pour voir s'il existe des protections de sécurité \{product-name} Run-Time (règles) activées pour les nœuds ou conteneurs impactés.
-* "Accepter" une vulnérabilité/CVE après qu'elle a été examinée pour la masquer des vues et la supprimer des rapports.
+* 'Accepter' une vulnérabilité/CVE après qu'elle a été examinée pour la masquer des vues et la supprimer des rapports.
 
 image:vulnerabilities_4_4.png[RisquesDeSécurité]
 
@@ -36,34 +36,34 @@ Utilisez la boîte de filtre pour entrer une correspondance de chaîne, ou utili
 
 image:advanced_filter_4.png[AdvancedFilter]
 
-Sélectionner toute CVE répertoriée fournit des détails supplémentaires sur la CVE, la remédiation et les images, nœuds ou conteneurs qui sont impactés. L'icône d'état de protection (cercle) montre différentes couleurs pour indiquer un pourcentage approximatif des éléments impactés qui ne sont pas protégés par \{product-name} pendant l'exécution, protégés par les règles \{product-name} (en mode Monitor ou Protect), ou non affectés en temps d'exécution (par exemple, une image scannée avec cette vulnérabilité n'a pas de conteneurs en cours d'exécution). Le schéma de couleurs de la colonne d'état de protection est :
+Sélectionner toute CVE répertoriée fournit des détails supplémentaires sur la CVE, la remédiation et les images, nœuds ou conteneurs qui sont impactés. L'icône d'état de protection (cercle) montre différentes couleurs pour indiquer un pourcentage approximatif des éléments impactés qui ne sont pas protégés par \{product-name} pendant l'exécution, protégés par les règles \{product-name} (en mode Monitor ou Protect), ou non affectés pendant l'exécution (par exemple, une image scannée avec cette vulnérabilité n'a pas de conteneurs en cours d'exécution). Le schéma de couleurs de la colonne d'état de protection est :
 
-* Noir = Test_Twounaffected
-* Vert = Test_Twoprotected par \{product-name} avec mode Monitor ou Protect
-* Rouge = Test_Twounprotected par \{product-name}, toujours en mode Discover
+* Noir = Test_Three non affecté
+* Vert = Test_Three protégé par \{product-name} avec mode Monitor ou Protect
+* Rouge = Test_Three non protégé par \{product-name}, toujours en mode Discover
 
 Le schéma de couleurs de la fenêtre d'analyse d'impact (montrant les images, nœuds, conteneurs affectés) est :
 
-* Noir = Test_Twounaffected. Il n'y a pas de conteneurs utilisant cette image en production
-* Violet = Test_Tworunning en mode Monitor en production
-* Vert foncé = Test_Tworunning en mode Protect en production
-* Bleu clair = Test_Tworunning en mode Discover en production (non protégé)
+* Noir = Test_Three non affecté. Il n'y a pas de conteneurs utilisant cette image en production
+* Violet = Test_Three en cours d'exécution en mode Monitor en production
+* Vert foncé = Test_Three en cours d'exécution en mode Protect en production
+* Bleu clair = Test_Three en cours d'exécution en mode Discover en production (non protégé)
 
-Les couleurs d'Impact sont destinées à correspondre aux couleurs de protection en temps réel pour les modes Découvrir, Surveiller et Protéger dans d'autres endroits de la console \{product-name}.
+Les couleurs d'Impact sont censées correspondre aux couleurs de protection en temps réel pour les modes Découvrir, Surveiller et Protéger dans d'autres endroits de la console \{product-name}.
 
-=== Test_TwoAcceptant les vulnérabilités
+=== Test_TroisAcceptant les Vulnérabilités
 
-Vous pouvez 'Accepter' une vulnérabilité (CVE) pour l'exclure des rapports, des vues, du scoring de risque, etc. Une vulnérabilité peut être sélectionnée et le bouton Accepter cliqué depuis plusieurs écrans tels que Risques de sécurité -> Vulnérabilités, Actifs -> Conteneurs, etc. Une fois acceptée, elle est ajoutée à la liste du Profil de vulnérabilité des Risques de sécurité ->. Elle peut être consultée, exportée et modifiée ici. Notez que cette fonctionnalité d'Acceptation peut être limitée aux Images et/ou Espaces de noms répertoriés. De nouvelles entrées peuvent également être ajoutées manuellement à cette liste depuis cet écran.
+Vous pouvez 'Accepter' une vulnérabilité (CVE) pour l'exclure des rapports, des vues, du scoring de risque, etc. Une vulnérabilité peut être sélectionnée et le bouton Accepter cliqué depuis plusieurs écrans tels que Risques de Sécurité -> Vulnérabilités, Actifs -> Conteneurs, etc. Une fois acceptée, elle est ajoutée à la liste du Profil de Vulnérabilité des Risques de Sécurité ->. Elle peut être consultée, exportée et modifiée ici. Notez que cette fonctionnalité d'Acceptation peut être limitée aux Images et/ou Espaces de noms répertoriés. De nouvelles entrées peuvent également être ajoutées manuellement à cette liste depuis cet écran.
 
-Pour accepter une vulnérabilité globalement, allez à la page Risques de sécurité -> Vulnérabilités et sélectionnez la vulnérabilité, puis Accepter. Cela créera un Profil de vulnérabilité pour ce CVE globalement.
+Pour accepter une vulnérabilité globalement, allez à la page Risques de Sécurité -> Vulnérabilités et sélectionnez la vulnérabilité, puis Accepter. Cela créera un Profil de Vulnérabilité pour ce CVE globalement.
 
 image:accept_global.png[global]
 
-Pour accepter une vulnérabilité trouvée dans un scan d'image, ouvrez les résultats du scan d'image dans Actifs -> Registres, déroulez le menu déroulant Afficher et sélectionnez Accepter. Notez que vous pouvez également choisir d'Afficher ou de Masquer les vulnérabilités acceptées pour cette image. REMARQUE : Cette action créera une entrée de Profil de vulnérabilité pour ce CVE dans cette IMAGE uniquement.
+Pour accepter une vulnérabilité trouvée dans un scan d'image, ouvrez les résultats du scan d'image dans Actifs -> Registres, déroulez le menu déroulant Afficher et sélectionnez Accepter. Notez que vous pouvez également choisir d'Afficher ou de Masquer les vulnérabilités acceptées pour cette image. REMARQUE : Cette action créera une entrée de Profil de Vulnérabilité pour ce CVE dans cette IMAGE uniquement.
 
 image:accept_image_cve.png[image]
 
-Pour accepter une vulnérabilité trouvée dans un conteneur dans Actifs -> Conteneurs, sélectionnez la vulnérabilité et déroulez le menu déroulant Afficher et sélectionnez Accepter. Notez que vous pouvez également choisir d'Afficher ou de Masquer les vulnérabilités acceptées pour ce conteneur. REMARQUE : Cette action créera un Profil de vulnérabilité pour ce CVE dans cet ESPACE DE NOMS uniquement.
+Pour accepter une vulnérabilité trouvée dans un conteneur dans Actifs -> Conteneurs, sélectionnez la vulnérabilité et déroulez le menu déroulant Afficher et sélectionnez Accepter. Notez que vous pouvez également choisir d'Afficher ou de Masquer les vulnérabilités acceptées pour ce conteneur. REMARQUE : Cette action créera un Profil de Vulnérabilité pour ce CVE dans cet ESPACE DE NOMS uniquement.
 
 image:accept_containers.png[container]
 
@@ -74,9 +74,9 @@ Cette action peut également être effectuée dans les Actifs -> Nœuds, ce qui 
 Les vulnérabilités acceptées au niveau mondial sont exclues de la vue dans les Risques de Sécurité -> Vulnérabilités et dans les rapports exportés depuis cette page. Les vulnérabilités acceptées qui sont limitées à des images ou espaces de noms spécifiques continueront à s'afficher dans la vue, mais seront exclues des rapports où le Filtre Avancé limite la vue à ces images ou espaces de noms.
 ====
 
-=== Test_TwoGestion des Fichiers de Contrôle de Vulnérabilités
+=== Test_TroisGestion des Fichiers de Contrôle de Vulnérabilité
 
-Chaque vulnérabilité/CVE acceptée crée une entrée dans la liste des Fichiers de Contrôle de Vulnérabilités des Risques de Sécurité ->. Ces entrées peuvent être modifiées pour ajouter ou supprimer des attributs tels que le(s) nom(s) d'image et le(s) espace(s) de noms.
+Chaque vulnérabilité/CVE acceptée crée une entrée dans la liste des Fichiers de Contrôle de Vulnérabilité des Risques de Sécurité ->. Ces entrées peuvent être modifiées pour ajouter ou supprimer des attributs tels que le(s) nom(s) d'image et le(s) espace(s) de noms.
 
 image:vuln_profile.png[fichier de contrôle]
 
