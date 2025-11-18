@@ -45,8 +45,8 @@ jobs:
             DELETED_FILES=""
           else
             DIFF_OUTPUT=$(git diff --name-status ${{ steps.get-last-commit.outputs.last_commit }} HEAD -- updates/)
-            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk -F'\t' '$1 != "D" {print $2}' | grep '\.adoc$' || true)
-            DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk -F'\t' '$1 == "D" {print $2}' | grep '\.adoc$' || true)
+            CHANGED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 != "D" {print $2}' | grep '\.adoc$' || true)
+            DELETED_FILES=$(echo "$DIFF_OUTPUT" | awk '$1 == "D" {print $2}' | grep '\.adoc$' || true)
           fi
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
@@ -61,20 +61,18 @@ jobs:
         run: |
           mkdir -p source
           CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
-          while IFS= read -r file; do
-            rel_file="${file#updates/}"
-            mkdir -p "source/$(dirname "$rel_file")"
-            cp "temp_repo1/$file" "source/$rel_file"
-          done <<< "$CHANGED_FILES"
+          # Preserve directory structure and handle spaces
+          for file in $CHANGED_FILES; do
+            cp --parents "temp_repo1/$file" source/
+          done
 
       - name: Remove deleted files from source folder in phrase-adoc-vt
         if: steps.get-changes.outputs.deleted_files != ''
         run: |
           DELETED_FILES="${{ steps.get-changes.outputs.deleted_files }}"
-          while IFS= read -r file; do
-            rel_file="${file#updates/}"
-            rm -f "source/$rel_file" || echo "File source/$rel_file not found; skipping removal."
-          done <<< "$DELETED_FILES"
+          for file in $DELETED_FILES; do
+            rm -f "source/$file" || echo "File source/$file not found; skipping removal."
+          done
 
       - name: Update last synced commit and commit changes to phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != '' || steps.get-changes.outputs.deleted_files != ''
