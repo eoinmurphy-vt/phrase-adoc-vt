@@ -1,10 +1,10 @@
-= Test_TwoSecurity Advisories and CVEs
+= Test_ThreeSecurity Advisories and CVEs
 :revdate: 2025-08-26
 :page-revdate: {revdate}
 
 NeuVector is committed to informing the community of security issues. Below is a CVE reference list of published security advisories and CVEs (Common Vulnerabilities and Exposures) for issues we have resolved.
 
-== Test_TwoCVE List
+== Test_ThreeCVE List
 
 |===
 | ID | Description | Date | Release
@@ -26,20 +26,20 @@ NeuVector is committed to informing the community of security issues. Below is a
 
 |===
 
-== Test_TwoSensitive Information Exposure in NeuVector Manager Container Logs
+== Test_ThreeSensitive Information Exposure in NeuVector Manager Container Logs
 
 *CVE ID:* CVE-2025-46808  
 *CVSS Score:* 6.8 — https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N&version=3.1[AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N]  
 *CWE:* https://cwe.mitre.org/data/definitions/532[CWE-532: Insertion of Sensitive Information into Log File]
 
-=== Test_TwoAffected Versions
+=== Test_ThreeAffected Versions
 
 * All versions earlier than `5.0.0`
 * Versions from `5.0.0` up to and including `5.4.4`
 
 *Fixed version: `5.4.5`*
 
-=== Test_TwoImpact
+=== Test_ThreeImpact
 
 A vulnerability has been identified in NeuVector versions up to and including `5.4.4`, where sensitive information is leaked into the manager container’s log. The following fields may be exposed:
 
@@ -95,15 +95,15 @@ In the patched version, the `X-R-Sess` value is partially masked for safety. Oth
 See also: https://attack.mitre.org/techniques/T1552/[MITRE Technique T1552: Unsecured Credentials].
 ====
 
-=== Test_TwoPatches
+=== Test_ThreePatches
 
 Patched versions include `5.4.5` and above. Users should rotate any GitHub token used in Remote Repository Configuration after upgrading.
 
-=== Test_TwoWorkarounds
+=== Test_ThreeWorkarounds
 
 No workarounds are currently available. Upgrade to the fixed version as soon as possible.
 
-== Test_TwoQuestions and Support
+== Test_ThreeQuestions and Support
 
 * Contact the https://github.com/rancher/rancher/security/policy[SUSE Rancher Security team].
 * Open an issue in the https://github.com/neuvector/neuvector/issues/new/choose[NeuVector GitHub repository].
