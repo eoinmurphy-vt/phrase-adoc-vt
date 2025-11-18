@@ -1,32 +1,32 @@
-= Test_TwoVérifications de conformité personnalisées
+= Test_TroisContrôles de conformité personnalisés
 :revdate: 2024-09-25
 :page-revdate: {revdate}
 :page-opendocs-origin: /05.policy/11.customcompliance/11.customcompliance.md
 :page-opendocs-slug:  /stratégie/conformitépersonnalisée
 
-== Test_TwoCréation de scripts personnalisés pour les vérifications de conformité
+== Test_TroisCréation de scripts personnalisés pour les contrôles de conformité
 
-Des scripts personnalisés peuvent être exécutés sur des conteneurs et des hôtes pour être utilisés dans des vérifications de conformité et d'autres évaluations. La vérification de conformité personnalisée est un script shell bash qui peut être exécuté sur n'importe quel conteneur pour valider une condition et rapporter le résultat dans la section de conformité du conteneur ou du nœud.
+Des scripts personnalisés peuvent être exécutés sur des conteneurs et des hôtes pour être utilisés dans des contrôles de conformité et d'autres évaluations. Le contrôle de conformité personnalisé est un script shell bash qui peut être exécuté sur n'importe quel conteneur pour valider une condition et rapporter le résultat dans la section conformité du conteneur ou du nœud.
 
 [NOTE]
 ====
-La possibilité de créer des scripts personnalisés est désactivée par défaut pour protéger contre les abus. Cela peut être activé en définissant la variable d'environnement CUSTOM_CHECK_CONTROL xref:details.adoc#_environment_variables[variable d'environnement] dans le contrôleur et l'exécuteur. Les valeurs sont "désactiver" (par défaut, non autorisé), "strict" (rôle d'administrateur uniquement), ou "libéral" (rôles d'administrateur, de conformité et de politique d'exécution).
+La possibilité de créer des scripts personnalisés est désactivée par défaut pour protéger contre les abus. Cela peut être activé en définissant la variable d'environnement CUSTOM_CHECK_CONTROL xref:details.adoc#_environment_variables[variable d'environnement] dans le contrôleur et l'exécuteur. Les valeurs sont "désactiver" (par défaut, non autorisé), "strict" (rôle administrateur uniquement), ou "libéral" (rôles administrateur, conformité et politique d'exécution).
 ====
 
 [CAUTION]
 ====
-Les scripts personnalisés doivent être utilisés avec une extrême prudence. Le script personnalisé peut exécuter n'importe quel exécutable dans l'espace de noms du conteneur avec des privilèges de conteneur. Les exécutables peuvent être très destructeurs, comme rm, format, fdisk, etc. Cette prudence s'applique également aux hôtes/nœuds. Les scripts de vérification personnalisés sur les hôtes peuvent être encore plus destructeurs s'ils peuvent accéder au nœud maître dans le cluster.
+Les scripts personnalisés doivent être utilisés avec une extrême prudence. Le script personnalisé peut exécuter n'importe quel exécutable dans l'espace de noms du conteneur avec privilège de conteneur. Les exécutables peuvent être très destructeurs, tels que rm, format, fdisk, etc. Cette prudence s'applique également aux hôtes/nœuds. Les scripts de contrôle personnalisés sur les hôtes peuvent être encore plus destructeurs s'ils peuvent accéder au nœud maître dans le cluster.
 ====
 
 * Un script personnalisé est contrôlé par la permission de politique d'exécution avec RBAC namespace; les utilisateurs doivent configurer correctement les rôles d'utilisateur Kubernetes.
-* Les scripts personnalisés sont exécutés avec les mêmes privilèges que le conteneur en cours d'exécution.
+* Les scripts personnalisés sont exécutés avec le même privilège que le conteneur en cours d'exécution.
 * Le résultat de conformité est supprimé une fois qu'un script personnalisé est supprimé.
-* Les vérifications de conformité personnalisées doivent suivre un format afin de rapporter correctement le résultat dans le rapport de conformité pour le conteneur ou le nœud.
+* Les contrôles de conformité personnalisés doivent suivre un format afin de rapporter correctement le résultat dans le rapport de conformité pour le conteneur ou le nœud.
 ** Le script commence par une instruction 'if' pour vérifier une condition
-** La vérification personnalisée réussit si le code de sortie est 0
-** La vérification personnalisée échoue si le code de sortie est 1
+** Le contrôle personnalisé réussit si le code de sortie est 0
+** Le contrôle personnalisé échoue si le code de sortie est 1
 
-=== Test_TwoSample script pour vérifier si le conteneur a un compte root sans mot de passe.
+=== Test_ThreeSample script pour vérifier si le conteneur a un compte root sans mot de passe.
 
 [,bash]
 ----
@@ -40,7 +40,7 @@ else
 fi
 ----
 
-==== Test_TwoSample script pour vérifier le fichier dirty cow dans le conteneur.
+==== Test_ThreeSample script pour vérifier le fichier dirty cow dans le conteneur.
 
 [,bash]
 ----
@@ -59,7 +59,7 @@ Autres notes
 * Les scripts ont un délai d'exécution de 1 minute pour se terminer, sinon ils sont tués et signalés comme une erreur dans le résultat de conformité.
 * Le script peut être exécuté dans les 3 modes d'exploitation : Découvrir, Surveiller et Protéger.
 
-== Test_TwoCréer un script de vérification personnalisé
+== Test_ThreeCréation d'un script de vérification personnalisé
 
 * Sélectionnez le groupe de services (créé par l'utilisateur ou appris automatiquement) à partir de la Politique -> Groupe.
 * Cliquez sur l'onglet de vérification personnalisée.
@@ -70,7 +70,7 @@ Autres notes
 * Les scripts sont exécutés sur les conteneurs couverts par le groupe de services dès que le script est créé ainsi que lorsque le script est mis à jour.
 * Voir le résultat du script depuis les Actifs -> Conteneur -> Conformité, ou Actifs -> Nœuds -> Conformité.
 
-=== Test_TwoSamples
+=== Test_ThreeSamples
 
 Création d'un script de vérification personnalisé sur le groupe de démon composé de 3 conteneurs
 
@@ -88,7 +88,7 @@ Affichage du résultat de conformité pour le conteneur nginx pour un contrôle 
 
 image:compliance_timeout.png[ComplianceTimeout]
 
-== Test_TwoCréation d'une règle de réponse pour le rapport de conformité
+== Test_TroisCréation d'une règle de réponse pour le rapport de conformité
 
 Les règles de réponse peuvent être créées dans la Politique -> Règles de réponse qui sont basées sur les résultats des résultats de contrôle de conformité personnalisés. Les résultats font partie de la catégorie Conformité, et des réponses peuvent être créées pour tous les événements d'un certain niveau.
 
