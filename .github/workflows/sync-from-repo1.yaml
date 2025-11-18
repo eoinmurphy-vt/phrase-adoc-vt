@@ -56,6 +56,13 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
           echo "current_commit=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
 
+      - name: Debug changed/deleted files output
+        run: |
+          echo "=== Changed files reported by get-changes ==="
+          echo "${{ steps.get-changes.outputs.changed_files }}"
+          echo "=== Deleted files reported by get-changes ==="
+          echo "${{ steps.get-changes.outputs.deleted_files }}"
+
       - name: Copy changed files to source folder in phrase-adoc-vt
         if: steps.get-changes.outputs.changed_files != ''
         run: |
