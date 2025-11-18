@@ -1,16 +1,16 @@
-= Test_TwoÉvaluation et Test \{product-name}
+= Test_TroisÉvaluation et Test \{product-name}
 :revdate: 2025-05-08
 :page-revdate: {revdate}
 :page-opendocs-origin: /09.testing/01.testing/01.testing.md
 :page-opendocs-slug:  /test/test
 
-== Test_TwoSample Applications
+== Test_ThreeSample Applications
 
-Après avoir déployé les composants \{product-name}, vous pouvez les évaluer en utilisant les applications de test d'exemple que nous fournissons. Ceci est situé dans le dépôt `'nvbeta`' sur docker hub.
+Après avoir déployé les composants \{product-name}, vous pouvez l'évaluer en utilisant les applications de test d'exemple que nous fournissons. Ceci est situé dans le dépôt `'nvbeta`' sur docker hub.
 
 Un environnement de test typique basé sur Kubernetes aurait un nœud maître et deux à trois nœuds de travail. Vous pouvez contrôler si les pods d'application et les conteneurs \{product-name} sont déployés sur un nœud maître (désactivé par défaut).
 
-== Test_TwoPlan de Test Kubernetes
+== Test_TroisPlan de Test Kubernetes
 
 Pour déployer une application multi-niveaux utilisant Nginx, Nodejs et Redis, utilisez les exemples ci-dessous (dans l'ordre ci-dessous). Ceci peut nécessiter des modifications pour le déploiement sur OpenShift, Rancher et d'autres outils basés sur Kubernetes.
 
@@ -156,9 +156,9 @@ kubectl get svc -n demo
 
 Puis connectez-vous à l'adresse IP publique/port pour l'un des nœuds Kubernetes, par exemple `++http://(public_IP):(NodePort)++`
 
-Après avoir déployé \{product-name}, vous pouvez exécuter du trafic de test à travers les applications de démonstration pour générer les règles de liste blanche, puis déplacer tous les services en mode Monitor ou Protect pour voir les violations et les attaques.
+Après avoir déployé \{product-name}, vous pouvez exécuter du trafic de test à travers les applications de démonstration pour générer les règles de liste blanche, puis déplacer tous les services en mode Surveillance ou Protection pour voir les violations et les attaques.
 
-=== Test_TwoGénération de Violations Réseau sur Kubernetes
+=== Test_TroisGénération de Violations Réseau sur Kubernetes
 
 Pour générer une violation à partir d'un pod nodejs, trouvez un pod :
 
@@ -181,7 +181,7 @@ Ou trouvez l'adresse IP interne d'un autre pod de nœud, comme 172.30.2.21 dans 
 kubectl exec node-pod-name curl 172.30.2.21:8888 -n demo
 ----
 
-==== Test_TwoGénérer une Menace/Attaque
+==== Test_TroisGénérer une Menace/Attaque
 
 Pour simuler une attaque, connectez-vous à un conteneur, puis essayez une attaque par ping :
 
@@ -199,29 +199,29 @@ ping 172.30.2.21 -s 40000
 
 Pour tout ce qui précède, vous pouvez voir les événements de sécurité dans la carte d'activité réseau de la console \{product-name}, ainsi que dans l'onglet Notifications.
 
-=== Test_TwoTests de Protection des Processus et des Fichiers
+=== Test_TroisTests de Protection des Processus et des Fichiers
 
 Essayez diverses activités de processus et de fichiers en exécutant des commandes telles que apt-get update, ssh, scp ou d'autres dans un conteneur. Toute activité de processus ou accès à un fichier non autorisé générera des alertes dans Notifications.
 
-=== Test_TwoAnalyse de Registre et Contrôle d'Admission
+=== Test_TroisAnalyse de Registre et Contrôle d'Admission
 
-Un test populaire consiste à configurer l'analyse d'images d'un registre dans les Actifs -> Registres. Après la fin de l'analyse, configurez une règle de Contrôle d'Admission dans la Stratégie. Assurez-vous d'activer les Contrôles d'Admission et de définir une règle pour Refuser lorsqu'il y a de fortes vulnérabilités dans une image. Choisissez ensuite une image ayant de fortes vulnérabilités et essayez de la déployer dans Kubernetes. Le déploiement sera bloqué en mode Protection et vous verrez un événement dans Notifications -> Risques de Sécurité.
+Un test populaire consiste à configurer l'analyse d'images d'un registre dans Actifs -> Registres. Après la fin de l'analyse, configurez une règle de Contrôle d'Admission dans la Politique. Assurez-vous d'activer les Contrôles d'Admission et de définir une règle pour Refuser lorsqu'il y a de fortes vulnérabilités dans une image. Choisissez ensuite une image ayant de fortes vulnérabilités et essayez de la déployer dans Kubernetes. Le déploiement sera bloqué en mode Protection et vous verrez un événement dans Notifications -> Risques de Sécurité.
 
 Des tests de contrôle d'admission plus avancés peuvent être effectués en utilisant différents critères dans les règles, ou en combinant des critères.
 
-==== Test_TwoDéployer une Autre Application
+==== Test_TroisDéployer une Autre Application
 
 L'application de démonstration Kubernetes Guestbook peut également être déployée sur Kubernetes. Il est recommandé de la déployer dans son propre espace de noms afin que vous puissiez voir le filtrage basé sur l'espace de noms dans la console \{product-name}.
 
-== Test_TwoDocker-native Test Plan
+== Test_ThreeDocker-native Test Plan
 
-Après avoir déployé les composants \{product-name} et l'application d'exemple, vous pourrez découvrir, surveiller et protéger les conteneurs en cours d'exécution. Le plan de test ci-dessous fournit des suggestions pour générer des violations de comportement d'application autorisé en temps réel et scanner les conteneurs pour des vulnérabilités.
+Après avoir déployé les composants \{product-name} et les applications d'exemple, vous pourrez découvrir, surveiller et protéger les conteneurs en cours d'exécution. Le plan de test ci-dessous fournit des suggestions pour générer des violations de comportement d'application autorisé en temps d'exécution et scanner les conteneurs pour des vulnérabilités.
 
 xref:attachment$testplan.pdf[\{product-name} Plan de Test]
 
 Si le lien ci-dessus ne fonctionne pas, vous pouvez http://neuvector.com/sample-applications-test-plan/[le télécharger] depuis notre site web en utilisant le mot de passe nv1851blvd.
 
-\{product-name} peut également détecter des menaces pour vos conteneurs telles que des attaques DDOS. Si vous exécutez un outil pour générer de telles attaques sur vos conteneurs, ces résultats apparaîtront dans l'activité réseau et dans le tableau de bord.
+\{product-name} peut également détecter des menaces pour vos conteneurs telles que des attaques DDOS. Si vous exécutez un outil pour générer de telles attaques sur vos conteneurs, ces résultats apparaîtront dans l'Activité Réseau et dans le Tableau de Bord.
 
 Par exemple, une simple commande ping avec une charge utile élevée affichera l'attaque Ping.Death dans la console. Pour essayer cela, faites ce qui suit à l'adresse IP de l'un des conteneurs (IP interne du conteneur).
 
