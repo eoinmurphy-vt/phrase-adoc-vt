@@ -60,10 +60,11 @@ jobs:
         if: steps.get-changes.outputs.changed_files != ''
         run: |
           mkdir -p source
-          # Iterate line by line to preserve spaces in paths
+          # Iterate line by line to preserve spaces and subfolders
           echo "${{ steps.get-changes.outputs.changed_files }}" | while IFS= read -r file; do
             if [ -n "$file" ] && [ -f "temp_repo1/$file" ]; then
-              cp --parents "temp_repo1/$file" source/
+              mkdir -p "source/$(dirname "$file")"
+              cp "temp_repo1/$file" "source/$file"
               echo "Copied $file"
             else
               echo "Skipping $file (not found or empty line)"
