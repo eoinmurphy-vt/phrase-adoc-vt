@@ -1,117 +1,109 @@
 import os
-import re
-import codecs
-import datetime
-import chardet
 import sys
+import re
+import chardet
+import datetime
+from pathlib import Path
 
-SRC_DIR = "source"
-DST_DIR = "processed"
 LOG_DIR = "logs"
 os.makedirs(LOG_DIR, exist_ok=True)
+
 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-LOG_FILE = f"{LOG_DIR}/preprocess_log_{timestamp}.txt"
+run_id = os.getenv("GITHUB_RUN_ID", "local")
+LOG_FILE = f"{LOG_DIR}/preprocess_log_{timestamp}_{run_id}.txt"
 
-stats = {"processed": 0, "errors": 0, "skipped": 0}
+stats = {"processed": 0, "errors": 0, "normalized": 0}
 
-def log(msg):
-    with open(LOG_FILE, "a", encoding="utf-8") as log_f:
-        log_f.write(msg + "\n")
 
-with open(LOG_FILE, "w", encoding="utf-8") as f:
-    f.write(f"Preprocess started: {datetime.datetime.now()}\n\n")
+def log(msg: str):
+    print(msg)
+    with open(LOG_FILE, "a", encoding="utf-8") as logf:
+        logf.write(msg + "\n")
 
-files_to_process = sys.argv[1:]
 
-if not files_to_process:
-    log("No files provided to process. Exiting early.")
+def detect_and_read_utf8(path):
+    """Detect encoding and return text decoded as UTF-8."""
+    with open(path, "rb") as f:
+        raw = f.read()
 
-LOG_FILE = "preprocess_log.txt"
-
-os.makedirs(DST_DIR, exist_ok=True)
-
-stats = {"processed": 0, "errors": 0, "skipped": 0}
-
-def log(msg):
-    with open(LOG_FILE, "a", encoding="utf-8") as log_f:
-        log_f.write(msg + "\n")
-
-def detect_and_convert_to_utf8(file_path):
-    """Detect encoding and return UTF-8 text content."""
-    with open(file_path, "rb") as f:
-        raw_data = f.read()
-    detection = chardet.detect(raw_data)
-    encoding = detection["encoding"] or "utf-8"
-    confidence = detection.get("confidence", 0)
+    info = chardet.detect(raw)
+    encoding = info.get("encoding") or "utf-8"
+    confidence = info.get("confidence", 0)
 
     try:
-        text = raw_data.decode(encoding)
-        log(f"✅ {file_path} decoded successfully as {encoding} ({confidence:.2f})")
-    except (UnicodeDecodeError, LookupError):
+        text = raw.decode(encoding)
+        log(f"✓ Decoded {path} as {encoding} ({confidence:.2f})")
+    except Exception:
+        log(f"⚠ Decode failed ({encoding}), forcing UTF-8 replacement")
         stats["errors"] += 1
-        log(f"⚠️ {file_path} could not be decoded as {encoding}, forcing UTF-8 replacement.")
-        text = raw_data.decode("utf-8", errors="replace")
+        text = raw.decode("utf-8", errors="replace")
 
     return text
 
-def replace_backticks(match):
-    inner = match.group(1)
 
-    # Skip apostrophe-like usage (e.g., It`s)
-    if re.search(r"\w`\w", inner):
-        stats["skipped"] += 1
-        return f"`{inner}`"
+def normalize_ascii(text: str) -> str:
+    """Basic cleanup: normalize whitespace, fix accidental CRLF, sanitize soft breaks."""
+    before = text
 
-    # Skip if no code-like patterns
-    if not re.search(r'[A-Z]|\.|_|/|-|\d', inner):
-        stats["skipped"] += 1
-        return f"`{inner}`"
+    text = text.replace("\r\n", "\n").replace("\r", "\n")      # Force LF only
+    text = re.sub(r'\u00A0', ' ', text)                      # Non-breaking space
+    text = re.sub(r'\t', '    ', text)                       # Tabs → spaces
+    text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE) # Trailing spaces
 
-    # Convert to literal monospaced
-    return f"`+{inner}+`"
+    if text != before:
+        stats["normalized"] += 1
 
-with open(LOG_FILE, "w", encoding="utf-8") as f:
-    f.write(f"Preprocess started: {datetime.datetime.now()}\n\n")
+    return text
 
-# Get files from command-line arguments (passed from YAML)
-files_to_process = sys.argv[1:]
 
-if not files_to_process:
-    log("No files provided to process in the source folder. Exiting.")
-else:
-    for src_path in files_to_process:
-        if not src_path.endswith(".adoc"):
-            log(f"Skipping non-.adoc file: {src_path}")
-            continue
+def preprocess_content(text: str) -> str:
+    """Light transformations for translation prep."""
+    before = text
 
-        # Ensure file exists (safety check)
-        if not os.path.exists(src_path):
-            log(f"File not found: {src_path}. Skipping.")
-            continue
+    # Example: protect code spans by marking them literal-friendly
+    text = re.sub(r'`([^`]+)`', r'`+\1+`', text)
 
-        rel_path = os.path.relpath(src_path, SRC_DIR)
-        dst_path = os.path.join(DST_DIR, rel_path)
-        os.makedirs(os.path.dirname(dst_path), exist_ok=True)
+    # Example: mark monospaced blocks for safer translation
+    text = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', text)
 
-        content = detect_and_convert_to_utf8(src_path)
+    return text
 
-        # 1. Convert backticks → literal monospaced
-        content = re.sub(r'`([^`\n]+)`', replace_backticks, content)
 
-        # 2. Convert [monospaced]#text# → [literal]#text#
-        content = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', content, flags=re.IGNORECASE)
+def main():
+    if len(sys.argv) < 2:
+        log("ERROR: No input file provided.")
+        sys.exit(1)
 
-        # 3. Normalize UTF-8 line endings
-        content = content.replace("\r\n", "\n").encode("utf-8", errors="ignore").decode("utf-8")
+    src_file = sys.argv[1]
+    if not os.path.isfile(src_file):
+        log(f"ERROR: File does not exist: {src_file}")
+        sys.exit(1)
 
-        with codecs.open(dst_path, "w", encoding="utf-8") as f:
-            f.write(content)
+    log(f"Starting preprocess: {src_file}")
 
-        log(f"Processed: {src_path} → {dst_path}")
-        stats["processed"] += 1
+    # Compute output path (mirror directory structure)
+    rel_path = os.path.relpath(src_file, "source")
+    out_path = os.path.join("processed", rel_path)
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
 
-log("\nSummary:")
-log(f"  ✅ Files processed: {stats['processed']}")
-log(f"  ⚠️ Encoding errors fixed: {stats['errors']}")
-log(f"  ⏩ Backticks skipped (apostrophes/plain): {stats['skipped']}")
-log(f"\nCompleted: {datetime.datetime.now()}")
+    text = detect_and_read_utf8(src_file)
+    text = normalize_ascii(text)
+    text = preprocess_content(text)
+
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+
+    stats["processed"] += 1
+    log(f"Saved processed file → {out_path}")
+
+    # Summary
+    log("\nSummary:")
+    log(f"  ✅ Processed: {stats['processed']}")
+    log(f"  ⚠️ Encoding issues fixed: {stats['errors']}")
+    log(f"  ✅ Normalized files: {stats['normalized']}")
+
+    log(f"\nCompleted at {datetime.datetime.now()}")
+
+
+if __name__ == "__main__":
+    main()

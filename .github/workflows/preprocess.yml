@@ -1,16 +1,15 @@
 name: Preprocess AsciiDoc Files
 
 on:
-  # Automatically run when .adoc files are added or changed in main branch
   push:
-    branches:
-      - main
+    branches: [ main ]
     paths:
       - 'source/**/*.adoc'
       - 'preprocess_adoc.py'
+
   repository_dispatch:
     types: [trigger-preprocess]
-  # Still allow manual run
+
   workflow_dispatch:
 
 permissions:
@@ -21,33 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       changed_files: ${{ steps.changed.outputs.changed_files }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history to ensure HEAD^ is available
-
-      - name: Debug Current Branch
-        run: |
-          echo "Current branch:"
-          git branch --show-current
-
-      - name: Debug Commit History
-        run: |
-          echo "HEAD commit:"
-          git rev-parse HEAD || echo "No HEAD"
-          echo "HEAD^ commit:"
-          git rev-parse HEAD^ || echo "No HEAD^ (this is the first commit)"
-
-      - name: Debug Source Folder Contents
-        run: |
-          echo "All files in source/ (recursive):"
-          find source/ -type f -name "*.adoc" 2>/dev/null || echo "No .adoc files found in source/"
-
-      - name: Debug Last Commit Changes
-        run: |
-          echo "Files added/modified in last commit:"
-          git log --name-status -1 -- source/ | grep -E '^[AM]\t.*\.adoc$' || echo "No .adoc changes in last commit"
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -55,31 +33,29 @@ jobs:
           python-version: "3.11"
 
       - name: Install Dependencies
-        run: |
-          pip install chardet
+        run: pip install chardet
 
       - name: Detect Changed AsciiDoc Files
         id: changed
         run: |
           echo "Detecting changed AsciiDoc files..."
+
           if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
-            # Pick up added and modified files between last two commits
             git diff --name-only --diff-filter=AM HEAD^ HEAD -- source/ | grep '\.adoc$' > changed_files.txt || true
           else
-            echo "No previous commit; assuming all source/*.adoc are new."
-            git ls-files 'source/**/*.adoc' > changed_files.txt || true
-          fi
-
-          # If nothing detected, fall back to all .adoc files
-          if [ ! -s changed_files.txt ]; then
-            echo "No changed files detected; preprocessing all .adoc files."
+            echo "Initial commit — using all .adoc files"
             find source/ -type f -name "*.adoc" > changed_files.txt || true
           fi
 
-          echo "Changed files:"
-          cat changed_files.txt || echo "None found."
           if [ ! -s changed_files.txt ]; then
-            echo "No AsciiDoc files found. Exiting."
+            echo "No changed files detected; processing all .adoc"
+            find source/ -type f -name "*.adoc" > changed_files.txt
+          fi
+
+          echo "Changed files:"
+          cat changed_files.txt
+
+          if [ ! -s changed_files.txt ]; then
             echo "no_changes=true" >> $GITHUB_ENV
             echo "changed_files=" >> $GITHUB_OUTPUT
           else
@@ -93,31 +69,26 @@ jobs:
         if: env.no_changes == 'false'
         run: |
           mkdir -p processed logs
-          echo "Running preprocessing on changed files..."
+
           while IFS= read -r file; do
-            if [ -n "$file" ]; then
-              echo "Processing $file"
-              python preprocess_adoc.py "$file"
-            fi
+            [ -z "$file" ] && continue
+            echo "Processing: $file"
+            python preprocess_adoc.py "$file"
           done < changed_files.txt
 
-      - name: Commit Processed Files
+      - name: Commit Preprocessed Files
         if: env.no_changes == 'false'
         run: |
           git config user.name "github-actions"
           git config user.email actions@github.com
 
-          # Stage only processed outputs and logs
           git add processed/ logs/ || true
 
-          echo "Staged files:"
-          git diff --cached --name-status || echo "No files staged."
-
-          if git diff --staged --quiet; then
-            echo "No changes after preprocessing; skipping commit."
+          if git diff --cached --quiet; then
+            echo "No files changed; skipping commit"
           else
             git commit -m "Auto-preprocessed changed AsciiDoc files"
-            git push origin main || echo "No permission to push changes"
+            git push origin main
           fi
 
       - name: Upload Preprocess Logs
@@ -126,5 +97,4 @@ jobs:
         with:
           name: preprocess-logs
           path: logs/preprocess_log_*.txt
-          if-no-files-found: ignore  # Prevents the warning if no logs exist
-
+          if-no-files-found: ignore
