@@ -1,0 +1,12 @@
+Postprocess started: 2025-11-19 19:35:26.894735
+
+✓ translated/de_de/updates/test project files nine/openid.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files nine/openid.adoc (from translated/de_de/updates/test project files nine/openid.adoc)
+
+Summary:
+  ✅ Processed files: 1
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+  ✅ Cleaned files: 1
+
+Completed: 2025-11-19 19:35:26.901872
