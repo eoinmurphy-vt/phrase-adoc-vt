@@ -1,0 +1,10 @@
+Starting preprocess: source/updates/test project files ten/folder one/internal.adoc
+✓ Decoded source/updates/test project files ten/folder one/internal.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/updates/test project files ten/folder one/internal.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-19 19:50:52.100124

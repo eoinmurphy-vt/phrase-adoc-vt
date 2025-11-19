@@ -1,0 +1,50 @@
+Starting preprocess: source/updates/test project files ten/5x.adoc
+✓ Decoded source/updates/test project files ten/5x.adoc as utf-8 (0.99)
+Saved processed file → processed/updates/test project files ten/5x.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-19 19:50:51.577753
+Starting preprocess: source/updates/test project files ten/customui.adoc
+✓ Decoded source/updates/test project files ten/customui.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files ten/customui.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-19 19:50:51.638446
+Starting preprocess: source/updates/test project files ten/folder one/automation.adoc
+⚠ Decode failed (Windows-1252), forcing UTF-8 replacement
+Saved processed file → processed/updates/test project files ten/folder one/automation.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 1
+  ✅ Normalized files: 1
+
+Completed at 2025-11-19 19:50:51.861982
+Starting preprocess: source/updates/test project files ten/folder one/folder two/adfs.adoc
+✓ Decoded source/updates/test project files ten/folder one/folder two/adfs.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files ten/folder one/folder two/adfs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-19 19:50:51.914346
+Starting preprocess: source/updates/test project files ten/folder one/folder two/openid.adoc
+✓ Decoded source/updates/test project files ten/folder one/folder two/openid.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files ten/folder one/folder two/openid.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-19 19:50:51.964901
