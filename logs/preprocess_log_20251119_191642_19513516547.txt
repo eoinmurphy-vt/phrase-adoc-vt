@@ -1,0 +1,20 @@
+Starting preprocess: source/updates/test project files nine/adfs.adoc
+✓ Decoded source/updates/test project files nine/adfs.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files nine/adfs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-19 19:16:42.720630
+Starting preprocess: source/updates/test project files nine/folder one/automation.adoc
+⚠ Decode failed (Windows-1252), forcing UTF-8 replacement
+Saved processed file → processed/updates/test project files nine/folder one/automation.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 1
+  ✅ Normalized files: 1
+
+Completed at 2025-11-19 19:16:42.972539
