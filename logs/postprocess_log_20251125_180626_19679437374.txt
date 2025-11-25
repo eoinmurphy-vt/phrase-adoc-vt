@@ -1,0 +1,12 @@
+Postprocess started: 2025-11-25 18:06:26.726872
+
+✓ translated/fr_fr/updates/test project files eighteen/customui.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/customui.adoc (from translated/fr_fr/updates/test project files eighteen/customui.adoc)
+
+Summary:
+  ✅ Processed files: 1
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+  ✅ Cleaned files: 1
+
+Completed: 2025-11-25 18:06:26.759356
