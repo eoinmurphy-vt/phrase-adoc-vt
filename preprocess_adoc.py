@@ -66,6 +66,9 @@ def preprocess_content(text: str) -> str:
     # Example: mark monospaced blocks for safer translation
     text = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', text)
 
+    # convert " `code` " → &quot;`code`&quot;
+    text = re.sub(r'"(`[^`]+`)"', r'&quot;\1&quot;', text)
+
     return text
 
 

@@ -71,6 +71,8 @@ def cleanup_text(text):
     # Collapse weird "+word+" inserts produced by translation
     text = re.sub(r'\+([A-Za-z0-9/_\.-]+)\+', r'\1', text)
 
+    # Reverse preprocess: restore &quot;`code`&quot; → "`code`"
+    text = re.sub(r'&quot;(`[^`]+`)&quot;', r'"\1"', text)
     # Normalize line endings + remove stray CR
     text = text.replace("\r\n", "\n").replace("\r", "\n")
 
