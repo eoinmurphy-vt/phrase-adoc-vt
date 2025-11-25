@@ -1,0 +1,30 @@
+Starting preprocess: source/updates/test project files sixteen/folder one/folder two/adfs.adoc
+✓ Decoded source/updates/test project files sixteen/folder one/folder two/adfs.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files sixteen/folder one/folder two/adfs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-25 13:23:47.263277
+Starting preprocess: source/updates/test project files sixteen/folder one/folder two/openid.adoc
+✓ Decoded source/updates/test project files sixteen/folder one/folder two/openid.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files sixteen/folder one/folder two/openid.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-25 13:23:47.314485
+Starting preprocess: source/updates/test project files sixteen/folder one/internal.adoc
+✓ Decoded source/updates/test project files sixteen/folder one/internal.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/updates/test project files sixteen/folder one/internal.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-25 13:23:47.458135
