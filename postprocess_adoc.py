@@ -85,6 +85,27 @@ def cleanup_text(text):
     return text
 
 
+def map_output_path(src_path: str, rel: str) -> str:
+    """
+    Convert:
+      de_de/docs/.../modules/en/pages/file.adoc
+    Into:
+      docs/.../modules/de/pages/file.adoc
+    """
+
+    # Detect language folder
+    lang_folder = rel.split(os.sep)[0]  # de_de or fr_fr
+    lang_code = lang_folder.split("_")[0]  # de, fr, it, es, etc.
+
+    # Strip language prefix folder
+    rel = os.path.join(*rel.split(os.sep)[1:])
+
+    # Replace modules/en/ with modules/<lang_code>/
+    rel = rel.replace("/modules/en/", f"/modules/{lang_code}/")
+
+    # Construct final path
+    return os.path.join(DST_DIR, rel)
+
 # Start log
 with open(LOG_FILE, "w", encoding="utf-8") as f:
     f.write(f"Postprocess started: {datetime.datetime.now()}\n\n")
@@ -94,7 +115,9 @@ with open(LOG_FILE, "w", encoding="utf-8") as f:
 for path in Path(SRC_DIR).rglob("*.adoc"):
     src_path = str(path)
     rel = os.path.relpath(src_path, SRC_DIR)
-    dst_path = os.path.join(DST_DIR, rel)
+
+    # language folder → correct docs/modules/<lang>/
+    dst_path = map_output_path(src_path, rel)
 
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
 
