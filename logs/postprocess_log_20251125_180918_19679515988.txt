@@ -1,0 +1,34 @@
+Postprocess started: 2025-11-25 18:09:18.191705
+
+✓ translated/fr_fr/updates/test project files eighteen/5x.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/5x.adoc (from translated/fr_fr/updates/test project files eighteen/5x.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/customui.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/customui.adoc (from translated/fr_fr/updates/test project files eighteen/customui.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/folder one/automation.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/folder one/automation.adoc (from translated/fr_fr/updates/test project files eighteen/folder one/automation.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/folder one/internal.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/folder one/internal.adoc (from translated/fr_fr/updates/test project files eighteen/folder one/internal.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/folder one/folder two/adfs.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/folder one/folder two/adfs.adoc (from translated/fr_fr/updates/test project files eighteen/folder one/folder two/adfs.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/folder one/folder two/openid.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/folder one/folder two/openid.adoc (from translated/fr_fr/updates/test project files eighteen/folder one/folder two/openid.adoc)
+✓ translated/de_de/updates/test project files eighteen/5x.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files eighteen/5x.adoc (from translated/de_de/updates/test project files eighteen/5x.adoc)
+✓ translated/de_de/updates/test project files eighteen/customui.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files eighteen/customui.adoc (from translated/de_de/updates/test project files eighteen/customui.adoc)
+✓ translated/de_de/updates/test project files eighteen/folder one/automation.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files eighteen/folder one/automation.adoc (from translated/de_de/updates/test project files eighteen/folder one/automation.adoc)
+✓ translated/de_de/updates/test project files eighteen/folder one/internal.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files eighteen/folder one/internal.adoc (from translated/de_de/updates/test project files eighteen/folder one/internal.adoc)
+✓ translated/de_de/updates/test project files eighteen/folder one/folder two/adfs.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files eighteen/folder one/folder two/adfs.adoc (from translated/de_de/updates/test project files eighteen/folder one/folder two/adfs.adoc)
+✓ translated/de_de/updates/test project files eighteen/folder one/folder two/openid.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/updates/test project files eighteen/folder one/folder two/openid.adoc (from translated/de_de/updates/test project files eighteen/folder one/folder two/openid.adoc)
+
+Summary:
+  ✅ Processed files: 12
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 2
+  ✅ Cleaned files: 12
+
+Completed: 2025-11-25 18:09:18.457393

@@ -1,0 +1,16 @@
+Postprocess started: 2025-11-25 18:06:29.055814
+
+✓ translated/fr_fr/updates/test project files eighteen/customui.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/customui.adoc (from translated/fr_fr/updates/test project files eighteen/customui.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/folder one/automation.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/folder one/automation.adoc (from translated/fr_fr/updates/test project files eighteen/folder one/automation.adoc)
+✓ translated/fr_fr/updates/test project files eighteen/folder one/internal.adoc decoded as utf-8 (0.99)
+✓ Restored final/fr_fr/updates/test project files eighteen/folder one/internal.adoc (from translated/fr_fr/updates/test project files eighteen/folder one/internal.adoc)
+
+Summary:
+  ✅ Processed files: 3
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+  ✅ Cleaned files: 3
+
+Completed: 2025-11-25 18:06:29.115833
