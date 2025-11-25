@@ -1,0 +1,141 @@
+= Testprojekt achtzehn OpenID Connect Azure/Okta
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /08.integration/07.openid/07.openid.md
+:page-opendocs-slug:  /integration/openid
+
+== Test_ZweiIntegration mit OpenID Connect (OIDC) für Azure und Okta
+
+Um die OpenID Connect-Authentifizierung zu aktivieren, sind die Einstellungen *Issuer*, *Client ID* und *Client secret* erforderlich. Mit der Issuer-URL wird {product-name} die Discovery-API aufrufen, um die Authentifizierungs-, Token- und Benutzerinfo-Endpunkte abzurufen.
+
+Finden Sie die OpenID Connect Redirect-URI oben auf der {product-name} OpenID Connect-Einstellungsseite. Sie müssen diese URI in die *Login redirect URIs* für Okta und *Reply URLs* für Microsoft Azure kopieren.
+
+image:openid1.png[OpenID1]
+
+=== Test_TwoMicrosoft Azure Configuration
+
+In Azure Active Directory > App-Registrierungen > Anwendungsname > Einstellungsseite, finden Sie die Anwendungs-ID-Zeichenfolge. Dies wird verwendet, um die Client-ID in {product-name} festzulegen. Das Client-Geheimnis kann in den Schlüsseln von Azure gefunden werden.
+
+image:openid3.png[OpenID3]
+
+Die Issuer-URL hat das Format "https://login.microsoftonline.com/{tenantID}/v2.0". Um die tenantID zu finden, gehen Sie zu menu:Azure Active Directory[Properties Page] und finden Sie die Verzeichnis-ID, ersetzen Sie sie durch die tenantID in der URL.
+
+image:openid4.png[OpenID4]
+
+Wenn die Benutzer den Gruppen im Active Directory zugewiesen sind, kann ihre Gruppenmitgliedschaft zur Anspruch hinzugefügt werden. Finden Sie die Anwendung in *Azure Active Directory -> App-Registrierungen* und bearbeiten Sie das Manifest. Ändern Sie den Wert von "groupMembershipClaims" in "Application Group".  Es gibt eine maximale Anzahl von Gruppen, die in ein Token ausgegeben werden.  Wenn der Benutzer zu einer großen Anzahl von Gruppen ( > 200) gehört und der Wert "All" verwendet wird, wird das Token die Gruppen nicht enthalten und die Autorisierung schlägt fehl.  Die Verwendung des Wertes "Application Group" anstelle von "All" reduziert die Anzahl der anwendbaren Gruppen, die im Token zurückgegeben werden.
+
+Standardmäßig sucht {product-name} nach "Gruppen" im Anspruch, um die Gruppenmitgliedschaft des Benutzers zu identifizieren. Wenn ein anderer Anspruchsname verwendet wird, können Sie den Anspruchsnamen auf der Seite der OpenID Connect-Einstellungen von {product-name} anpassen.
+
+Der von Azure zurückgegebene Gruppenanspruch wird durch die "Objekt-ID" anstelle des Namens identifiziert. Die Objekt-ID der Gruppe kann in menu:Azure Active Directory[Gruppen> Gruppenname-Seite] gefunden werden. Sie sollten diesen Wert verwenden, um die rollenbasierte Zuordnung auf Gruppenbasis in den Einstellungen von {product-name} -> zu konfigurieren.
+
+image:openid5.png[OpenID5]
+
+==== Test_TwoVerify Permissions
+
+Stellen Sie sicher, dass die folgenden Berechtigungen von Microsoft Graph festgelegt wurden
+
+. email - E-Mail-Adresse der Benutzer anzeigen
+. openid - Benutzer anmelden
+. profil - Grundlegendes Profil der Benutzer anzeigen
+
+=== Test_TwoOkta Configuration
+
+Melden Sie sich bei Ihrem Okta-Konto an.
+
+Klicken Sie im Menü auf der linken Seite auf "`Anwendungen -> Anwendungen"`
+Im mittleren Bereich klicken Sie auf "`Create App Integration`":
+
+image:okta1.png[erstellen]
+
+Ein neues Fenster wird geöffnet, um "`Sign-in method`" auszuwählen:
+
+image:okta2.png[newapp]
+
+Wählen Sie die "`OIDC -- OpenID Connect`" Option aus.
+
+Ein abgeleitetes Fenster erscheint zur Auswahl von "`Application Type`":
+
+image:okta3.png[apptype]
+
+Wählen Sie die "`Native Application`" Option aus.
+
+Der zentrale Bereich zeigt jetzt das Formular zur Integration von nativen Apps an, in dem Sie die folgenden Werte entsprechend ausfüllen müssen:
+
+Für den Abschnitt Allgemeine Einstellungen:
+
+App. Integrationsname: Name für diese Integration. Wählen Sie beliebig einen Namen aus
+Zugriffsart (überprüfen):
+
+* Autorisierungscode
+* Aktualisierungstoken
+* Passwort des Ressourcenbesitzers
+* Implizit (hybrid)
+
+Für den Abschnitt Umleitungs-URIs bei der Anmeldung:
+
+Gehen Sie zu Ihrer {product-name} Konsole und navigieren Sie zu "`Settings`" -> "`OpenId Connect Settings`".  Oben auf der Seite, neben dem "`OpenID Connect Redirect URI`" Label klicken Sie auf "`Copy to Clipboard`".
+
+image:okta4.png[copy]
+
+Dies wird die Umleitungs-URI in den Speicher kopieren.
+Fügen Sie es in das entsprechende Textfeld ein:
+
+image:okta5.png[einfügen]
+
+Für den Abschnitt Zuweisungen:
+
+Wählen Sie "`Allow everyone in your organization to access`" aus, um diese Integration für alle in Ihrer Organisation verfügbar zu machen.
+
+image:okta6.png[zuweisungen]
+
+Klicken Sie dann auf die Schaltfläche Speichern am Ende der Seite.
+
+Sobald Ihre allgemeinen Einstellungen gespeichert sind, werden Sie zu Ihrer neuen Anwendungsintegrationskonfiguration weitergeleitet und eine Client-ID wird automatisch generiert.
+
+Gehen Sie im "`Client Credentials`" Abschnitt auf Bearbeiten und ändern Sie den "`Client Authentication`" Abschnitt von "`Use PKCE (for public clients)`" zu "`Use Client Authentication`" und klicken Sie auf Speichern. Dies wird automatisch ein neues Geheimnis generieren, das wir in den kommenden {product-name} Einrichtungsschritten benötigen:
+
+image:okta7.png[clientauth]
+
+Navigieren Sie zum "`Sign On`" Tab und bearbeiten Sie den "`OpenID Connect ID Token`" Abschnitt:
+Ändern Sie den Aussteller von "`Dynamic (based on request domain)`" zu dem festen "`Okta URL`":
+
+image:okta8.png[token]
+
+Die Okta-Konsole kann in zwei Modi betrieben werden: Klassischer Modus und Entwicklermodus.
+Im klassischen Modus befindet sich die Aussteller-URL auf der Anmeldeseite der Okta-Anwendung im Tab Anmelden. Um die Gruppenmitgliedschaft des Benutzers im Anspruch zurückzugeben, müssen Sie den "Gruppen"-Scope auf der {product-name} OpenID Connect-Konfigurationsseite hinzufügen:
+
+image:okta9.png[claims]
+
+Im Entwicklermodus erlaubt Okta Ihnen, die Ansprüche anzupassen. Dies geschieht auf der API-Seite durch die Verwaltung von Autorisierungsservern (navigieren Sie zum linken Menü -> Sicherheit -> API). Die Aussteller-URL befindet sich im Einstellungs-Tab jedes Autorisierungsservers:
+
+image:okta10.png[api]
+
+Ansprüche sind Name/Wert-Paare, die Informationen über einen Benutzer sowie Metainformationen über den OIDC-Dienst enthalten.
+Im "`OpenID Connect ID Token`" Abschnitt können Sie neue Ansprüche für die Gruppen des Benutzers erstellen und den Anspruch im ID-Token tragen (ein ID-Token ist ein JSON-Web-Token, ein kompaktes, URL-sicheres Mittel zur Darstellung von Ansprüchen, die zwischen zwei Parteien übertragen werden, sodass Identitätsinformationen über den Benutzer direkt im Token kodiert sind und das Token eindeutig verifiziert werden kann, um zu beweisen, dass es nicht manipuliert wurde). Wenn ein spezifischer Scope konfiguriert ist, stellen Sie sicher, dass Sie den Scope auf der {product-name} OpenID Connect-Einstellungsseite hinzufügen, damit der Anspruch nach der Authentifizierung des Benutzers einbezogen werden kann:
+
+image:okta11.png[scopes]
+
+Standardmäßig sucht {product-name} nach "Gruppen" im Anspruch, um die Gruppenmitgliedschaft des Benutzers zu identifizieren. Wenn ein anderer Anspruchsname verwendet wird, können Sie den Anspruchsnamen auf der Seite der OpenID Connect-Einstellungen von {product-name} anpassen. Um Ansprüche zu konfigurieren, bearbeiten Sie den "`OpenID Connect ID Token`" Abschnitt wie im nächsten Bild gezeigt:
+
+image:okta12.png[claims]
+
+Navigieren Sie auf Ihrer Anwendungsintegrationsseite zum "`Assignments`" Tab und stellen Sie sicher, dass die entsprechenden Zuweisungen aufgelistet sind:
+
+image:okta13.png[zuweisungen]
+
+=== Test_Two{product-name} OpenID Connect-Konfiguration
+
+Konfigurieren Sie die richtige Aussteller-URL, Client-ID und Client-Geheimnis auf der Seite.
+
+image:openid9.png[OpenID9]
+
+Nachdem der Benutzer authentifiziert ist, kann die entsprechende Rolle mit der gruppenbasierten Rollenzuordnungskonfiguration abgeleitet werden. Um die gruppenbasierte Rollenzuordnung einzurichten,
+
+. Wenn die gruppenbasierte Rollenzuordnung nicht konfiguriert ist oder die übereinstimmenden Gruppen nicht gefunden werden können, wird dem authentifizierten Benutzer die Standardrolle zugewiesen. Wenn die Standardrolle auf Keine gesetzt ist, kann der Benutzer sich nicht anmelden, wenn die gruppenbasierte Rollenzuordnung fehlschlägt.
+. Geben Sie eine Liste von Gruppen in der Admin- und Reader-Rollenzuordnung an. Die Gruppenmitgliedschaft des Benutzers wird durch die Ansprüche im ID-Token zurückgegeben, nachdem der Benutzer authentifiziert wurde. Wenn die übereinstimmende Gruppe gefunden wird, wird die entsprechende Rolle dem Benutzer zugewiesen.
+
+Die Gruppe kann in {product-name} der Admin-Rolle zugeordnet werden. Einzelne Benutzer können zu einer föderierten Admin-Rolle 'befördert' werden, indem sie sich als lokaler Cluster-Admin anmelden, den Benutzer mit dem Identitätsanbieter 'OpenID' auswählen und ihre Rolle in den Einstellungen -> Benutzer/Rollen bearbeiten.
+
+=== Test_TwoMapping Gruppen zu Rollen und Namensräumen
+
+Bitte sehen Sie sich den Abschnitt xref:users.adoc#_mapping_groups_to_roles_and_namespaces[Benutzer und Rollen] an, um zu erfahren, wie Gruppen auf vordefinierte und benutzerdefinierte Rollen sowie Namensräume in {product-name} zugeordnet werden.
