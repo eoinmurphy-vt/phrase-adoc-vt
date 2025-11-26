@@ -48,35 +48,46 @@ def detect_and_convert_to_utf8(file_path):
     return text
 
 
-def revert_backticks(match):
-    inner = match.group(1).strip()
+BACKTICK_PATTERNS = [
+    # Handles quoted form:  &quot;`+text+`&quot;
+    (r'&quot;`\+(.+?)\+`&quot;', r"`\1`"),
 
-    # Only revert if actual code-like content is inside
-    if re.search(r'[A-Za-z0-9._/\-]', inner):
-        return f"`{inner}`"
-    else:
-        stats["skipped"] += 1
-        return f"`+{inner}+`"
+    # Handles: `+text+`
+    (r'`\+(.+?)\+`', r"`\1`"),
+
+    # Handles: +`text`+
+    (r'\+`(.+?)`\+', r"`\1`"),
+]
+
+
+def revert_backtick_wrapping(text):
+    before = text
+    for pattern, replacement in BACKTICK_PATTERNS:
+        text = re.sub(pattern, replacement, text)
+    return text
 
 
 def cleanup_text(text):
     before = text
 
-    # Remove stray + added by CAT tools next to code spans
-    text = re.sub(r'`\+(.*?)\+`', revert_backticks, text)
+    # Reverse preprocessed backtick logic
+    text = revert_backtick_wrapping(text)
 
-    # Convert [literal]#text# back to monospaced
-    text = re.sub(r'\[literal\]#([^#]+)#', r'[monospaced]#\1#', text, flags=re.IGNORECASE)
+    # literal → monospaced (existing behaviour)
+    text = re.sub(
+        r'\[literal\]#([^#]+)#',
+        r'[monospaced]#\1#',
+        text,
+        flags=re.IGNORECASE
+    )
 
-    # Collapse weird "+word+" inserts produced by translation
+    # Remove "+word+" artifacts
     text = re.sub(r'\+([A-Za-z0-9/_\.-]+)\+', r'\1', text)
 
-    # Reverse preprocess: restore &quot;`code`&quot; → "`code`"
-    text = re.sub(r'&quot;(`[^`]+`)&quot;', r'"\1"', text)
-    # Normalize line endings + remove stray CR
+    # Normalize newlines
     text = text.replace("\r\n", "\n").replace("\r", "\n")
 
-    # Remove repeated whitespace or accidental duplicates
+    # Remove trailing spaces
     text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE)
 
     if text != before:

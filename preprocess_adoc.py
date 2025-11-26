@@ -60,14 +60,36 @@ def preprocess_content(text: str) -> str:
     """Light transformations for translation prep."""
     before = text
 
-    # Example: protect code spans by marking them literal-friendly
-    text = re.sub(r'`([^`]+)`', r'`+\1+`', text)
+    # -------------------------------------------------------------
+    # 1. FIRST: Handle quoted backtick-wrapped code
+    #    " `code` " → &quot;`+code+`&quot;
+    # -------------------------------------------------------------
+    # Matches: "`something`"
+    # Or: Set the "`Placement Templates`" to
+    text = re.sub(
+        r'"(\s*`([^`]+)`\s*)"',
+        lambda m: f"&quot;`+{m.group(2)}+`&quot;",
+        text
+    )
 
-    # Example: mark monospaced blocks for safer translation
-    text = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', text)
+    # -------------------------------------------------------------
+    # 2. Wrap ALL inline backticks (unquoted)
+    #    `code` → `+code+`
+    # -------------------------------------------------------------
+    text = re.sub(
+        r'`([^`]+)`',
+        r'`+\1+`',
+        text
+    )
 
-    # convert " `code` " → &quot;`code`&quot;
-    text = re.sub(r'"(`[^`]+`)"', r'&quot;\1&quot;', text)
+    # -------------------------------------------------------------
+    # 3. monospaced → literal
+    # -------------------------------------------------------------
+    text = re.sub(
+        r'\[monospaced\]#([^#]+)#',
+        r'[literal]#\1#',
+        text
+    )
 
     return text
 
