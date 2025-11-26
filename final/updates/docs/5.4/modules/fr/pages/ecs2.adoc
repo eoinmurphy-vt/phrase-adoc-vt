@@ -24,15 +24,15 @@ Veuillez consulter les exemples Kubernetes pour EKS.
 --
 Voici comment ajouter des attributs à vos instances ECS :
 
-Sélectionnez l'instance, puis choisissez `View/Edit Attributes` dans le menu déroulant Actions.
+Sélectionnez l'instance, puis choisissez {Q}`View/Edit Attributes`{/Q} dans le menu déroulant Actions.
 
 image:1viewattributes.png[Attributs]
 
-Ajoutez un nouvel attribut. Par exemple `allinone-node` avec la valeur `true`.
+Ajoutez un nouvel attribut. Par exemple {Q}`allinone-node`{/Q} avec la valeur {Q}`true`{/Q}.
 
 image:2addattribute.png[AddAttributes]
 --
-. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou coller le fichier JSON d'exemple (voir ci-dessous pour des exemples). Reportez-vous à la section `1. Deploying {product-name}` de cette documentation pour savoir comment configurer l'Allinone.
+. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou coller le fichier JSON d'exemple (voir ci-dessous pour des exemples). Reportez-vous à la section {Q}`1. Deploying {product-name}`{/Q} de ces documents pour savoir comment configurer l'Allinone.
 +
 --
 Entrez la contrainte de placement. Par exemple, si vous avez utilisé l'étiquetage d'attribut ci-dessus, entrez ceci dans la contrainte.
@@ -49,12 +49,12 @@ image:3taskdef.png[AllinoneTask]
 Si vous examinez le fichier JSON mis à jour maintenant, vous verrez la contrainte de placement ajoutée.
 ====
 --
-. Créez un nouveau service pour la tâche Allinone. Définissez le `Placement Templates` à `One Task Per Host` afin qu'un seul Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "`+membreDe(attribut:allinone-node=~true) ce qui nécessite que le nœud ait cet attribut.
+. Créez un nouveau service pour la tâche Allinone. Définissez le {Q}`Placement Templates`{/Q} à {Q}`One Task Per Host`{/Q} afin qu'un seul Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "`+membreDe(attribut:allinone-node=~true) qui nécessite que le nœud ait cet attribut.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Vous pouvez maintenant déployer le service Allinone. Définissez le &quot;`Nombre de tâches`&quot; au nombre souhaité d'Allinone/Contrôleur. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur commenceront à s'exécuter sur les nœuds sélectionnés. Après le démarrage de l'Allinone, vous devriez pouvoir vous connecter à la {product-name} console via HTTPS sur le port 8443.
+. Maintenant, vous pouvez déployer le service Allinone. Définissez le {Q}&quot;`Nombre de tâches`&quot;{/Q} au nombre souhaité d'Allinone/Contrôleur. Maintenant, les conteneurs {product-name} Allinone ou Contrôleur commenceront à s'exécuter sur les nœuds sélectionnés. Après le démarrage de l'Allinone, vous devriez pouvoir vous connecter à la console {product-name} via HTTPS sur le port 8443.
 . Créez la définition de tâche Enforcer. Ceci est similaire à la tâche Allinone. Configurez manuellement via la console ECS ou utilisez l'exemple JSON ci-dessous.
 +
 --
@@ -67,12 +67,12 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Créez un nouveau service pour la tâche Enforcer. Encore une fois, définissez le placement de la tâche sur &quot;`Une tâche par hôte`&quot; afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la contrainte supplémentaire doit montrer qu'elle empêche le déploiement sur un nœud allinone.
+. Créez un nouveau service pour la tâche Enforcer. Encore une fois, définissez le placement de la tâche sur {Q}&quot;`Une tâche par hôte`&quot;{/Q} afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la contrainte supplémentaire doit montrer qu'elle empêche le déploiement sur un nœud allinone.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Déployez ce service avec le nombre souhaité de nœuds enforcer dans &quot;`Nombre de tâches`&quot;. Très bientôt, tous les enforcers seront opérationnels. Depuis la console {product-name}, vous pourrez voir tous les nœuds détectés avec des enforcers.
+Déployez ce service avec le nombre souhaité de nœuds enforcer dans {Q}&quot;`Nombre de tâches`&quot;{/Q}. Très bientôt, tous les enforcers seront opérationnels. Depuis la console {product-name}, vous pourrez voir tous les nœuds détectés avec des enforcers.
 --
 
 == Exemples de définitions de tâches JSON ECS
@@ -340,8 +340,8 @@ Exemple de fichier json Enforcer :
 Vous pouvez effectuer une mise à jour en direct des conteneurs {product-name} dans ECS sans interrompre les services. Les services de {product-name} peuvent être facilement mis à jour ou améliorés sans interrompre les services en cours d'exécution. Pour ce faire dans Amazon ECS :
 
 . Si vous avez plusieurs contrôleurs ou Allinones déployés en tant que cluster, ignorez cette étape. S'il n'y a qu'un seul Allinone/contrôleur dans le système, trouvez une nouvelle instance ECS et déployez un 2ème conteneur Allinone/contrôleur dessus (suivez les étapes de déploiement ECS de l'allinone/contrôleur {product-name}). Après le déploiement, dans la console de gestion {product-name}, vous verrez ce nouveau contrôleur opérationnel (sous Ressources > Contrôleurs). C'est nécessaire pour que toutes les données d'état soient répliquées entre les contrôleurs.
-. Dans les services ECS, réinitialisez et supprimez l'ancien service Allinone/contrôleur. Tirez manuellement les images {product-name} mises à jour ou déclenchez AWS ECS pour tirer de nouvelles versions des conteneurs Allinone/contrôleur depuis Dockerhub ou votre registre privé.
-. Créez une nouvelle révision de la tâche Allinone/Controller, mettez à jour &quot;+`CLUSTER_JOIN_ADDR`&quot; à l'adresse IP du nœud privé du 2ème Allinone/contrôleur.
+. Dans les services ECS, réinitialisez et supprimez l'ancien service Allinone/contrôleur. Tirez les images {product-name} mises à jour manuellement ou déclenchez AWS ECS pour tirer de nouvelles versions des conteneurs Allinone/contrôleur depuis Dockerhub ou votre registre privé.
+. Créez une nouvelle révision de la tâche Allinone/Controller, mettez à jour le {Q}&quot;+`CLUSTER_JOIN_ADDR`&quot;{/Q} à l'adresse IP du nœud privé du 2ème Allinone/contrôleur.
 . Créez un nouveau service pour déployer cette nouvelle tâche (suivez les mêmes étapes pour déployer sur ECS). Une fois terminé, la nouvelle version de l'Allinone/contrôleur devrait être opérationnelle. Depuis la console de gestion {product-name}, tous les journaux et politiques devraient toujours être là. En option, vous pouvez arrêter le 2ème conteneur Allinone/Controller maintenant, car un Allinone/Controller devrait maintenant être démarré sur le nœud d'origine.
 . Depuis les services ECS, arrêtez et mettez à jour les Enforcers. Déclenchez manuellement ou automatiquement le tirage de nouvelles images d'Enforcer. Puis redémarrez ou mettez à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous verrez que tous les Enforcers sont à jour.
 . Si vous utilisez le conteneur Manager séparé au lieu de l'Allinone (qui a déjà le manager), arrêtez simplement et supprimez l'ancien conteneur manager. Puis tirez la nouvelle version du manager et déployez-la, en pointant le CLUSTER_JOIN_ADDR vers l'IP du contrôleur.
