@@ -57,59 +57,36 @@ def normalize_ascii(text: str) -> str:
 
 
 def preprocess_content(text: str) -> str:
-    """Light transformations for translation prep."""
-    before = text
+    """
+    Minimal, safe transformations:
+    1) Quoted backticks -> &quot;`+...+`&quot;  (only if inner not already plus-wrapped)
+    2) Unquoted backticks -> `+...+`          (only if inner not already plus-wrapped)
+    3) [monospaced]#x# -> [literal]#x#
+    """
 
-    # -------------------------------------------------------------
-    # 1. Handle quoted inline code exactly as you want:
-    #    "`Placement Templates`" → &quot;`+Placement Templates+`&quot;
+    # ---- 1) Quoted backtick spans
+    # Match: a double quote, optional whitespace, a backtick, inner (no backtick),
+    #        backtick, optional whitespace, closing double quote.
+    # We only match if the inner does NOT start or end with '+' (avoid reprocessing).
     #
-    # We tag the result temporarily with {{Q}}...{{/Q}}
-    # so the generic rule does NOT process it again.
-    # -------------------------------------------------------------
-    def quoted_replace(match):
-        inner = match.group(2)
-        return "{{Q}}&quot;`+{}+`&quot;{{/Q}}".format(inner)
-
-    text = re.sub(
-        r'"(\s*`([^`]+)`\s*)"',
-        quoted_replace,
-        text
-    )
-
-    # -------------------------------------------------------------
-    # 2. Handle all remaining inline backticks:
-    #    `code` → `+code+`
+    # Regex explanation:
+    #   "            opening double quote
+    #   \s*`         optional spaces then a backtick
+    #   (?!\+)([^`]*?)(?<!\+)   capture inner that doesn't start or end with '+'
+    #   `\s*"        closing backtick, optional spaces, closing double quote
     #
-    # We skip anything inside {{Q}}...{{/Q}}
-    # -------------------------------------------------------------
-    def inline_replace(match):
-        start = match.start()
-        # If inside a {{Q}} tag, skip
-        if "{{Q}}" in text[max(0, start-10):start+10]:
-            return match.group(0)
-        return f"`+{match.group(1)}+`"
+    # Replacement: &quot;`+inner+`&quot;
+    quoted_pattern = re.compile(r'"\s*`(?!\+)([^`]+?)(?<!\+)`\s*"', flags=re.DOTALL)
+    text = quoted_pattern.sub(lambda m: f'&quot;`+{m.group(1)}+`&quot;', text)
 
-    text = re.sub(
-        r'`([^`]+)`',
-        inline_replace,
-        text
-    )
+    # ---- 2) Unquoted backtick spans (remaining)
+    # Match lone `...` where inner does not start or end with '+'
+    # This avoids double-wrapping already-processed `+...+` or `+`+ cases.
+    inline_pattern = re.compile(r'`(?!\+)([^`]+?)(?<!\+)`', flags=re.DOTALL)
+    text = inline_pattern.sub(r'`+\1+`', text)
 
-    # -------------------------------------------------------------
-    # 3. Remove temporary {{Q}} markers
-    # -------------------------------------------------------------
-    text = text.replace("{{Q}}", "").replace("{{/Q}}", "")
-
-    # -------------------------------------------------------------
-    # 4. monospaced → literal
-    # -------------------------------------------------------------
-    text = re.sub(
-        r'\[monospaced\]#([^#]+)#',
-        r'[literal]#\1#',
-        text,
-        flags=re.IGNORECASE
-    )
+    # ---- 3) monospaced → literal (unchanged)
+    text = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', text, flags=re.IGNORECASE)
 
     return text
 
