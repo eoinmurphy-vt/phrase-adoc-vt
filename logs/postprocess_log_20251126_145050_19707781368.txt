@@ -1,0 +1,26 @@
+Postprocess started: 2025-11-26 14:50:50.638999
+
+✓ translated/fr_fr/updates/docs/5.4/modules/en/pages/navigation5.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/fr/pages/navigation5.adoc (from translated/fr_fr/updates/docs/5.4/modules/en/pages/navigation5.adoc)
+✓ translated/fr_fr/updates/docs/5.4/modules/en/pages/docker6.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/fr/pages/docker6.adoc (from translated/fr_fr/updates/docs/5.4/modules/en/pages/docker6.adoc)
+✓ translated/fr_fr/updates/docs/5.4/modules/en/pages/ecs6.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/fr/pages/ecs6.adoc (from translated/fr_fr/updates/docs/5.4/modules/en/pages/ecs6.adoc)
+✓ translated/fr_fr/updates/docs/5.4/modules/en/pages/docker5.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/fr/pages/docker5.adoc (from translated/fr_fr/updates/docs/5.4/modules/en/pages/docker5.adoc)
+✓ translated/fr_fr/updates/docs/5.4/modules/en/pages/ecs5.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/fr/pages/ecs5.adoc (from translated/fr_fr/updates/docs/5.4/modules/en/pages/ecs5.adoc)
+✓ translated/de_de/updates/docs/5.4/modules/en/pages/navigation5.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/de/pages/navigation5.adoc (from translated/de_de/updates/docs/5.4/modules/en/pages/navigation5.adoc)
+✓ translated/de_de/updates/docs/5.4/modules/en/pages/docker5.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/de/pages/docker5.adoc (from translated/de_de/updates/docs/5.4/modules/en/pages/docker5.adoc)
+✓ translated/de_de/updates/docs/5.4/modules/en/pages/ecs5.adoc decoded as utf-8 (0.99)
+✓ Restored final/updates/docs/5.4/modules/de/pages/ecs5.adoc (from translated/de_de/updates/docs/5.4/modules/en/pages/ecs5.adoc)
+
+Summary:
+  ✅ Processed files: 8
+  ⚠️ Encoding errors fixed: 0
+  ⏩ Skipped non-code reverts: 0
+  ✅ Cleaned files: 8
+
+Completed: 2025-11-26 14:50:50.729460
