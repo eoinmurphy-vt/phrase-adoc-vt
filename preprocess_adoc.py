@@ -61,44 +61,43 @@ def preprocess_content(text: str) -> str:
     before = text
 
     # -------------------------------------------------------------
-    # 1. Handle quoted backtick-wrapped code
-    #    " `code` " → &quot;`+code+`&quot;
+    # 1. Handle quoted inline code exactly as you want:
+    #    "`Placement Templates`" → &quot;`+Placement Templates+`&quot;
     #
-    # We also TEMPORARILY wrap the result in a marker {{Q}} ... {{/Q}}
-    # so the general inline rule does NOT modify it a second time.
+    # We tag the result temporarily with {{Q}}...{{/Q}}
+    # so the generic rule does NOT process it again.
     # -------------------------------------------------------------
-    def quoted_repl(m):
-        inner = m.group(2)
+    def quoted_replace(match):
+        inner = match.group(2)
         return "{{Q}}&quot;`+{}+`&quot;{{/Q}}".format(inner)
 
     text = re.sub(
         r'"(\s*`([^`]+)`\s*)"',
-        quoted_repl,
+        quoted_replace,
         text
     )
 
     # -------------------------------------------------------------
-    # 2. Wrap ALL remaining inline backticks (unquoted only)
+    # 2. Handle all remaining inline backticks:
     #    `code` → `+code+`
-    #    Skip anything inside {{Q}} ... {{/Q}}
+    #
+    # We skip anything inside {{Q}}...{{/Q}}
     # -------------------------------------------------------------
-    # This pattern finds backticks not inside the quoted marker.
-    def inline_repl(match):
-        # Ignore if inside a quoted region
-        full = match.group(0)
-        if "{{Q}}" in full or "{{/Q}}" in full:
-            return full
+    def inline_replace(match):
+        start = match.start()
+        # If inside a {{Q}} tag, skip
+        if "{{Q}}" in text[max(0, start-10):start+10]:
+            return match.group(0)
         return f"`+{match.group(1)}+`"
 
-    # Replace unprocessed inline code
     text = re.sub(
         r'`([^`]+)`',
-        inline_repl,
+        inline_replace,
         text
     )
 
     # -------------------------------------------------------------
-    # 3. Remove the temporary {{Q}} markers
+    # 3. Remove temporary {{Q}} markers
     # -------------------------------------------------------------
     text = text.replace("{{Q}}", "").replace("{{/Q}}", "")
 
