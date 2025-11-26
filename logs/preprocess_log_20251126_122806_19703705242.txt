@@ -1,0 +1,140 @@
+Starting preprocess: source/updates/test project files eighteen/folder one/folder two/adfs.adoc
+✓ Decoded source/updates/test project files eighteen/folder one/folder two/adfs.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files eighteen/folder one/folder two/adfs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.005791
+Starting preprocess: source/updates/test project files eighteen/folder one/folder two/openid.adoc
+✓ Decoded source/updates/test project files eighteen/folder one/folder two/openid.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files eighteen/folder one/folder two/openid.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:06.053627
+Starting preprocess: source/updates/test project files eighteen/folder one/automation.adoc
+⚠ Decode failed (Windows-1252), forcing UTF-8 replacement
+Saved processed file → processed/updates/test project files eighteen/folder one/automation.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 1
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:06.314749
+Starting preprocess: source/updates/test project files eighteen/folder one/internal.adoc
+✓ Decoded source/updates/test project files eighteen/folder one/internal.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/updates/test project files eighteen/folder one/internal.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.454394
+Starting preprocess: source/updates/test project files eighteen/customui.adoc
+✓ Decoded source/updates/test project files eighteen/customui.adoc as ascii (1.00)
+Saved processed file → processed/updates/test project files eighteen/customui.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.514254
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/navigation.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/navigation.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/navigation.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.566135
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/docker2.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/docker2.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/docker2.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:06.617177
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/docker1.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/docker1.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/docker1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:06.668068
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/ecs.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/ecs.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/ecs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.717905
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/ecs2.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/ecs2.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/ecs2.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.768646
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/navigation2.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/navigation2.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/navigation2.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.820262
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/docker3.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/docker3.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/docker3.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:06.870892
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/ecs1.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/ecs1.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/ecs1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:06.920940
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/docker.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/docker.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/docker.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:06.972051

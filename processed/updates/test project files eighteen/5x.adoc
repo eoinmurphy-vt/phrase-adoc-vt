@@ -765,7 +765,7 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 
 ==== Test_TwoSecurity Advisory for CVE-2023-32188
 
-* Remediate CVE-2023-32188 &quot;`+JWT token compromise can allow malicious actions including Remote Code Execution (RCE)+`+&quot; by auto-generating certificate used for signing JWT token upon deployment and upgrade, and auto-generating Manager/RESTful API certificate during Helm based deployments.
+* Remediate CVE-2023-32188 {Q}&quot;`++JWT token compromise can allow malicious actions including Remote Code Execution (RCE)++`&quot;{/Q} by auto-generating certificate used for signing JWT token upon deployment and upgrade, and auto-generating Manager/RESTful API certificate during Helm based deployments.
  ** Certificate for JWT-signing is created automatically by controller with validity of 90days and rotated automatically.
  ** Auto-generation of Manager, REST API, and registry adapter certificate requires using Helm-based install using {product-name} helm version 2.6.3 or later.
  ** Built-in certificate is still used for yaml based deployments if not replaced during deployment; however, it is recommended to replace these (see next line).
@@ -826,7 +826,7 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 * Support invoking {product-name} scanner from Harbor registries through the https://github.com/goharbor/pluggable-scanner-spec[pluggable scanner] interface. This requires configuration of the connection to the controller (exposed API). The Harbor adapter calls controller endpoint to trigger a scan, which can scan automatically on push. Interrogation services can be used for periodic scans. Scan results from Federation Primary controllers ARE propagated to remote clusters.  NOTE: There is an issue with the HTTPS based adapter endpoint error: please ignore Test Connection error, it does work even though an error is shown (skip certificate validation).
 * Searchable SaaS service for CVE lookups. Search the latest {product-name} CVE database to see if a specific CVE exists in the database. This service is available for {product-name} Prime (paid support subscription) customers. Contact support through your SCC portal for access.
 * Allow user to disable network protection but keep WAF/DLP functioning. Configure Network Policy Enablement in Settings -> Configuration.
-* Use less privileged services accounts as required for each {product-name} component. A variable &quot;+`+leastPrivilege+`+&quot; is introduced. The default is false. NOTE: Using the current helm chart with this variable on a release prior to 5.2.0 will not function properly.
+* Use less privileged services accounts as required for each {product-name} component. A variable {Q}&quot;`++leastPrivilege++`&quot;{/Q} is introduced. The default is false. NOTE: Using the current helm chart with this variable on a release prior to 5.2.0 will not function properly.
 * Bind to non-default service account to meet CIS 1.5 5.1.5 recommendation.
 * Enable administrator to configure user default Session Time out in Settings -> Users, API Keys & Roles.
 * Customizable login banner and customizable UI header text for regulated and government deployments. Requirements for configuration can be found xref:customui.adoc[here].
@@ -917,7 +917,7 @@ TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
 
 ==== Test_TwoEnhancements
 
-* Support virtual host based address group and policy matching network protections. This enables a use case where two different FQDN addresses are resolved to the same IP address, but different rules for each FQDN should be enforced. A new custom group with '+`address=vh:xxx.yyy`+' can be created using the '+`vh:`+' indicator to enable this protection. A network rule can then use the custom group as the '+`From`+' source based on the virtual hostname (instead of resolved IP address) to enforce different rules for virtual hosts.
+* Support virtual host based address group and policy matching network protections. This enables a use case where two different FQDN addresses are resolved to the same IP address, but different rules for each FQDN should be enforced. A new custom group with '`+address=vh:xxx.yyy+`' can be created using the '`+vh:+`' indicator to enable this protection. A network rule can then use the custom group as the '`+From+`' source based on the virtual hostname (instead of resolved IP address) to enforce different rules for virtual hosts.
 * Compliance containers list to exclude exited containers.
 * Enhance DLP rules to support simple wildcard in the pattern.
 * Add support for cri-o 1.26+ and OpenShift 4.11+.
@@ -943,7 +943,7 @@ TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
 
 ==== Test_TwoEnhancements
 
-* Add &quot;+`+package+`&quot; as information to the syslog-event for a detected vulnerability.
+* Add {Q}&quot;`++package++`&quot;{/Q} as information to the syslog-event for a detected vulnerability.
 * Add Enforcer environment variable ENF_NETPOLICY_PULL_INTERVAL - Value in seconds (recommended value 60) to reduce network traffic and resulting resource consumption by Enforcer due to policy updates/recalculations. (Note: this was an undocumented addition until August of 2023).
 
 [,yaml]

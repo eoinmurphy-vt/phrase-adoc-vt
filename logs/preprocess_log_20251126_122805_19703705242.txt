@@ -1,0 +1,10 @@
+Starting preprocess: source/updates/test project files eighteen/5x.adoc
+✓ Decoded source/updates/test project files eighteen/5x.adoc as utf-8 (0.99)
+Saved processed file → processed/updates/test project files eighteen/5x.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 12:28:05.958230

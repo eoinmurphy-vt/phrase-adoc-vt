@@ -1,0 +1,30 @@
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/navigation3.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/navigation3.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/navigation3.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:07.023335
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/navigation1.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/navigation1.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/navigation1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:07.074591
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/ecs3.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/ecs3.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/ecs3.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 12:28:07.124944

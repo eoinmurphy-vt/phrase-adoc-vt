@@ -24,15 +24,15 @@ Please see the Kubernetes examples for EKS.
 --
 This is how to add attributes to your ECS instances:
 
-Select the instance, then pick &quot;`+View/Edit Attributes+`+&quot; from the Actions drop down menu.
+Select the instance, then pick {Q}&quot;`++View/Edit Attributes++`&quot;{/Q} from the Actions drop down menu.
 
 image:1viewattributes.png[Attributes]
 
-Then add a new attribute. For example &quot;+`+allinone-node+`+&quot; with value &quot;+`+true+`+&quot;.
+Then add a new attribute. For example {Q}&quot;`++allinone-node++`&quot;{/Q} with value {Q}&quot;`++true++`&quot;{/Q}.
 
 image:2addattribute.png[AddAttributes]
 --
-. Create the Allinone Task Definition. Create a new Task Definition for the Allinone container. You can use the ECS interface to manually create it or paste in the sample JSON file (see below for samples). Refer to section &quot;+`+1. Deploying {product-name}+`+&quot; of these docs for how to configure the Allinone.
+. Create the Allinone Task Definition. Create a new Task Definition for the Allinone container. You can use the ECS interface to manually create it or paste in the sample JSON file (see below for samples). Refer to section {Q}&quot;`++1. Deploying {product-name}++`&quot;{/Q} of these docs for how to configure the Allinone.
 +
 --
 Enter the placement constraint. For example, if you used the attribute labeling above, then enter this in the constraint.
@@ -49,12 +49,12 @@ image:3taskdef.png[AllinoneTask]
 If you examine the updated JSON file now you'll see the placement constraint added to it.
 ====
 --
-. Create a new service for the Allinone task. Set the &quot;+`+Placement Templates+`+&quot; to &quot;+`+One Task Per Host+`+&quot; so that only one Allinone/Controller can run on any host. You will also see the constraint will be used "+`memberOf(attribute:allinone-node=~true) which requires the node to have that attribute.
+. Create a new service for the Allinone task. Set the {Q}&quot;`++Placement Templates++`&quot;{/Q} to {Q}&quot;`++One Task Per Host++`&quot;{/Q} so that only one Allinone/Controller can run on any host. You will also see the constraint will be used "`+memberOf(attribute:allinone-node=~true) which requires the node to have that attribute.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Now you can deploy the Allinone service. Set the &quot;`+Number of tasks+`+&quot; to the desired Allinone/Controller number. Now the {product-name} Allinone or Controller containers will start running on the nodes selected. After the Allinone starts running you should be able to connect to the {product-name} console through HTTPS on port 8443.
+. Now you can deploy the Allinone service. Set the {Q}&quot;+`+Number of tasks+`+&quot;{/Q} to the desired Allinone/Controller number. Now the {product-name} Allinone or Controller containers will start running on the nodes selected. After the Allinone starts running you should be able to connect to the {product-name} console through HTTPS on port 8443.
 . Create the Enforcer Task Definition. This is similar to the Allinone task. Configure manually through the ECS console or use the JSON sample below.
 +
 --
@@ -67,12 +67,12 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Create a new service for the Enforcer task. Again, set the Task Placement to &quot;+`+One Task Per Host+`+&quot; so only one Enforcer is deployed on each host. Also note the additional constraint should show that it prevents deployment on an allinone node.
+. Create a new service for the Enforcer task. Again, set the Task Placement to {Q}&quot;+`+One Task Per Host+`+&quot;{/Q} so only one Enforcer is deployed on each host. Also note the additional constraint should show that it prevents deployment on an allinone node.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Deploy this service with desired number of enforcer nodes in &quot;+`+Number of tasks+`+&quot;. Very shortly all the enforcers will be up and running. From the {product-name} console you will be able to see all nodes being detected with enforcers.
+Deploy this service with desired number of enforcer nodes in {Q}&quot;+`+Number of tasks+`+&quot;{/Q}. Very shortly all the enforcers will be up and running. From the {product-name} console you will be able to see all nodes being detected with enforcers.
 --
 
 == Sample ECS JSON Task Definitions
@@ -341,7 +341,7 @@ You can do a live update of the {product-name} containers in ECS without interru
 
 . If you have multiple controllers or Allinones deployed as a cluster, ignore this step. If there is only a single Allinone/controller in the system, find a new ECS instance and deploy a 2nd Allinone/controller container on it (follow the {product-name} allinone/controller ECS deployment steps). After deployed, in the {product-name} management console, you will see this new controller up and running (under Resources > Controllers). This is required so that all stateful data is replicated between controllers.
 . In ECS Services, reset and delete the old Allinone/controller service. Pull the updated {product-name} images manually or trigger AWS ECS to pull new versions of Allinone/controller containers from Dockerhub or your private registry.
-. Create a new revision of the Allinone/Controller task, update the &quot;+`+CLUSTER_JOIN_ADDR+`&quot; to the 2nd Allinone/controller's private node IP address.
+. Create a new revision of the Allinone/Controller task, update the {Q}&quot;+`+CLUSTER_JOIN_ADDR+`&quot;{/Q} to the 2nd Allinone/controller's private node IP address.
 . Create a new service to deploy this new task (follow the same steps to deploy on ECS). After completed, the new version of the Allinone/controller should be up and running. From the {product-name} management console, all the logs and policies should still be there. Optionally, you can bring down the 2nd Allinone/Controller container now since there should be a Allinone/Controller now started on the original node.
 . From ECS Services, shutdown and update the Enforcers. Manually or auto-trigger the pulling of new Enforcer images. Then restart or update the Enforcer on all nodes. From the {product-name} console, you will see all Enforcers are up to date.
 . If you are using the separate Manager container instead of the Allinone (which already has the manager in it), simply shutdown and remove the old manager container. Then pull the new manager version, and deploy it, pointing the CLUSTER_JOIN_ADDR to the IP of the controller.

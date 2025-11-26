@@ -43,21 +43,21 @@ Make sure the following permissions have been set from Microsoft Graph
 Login to your Okta account.
 
 On the lefthand side menu, click "`+Applications -> Applications"+`
-In the center pane, click &quot;`+Create App Integration+`+&quot;:
+In the center pane, click {Q}&quot;`++Create App Integration++`&quot;{/Q}:
 
 image:okta1.png[create]
 
-A new pane will pop up to select the &quot;+`+Sign-in method+`+&quot;:
+A new pane will pop up to select the {Q}&quot;`++Sign-in method++`&quot;{/Q}:
 
 image:okta2.png[newapp]
 
-Select &quot;+`+OIDC -- OpenID Connect+`+&quot; option.
+Select {Q}&quot;`++OIDC -- OpenID Connect++`&quot;{/Q} option.
 
-A derived pane will appear, for &quot;+`+Application Type+`+&quot; selection:
+A derived pane will appear, for {Q}&quot;`++Application Type++`&quot;{/Q} selection:
 
 image:okta3.png[apptype]
 
-Select &quot;+`+Native Application+`+&quot; option.
+Select {Q}&quot;`++Native Application++`&quot;{/Q} option.
 
 The central pane will now show the Native App Integration form where you have to fill in accordingly the following values:
 
@@ -73,7 +73,7 @@ Grant Type (check):
 
 For Sign-in redirect URIs section:
 
-Go to your {product-name} console and navigate to &quot;+`+Settings+`+&quot; -> &quot;+`+OpenId Connect Settings+`+&quot;.  At the top of the page, next to &quot;+`+OpenID Connect Redirect URI+`+&quot; label click &quot;+`+Copy to Clipboard+`+&quot;.
+Go to your {product-name} console and navigate to {Q}&quot;`++Settings++`&quot;{/Q} -> {Q}&quot;`++OpenId Connect Settings++`&quot;{/Q}.  At the top of the page, next to {Q}&quot;`++OpenID Connect Redirect URI++`&quot;{/Q} label click {Q}&quot;`++Copy to Clipboard++`&quot;{/Q}.
 
 image:okta4.png[copy]
 
@@ -84,7 +84,7 @@ image:okta5.png[paste]
 
 For Assignments section:
 
-Select &quot;+`+Allow everyone in your organization to access+`+&quot; to have this integration available for everyone in your org.
+Select {Q}&quot;`++Allow everyone in your organization to access++`&quot;{/Q} to have this integration available for everyone in your org.
 
 image:okta6.png[assignments]
 
@@ -92,12 +92,12 @@ Then click the save button at the bottom of the page.
 
 Once your general setting are saved, you will be taken to your new application integration setup and a client Id will be generated automatically.
 
-In &quot;+`+Client Credentials+`+&quot; section, click edit and modify the &quot;+`+Client Authentication+`+&quot; section from &quot;+`+Use PKCE (for public clients)+`+&quot; to &quot;+`+Use Client Authentication+`+&quot;, and hit save. This will generate a new secret automatically which we will need in upcoming {product-name} setup steps:
+In {Q}&quot;`++Client Credentials++`&quot;{/Q} section, click edit and modify the {Q}&quot;`++Client Authentication++`&quot;{/Q} section from {Q}&quot;`++Use PKCE (for public clients)++`&quot;{/Q} to {Q}&quot;`++Use Client Authentication++`&quot;{/Q}, and hit save. This will generate a new secret automatically which we will need in upcoming {product-name} setup steps:
 
 image:okta7.png[clientauth]
 
-Navigate to the &quot;+`+Sign On+`+&quot; tab and edit the &quot;+`+OpenID Connect ID Token+`+&quot; section:
-Change the Issuer from     &quot;+`+Dynamic (based on request domain)+`+&quot; to the fixed &quot;+`+Okta URL+`+&quot;:
+Navigate to the {Q}&quot;`++Sign On++`&quot;{/Q} tab and edit the {Q}&quot;`++OpenID Connect ID Token++`&quot;{/Q} section:
+Change the Issuer from     {Q}&quot;`++Dynamic (based on request domain)++`&quot;{/Q} to the fixed {Q}&quot;`++Okta URL++`&quot;{/Q}:
 
 image:okta8.png[token]
 
@@ -111,15 +111,15 @@ In the Developer Mode, Okta allows you to customize the claims. This is done in 
 image:okta10.png[api]
 
 Claims are name/value pairs that contain information about a user as well as meta-information about the OIDC service.
-In &quot;+`+OpenID Connect ID Token+`+&quot; section, you can create new claims for user's Groups and carry the claim in the ID Token (an ID Token is a JSON Web Token, a compact URL-Safe means of representing claims to be transferred between two parties, so identity information about the user is encoded right into the token and the token can be definitively verified to prove that is hasn't been tampered with). If a specific scope is configured, make sure to add the scope to {product-name} OpenID Connect setting page, so that the claim can be included after the user is authenticated:
+In {Q}&quot;`++OpenID Connect ID Token++`&quot;{/Q} section, you can create new claims for user's Groups and carry the claim in the ID Token (an ID Token is a JSON Web Token, a compact URL-Safe means of representing claims to be transferred between two parties, so identity information about the user is encoded right into the token and the token can be definitively verified to prove that is hasn't been tampered with). If a specific scope is configured, make sure to add the scope to {product-name} OpenID Connect setting page, so that the claim can be included after the user is authenticated:
 
 image:okta11.png[scopes]
 
-By default, {product-name} looks for "groups" in the claim to identify the user's group membership. If other claim name is used, you can customize the claim name in {product-name}'s OpenID Connect Setting page. To configure claims, edit the &quot;+`+OpenID Connect ID Token+`+&quot; section as shown in the next image:
+By default, {product-name} looks for "groups" in the claim to identify the user's group membership. If other claim name is used, you can customize the claim name in {product-name}'s OpenID Connect Setting page. To configure claims, edit the {Q}&quot;`++OpenID Connect ID Token++`&quot;{/Q} section as shown in the next image:
 
 image:okta12.png[claims]
 
-In your application integration page, navigate to &quot;+`+Assignments+`&quot; tab and make sure you have the corresponding assignments listed:
+In your application integration page, navigate to {Q}&quot;`++Assignments++`&quot;{/Q} tab and make sure you have the corresponding assignments listed:
 
 image:okta13.png[assignments]
 
