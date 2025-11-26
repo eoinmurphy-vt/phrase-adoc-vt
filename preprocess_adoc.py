@@ -61,40 +61,56 @@ def preprocess_content(text: str) -> str:
     before = text
 
     # -------------------------------------------------------------
-    # 1. FIRST: Handle quoted backtick-wrapped code
+    # 1. Handle quoted backtick-wrapped code
     #    " `code` " → &quot;`+code+`&quot;
+    #
+    # We also TEMPORARILY wrap the result in a marker {{Q}} ... {{/Q}}
+    # so the general inline rule does NOT modify it a second time.
     # -------------------------------------------------------------
-    # Matches: "`something`"
-    # Or: Set the "`Placement Templates`" to
+    def quoted_repl(m):
+        inner = m.group(2)
+        return "{{Q}}&quot;`+{}+`&quot;{{/Q}}".format(inner)
+
     text = re.sub(
         r'"(\s*`([^`]+)`\s*)"',
-        lambda m: f"&quot;`+{m.group(2)}+`&quot;",
+        quoted_repl,
         text
     )
 
     # -------------------------------------------------------------
-    # 2. Wrap ALL inline backticks (unquoted)
+    # 2. Wrap ALL remaining inline backticks (unquoted only)
     #    `code` → `+code+`
+    #    Skip anything inside {{Q}} ... {{/Q}}
     # -------------------------------------------------------------
+    # This pattern finds backticks not inside the quoted marker.
+    def inline_repl(match):
+        # Ignore if inside a quoted region
+        full = match.group(0)
+        if "{{Q}}" in full or "{{/Q}}" in full:
+            return full
+        return f"`+{match.group(1)}+`"
+
+    # Replace unprocessed inline code
     text = re.sub(
-        r'`(?!\+)([^`]+?)(?<!\+)`',
-        r'`+\1+`',
+        r'`([^`]+)`',
+        inline_repl,
         text
     )
 
     # -------------------------------------------------------------
-    # 3. monospaced → literal
+    # 3. Remove the temporary {{Q}} markers
+    # -------------------------------------------------------------
+    text = text.replace("{{Q}}", "").replace("{{/Q}}", "")
+
+    # -------------------------------------------------------------
+    # 4. monospaced → literal
     # -------------------------------------------------------------
     text = re.sub(
         r'\[monospaced\]#([^#]+)#',
         r'[literal]#\1#',
-        text
+        text,
+        flags=re.IGNORECASE
     )
-
-    # Replace backtick-edges first
-    text = text.replace('`++', '`+').replace('++`', '+`')
-    # And the quoted forms
-    text = text.replace('&quot;`++', '&quot;`+').replace('++`&quot;', '+`&quot;')
 
     return text
 
