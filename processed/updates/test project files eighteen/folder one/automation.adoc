@@ -648,7 +648,7 @@ Output:
 === Test_TwoManage Federation for Master and Remote (Worker) Clusters
 
 Generally, listing Federation members can use a GET to the following endpoint (see samples for specific syntax):
-`++https://neuvector-svc-controller.neuvector:10443/v1/fed/member++`
+`+https://neuvector-svc-controller.neuvector:10443/v1/fed/member+`+
 
 For information on Federation automation via ConfigMap view the xref:configmap.adoc#_federated_configmap_examples_fedinitcfg_yaml[Federated ConfigMap Examples] documentation.
 
@@ -664,53 +664,53 @@ _workerClusterIP_=$2
 # this is used if one of clusters is going to be kicked by master cluster
 _CLUSTER_name_=$3
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] login as default admin user
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] login as default admin user
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "admin"}}' "https://$_masterClusterIP_:10443/v1/auth" > /dev/null 2>&1 > ./$_LOGFOLDER_/token.json
-_TOKEN_M_=`+cat ./$_LOGFOLDER_/token.json | jq -r '.token.token'+`
+_TOKEN_M_=+`cat ./$_LOGFOLDER_/token.json | jq -r '.token.token'`+
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] promote to master cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] promote to master cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" -d '{"master_rest_info": {"port": 11443, "server": "'$_masterClusterIP_'"}, "name": "master"}' "https://$_masterClusterIP_:10443/v1/fed/promote" > /dev/null 2>&1
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 6 seconds for logon session timeout
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] idle 6 seconds for logon session timeout
 sleep 6
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] login as default admin user on master cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] login as default admin user on master cluster
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "admin"}}' "https://$_masterClusterIP_:10443/v1/auth" > /dev/null 2>&1 > ./token.json
-_TOKEN_M_=`+cat ./token.json | jq -r '.token.token'+`
+_TOKEN_M_=+`cat ./token.json | jq -r '.token.token'`+
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] checking fed join_token on master cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] checking fed join_token on master cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/join_token" > /dev/null 2>&1 > ./join_token.json
 cat ./join_token.json | jq -c .
-_JOIN_TOKEN_=`+cat ./join_token.json | jq -r '.join_token'+`
+_JOIN_TOKEN_=+`cat ./join_token.json | jq -r '.join_token'`+
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] login as default admin user on worker cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] login as default admin user on worker cluster
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "admin"}}' "https://$_workerClusterIP_:10443/v1/auth" > /dev/null 2>&1 > ./token.json
-_TOKEN_W_=`+cat ./token.json | jq -r '.token.token'+`
+_TOKEN_W_=+`cat ./token.json | jq -r '.token.token'`+
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] joining the cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] joining the cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_W_" -d '{"join_token": "'$_JOIN_TOKEN_'", "name": "worker", "joint_rest_info": {"port": 10443, "server": "'$_workerClusterIP_'"}}' "https://$_workerClusterIP_:10443/v1/fed/join" > /dev/null 2>&1
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 9 seconds for events
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] idle 9 seconds for events
 sleep 9
 
 ########## whenever there is a change on cluster such as a cluster is kicked/left/joined, run this to check the status ############
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] checking fed member on master cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] checking fed member on master cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/member" > /dev/null 2>&1 > ./fedMember.json
 cat ./fedMember.json | jq -c .
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] checking fed member on worker cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] checking fed member on worker cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_W_" "https://$_workerClusterIP_:10443/v1/fed/member" > /dev/null 2>&1 > ./fedMember.json
 cat ./fedMember.json | jq -c .
-_CLUSTER_id_=`+cat ./fedMember.json | jq -r --arg _CLUSTER_name_ "$_CLUSTER_name_" '.joint_clusters[] | select(.name == Test_Two$_CLUSTER_name_).id'+`
+_CLUSTER_id_=+`cat ./fedMember.json | jq -r --arg _CLUSTER_name_ "$_CLUSTER_name_" '.joint_clusters[] | select(.name == Test_Two$_CLUSTER_name_).id'`+
 ###################################################################################################################################
 
 ########## for ur information to leave or kick the cluster ############
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] requesting to leave on worker cluster
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] requesting to leave on worker cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_W_" -d '{"force": false}' "https://$_workerClusterIP_:10443/v1/fed/leave" > /dev/null 2>&1
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 9 seconds for events
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] idle 9 seconds for events
 sleep 9
 
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] requesting to kick on master cluster, $_CLUSTER_id_
+echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] requesting to kick on master cluster, $_CLUSTER_id_
 curl -k -X "DELETE" -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/cluster/$_CLUSTER_id_" > /dev/null 2>&1
-echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 9 seconds for events
+echo +`date +%Y%m%d_%H%M%S` [$_curCase_] idle 9 seconds for events
 sleep 9
 #######################################################################
 ----

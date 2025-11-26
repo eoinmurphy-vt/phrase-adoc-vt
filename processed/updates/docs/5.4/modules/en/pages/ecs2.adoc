@@ -24,15 +24,15 @@ Please see the Kubernetes examples for EKS.
 --
 This is how to add attributes to your ECS instances:
 
-Select the instance, then pick &quot;`++View/Edit Attributes++`&quot; from the Actions drop down menu.
+Select the instance, then pick &quot;`+View/Edit Attributes+`+&quot; from the Actions drop down menu.
 
 image:1viewattributes.png[Attributes]
 
-Then add a new attribute. For example &quot;`++allinone-node++`&quot; with value &quot;`++true++`&quot;.
+Then add a new attribute. For example &quot;+`+allinone-node+`+&quot; with value &quot;+`+true+`+&quot;.
 
 image:2addattribute.png[AddAttributes]
 --
-. Create the Allinone Task Definition. Create a new Task Definition for the Allinone container. You can use the ECS interface to manually create it or paste in the sample JSON file (see below for samples). Refer to section &quot;`++1. Deploying {product-name}++`&quot; of these docs for how to configure the Allinone.
+. Create the Allinone Task Definition. Create a new Task Definition for the Allinone container. You can use the ECS interface to manually create it or paste in the sample JSON file (see below for samples). Refer to section &quot;+`+1. Deploying {product-name}+`+&quot; of these docs for how to configure the Allinone.
 +
 --
 Enter the placement constraint. For example, if you used the attribute labeling above, then enter this in the constraint.
@@ -49,12 +49,12 @@ image:3taskdef.png[AllinoneTask]
 If you examine the updated JSON file now you'll see the placement constraint added to it.
 ====
 --
-. Create a new service for the Allinone task. Set the &quot;`++Placement Templates++`&quot; to &quot;`++One Task Per Host++`&quot; so that only one Allinone/Controller can run on any host. You will also see the constraint will be used "`+memberOf(attribute:allinone-node=~true) which requires the node to have that attribute.
+. Create a new service for the Allinone task. Set the &quot;+`+Placement Templates+`+&quot; to &quot;+`+One Task Per Host+`+&quot; so that only one Allinone/Controller can run on any host. You will also see the constraint will be used "+`memberOf(attribute:allinone-node=~true) which requires the node to have that attribute.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Now you can deploy the Allinone service. Set the &quot;+`+Number of tasks+`+&quot; to the desired Allinone/Controller number. Now the {product-name} Allinone or Controller containers will start running on the nodes selected. After the Allinone starts running you should be able to connect to the {product-name} console through HTTPS on port 8443.
+. Now you can deploy the Allinone service. Set the &quot;`+Number of tasks+`+&quot; to the desired Allinone/Controller number. Now the {product-name} Allinone or Controller containers will start running on the nodes selected. After the Allinone starts running you should be able to connect to the {product-name} console through HTTPS on port 8443.
 . Create the Enforcer Task Definition. This is similar to the Allinone task. Configure manually through the ECS console or use the JSON sample below.
 +
 --
