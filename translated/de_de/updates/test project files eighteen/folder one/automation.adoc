@@ -10,7 +10,7 @@ Es gibt viele Automatisierungsfunktionen in {product-name}, um den gesamten CI/C
 
 * Jenkins-Plugin für automatisiertes Scannen während des Builds
 * Registry-Scanning zur Automatisierung der Repository-Überwachung
-* Zulassungsrichtlinien zur Erlauben/Verweigern unautorisierter Bereitstellungen
+* Zulassungssteuerungsrichtlinien zur Genehmigung/Verweigerung unautorisierter Bereitstellungen
 * CIS-Benchmarks werden automatisch auf Hosts ausgeführt
 * Helm-Chart auf GitHub für automatisierte Bereitstellung auf Kubernetes
 * Antwortregeln zur Automatisierung von Antworten auf Sicherheitsereignisse
@@ -78,7 +78,7 @@ image:5_2_api_key_header.png[token]
 
 Das folgende Beispielskript zeigt, wie man den Container remote zieht, ihn ausführt und scannt. Es kann von einer Jenkins-Aufgabe (Remote-Shell) oder einem beliebigen CI/CD-Tool ausgelöst werden. Ein JSON-Parser-Tool (jq) wird ebenfalls verwendet.
 
-Stellen Sie sicher, dass Sie die IP-Adresse des Controllers im Skript eingeben und den Namen des Container-Images in das gewünschte Bild ändern. Aktualisieren Sie auch die Felder für Benutzername/Passwort.
+Stellen Sie sicher, dass Sie die IP-Adresse des Controllers im Skript eingeben und den Namen des Container-Images auf das ändern, das Sie scannen möchten. Aktualisieren Sie auch die Felder für Benutzername/Passwort.
 
 .Klicken Sie hier für Details
 [%collapsible]
@@ -212,9 +212,9 @@ Beispielausgabe:
 ----
 ====
 
-=== Test_TwoErstelle Richtlinienregeln automatisch
+=== Test_TwoErstellen von Richtlinienregeln automatisch
 
-Um eine neue Regel im {product-name} Richtliniencontroller zu erstellen, müssen die Gruppen für die Felder FROM und TO zuerst existieren. Das folgende Beispiel erstellt eine neue Gruppe basierend auf dem Container-Label nv-service-type=data und eine weitere Gruppe für das Label nv-service-type=website. Eine Regel wird dann erstellt, um den Verkehr vom Wordpress-Container zum MySQL-Container nur unter Verwendung des MySQL-Protokolls zuzulassen.
+Um eine neue Regel im {product-name} Richtliniencontroller zu erstellen, müssen die Gruppen für die FROM- und TO-Felder zuerst existieren. Das folgende Beispiel erstellt eine neue Gruppe basierend auf dem Container-Label nv-service-type=data und eine weitere Gruppe für das Label nv-service-type=website. Eine Regel wird dann erstellt, um den Verkehr vom Wordpress-Container zum MySQL-Container nur unter Verwendung des MySQL-Protokolls zuzulassen.
 
 Stellen Sie sicher, dass Sie den Benutzernamen und das Passwort für den Zugriff auf den Controller aktualisieren.
 
@@ -231,7 +231,7 @@ curl -k -X "DELETE" -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKE
 
 Wenn die Gruppen bereits in {product-name} existieren, kann die neue Regel erstellt werden, wobei die Schritte zur Erstellung der Gruppe übersprungen werden. Dieses Beispiel entfernt auch das Authentifizierungstoken am Ende. Beachten Sie, dass eine Regel-ID-Nummer angegeben werden kann und {product-name} Regeln in numerischer Reihenfolge von niedrig nach hoch ausführt.
 
-=== Test_ZweiExport/Import-Konfigurationsdatei
+=== Test_TwoExport/Import-Konfigurationsdatei
 
 Hier sind Beispiele, um die {product-name} Konfigurationsdatei automatisch zu sichern. Sie können auswählen, ob Sie alle Konfigurationseinstellungen (Richtlinie, Benutzer, Einstellungen usw.) oder nur die Richtlinie exportieren möchten.
 
@@ -268,7 +268,7 @@ Um die Datei zu importieren:
 sudo pip install requests six
 ----
 
-=== Test_ZweiEinstellung oder Ändern des Benutzerpassworts
+=== Test_TwoEinstellung oder Ändern des Benutzerpassworts
 
 Verwenden Sie die REST-API-Aufrufe für die Benutzerverwaltung.
 
@@ -277,7 +277,7 @@ Verwenden Sie die REST-API-Aufrufe für die Benutzerverwaltung.
 curl -s -k -H 'Content-Type: application/json' -H 'X-Auth-Token: c64125decb31e6d3125da45cba0f5025' https://127.0.0.1:10443/v1/user/admin -X PATCH -d '{"config":{"fullname":"admin","password":"admin","new_password":"NEWPASS"}}'
 ----
 
-=== Test_ZweiStarten der Paketaufzeichnung auf einem Container
+=== Test_TwoStarten der Paketaufzeichnung in einem Container
 
 Wenn ein Container verdächtiges Verhalten zeigt, starten Sie eine Paketaufzeichnung.
 
@@ -291,7 +291,7 @@ curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_" -d '{"sn
 
 Vergessen Sie nicht, die Sniffer-Sitzung nach einiger Zeit zu stoppen, damit sie nicht ewig läuft. Die Anzahl der zu rotierenden Dateien hat einen maximalen Wert von 50.
 
-=== Test_ZweiÜberprüfen und Akzeptieren der EULA (neue Bereitstellungen)
+=== Test_TwoÜberprüfen und Akzeptieren der EULA (neue Bereitstellungen)
 
 Holen Sie sich das Authentifizierungstoken wie oben beschrieben. Ersetzen Sie auch die IP-Adresse des Controllers durch Ihre, wie angemessen.
 
@@ -321,7 +321,7 @@ curl -s -k -H 'Content-Type: application/json' -H 'X-Auth-Token: $_TOKEN_' -d '{
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_" -d '{"request": {"registry": "https://registry.connect.redhat.com", "username": "username", "password": "password", "tag": "latest", "repository": "neuvector/enforcer"}}' "https://controller:port/v1/scan/repository"
 ----
 
-=== Test_TwoPacket Capture für alle Pods in einem Namespace aktivieren
+=== Test_TwoAktivieren Sie die Paketaufzeichnung für alle Pods in einem Namespace
 
 .Klicken Sie hier für Details
 [%collapsible]
@@ -525,7 +525,7 @@ done
 ----
 ====
 
-=== Test_TwoContainer-Quarantäne deaktivieren
+=== Test_TwoAktivieren Sie die Containerquarantäne deaktivieren
 
 Der API-Aufruf zur Quarantäne erfolgt über PATCH an /v1/workload/:id mit folgendem Body. Die Arbeitslast-ID ist die Container-/Pod-ID.
 
@@ -540,9 +540,9 @@ Der API-Aufruf zur Quarantäne erfolgt über PATCH an /v1/workload/:id mit folge
 }'
 ----
 
-=== Test_TwoDebug-Modus für {product-name} Support aktivieren
+=== Test_TwoAktivieren Sie den Debug-Modus für {product-name} Support
 
-Zugriffstoken mit Ihrer IP, Benutzer, Passwort festlegen:
+Setzen Sie das Zugriffstoken mit Ihrer IP, Benutzer, Passwort:
 
 [,shell]
 ----
@@ -560,7 +560,7 @@ curl -k -H "Content-Type: application/json" -d '{"password": {"username": "'$_ne
 _TOKEN_=`+cat token.json | jq -r '.token.token'+`
 ----
 
-Debug-Modus aktivieren
+Aktivieren Sie den Debug-Modus
 
 [,shell]
 ----
@@ -568,7 +568,7 @@ curl -X PATCH -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_"
 #debug options - cpath, conn, mutex, scan, cluster , all
 ----
 
-Debug auf allen Controllern in einem Cluster deaktivieren
+Deaktivieren Sie das Debugging auf allen Controllern in einem Cluster
 
 [,shell]
 ----
@@ -591,9 +591,9 @@ echo `+date +%Y%m%d_%H%M%S+` log out
 curl -k -X 'DELETE' -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_" "https://$_controllerIP_:$_controllerRESTAPIPort_/v1/auth" > /dev/null 2>&1
 ----
 
-=== Test_TwoBerichten, ob eine Schwachstelle in den Basisschichten des Images vorhanden ist
+=== Test_TwoBerichten Sie, ob eine Schwachstelle in den Basisschichten des Images vorhanden ist
 
-Um CVEs im Basisimage zu identifizieren, wenn Sie die REST-API zum Scannen von Images verwenden, muss das Basisimage im API-Aufruf identifiziert werden, wie im folgenden Beispiel.
+Um CVEs im Basisbild zu identifizieren, wenn Sie die REST-API zum Scannen von Bildern verwenden, muss das Basisbild im API-Aufruf identifiziert werden, wie im folgenden Beispiel.
 
 [,shell]
 ----
@@ -603,7 +603,7 @@ curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_" -d '{"re
 
 ==== Test_TwoLimitations
 
-Wenn das zu scannende Image ein Remote-Image ist, mit "Registry" angegeben, muss das Basisimage ebenfalls ein Remote-Image sein, und der Name muss mit http oder https beginnen.  Wenn das zu scannende Image ein lokales Image ist, muss das Basisimage ebenfalls ein lokales Image sein.
+Wenn das zu scannende Bild ein Remote-Bild ist, mit "Registry" angegeben, muss das Basisbild ebenfalls ein Remote-Bild sein, und der Name muss mit http oder https beginnen.  Wenn das zu scannende Bild ein lokales Bild ist, muss das Basisbild ebenfalls ein lokales Bild sein.
 
 Zum Beispiel,
 
@@ -648,7 +648,7 @@ Ausgabe:
 === Test_ZweiVerwalten Sie die Föderation für Master- und Remote-(Arbeits-)Cluster
 
 Im Allgemeinen kann die Auflistung der Föderationsmitglieder einen GET an den folgenden Endpunkt verwenden (siehe Beispiele für spezifische Syntax):
-`+https://neuvector-svc-controller.neuvector:10443/v1/fed/member+` +
+`++https://neuvector-svc-controller.neuvector:10443/v1/fed/member++`
 
 Für Informationen zur Automatisierung der Föderation über ConfigMap siehe die Dokumentation xref:configmap.adoc#_federated_configmap_examples_fedinitcfg_yaml[Föderierte ConfigMap-Beispiele].
 
@@ -664,53 +664,53 @@ _workerClusterIP_=$2
 # this is used if one of clusters is going to be kicked by master cluster
 _CLUSTER_name_=$3
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] login as default admin user
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] login as default admin user
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "admin"}}' "https://$_masterClusterIP_:10443/v1/auth" > /dev/null 2>&1 > ./$_LOGFOLDER_/token.json
-_TOKEN_M_=+`cat ./$_LOGFOLDER_/token.json | jq -r '.token.token'`+
+_TOKEN_M_=`+cat ./$_LOGFOLDER_/token.json | jq -r '.token.token'+`
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] promote to master cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] promote to master cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" -d '{"master_rest_info": {"port": 11443, "server": "'$_masterClusterIP_'"}, "name": "master"}' "https://$_masterClusterIP_:10443/v1/fed/promote" > /dev/null 2>&1
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] idle 6 seconds for logon session timeout
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 6 seconds for logon session timeout
 sleep 6
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] login as default admin user on master cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] login as default admin user on master cluster
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "admin"}}' "https://$_masterClusterIP_:10443/v1/auth" > /dev/null 2>&1 > ./token.json
-_TOKEN_M_=+`cat ./token.json | jq -r '.token.token'`+
+_TOKEN_M_=`+cat ./token.json | jq -r '.token.token'+`
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] checking fed join_token on master cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] checking fed join_token on master cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/join_token" > /dev/null 2>&1 > ./join_token.json
 cat ./join_token.json | jq -c .
-_JOIN_TOKEN_=+`cat ./join_token.json | jq -r '.join_token'`+
+_JOIN_TOKEN_=`+cat ./join_token.json | jq -r '.join_token'+`
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] login as default admin user on worker cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] login as default admin user on worker cluster
 curl -k -H "Content-Type: application/json" -d '{"password": {"username": "admin", "password": "admin"}}' "https://$_workerClusterIP_:10443/v1/auth" > /dev/null 2>&1 > ./token.json
-_TOKEN_W_=+`cat ./token.json | jq -r '.token.token'`+
+_TOKEN_W_=`+cat ./token.json | jq -r '.token.token'+`
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] joining the cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] joining the cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_W_" -d '{"join_token": "'$_JOIN_TOKEN_'", "name": "worker", "joint_rest_info": {"port": 10443, "server": "'$_workerClusterIP_'"}}' "https://$_workerClusterIP_:10443/v1/fed/join" > /dev/null 2>&1
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] idle 9 seconds for events
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 9 seconds for events
 sleep 9
 
 ########## whenever there is a change on cluster such as a cluster is kicked/left/joined, run this to check the status ############
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] checking fed member on master cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] checking fed member on master cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/member" > /dev/null 2>&1 > ./fedMember.json
 cat ./fedMember.json | jq -c .
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] checking fed member on worker cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] checking fed member on worker cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_W_" "https://$_workerClusterIP_:10443/v1/fed/member" > /dev/null 2>&1 > ./fedMember.json
 cat ./fedMember.json | jq -c .
-_CLUSTER_id_=+`cat ./fedMember.json | jq -r --arg _CLUSTER_name_ "$_CLUSTER_name_" '.joint_clusters[] | select(.name == Test_Two$_CLUSTER_name_).id'`+
+_CLUSTER_id_=`+cat ./fedMember.json | jq -r --arg _CLUSTER_name_ "$_CLUSTER_name_" '.joint_clusters[] | select(.name == Test_Two$_CLUSTER_name_).id'+`
 ###################################################################################################################################
 
 ########## for ur information to leave or kick the cluster ############
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] requesting to leave on worker cluster
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] requesting to leave on worker cluster
 curl -k -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_W_" -d '{"force": false}' "https://$_workerClusterIP_:10443/v1/fed/leave" > /dev/null 2>&1
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] idle 9 seconds for events
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 9 seconds for events
 sleep 9
 
-echo +`date +%Y%m%d_%H%M%S`+ [$_curCase_] requesting to kick on master cluster, $_CLUSTER_id_
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] requesting to kick on master cluster, $_CLUSTER_id_
 curl -k -X "DELETE" -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/cluster/$_CLUSTER_id_" > /dev/null 2>&1
-echo +`date +%Y%m%d_%H%M%S` [$_curCase_] idle 9 seconds for events
+echo `+date +%Y%m%d_%H%M%S+` [$_curCase_] idle 9 seconds for events
 sleep 9
 #######################################################################
 ----
