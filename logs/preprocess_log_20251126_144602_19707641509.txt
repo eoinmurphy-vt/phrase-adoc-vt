@@ -1,0 +1,30 @@
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/docker6.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/docker6.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/docker6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-11-26 14:46:02.127241
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/ecs6.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/ecs6.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/ecs6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 14:46:02.178991
+Starting preprocess: source/updates/docs/5.4/modules/en/pages/navigation6.adoc
+✓ Decoded source/updates/docs/5.4/modules/en/pages/navigation6.adoc as ascii (1.00)
+Saved processed file → processed/updates/docs/5.4/modules/en/pages/navigation6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-26 14:46:02.231466
