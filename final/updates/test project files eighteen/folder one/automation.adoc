@@ -27,7 +27,7 @@ Das neueste Update finden Sie https://raw.githubusercontent.com/neuvector/neuvec
 Wenn Sie REST-API-Aufrufe mit Benutzername/Passwort durchführen, stellen Sie bitte sicher, dass Sie einen DELETE-Aufruf gegen /v1/auth durchführen, wenn Sie fertig sind. Es gibt maximal 32 gleichzeitige Sitzungen für jeden Benutzer. Wenn dies überschritten wird, tritt ein Authentifizierungsfehler auf.
 ====
 
-{product-name} unterstützt auch Antwortregeln, um häufige Antworten auf Sicherheitsereignisse oder erkannte Schwachstellen zu automatisieren. Bitte sehen Sie den Abschnitt Sicherheitsrichtlinie -> Antwortregeln für weitere Details ein.
+{product-name} unterstützt auch Antwortregeln, um häufige Antworten auf Sicherheitsereignisse oder erkannte Schwachstellen zu automatisieren. Bitte sehen Sie sich den Abschnitt Sicherheitsrichtlinie -> Antwortregeln für weitere Details an.
 
 === Test_TwoExpose REST-API in Kubernetes
 
@@ -212,9 +212,9 @@ Beispielausgabe:
 ----
 ====
 
-=== Test_TwoErstellen von Richtlinienregeln automatisch
+=== Test_TwoErstelle Richtlinienregeln automatisch
 
-Um eine neue Regel im {product-name} Richtliniencontroller zu erstellen, müssen die Gruppen für die FELDER FROM und TO zuerst existieren. Das folgende Beispiel erstellt eine neue Gruppe basierend auf dem Container-Label nv-service-type=data und eine weitere Gruppe für das Label nv-service-type=website. Eine Regel wird dann erstellt, um den Verkehr vom Wordpress-Container zum MySQL-Container nur unter Verwendung des MySQL-Protokolls zuzulassen.
+Um eine neue Regel im {product-name} Richtliniencontroller zu erstellen, müssen die Gruppen für die Felder FROM und TO zuerst existieren. Das folgende Beispiel erstellt eine neue Gruppe basierend auf dem Container-Label nv-service-type=data und eine weitere Gruppe für das Label nv-service-type=website. Eine Regel wird dann erstellt, um den Verkehr vom Wordpress-Container zum MySQL-Container nur unter Verwendung des MySQL-Protokolls zuzulassen.
 
 Stellen Sie sicher, dass Sie den Benutzernamen und das Passwort für den Zugriff auf den Controller aktualisieren.
 
@@ -648,7 +648,7 @@ Ausgabe:
 === Test_ZweiVerwalten Sie die Föderation für Master- und Remote-(Arbeits-)Cluster
 
 Im Allgemeinen kann die Auflistung der Föderationsmitglieder einen GET an den folgenden Endpunkt verwenden (siehe Beispiele für spezifische Syntax):
-`+https://neuvector-svc-controller.neuvector:10443/v1/fed/member+`
+`https://neuvector-svc-controller.neuvector:10443/v1/fed/member` +
 
 Für Informationen zur Automatisierung der Föderation über ConfigMap siehe die Dokumentation xref:configmap.adoc#_federated_configmap_examples_fedinitcfg_yaml[Föderierte ConfigMap-Beispiele].
 
@@ -710,7 +710,7 @@ sleep 9
 
 echo `date +%Y%m%d_%H%M%S` [$_curCase_] requesting to kick on master cluster, $_CLUSTER_id_
 curl -k -X "DELETE" -H "Content-Type: application/json" -H "X-Auth-Token: $_TOKEN_M_" "https://$_masterClusterIP_:10443/v1/fed/cluster/$_CLUSTER_id_" > /dev/null 2>&1
-echo `date +%Y%m%d_%H%M%S` [$_curCase_] idle 9 seconds for events
+echo +`date +%Y%m%d_%H%M%S` [$_curCase_] idle 9 seconds for events
 sleep 9
 #######################################################################
 ----

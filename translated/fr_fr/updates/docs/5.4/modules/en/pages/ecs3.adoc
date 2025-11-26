@@ -1,5 +1,5 @@
 = Amazon ECS
-:revdate: 2024-09-27
+:revdate: 24-0924-09
 :page-revdate: {revdate}
 :page-opendocs-origin: /02.deploying/09.ecs/09.ecs.md
 :page-opendocs-slug: /déployer/ecs
@@ -49,7 +49,7 @@ image:3taskdef.png[AllinoneTask]
 Si vous examinez le fichier JSON mis à jour maintenant, vous verrez la contrainte de placement ajoutée.
 ====
 --
-. Créez un nouveau service pour la tâche Allinone. Définissez le &quot;+`+Modèles de Placement+`+&quot; sur &quot;+`+Une Tâche Par Hôte+`+&quot; afin qu'une seule Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "+`membreDe(attribut:allinone-node=~true) ce qui nécessite que le nœud ait cet attribut.
+. Créez un nouveau service pour la tâche Allinone. Définissez le &quot;+`+Modèles de Placement+`+&quot; sur &quot;+`+Une Tâche Par Hôte+`+&quot; afin qu'une seule Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "+`membreDe(attribut:allinone-node=~true) qui nécessite que le nœud ait cet attribut.
 +
 --
 image:3taskplacement.png[AllinonePlace]
@@ -340,10 +340,10 @@ Exemple de fichier json Enforcer :
 Vous pouvez effectuer une mise à jour en direct des conteneurs {product-name} dans ECS sans interrompre les services. Les services de {product-name} peuvent être facilement mis à jour ou améliorés sans interrompre les services en cours d'exécution. Pour ce faire dans Amazon ECS :
 
 . Si vous avez plusieurs contrôleurs ou Allinones déployés en tant que cluster, ignorez cette étape. S'il n'y a qu'un seul Allinone/contrôleur dans le système, trouvez une nouvelle instance ECS et déployez un 2ème conteneur Allinone/contrôleur dessus (suivez les étapes de déploiement ECS de l'allinone/contrôleur {product-name}). Après le déploiement, dans la console de gestion {product-name}, vous verrez ce nouveau contrôleur opérationnel (sous Ressources > Contrôleurs). C'est nécessaire pour que toutes les données d'état soient répliquées entre les contrôleurs.
-. Dans les services ECS, réinitialisez et supprimez l'ancien service Allinone/contrôleur. Tirez manuellement les images {product-name} mises à jour ou déclenchez AWS ECS pour tirer de nouvelles versions des conteneurs Allinone/contrôleur depuis Dockerhub ou votre registre privé.
+. Dans les services ECS, réinitialisez et supprimez l'ancien service Allinone/contrôleur. Tirez les images {product-name} mises à jour manuellement ou déclenchez AWS ECS pour tirer de nouvelles versions des conteneurs Allinone/contrôleur depuis Dockerhub ou votre registre privé.
 . Créez une nouvelle révision de la tâche Allinone/Controller, mettez à jour le &quot;+`+CLUSTER_JOIN_ADDR+`&quot; à l'adresse IP du nœud privé du 2ème Allinone/contrôleur.
 . Créez un nouveau service pour déployer cette nouvelle tâche (suivez les mêmes étapes pour déployer sur ECS). Une fois terminé, la nouvelle version de l'Allinone/contrôleur devrait être opérationnelle. Depuis la console de gestion {product-name}, tous les journaux et politiques devraient toujours être là. En option, vous pouvez arrêter le 2ème conteneur Allinone/Controller maintenant, car un Allinone/Controller devrait maintenant être démarré sur le nœud d'origine.
-. Depuis les services ECS, arrêtez et mettez à jour les Enforcers. Tirez manuellement ou automatiquement les nouvelles images d'Enforcer. Puis redémarrez ou mettez à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous verrez que tous les Enforcers sont à jour.
+. Depuis les services ECS, arrêtez et mettez à jour les Enforcers. Déclenchez manuellement ou automatiquement le tirage de nouvelles images d'Enforcer. Puis redémarrez ou mettez à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous verrez que tous les Enforcers sont à jour.
 . Si vous utilisez le conteneur Manager séparé au lieu de l'Allinone (qui a déjà le manager), arrêtez simplement et supprimez l'ancien conteneur manager. Puis tirez la nouvelle version du manager et déployez-la, en pointant le CLUSTER_JOIN_ADDR vers l'IP du contrôleur.
 
 Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du graphique en direct sera régénérée automatiquement dès qu'il y aura un nouveau trafic en direct circulant entre les conteneurs.
