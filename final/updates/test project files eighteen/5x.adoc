@@ -542,7 +542,7 @@ EOF
 
 ==== Test_ZweiFehlerbehebungen
 
-* Fehler behoben, der mit `regex` auftrat, wenn ein Komma (`+,+`) in einem Mehrfacheintrag `Admission Control user criteria` verwendet wurde.
+* Fehler behoben, der mit `regex` auftrat, wenn ein Komma (`,`) in einem Mehrfacheintrag `Admission Control user criteria` verwendet wurde.
 * Fehler behoben, bei dem der CVE-Scan von `jar` Paketen nicht alle von demselben CVE betroffenen Pakete anzeigte. Jetzt werden alle Vorkommen gemeldet.
 * Behebt folgende CVEs:
 
@@ -765,7 +765,7 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 
 ==== Test_TwoSecurity Advisory for CVE-2023-32188
 
-* Behebung von CVE-2023-32188 "`JWT token compromise can allow malicious actions including Remote Code Execution (RCE)`" durch automatische Generierung des Zertifikats, das zum Signieren des JWT-Tokens bei Bereitstellung und Upgrade verwendet wird, sowie durch automatische Generierung des Manager/RESTful API-Zertifikats während der Helm-basierten Bereitstellungen.
+* Behebung von CVE-2023-32188 `JWT token compromise can allow malicious actions including Remote Code Execution (RCE)` durch automatische Generierung des Zertifikats, das zum Signieren des JWT-Tokens bei Bereitstellung und Upgrade verwendet wird, sowie durch automatische Generierung des Manager/RESTful API-Zertifikats während der Helm-basierten Bereitstellungen.
  ** Das Zertifikat für die JWT-Signierung wird automatisch vom Controller mit einer Gültigkeit von 90 Tagen erstellt und automatisch rotiert.
  ** Die automatische Generierung des Manager-, REST-API- und Registrierungsadapterzertifikats erfordert die Verwendung einer Helm-basierten Installation mit {product-name} Helm-Version 2.6.3 oder höher.
  ** Das integrierte Zertifikat wird weiterhin für yaml-basierte Bereitstellungen verwendet, wenn es während der Bereitstellung nicht ersetzt wird; es wird jedoch empfohlen, diese zu ersetzen (siehe nächste Zeile).
@@ -826,7 +826,7 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 * Unterstützung für das Aufrufen des {product-name} Scanners von Harbor-Registrierungen über die https://github.com/goharbor/pluggable-scanner-spec[pluggable scanner] Schnittstelle. Dies erfordert die Konfiguration der Verbindung zum Controller (exponierte API). Der Harbor-Adapter ruft den Controller-Endpunkt auf, um einen Scan auszulösen, der automatisch beim Pushen scannen kann. Befragungsdienste können für regelmäßige Scans verwendet werden. Scanergebnisse von Federation Primary-Controllern WERDEN an entfernte Cluster propagiert.  HINWEIS: Es gibt ein Problem mit dem HTTPS-basierten Adapter-Endpunktfehler: Bitte ignorieren Sie den Testverbindungsfehler, es funktioniert, auch wenn ein Fehler angezeigt wird (Zertifikatsvalidierung überspringen).
 * Durchsuchbarer SaaS-Dienst für CVE-Abfragen. Durchsuchen Sie die neueste {product-name} CVE-Datenbank, um zu sehen, ob ein bestimmter CVE in der Datenbank vorhanden ist. Dieser Dienst steht für {product-name} Prime (kostenpflichtiges Support-Abonnement) Kunden zur Verfügung. Kontaktieren Sie den Support über Ihr SCC-Portal für den Zugriff.
 * Erlauben Sie dem Benutzer, den Netzwerkschutz zu deaktivieren, aber WAF/DLP funktionsfähig zu halten. Konfigurieren Sie die Aktivierung der Netzwerkpolitik in den Einstellungen -> Konfiguration.
-* Verwenden Sie weniger privilegierte Dienstkonten, wie für jede {product-name} Komponente erforderlich. Eine Variable "`leastPrivilege`" wird eingeführt. Der Standardwert ist falsch. HINWEIS: Die Verwendung des aktuellen Helm-Diagramms mit dieser Variablen in einer Version vor 5.2.0 funktioniert nicht richtig.
+* Verwenden Sie weniger privilegierte Dienstkonten, wie für jede {product-name} Komponente erforderlich. Eine Variable `leastPrivilege` wird eingeführt. Der Standardwert ist falsch. HINWEIS: Die Verwendung des aktuellen Helm-Diagramms mit dieser Variablen in einer Version vor 5.2.0 funktioniert nicht richtig.
 * Binden Sie an ein nicht standardmäßiges Dienstkonto, um die CIS 1.5 5.1.5 Empfehlung zu erfüllen.
 * Ermöglichen Sie dem Administrator, die standardmäßige Sitzungstimeout für Benutzer in den Einstellungen -> Benutzer, API-Schlüssel und Rollen zu konfigurieren.
 * Anpassbares Anmeldebanner und anpassbarer UI-Headertext für regulierte und staatliche Bereitstellungen. Die Anforderungen für die Konfiguration finden Sie xref:customui.adoc[hier].
@@ -943,7 +943,7 @@ TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
 
 ==== Test_TwoEnhancements
 
-* Fügen Sie "`package`" als Information zum syslog-Ereignis für eine erkannte Schwachstelle hinzu.
+* Fügen Sie `package` als Information zum syslog-Ereignis für eine erkannte Schwachstelle hinzu.
 * Fügen Sie die Durchsetzer-Umgebungsvariable ENF_NETPOLICY_PULL_INTERVAL hinzu - Wert in Sekunden (empfohlener Wert 60), um den Netzwerkverkehr und den resultierenden Ressourcenverbrauch durch den Durchsetzer aufgrund von Richtlinienaktualisierungen/-neuberechnungen zu reduzieren. (Hinweis: Dies war bis August 2023 eine nicht dokumentierte Ergänzung).
 
 [,yaml]

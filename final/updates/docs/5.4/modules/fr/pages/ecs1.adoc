@@ -24,15 +24,15 @@ Veuillez consulter les exemples Kubernetes pour EKS.
 --
 Voici comment ajouter des attributs à vos instances ECS :
 
-Sélectionnez l'instance, puis choisissez "`View/Edit Attributes`" dans le menu déroulant Actions.
+Sélectionnez l'instance, puis choisissez `View/Edit Attributes` dans le menu déroulant Actions.
 
 image:1viewattributes.png[Attributs]
 
-Ajoutez un nouvel attribut. Par exemple "`allinone-node`" avec la valeur "`true`".
+Ajoutez un nouvel attribut. Par exemple `allinone-node` avec la valeur `true`.
 
 image:2addattribute.png[AddAttributes]
 --
-. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou coller le fichier JSON d'exemple (voir ci-dessous pour des exemples). Reportez-vous à la section "`1. Deploying {product-name}`" de cette documentation pour savoir comment configurer l'Allinone.
+. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou coller le fichier JSON d'exemple (voir ci-dessous pour des exemples). Reportez-vous à la section `1. Deploying {product-name}` de cette documentation pour savoir comment configurer l'Allinone.
 +
 --
 Entrez la contrainte de placement. Par exemple, si vous avez utilisé l'étiquetage d'attribut ci-dessus, entrez ceci dans la contrainte.
@@ -49,12 +49,12 @@ image:3taskdef.png[AllinoneTask]
 Si vous examinez le fichier JSON mis à jour maintenant, vous verrez la contrainte de placement ajoutée.
 ====
 --
-. Créez un nouveau service pour la tâche Allinone. Définissez le "`Placement Templates`" à "`One Task Per Host`" afin qu'un seul Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "`+membreDe(attribut:allinone-nœud=~true) ce qui nécessite que le nœud ait cet attribut.
+. Créez un nouveau service pour la tâche Allinone. Définissez le `Placement Templates` à `One Task Per Host` afin qu'un seul Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "`+membreDe(attribut:allinone-nœud=~true) ce qui nécessite que le nœud ait cet attribut.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Vous pouvez maintenant déployer le service Allinone. Définissez le "+`Nombre de tâches`+" au nombre souhaité d'Allinone/Contrôleur. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur commenceront à s'exécuter sur les nœuds sélectionnés. Après que l'Allinone commence à s'exécuter, vous devriez pouvoir vous connecter à la console {product-name} via HTTPS sur le port 8443.
+. Vous pouvez maintenant déployer le service Allinone. Définissez le "`Nombre de tâches`" au nombre souhaité d'Allinone/Contrôleur. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur commenceront à s'exécuter sur les nœuds sélectionnés. Après que l'Allinone commence à s'exécuter, vous devriez pouvoir vous connecter à la console {product-name} via HTTPS sur le port 8443.
 . Créez la définition de tâche Enforcer. C'est similaire à la tâche Allinone. Configurez manuellement via la console ECS ou utilisez l'exemple JSON ci-dessous.
 +
 --
@@ -67,12 +67,12 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Créez un nouveau service pour la tâche de l'Enforcer. Encore une fois, définissez le placement de la tâche sur "+`Une tâche par hôte`+" afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la contrainte supplémentaire doit montrer qu'elle empêche le déploiement sur un nœud allinone.
+. Créez un nouveau service pour la tâche de l'Enforcer. Encore une fois, définissez le placement de la tâche sur "`Une tâche par hôte`" afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la contrainte supplémentaire doit montrer qu'elle empêche le déploiement sur un nœud allinone.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Déployez ce service avec le nombre souhaité de nœuds enforcer dans "+`Nombre de tâches`+". Très bientôt, tous les enforcers seront opérationnels. Depuis la console {product-name}, vous pourrez voir tous les nœuds détectés avec des enforcers.
+Déployez ce service avec le nombre souhaité de nœuds enforcer dans "`Nombre de tâches`". Très bientôt, tous les enforcers seront opérationnels. Depuis la console {product-name}, vous pourrez voir tous les nœuds détectés avec des enforcers.
 --
 
 == Exemples de définitions de tâches JSON ECS

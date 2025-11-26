@@ -24,15 +24,15 @@ Bitte sehen Sie sich die Kubernetes-Beispiele für EKS an.
 --
 So fügen Sie Attribute zu Ihren ECS-Instanzen hinzu:
 
-Wählen Sie die Instanz aus und wählen Sie dann "`View/Edit Attributes`" aus dem Dropdown-Menü Aktionen.
+Wählen Sie die Instanz aus und wählen Sie dann `View/Edit Attributes` aus dem Dropdown-Menü Aktionen.
 
 image:1viewattributes.png[Attribute]
 
-Fügen Sie ein neues Attribut hinzu. Zum Beispiel "`allinone-node`" mit dem Wert "`true`".
+Fügen Sie ein neues Attribut hinzu. Zum Beispiel `allinone-node` mit dem Wert `true`.
 
 image:2addattribute.png[AddAttributes]
 --
-. Erstellen Sie die All-in-One-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den All-in-One-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt "`1. Deploying {product-name}`" dieser Dokumentation, um zu erfahren, wie Sie das All-in-One konfigurieren.
+. Erstellen Sie die All-in-One-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den All-in-One-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt `1. Deploying {product-name}` dieser Dokumentation, um zu erfahren, wie Sie das All-in-One konfigurieren.
 +
 --
 Geben Sie die Platzierungsbeschränkung ein. Wenn Sie beispielsweise die oben genannten Attributbeschriftungen verwendet haben, geben Sie dies in der Einschränkung ein.
@@ -49,12 +49,12 @@ image:3taskdef.png[AllinoneTask]
 Wenn Sie die aktualisierte JSON-Datei jetzt überprüfen, sehen Sie die hinzugefügte Platzierungsbeschränkung.
 ====
 --
-. Erstellen Sie einen neuen Dienst für die All-in-One-Aufgabe. Setzen Sie die "`Placement Templates`" auf "`One Task Per Host`", damit nur ein All-in-One/Controller auf einem Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung "`+memberOf(attribute:allinone-node=~true) verwendet wird, was erfordert, dass der Knoten dieses Attribut hat.
+. Erstellen Sie einen neuen Dienst für die All-in-One-Aufgabe. Setzen Sie die `Placement Templates` auf `One Task Per Host`, damit nur ein All-in-One/Controller auf einem Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung "`+memberOf(attribute:allinone-node=~true) verwendet wird, was erfordert, dass der Knoten dieses Attribut hat.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Jetzt können Sie den All-in-One-Dienst bereitstellen. Setzen Sie die "+`Anzahl der Aufgaben`+" auf die gewünschte Anzahl von All-in-One/Controllern. Jetzt werden die {product-name} All-in-One- oder Controller-Container auf den ausgewählten Knoten gestartet. Nachdem das All-in-One ausgeführt wird, sollten Sie in der Lage sein, über HTTPS auf die {product-name} Konsole über Port 8443 zuzugreifen.
+. Jetzt können Sie den All-in-One-Dienst bereitstellen. Setzen Sie die "`Anzahl der Aufgaben`" auf die gewünschte Anzahl von All-in-One/Controllern. Jetzt werden die {product-name} All-in-One- oder Controller-Container auf den ausgewählten Knoten gestartet. Nachdem das All-in-One ausgeführt wird, sollten Sie in der Lage sein, über HTTPS auf die {product-name} Konsole über Port 8443 zuzugreifen.
 . Erstellen Sie die Enforcer-Aufgabendefinition. Dies ist ähnlich wie die All-in-One-Aufgabe. Konfigurieren Sie manuell über die ECS-Konsole oder verwenden Sie das JSON-Beispiel unten.
 +
 --
@@ -67,12 +67,12 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Erstellen Sie einen neuen Dienst für die Enforcer-Aufgabe. Setzen Sie erneut die Aufgabenplatzierung auf "+`Eine Aufgabe pro Host`+", damit nur ein Enforcer auf jedem Host bereitgestellt wird. Beachten Sie auch, dass die zusätzliche Einschränkung zeigt, dass sie die Bereitstellung auf einem All-in-One-Knoten verhindert.
+. Erstellen Sie einen neuen Dienst für die Enforcer-Aufgabe. Setzen Sie erneut die Aufgabenplatzierung auf "`Eine Aufgabe pro Host`", damit nur ein Enforcer auf jedem Host bereitgestellt wird. Beachten Sie auch, dass die zusätzliche Einschränkung zeigt, dass sie die Bereitstellung auf einem All-in-One-Knoten verhindert.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in "+`Anzahl der Aufgaben`+" bereit. In sehr kurzer Zeit werden alle Enforcer betriebsbereit sein. Von der {product-name}-Konsole aus können Sie alle Knoten sehen, die mit Enforcern erkannt werden.
+Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in "`Anzahl der Aufgaben`" bereit. In sehr kurzer Zeit werden alle Enforcer betriebsbereit sein. Von der {product-name}-Konsole aus können Sie alle Knoten sehen, die mit Enforcern erkannt werden.
 --
 
 == Beispiel ECS JSON-Aufgabenbeschreibungen

@@ -43,21 +43,21 @@ Stellen Sie sicher, dass die folgenden Berechtigungen von Microsoft Graph festge
 Melden Sie sich bei Ihrem Okta-Konto an.
 
 Klicken Sie im Menü auf der linken Seite auf "`Anwendungen -> Anwendungen"`
-Im mittleren Bereich klicken Sie auf "`Create App Integration`":
+Im mittleren Bereich klicken Sie auf `Create App Integration`:
 
 image:okta1.png[erstellen]
 
-Ein neues Fenster wird geöffnet, um "`Sign-in method`" auszuwählen:
+Ein neues Fenster wird geöffnet, um `Sign-in method` auszuwählen:
 
 image:okta2.png[newapp]
 
-Wählen Sie die "`OIDC -- OpenID Connect`" Option aus.
+Wählen Sie die `OIDC -- OpenID Connect` Option aus.
 
-Ein abgeleitetes Fenster erscheint zur Auswahl von "`Application Type`":
+Ein abgeleitetes Fenster erscheint zur Auswahl von `Application Type`:
 
 image:okta3.png[apptype]
 
-Wählen Sie die "`Native Application`" Option aus.
+Wählen Sie die `Native Application` Option aus.
 
 Der zentrale Bereich zeigt jetzt das Formular zur Integration von nativen Apps an, in dem Sie die folgenden Werte entsprechend ausfüllen müssen:
 
@@ -73,7 +73,7 @@ Zugriffsart (überprüfen):
 
 Für den Abschnitt Umleitungs-URIs bei der Anmeldung:
 
-Gehen Sie zu Ihrer {product-name} Konsole und navigieren Sie zu "`Settings`" -> "`OpenId Connect Settings`".  Oben auf der Seite, neben dem "`OpenID Connect Redirect URI`" Label klicken Sie auf "`Copy to Clipboard`".
+Gehen Sie zu Ihrer {product-name} Konsole und navigieren Sie zu `Settings` -> `OpenId Connect Settings`.  Oben auf der Seite, neben dem `OpenID Connect Redirect URI` Label klicken Sie auf `Copy to Clipboard`.
 
 image:okta4.png[copy]
 
@@ -84,7 +84,7 @@ image:okta5.png[einfügen]
 
 Für den Abschnitt Zuweisungen:
 
-Wählen Sie "`Allow everyone in your organization to access`" aus, um diese Integration für alle in Ihrer Organisation verfügbar zu machen.
+Wählen Sie `Allow everyone in your organization to access` aus, um diese Integration für alle in Ihrer Organisation verfügbar zu machen.
 
 image:okta6.png[zuweisungen]
 
@@ -92,12 +92,12 @@ Klicken Sie dann auf die Schaltfläche Speichern am Ende der Seite.
 
 Sobald Ihre allgemeinen Einstellungen gespeichert sind, werden Sie zu Ihrer neuen Anwendungsintegrationskonfiguration weitergeleitet und eine Client-ID wird automatisch generiert.
 
-Gehen Sie im "`Client Credentials`" Abschnitt auf Bearbeiten und ändern Sie den "`Client Authentication`" Abschnitt von "`Use PKCE (for public clients)`" zu "`Use Client Authentication`" und klicken Sie auf Speichern. Dies wird automatisch ein neues Geheimnis generieren, das wir in den kommenden {product-name} Einrichtungsschritten benötigen:
+Gehen Sie im `Client Credentials` Abschnitt auf Bearbeiten und ändern Sie den `Client Authentication` Abschnitt von `Use PKCE (for public clients)` zu `Use Client Authentication` und klicken Sie auf Speichern. Dies wird automatisch ein neues Geheimnis generieren, das wir in den kommenden {product-name} Einrichtungsschritten benötigen:
 
 image:okta7.png[clientauth]
 
-Navigieren Sie zum "`Sign On`" Tab und bearbeiten Sie den "`OpenID Connect ID Token`" Abschnitt:
-Ändern Sie den Aussteller von "`Dynamic (based on request domain)`" zu dem festen "`Okta URL`":
+Navigieren Sie zum `Sign On` Tab und bearbeiten Sie den `OpenID Connect ID Token` Abschnitt:
+Ändern Sie den Aussteller von `Dynamic (based on request domain)` zu dem festen `Okta URL`:
 
 image:okta8.png[token]
 
@@ -111,15 +111,15 @@ Im Entwicklermodus erlaubt Okta Ihnen, die Ansprüche anzupassen. Dies geschieht
 image:okta10.png[api]
 
 Ansprüche sind Name/Wert-Paare, die Informationen über einen Benutzer sowie Metainformationen über den OIDC-Dienst enthalten.
-Im "`OpenID Connect ID Token`" Abschnitt können Sie neue Ansprüche für die Gruppen des Benutzers erstellen und den Anspruch im ID-Token tragen (ein ID-Token ist ein JSON-Web-Token, ein kompaktes, URL-sicheres Mittel zur Darstellung von Ansprüchen, die zwischen zwei Parteien übertragen werden, sodass Identitätsinformationen über den Benutzer direkt im Token kodiert sind und das Token eindeutig verifiziert werden kann, um zu beweisen, dass es nicht manipuliert wurde). Wenn ein spezifischer Scope konfiguriert ist, stellen Sie sicher, dass Sie den Scope auf der {product-name} OpenID Connect-Einstellungsseite hinzufügen, damit der Anspruch nach der Authentifizierung des Benutzers einbezogen werden kann:
+Im `OpenID Connect ID Token` Abschnitt können Sie neue Ansprüche für die Gruppen des Benutzers erstellen und den Anspruch im ID-Token tragen (ein ID-Token ist ein JSON-Web-Token, ein kompaktes, URL-sicheres Mittel zur Darstellung von Ansprüchen, die zwischen zwei Parteien übertragen werden, sodass Identitätsinformationen über den Benutzer direkt im Token kodiert sind und das Token eindeutig verifiziert werden kann, um zu beweisen, dass es nicht manipuliert wurde). Wenn ein spezifischer Scope konfiguriert ist, stellen Sie sicher, dass Sie den Scope auf der {product-name} OpenID Connect-Einstellungsseite hinzufügen, damit der Anspruch nach der Authentifizierung des Benutzers einbezogen werden kann:
 
 image:okta11.png[scopes]
 
-Standardmäßig sucht {product-name} nach "Gruppen" im Anspruch, um die Gruppenmitgliedschaft des Benutzers zu identifizieren. Wenn ein anderer Anspruchsname verwendet wird, können Sie den Anspruchsnamen auf der Seite der OpenID Connect-Einstellungen von {product-name} anpassen. Um Ansprüche zu konfigurieren, bearbeiten Sie den "`OpenID Connect ID Token`" Abschnitt wie im nächsten Bild gezeigt:
+Standardmäßig sucht {product-name} nach "Gruppen" im Anspruch, um die Gruppenmitgliedschaft des Benutzers zu identifizieren. Wenn ein anderer Anspruchsname verwendet wird, können Sie den Anspruchsnamen auf der Seite der OpenID Connect-Einstellungen von {product-name} anpassen. Um Ansprüche zu konfigurieren, bearbeiten Sie den `OpenID Connect ID Token` Abschnitt wie im nächsten Bild gezeigt:
 
 image:okta12.png[claims]
 
-Navigieren Sie auf Ihrer Anwendungsintegrationsseite zum "`Assignments`" Tab und stellen Sie sicher, dass die entsprechenden Zuweisungen aufgelistet sind:
+Navigieren Sie auf Ihrer Anwendungsintegrationsseite zum `Assignments` Tab und stellen Sie sicher, dass die entsprechenden Zuweisungen aufgelistet sind:
 
 image:okta13.png[zuweisungen]
 
