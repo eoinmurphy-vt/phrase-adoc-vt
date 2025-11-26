@@ -77,7 +77,7 @@ def preprocess_content(text: str) -> str:
     #    `code` → `+code+`
     # -------------------------------------------------------------
     text = re.sub(
-        r'`([^`]+)`',
+        r'`(?!\+)([^`]+?)(?<!\+)`',
         r'`+\1+`',
         text
     )
@@ -90,6 +90,11 @@ def preprocess_content(text: str) -> str:
         r'[literal]#\1#',
         text
     )
+
+    # Replace backtick-edges first
+    text = text.replace('`++', '`+').replace('++`', '+`')
+    # And the quoted forms
+    text = text.replace('&quot;`++', '&quot;`+').replace('++`&quot;', '+`&quot;')
 
     return text
 
