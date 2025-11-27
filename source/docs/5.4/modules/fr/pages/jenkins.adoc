@@ -58,7 +58,7 @@ image:registry_console.png[registre-global]
 
 ==== Eigenständiger Scanner.
 
-Das Ausführen des Jenkins-Scans im eigenständigen Modus ist eine leichte Möglichkeit, die Schwachstellen von Bildern im Pipeline zu scannen. Der Scanner wird dynamisch aufgerufen und es ist keine Installation oder Konfiguration des Controllers erforderlich. Dies ist besonders nützlich, wenn Sie ein Bild scannen, bevor es in ein Register gepusht wird. Es gibt auch keine Begrenzung für die Anzahl der Scanaufgaben, die gleichzeitig ausgeführt werden können.
+Das Ausführen des Jenkins-Scans im eigenständigen Modus ist eine einfache Möglichkeit, die Schwachstellen von Bildern in der Pipeline zu scannen. Der Scanner wird dynamisch aufgerufen und es ist keine Installation oder Konfiguration des Controllers erforderlich. Dies ist besonders nützlich, wenn Sie ein Bild scannen, bevor es in ein Register gepusht wird. Es gibt auch keine Begrenzung für die Anzahl der Scanaufgaben, die gleichzeitig ausgeführt werden können.
 
 Um einen Schwachstellenscan im eigenständigen Modus auszuführen, muss das Jenkins-Plugin das Scanner-Bild auf den Host ziehen, auf dem der Agent ausgeführt wird. Daher müssen Sie die URL des Registers {product-name} Scanner, das Bild-Repository und die Anmeldeinformationen, falls erforderlich, auf der Konfigurationsseite des Plugins {product-name} eingeben.
 
