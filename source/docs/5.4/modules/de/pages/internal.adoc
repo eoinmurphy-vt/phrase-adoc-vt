@@ -1,31 +1,31 @@
-= Ersetzung der internen Zertifikate
+= Ersetzen interner Zertifikate
 :revdate: 2025-01-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /02.deploying/01.production/04.internal/04.internal.md
-:page-opendocs-slug: /déploiement/production/interne
+:page-opendocs-slug: /deploying/production/internal
 
 [IMPORTANT]
 ====
-Die Versionen von NeuVector 5.4.2 und höher müssen die Benutzer dazu bringen, die internen Zertifikate zu generieren/ersetzen, bevor sie NeuVector verwenden.
-Nach März 2025 müssen die Versionen von NeuVector vor 5.4.2 die Benutzer dazu bringen, die internen Zertifikate zu generieren/ersetzen, bevor sie NeuVector verwenden.
+NeuVector-Versionen 5.4.2 und höher müssen Benutzer dazu bringen, interne Zertifikate zu generieren/zu ersetzen, bevor sie NeuVector verwenden.
+Nach März 2025 müssen NeuVector-Versionen vor 5.4.2 Benutzer dazu bringen, interne Zertifikate zu generieren/zu ersetzen, bevor sie NeuVector verwenden.
 ====
 
 == Interne Kommunikation und Zertifikate
 
-{product-name} enthält standardmäßig selbstsignierte Zertifikate für die Verschlüsselung für den Manager (Konsolen-/UI-Zugriff), den Controller (REST-API, intern), den Enforcer (intern) und die Kommunikation des Scanners (intern).
+{product-name} enthält standardmäßige selbstsignierte Zertifikate zur Verschlüsselung für den Manager (Konsolen-/UI-Zugriff), Controller (REST-API, intern), Enforcer (intern) und Scanner (intern) Kommunikationen.
 
-Diese Zertifikate können durch Ihre eigenen ersetzt werden, um die Kommunikation weiter zu sichern. Um die Zertifikate zu ersetzen, die für den externen Zugriff auf {product-name} verwendet werden (d.h. Browser zum Manager oder REST-API zum Controller), konsultieren Sie bitte xref:replacecert.adoc[dieser Abschnitt]. Siehe unten, um die Zertifikate zu ersetzen, die in der internen Kommunikation zwischen den Containern {product-name} verwendet werden.
+Diese Zertifikate können durch Ihre eigenen ersetzt werden, um die Kommunikation weiter abzusichern. Für den Austausch von Zertifikaten, die für den externen Zugriff auf {product-name} verwendet werden (d.h. Browser zum Manager oder REST-API zum Controller), siehe xref:replacecert.adoc[dieser Abschnitt]. Siehe unten für den Austausch der Zertifikate, die in der internen Kommunikation zwischen {product-name} Containern verwendet werden.
 
 [WARNING]
 ====
-Es wird empfohlen, die Zertifikate nur bei der Erstbereitstellung von {product-name} zu ersetzen. Die Ersetzung in einem laufenden Cluster (auch bei einem schrittweisen Upgrade) kann zu einem instabilen Zustand führen, in dem die Pods {product-name} nicht miteinander kommunizieren können, aufgrund einer Diskrepanz in den Zertifikaten, und es kann zu DATENVERLUST kommen.
+Es wird empfohlen, das Ersetzen von Zertifikaten nur während der ersten Bereitstellung von {product-name} durchzuführen. Das Ersetzen in einem laufenden Cluster (auch mit einem Rolling Upgrade) kann zu einem instabilen Zustand führen, in dem {product-name} Pods aufgrund eines Zertifikatsmismatch nicht miteinander kommunizieren können, was zu DATENVERLUST führen kann.
 ====
 
-=== Ersetzung der in den internen Kommunikationen von {product-name} verwendeten Zertifikate
+=== Ersetzen von Zertifikaten, die in internen Kommunikationen von {product-name} verwendet werden
 
 Ersetzen Sie die internen Verschlüsselungsdateien `ca.crt`, `tls.key`, `tls.crt` wie folgt:
 
-* Erstellen Sie eine neue Datei `ca.cfg` mit Ihrem bevorzugten Editor:
+* Erstellen Sie eine neue `ca.cfg` Datei mit Ihrem bevorzugten Editor:
 
 [,shell]
 ----
@@ -50,7 +50,7 @@ DNS.1 = Neuvector
 
 [IMPORTANT]
 ====
-Für weitere Informationen zu `ca.cfg` siehe https://open-docs.neuvector.com/configuration/console/replacecert.
+Für zusätzliche Informationen zu `ca.cfg` siehe https://open-docs.neuvector.com/configuration/console/replacecert.
 ====
 
 * Wählen Sie Ihr Szenario aus den folgenden Optionen:
@@ -59,9 +59,9 @@ Für weitere Informationen zu `ca.cfg` siehe https://open-docs.neuvector.com/con
 ========
 Neues Zertifikat::
 +
-Wenn Ihr Zertifikat kurz vor dem Ablauf steht und Sie ein neues generieren müssen, folgen Sie bitte den folgenden Schritten:
+Wenn Ihr Zertifikat kurz vor dem Ablauf steht und Sie ein neues generieren müssen, folgen Sie den folgenden Schritten:
 +
-* Supprimez l'ancien `ca.crt`, `tls.key`, `tls.crt`, secret kubernetes, et générez-en de nouveaux :
+* Löschen Sie das alte `ca.crt`, `tls.key`, `tls.crt`, Kubernetes-Geheimnis und generieren Sie neue:
 +
 [source,bash]
 ----
@@ -76,7 +76,7 @@ openssl x509 -in tls.crt -text
 kubectl create secret generic internal-cert -n neuvector --from-file=tls.key --from-file=tls.crt --from-file=ca.crt
 ----
 +
-* Ändern Sie dann die YAML-Bereitstellungsdateien des Controllers, des Enforcers und des Scanners, indem Sie hinzufügen:
+* Bearbeiten Sie dann die Controller-, Enforcer- und Scanner-Bereitstellungs-YAMLs und fügen Sie hinzu:
 +
 [source,yaml]
 ----
@@ -102,9 +102,9 @@ kubectl create secret generic internal-cert -n neuvector --from-file=tls.key --f
             secretName: internal-cert
 ----
 +
-Fahren Sie dann fort, {product-name} wie zuvor bereitzustellen. Sie können auch auf den Befehlsinterpreter in den Pods Controller/Enforcer/Scanner zugreifen, um zu bestätigen, dass die Dateien ca.crt, tls.key, tls.crt die benutzerdefinierten sind und dass die Kommunikationen {product-name} mit den neuen Zertifikaten funktionieren.
+Fahren Sie dann fort, {product-name} wie zuvor bereitzustellen. Sie können auch in die Controller-/Enforcer-/Scanner-Pods shellen, um zu bestätigen, dass die Dateien ca.crt, tls.key, tls.crt die angepassten sind und dass die {product-name} Kommunikationen mit den neuen Zertifikaten funktionieren.
 +
-Beispiele für Patch-Befehle für den Controller (ändern Sie den Namespace in cattle-neuvector-system, falls erforderlich, und passen Sie ihn für die Verwendung auf dem Enforcer, dem Scanner an)
+Beispiel-Patch-Befehle für den Controller (Namespace bei Bedarf auf cattle-neuvector-system ändern und für die Verwendung bei Enforcer, Scanner anpassen)
 +
 [source,bash]
 ----
@@ -115,9 +115,9 @@ kubectl patch deployment -n $\{NAMESPACE} neuvector-controller-pod --type='json'
 kubectl patch deployment -n $\{NAMESPACE} neuvector-controller-pod --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/volumeMounts", "value": [{"mountPath": "/etc/neuvector/certs/internal/cert.key", "name": "internal-cert", "readOnly": true, "subPath": "cert.key"}, {"mountPath": "/etc/neuvector/certs/internal/cert.pem", "name": "internal-cert", "readOnly": true, "subPath": "cert.pem"}, {"mountPath": "/etc/neuvector/certs/internal/ca.cert", "name": "internal-cert", "readOnly": true, "subPath": "ca.cert"} ] } ]'
 ----
 
-Aktualisierung des aktuellen Zertifikats mit SANs::
+Aktualisieren Sie das aktuelle Zertifikat mit SANs::
 +
-Wenn Ihre Zertifikatdateien vor der Version {product-name} 5.3 erstellt wurden, müssen Sie das Zertifikat mit mindestens einem Subject Alternative Name oder SAN kurz aktualisieren. Wenn Sie die Dateien `ca.key` und `ca.crt` noch zugänglich haben, führen Sie die Befehle wie folgt aus:
+Wenn Ihre Zertifikatdateien vor der Version {product-name} 5.3 erstellt wurden, müssen Sie das Zertifikat mit mindestens einem Subject Alternative Name oder kurz SAN aktualisieren. Wenn Sie die Dateien `ca.key` und `ca.crt` noch zugänglich haben, führen Sie die Befehle wie folgt aus:
 +
 [source,bash]
 ----
@@ -130,7 +130,7 @@ openssl x509 -in tls.crt -text
 kubectl create secret generic internal-cert -n neuvector --from-file=tls.key --from-file=tls.crt --from-file=ca.crt
 ----
 +
-Sobald die Zertifikatdateien aktualisiert wurden, starten Sie die Deployments neu, um das aktualisierte Zertifikat zu verwenden: 
+Sobald die Zertifikatdateien aktualisiert wurden, starten Sie die Bereitstellungen neu, um das aktualisierte Zertifikat zu verwenden: 
 +
 [source,bash]
 ----
@@ -140,9 +140,9 @@ kubectl rollout restart deployment neuvector-registry-adapter-pod
 kubectl rollout restart ds neuvector-enforcer-pod
 ----
 
-Regénérez les fichiers de certificat et ajoutez des SANs::
+Zertifikatdateien neu generieren und SANs hinzufügen::
 +
-Wenn Ihre Zertifikatdateien vor der Version {product-name} 5.3 erstellt wurden, müssen Sie das Zertifikat mit mindestens einem Subject Alternative Name oder SAN kurz aktualisieren. Si vous n'avez plus les fichiers `ca.key` et `ca.crt`, suivez les étapes ci-dessous : 
+Wenn Ihre Zertifikatdateien vor der Version {product-name} 5.3 erstellt wurden, müssen Sie das Zertifikat mit mindestens einem Subject Alternative Name oder kurz SAN aktualisieren. Wenn Sie die Dateien `ca.key` und `ca.crt` nicht mehr haben, befolgen Sie die folgenden Schritte: 
 +
 * Sichern Sie Ihr ursprüngliches Zertifikat 
 +
@@ -173,14 +173,14 @@ openssl x509 -req -sha256 -in cert.csr -CA ca.crt -CAkey ca.key -CAcreateserial 
 openssl x509 -in tls.crt -text 
 ----
 +
-* Fügen Sie die alten und neuen Dateien `ca.crt` zusammen 
+* Fügen Sie die alten und neuen `ca.crt` Dateien zusammen 
 +
 [source,bash]
 ----
 cat old-ca.crt > /tmp/ca.crt cat ca.crt >> /tmp/ca.crt 
 ----
 +
-* Aktualisieren Sie das Kubernetes-Secret mit dem `ca.crt` zusammengeführten
+* Aktualisieren Sie das Kubernetes-Secret mit dem zusammengeführten `ca.crt`
 +
 [source,bash]
 ----
@@ -188,7 +188,7 @@ kubectl delete secret internal-cert -n neuvector
 kubectl create secret generic internal-cert -n neuvector --from-file=tls.key=old-tls.key --from-file=tls.crt=old-tls.crt --from-file=ca.crt=/tmp/ca.crt 
 ----
 +
-* Starten Sie die Deployments neu, um das aktualisierte Zertifikat zu verwenden 
+* Starten Sie die Bereitstellungen neu, um das aktualisierte Zertifikat zu verwenden 
 +
 [source,bash]
 ----
@@ -208,7 +208,7 @@ kubectl rollout status deployment neuvector-registry-adapter-pod
 kubectl rollout status ds neuvector-enforcer-pod 
 ----
 +
-* Stellen Sie sicher, dass die Konsole zugänglich ist und dass alle Controller online sind.* Aktualisieren Sie das Kubernetes-Secret mit dem neuen `tls.key` 
+* Stellen Sie sicher, dass die Konsole zugänglich ist und alle Controller online sind.* Aktualisieren Sie das Kubernetes-Secret mit dem neuen `tls.key` 
 +
 [source,bash]
 ----
@@ -216,7 +216,7 @@ kubectl delete secret internal-cert -n neuvector
 kubectl create secret generic internal-cert -n neuvector --from-file=tls.key=tls.key --from-file=tls.crt=tls.crt --from-file=ca.crt=/tmp/ca.crt 
 ----
 +
-* Starten Sie die Deployments neu, um das aktualisierte Zertifikat zu verwenden 
+* Starten Sie die Bereitstellungen neu, um das aktualisierte Zertifikat zu verwenden 
 +
 [source,bash]
 ----
@@ -236,7 +236,7 @@ kubectl rollout status deployment neuvector-registry-adapter-pod
 kubectl rollout status ds neuvector-enforcer-pod 
 ----
 +
-* Stellen Sie sicher, dass die Konsole zugänglich ist und dass alle Controller online sind.* Aktualisieren Sie das Kubernetes-Secret mit dem neuen `ca.crt` 
+* Stellen Sie sicher, dass die Konsole zugänglich ist und alle Controller online sind.* Aktualisieren Sie das Kubernetes-Secret mit dem neuen `ca.crt` 
 +
 [source,bash]
 ----
@@ -244,7 +244,7 @@ kubectl delete secret internal-cert -n neuvector
 kubectl create secret generic internal-cert -n neuvector --from-file=tls.key=tls.key --from-file=tls.crt=tls.crt --from-file=ca.crt=ca.crt 
 ----
 +
-* Starten Sie die Deployments neu, um das aktualisierte Zertifikat zu verwenden 
+* Starten Sie die Bereitstellungen neu, um das aktualisierte Zertifikat zu verwenden 
 +
 [source,bash]
 ----
@@ -264,26 +264,26 @@ kubectl rollout status deployment neuvector-registry-adapter-pod
 kubectl rollout status ds neuvector-enforcer-pod 
 ----
 +
-* Stellen Sie sicher, dass die Konsole zugänglich ist und dass alle Controller online sind.
+* Stellen Sie sicher, dass die Konsole zugänglich ist und alle Controller online sind.
 
-Regenerieren Sie das Zertifikat, wenn das integrierte Zertifikat verwendet wird::
+Zertifikat neu generieren, wenn das integrierte Zertifikat verwendet wird::
 +
-Wenn Sie das interne Zertifikat zuvor nicht ersetzt haben und zu einem neuen Satz von Zertifikaten migrieren möchten, folgen Sie den folgenden Schritten:
+Wenn Sie das interne Zertifikat zuvor nicht ersetzt haben und auf ein neues Zertifikatset migrieren möchten, befolgen Sie die folgenden Schritte:
 +
-* Überprüfen Sie, ob Sie bereits das automatisch generierte interne Zertifikat haben.
+* Überprüfen Sie, ob Sie das interne Zertifikat bereits automatisch generiert haben.
 +
 [source,bash]
 ----
 kubectl get secret internal-cert -o yaml
 ----
 +
-Wenn Sie `tls.key`, `tls.crt` und `ca.crt` dort drüben sehen, bedeutet das, dass Sie das automatisch generierte Zertifikat verwendet haben und diesen Abschnitt ignorieren können.
+Wenn Sie dort `tls.key`, `tls.crt` und `ca.crt` sehen, bedeutet das, dass Sie das automatisch generierte Zertifikat verwendet haben und diesen Abschnitt überspringen können.
 +
-Wenn Sie das Geheimnis sehen können, aber diese Geheimnisse nicht finden, ziehen Sie in Betracht, `internal.autoRotateCert` im Helm-Grafikersatz zu aktivieren. Diese Option generiert und dreht Ihr internes Zertifikat automatisch.
+Wenn Sie das Geheimnis sehen können, aber diese Geheimnisse nicht finden können, ziehen Sie in Betracht, `internal.autoRotateCert` in den Helm-Diagramm-Overrides zu aktivieren. Diese Option generiert und rotiert Ihr internes Zertifikat automatisch.
 +
-Wenn Sie das automatisch generierte interne Zertifikat nicht verwenden und es nicht tun können, folgen Sie den folgenden Schritten:
+Wenn Sie das automatisch generierte interne Zertifikat nicht verwenden und dies nicht tun können, befolgen Sie die folgenden Schritte:
 +
-* Befolgen Sie die Schritte im Tab `New certificate`, um ein Kubernetes-Geheimnis zu verwenden, um das interne Zertifikat zu verwalten. Anstatt ein neues Zertifikat zu generieren, verwenden Sie das Zertifikat, `old-ca.crt`, `old-tls.crt` und `old-tls.key`, das unten abgerufen wurde:
+* Befolgen Sie die Schritte im `New certificate` Tab, um ein Kubernetes-Geheimnis zu verwenden, um das interne Zertifikat zu verwalten. Verwenden Sie anstelle der Generierung eines neuen Zertifikats das Zertifikat, `old-ca.crt`, `old-tls.crt` und `old-tls.key`, das Sie unten abgerufen haben:
 +
 [source,shell]
 ----
@@ -292,15 +292,15 @@ docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/
 docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/cert.key" > old-tls.key
 ----
 +
-* Stellen Sie sicher, dass alle Komponenten ohne Fehler funktionieren.
+* Stellen Sie sicher, dass alle Komponenten ohne Fehler ausgeführt werden.
 +
-* Danach folgen Sie den Schritten im Tab `Regenerate certificate files and add SANs` und migrieren zu Ihrem eigenen Zertifikat.
+* Befolgen Sie danach die Schritte im `Regenerate certificate files and add SANs` Tab und migrieren Sie zu Ihrem eigenen Zertifikat.
 
 ========
 
-=== Aktualisierung/Bereitstellung mit Helm
+=== Aktualisieren/Bereitstellen mit Helm
 
-Aus dem Helm-Diagramm `2.4.1` können wir jetzt die Installation des internen Zertifikats verwalten. Das Diagramm https://github.com/neuvector/neuvector-helm/blob/master/charts/core/values.yaml[values.yaml] muss auf alle Parameter überprüft werden. Das folgende Beispiel verwendet RKE2, Standard-Ingress und Installationszertifikate.
+Seit dem Helm-Diagramm `2.4.1` können wir jetzt die Installation des internen Zertifikats verwalten. Das Diagramm https://github.com/neuvector/neuvector-helm/blob/master/charts/core/values.yaml[values.yaml] sollte auf alle Einstellungen überprüft werden. Das folgende Beispiel verwendet RKE2, Standard-Ingress und Installationszertifikate.
 
 [,bash]
 ----

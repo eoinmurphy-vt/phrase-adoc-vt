@@ -2,11 +2,11 @@
 :revdate: 2024-09-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /02.deploying/09.ecs/09.ecs.md
-:page-opendocs-slug: /déployer/ecs
+:page-opendocs-slug: /deploying/ecs
 
-== Wichtig : Die Bereitstellung auf Amazon ECS wird nicht mehr unterstützt
+== Wichtig: Die Bereitstellung auf Amazon ECS wird nicht mehr unterstützt
 
-La section de référence ci-dessous n'est pas maintenue. Er kann jedoch eine gewisse Unterstützung bieten, um zu verstehen, wie man das All-in-One auf ECS bereitstellt.
+Der Referenzabschnitt unten wird nicht mehr gepflegt. Er kann jedoch einige Unterstützung bieten, um zu verstehen, wie man das All-in-One auf ECS bereitstellt.
 
 == Bereitstellung auf AWS mit ECS
 
@@ -14,28 +14,28 @@ Dies ist ein Beispiel dafür, wie man {product-name} mit ECS bereitstellt.
 
 [NOTE]
 ====
-Bitte konsultieren Sie die Kubernetes-Beispiele für EKS.
+Bitte sehen Sie sich die Kubernetes-Beispiele für EKS an.
 ====
 
-. Bereiten Sie mehrere Amazon ECS-Instanzen vor, die die Docker-Engine und die ECS-Agent-Container integriert haben. Wählen Sie einen Knoten für die Management-Konsole aus. Definieren Sie dann Sicherheitsgruppenregeln, die den eingehenden TCP-Port 8443 ({product-name} Standardport der Management-Konsole) für den Zugriff über Ihren Client-Browser zulassen.
-. Définissez un groupe de sécurité qui permet les ports TCP et UDP sur 18300, 18301, 18400, 18401. Dies wird von den {product-name} Agenten verwendet, um mit den Controllern/All-in-One zu kommunizieren. Wenden Sie diese Sicherheitsgruppe auf alle ECS-Instanzen an, die die Agenten und Controller/All-in-One {product-name} bereitstellen werden.
-. Definieren Sie ein Attribut für die Knoten, die Sie {product-name} All-in-One oder Controller-Container bereitstellen möchten. Wenn Sie beispielsweise {product-name} im HA-Controller-Modus ausführen möchten, wird empfohlen, mindestens 3 Knoten auszuwählen und das Attribut auf allen 3 Knoten hinzuzufügen.
+. Bereiten Sie mehrere Amazon ECS-Instanzen vor, die die Docker-Engine und die ECS-Agent-Container integriert haben. Wählen Sie einen Knoten für die Verwaltungs-Konsole aus. Definieren Sie dann Sicherheitsgruppenregeln, die eingehenden TCP-Port 8443 ({product-name} Standardport der Verwaltungs-Konsole) für den Zugriff durch Ihren Client-Browser zulassen.
+. Definieren Sie eine Sicherheitsgruppe, die TCP- und UDP-Ports auf 18300, 18301, 18400, 18401 zulässt. Dies wird von {product-name} Vollstreckern verwendet, um mit den Controllern/All-in-One zu kommunizieren. Wenden Sie diese Sicherheitsgruppe auf alle ECS-Instanzen an, die die {product-name} Vollstrecker und Controller/All-in-One bereitstellen werden.
+. Setzen Sie ein Attribut auf den Knoten, die Sie {product-name} All-in-One oder Controller-Container bereitstellen möchten. Wenn Sie beispielsweise {product-name} im Controller-HA-Modus ausführen möchten, wird empfohlen, mindestens 3 Knoten auszuwählen und dann das Attribut zu allen 3 Knoten hinzuzufügen.
 +
 --
 So fügen Sie Attribute zu Ihren ECS-Instanzen hinzu:
 
-Wählen Sie die Instanz aus und wählen Sie dann "\`Attribute anzeigen/bearbeiten\`" im Dropdown-Menü Aktionen.
+Wählen Sie die Instanz aus und wählen Sie dann "\`View/Edit Attributes\`" aus dem Dropdown-Menü Aktionen.
 
 image:1viewattributes.png[Attribute]
 
-Fügen Sie dann ein neues Attribut hinzu. Zum Beispiel "\`allinone-node\`" mit dem Wert "\`true\`".
+Fügen Sie ein neues Attribut hinzu. Zum Beispiel "\`allinone-node\`" mit dem Wert "\`true\`".
 
 image:2addattribute.png[AddAttributes]
 --
-. Créez la définition de tâche Allinone. Erstellen Sie eine neue Aufgabendefinition für den Allinone-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die JSON-Beispieldatei einzufügen (siehe unten für Beispiele). Verweisen Sie auf den Abschnitt "\`1. Bereitstellung von {product-name}\`" in diesen Dokumenten, um zu erfahren, wie Sie das Allinone konfigurieren.
+. Erstellen Sie die All-in-One-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den All-in-One-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt "\`1. Deploying {product-name}\`" dieser Dokumentation, um zu erfahren, wie Sie den All-in-One konfigurieren.
 +
 --
-Geben Sie die Platzierungsbeschränkung ein. Wenn Sie beispielsweise das oben genannte Attribut-Tagging verwendet haben, geben Sie dies in die Einschränkung ein.
+Geben Sie die Platzierungsbeschränkung ein. Wenn Sie beispielsweise die oben genannten Attributbeschriftungen verwendet haben, geben Sie dies in der Beschränkung ein.
 
 [,json]
 ----
@@ -49,13 +49,13 @@ image:3taskdef.png[AllinoneTask]
 Wenn Sie die aktualisierte JSON-Datei jetzt überprüfen, sehen Sie die hinzugefügte Platzierungsbeschränkung.
 ====
 --
-. Erstellen Sie einen neuen Dienst für die Allinone-Aufgabe. Setzen Sie die "\`Placement Templates\`" auf "\`One Task Per Host\`", damit nur ein Allinone/Controller auf einem beliebigen Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung "`membreDe(attribut:allinone-node=~true)" verwendet wird, was erfordert, dass der Knoten dieses Attribut hat.
+. Erstellen Sie einen neuen Dienst für die All-in-One-Aufgabe. Setzen Sie die "\`Placement Templates\`" auf "\`One Task Per Host\`", damit nur ein All-in-One/Controller auf einem Host ausgeführt werden kann. Sie werden auch sehen, dass die Beschränkung "`memberOf(attribute:allinone-node=~true)" verwendet wird, was erfordert, dass der Knoten dieses Attribut hat.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Sie können jetzt den Allinone-Dienst bereitstellen. Setzen Sie die "\`Number of tasks\`" auf die gewünschte Anzahl von Allinone/Controllern. Jetzt werden die {product-name} Allinone- oder Controller-Container auf den ausgewählten Knoten ausgeführt. Nachdem das Allinone gestartet wurde, sollten Sie in der Lage sein, sich über HTTPS auf Port 8443 mit der Konsole {product-name} zu verbinden.
-. Créez la définition de tâche Enforcer. Es ist ähnlich wie die Allinone-Aufgabe. Konfigurieren Sie manuell über die ECS-Konsole oder verwenden Sie das folgende JSON-Beispiel.
+. Jetzt können Sie den All-in-One-Dienst bereitstellen. Setzen Sie die "\`Number of tasks\`" auf die gewünschte Anzahl von All-in-One/Controllern. Jetzt werden die {product-name} All-in-One- oder Controller-Container auf den ausgewählten Knoten gestartet. Nachdem der All-in-One läuft, sollten Sie in der Lage sein, über HTTPS auf die {product-name} Konsole auf Port 8443 zuzugreifen.
+. Erstellen Sie die Enforcer-Aufgabendefinition. Dies ist ähnlich wie die All-in-One-Aufgabe. Konfigurieren Sie manuell über die ECS-Konsole oder verwenden Sie das JSON-Beispiel unten.
 +
 --
 Für die Platzierungsbeschränkung des Enforcers müssen Sie sicherstellen, dass der Enforcer NICHT auf demselben Knoten wie das All-in-One ist.
@@ -67,23 +67,23 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Erstellen Sie einen neuen Dienst für die Aufgabe des Enforcers. Setzen Sie erneut die Platzierung der Aufgabe auf "\`One Task Per Host\`", damit nur ein Enforcer auf jedem Host bereitgestellt wird. Beachten Sie auch, dass die zusätzliche Einschränkung zeigen muss, dass sie die Bereitstellung auf einem All-in-One-Knoten verhindert.
+. Erstellen Sie einen neuen Dienst für die Enforcer-Aufgabe. Setzen Sie erneut die Aufgabenplatzierung auf "\`One Task Per Host\`", damit nur ein Enforcer auf jedem Host bereitgestellt wird. Beachten Sie auch, dass die zusätzliche Einschränkung zeigt, dass die Bereitstellung auf einem All-in-One-Knoten verhindert wird.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in "\`Number of tasks\`" bereit. Sehr bald werden alle Enforcer betriebsbereit sein. Von der Konsole {product-name} aus können Sie alle erkannten Knoten mit Enforcers sehen.
+Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in "\`Number of tasks\`" bereit. In sehr kurzer Zeit werden alle Enforcer betriebsbereit sein. Von der {product-name}-Konsole aus können Sie alle Knoten sehen, die mit Enforcern erkannt werden.
 --
 
-== Exemples de définitions de tâches ECS JSON
+== Beispiel ECS JSON-Aufgabenbeschreibungen
 
-Sie können die folgenden Beispiele als Ausgangspunkt verwenden, um die Aufgabendefinitionen für die Container {product-name} zu konfigurieren.
+Sie können die folgenden Beispiele als Ausgangspunkt für die Konfiguration der Aufgabenbeschreibungen für die {product-name}-Container verwenden.
 
-Erstellen Sie eine neue Aufgabendefinition und klicken Sie dann unten auf "Über JSON konfigurieren". Bevor Sie das folgende JSON einfügen, ersetzen Sie die IP-Adresse und den Bildpfad (suchen Sie REPLACE in den Beispielen). Im Allgemeinen wäre die IP-Adresse die private IP-Adresse der AWS-Instanz, auf der das All-in-One ausgeführt wird. Sie können auch einen anderen Familiennamen als my-allinone/my-enforcer angeben (unten im JSON).
+Erstellen Sie eine neue Aufgabenbeschreibung und klicken Sie dann unten auf "Über JSON konfigurieren". Bevor Sie das untenstehende JSON einfügen, ersetzen Sie die IP-Adresse und den Bildpfad (finden Sie ERSETZEN in den Beispielen). Typischerweise wäre die IP-Adresse die private IP-Adresse der AWS-Instanz, auf der das All-in-One ausgeführt wird. Sie können auch einen anderen Familiennamen als my-allinone/my-enforcer angeben (unten im JSON).
 
-Beispiel für eine All-in-One JSON-Datei:
+Beispiel All-in-One JSON-Datei:
 
-.Klicken Sie hier für weitere Details
+.Klicken Sie hier für Details
 [%collapsible]
 ====
 [,json]
@@ -218,9 +218,9 @@ Beispiel für eine All-in-One JSON-Datei:
 ----
 ====
 
-Beispiel für eine Enforcer JSON-Datei:
+Beispiel Enforcer JSON-Datei:
 
-.Klicken Sie hier für weitere Details
+.Klicken Sie hier für Details
 [%collapsible]
 ====
 [,json]
@@ -335,15 +335,15 @@ Beispiel für eine Enforcer JSON-Datei:
 ----
 ====
 
-== Live-Update {product-name}
+== Live-Aktualisierung {product-name}
 
-Sie können eine Live-Aktualisierung der {product-name} Container in ECS durchführen, ohne die Dienste zu unterbrechen. Die {product-name} Dienste können problemlos aktualisiert oder verbessert werden, ohne die laufenden Dienste zu unterbrechen. Um dies in Amazon ECS zu tun:
+Sie können ein Live-Update der {product-name} Container in ECS durchführen, ohne die Dienste zu unterbrechen. Die Dienste von {product-name} können einfach aktualisiert oder aufgerüstet werden, ohne dass laufende Dienste unterbrochen werden. Um dies in Amazon ECS zu tun:
 
-. Wenn Sie mehrere Controller oder Allinones als Cluster bereitgestellt haben, überspringen Sie diesen Schritt. Wenn nur ein Allinone/Controller im System vorhanden ist, finden Sie eine neue ECS-Instanz und stellen Sie einen 2. Allinone/Controller-Container darauf bereit (folgen Sie den Bereitstellungsschritten für ECS Allinone/Controller {product-name}). Nach der Bereitstellung sehen Sie in der Management-Konsole {product-name} diesen neuen operativen Controller (unter Ressourcen > Controller). Dies ist notwendig, damit alle Statusdaten zwischen den Controllern repliziert werden.
-. Setzen Sie in den ECS-Diensten den alten Allinone/Controller-Dienst zurück und löschen Sie ihn. Ziehen Sie manuell die aktualisierten {product-name} Images oder lösen Sie AWS ECS aus, um neue Versionen der Allinone/Controller-Container von Dockerhub oder Ihrem privaten Repository zu ziehen.
-. Erstellen Sie eine neue Revision der Allinone/Controller-Aufgabe, aktualisieren Sie die "\`CLUSTER_JOIN_ADDR\`" auf die IP-Adresse des privaten Knotens des 2. Allinone/Controllers.
-. Erstellen Sie einen neuen Dienst, um diese neue Aufgabe bereitzustellen (folgen Sie denselben Schritten zur Bereitstellung auf ECS). Sobald dies abgeschlossen ist, sollte die neue Version des Allinone/Controllers betriebsbereit sein. Von der Management-Konsole {product-name} sollten alle Protokolle und Richtlinien weiterhin vorhanden sein. Optional können Sie jetzt den 2. Allinone/Controller-Container stoppen, da der Allinone/Controller jetzt auf dem ursprünglichen Knoten gestartet sein sollte.
-. Stoppen und aktualisieren Sie die Enforcers von den ECS-Diensten. Ziehen Sie manuell oder automatisch die neuen Enforcer-Images. Starten oder aktualisieren Sie dann den Enforcer auf allen Knoten neu. Von der Konsole {product-name} sehen Sie, dass alle Enforcers auf dem neuesten Stand sind.
-. Wenn Sie den separaten Manager-Container anstelle des Allinone verwenden (der bereits den Manager hat), stoppen und löschen Sie einfach den alten Manager-Container. Ziehen Sie dann die neue Version des Managers und stellen Sie sie bereit, indem Sie die CLUSTER_JOIN_ADDR auf die IP des Controllers zeigen.
+. Wenn Sie mehrere Controller oder Allinones als Cluster bereitgestellt haben, ignorieren Sie diesen Schritt. Wenn sich nur ein einzelner Allinone/Controller im System befindet, finden Sie eine neue ECS-Instanz und stellen Sie einen 2. Allinone/Controller-Container darauf bereit (folgen Sie den {product-name} Allinone/Controller ECS-Bereitstellungsschritten). Nach der Bereitstellung sehen Sie in der {product-name} Verwaltungs-Konsole diesen neuen Controller, der aktiv ist (unter Ressourcen > Controller). Dies ist erforderlich, damit alle zustandsbehafteten Daten zwischen den Controllern repliziert werden.
+. Setzen Sie in den ECS-Diensten den alten Allinone/Controller-Dienst zurück und löschen Sie ihn. Ziehen Sie die aktualisierten {product-name} Bilder manuell oder lösen Sie AWS ECS aus, um neue Versionen der Allinone/Controller-Container von Dockerhub oder Ihrem privaten Repository zu ziehen.
+. Erstellen Sie eine neue Revision der Allinone/Controller-Aufgabe, aktualisieren Sie die "\`CLUSTER_JOIN_ADDR\`" auf die private Knoten-IP-Adresse des 2. Allinone/Controllers.
+. Erstellen Sie einen neuen Dienst, um diese neue Aufgabe bereitzustellen (folgen Sie denselben Schritten zur Bereitstellung in ECS). Nach Abschluss sollte die neue Version des Allinone/Controllers aktiv sein. Aus der {product-name} Verwaltungs-Konsole sollten alle Protokolle und Richtlinien weiterhin vorhanden sein. Optional können Sie den 2. Allinone/Controller-Container jetzt herunterfahren, da jetzt ein Allinone/Controller auf dem ursprünglichen Knoten gestartet sein sollte.
+. Fahren Sie die Enforcer aus den ECS-Diensten herunter und aktualisieren Sie sie. Ziehen Sie manuell oder automatisch die neuen Enforcer-Bilder. Starten oder aktualisieren Sie dann den Enforcer auf allen Knoten neu. Aus der {product-name} Konsole sehen Sie, dass alle Enforcer auf dem neuesten Stand sind.
+. Wenn Sie den separaten Manager-Container anstelle des Allinone verwenden (der bereits den Manager enthält), fahren Sie einfach den alten Manager-Container herunter und entfernen Sie ihn. Ziehen Sie dann die neue Manager-Version und stellen Sie sie bereit, wobei Sie die CLUSTER_JOIN_ADDR auf die IP des Controllers zeigen.
 
-Alle Container {product-name} sind jetzt live aktualisiert. Alle Richtlinien, Protokolle und Konfigurationen sind nicht betroffen. Die Ansicht des Live-Diagramms wird automatisch regeneriert, sobald neuer Live-Verkehr zwischen den Containern fließt.
+Alle {product-name} Container sind jetzt live aktualisiert. Alle Richtlinien, Protokolle und Konfigurationen sind nicht betroffen. Die Live-Diagrammansicht wird automatisch neu generiert, sobald neuer Live-Verkehr zwischen Containern fließt.
