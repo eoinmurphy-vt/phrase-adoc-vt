@@ -41,7 +41,7 @@ Après vous être reconnecté à la console, sélectionnez à nouveau "Plusieurs
 
 image:master_token.png[Token]
 
-Pour connecter un cluster distant au principal, connectez-vous en tant qu'administrateur dans la console du cluster distant. Sélectionnez "Plusieurs clusters" dans le menu déroulant en haut à droite et cliquez sur "Rejoindre". Entrez l'adresse IP ou le nom d'hôte du contrôleur pour le cluster distant ainsi que le port. Vous pouvez récupérer ces informations à nouveau depuis le cluster distant en procédant comme suit :
+Pour connecter un cluster distant au principal, connectez-vous en tant qu'administrateur dans la console du cluster distant. Sélectionnez "Plusieurs clusters" dans le menu déroulant en haut à droite et cliquez sur "Rejoindre". Entrez l'adresse IP du contrôleur ou le nom d'hôte pour le cluster distant ainsi que le port. Vous pouvez récupérer ces informations à nouveau depuis le cluster distant en procédant comme suit :
 
 [,shell]
 ----
@@ -110,11 +110,11 @@ Veuillez consulter la section sur la politique fédérée -> pour des instructio
 
 Le cluster principal (Master) peut scanner un registre/repo appelé registre fédéré. Les résultats des analyses provenant de ces registries sont synchronisés avec tous les clusters gérés (distants). Cela permet d'afficher les résultats des analyses dans la console du cluster géré ainsi que d'utiliser les résultats dans les règles de contrôle d'admission du cluster géré. Les registries doivent être scannées une seule fois, plutôt que par chaque cluster, réduisant ainsi l'utilisation du CPU/mémoire et de la bande passante réseau.
 
-Les registries fédérées ne peuvent être configurées que par un administrateur fédéré dans le cluster principal dans les actifs -> Registries. Après avoir ajouté et scanné un dépôt fédéré, les résultats des analyses sont synchronisés avec tous les clusters gérés. Règles de contrôle d'admission dans chaque cluster géré qui nécessitent des analyses d'images (z. B. CVE, les règles basées sur la conformité utilisent automatiquement à la fois les résultats de scan fédérés et les résultats de scan de registre configurés localement.
+Les registries fédérées ne peuvent être configurées que par un administrateur fédéré dans le cluster principal dans les actifs -> registries. Après avoir ajouté et scanné un dépôt fédéré, les résultats des analyses sont synchronisés avec tous les clusters gérés. Règles de contrôle d'admission dans chaque cluster géré qui nécessitent des analyses d'images (z. B. CVE, les règles basées sur la conformité utilisent automatiquement à la fois les résultats de scan fédérés et les résultats de scan de registre configurés localement.
 
 === Fédérer les résultats des scanners CI/CD (Optionnel)
 
-Les résultats de scan de registre fédérés sont toujours synchronisés avec les clusters gérés, comme décrit ci-dessus. Le cluster principal peut également recevoir des résultats de scan xref:scanners.adoc#_standalone_scanner_for_local_scanning[de scans de scanners autonomes] ou des plugins de scanners appelés depuis un pipeline de build CI/CD. Pour synchroniser également les résultats du scan de dépôt dans la phase de build (CI/CD) avec les clusters gérés, activez cela d'abord en modifiant les paramètres du cluster principal (Master) comme indiqué ci-dessous.
+Les résultats de scan de registre fédérés sont toujours synchronisés avec les clusters gérés, comme décrit ci-dessus. Le cluster principal peut également recevoir des résultats de scan xref:scanners.adoc#_standalone_scanner_for_local_scanning[de scans de scanners autonomes] ou des plugins de scanner appelés depuis un pipeline de build CI/CD. Pour synchroniser également les résultats du scan de dépôt dans la phase de build (CI/CD) avec les clusters gérés, activez cela d'abord en modifiant les paramètres du cluster principal (Master) comme indiqué ci-dessous.
 
 image:fed_primary_config.png[master_settings]
 
