@@ -6,7 +6,7 @@
 
 == Configuration détaillée pour le plugin Jenkins
 
-Les conteneurs offrent un moyen simple et efficace de déployer des applications. Mais les images de conteneurs peuvent contenir du code open-source sur lequel vous n'avez pas un contrôle total. De nombreuses vulnérabilités dans des projets open-source ont été signalées, et vous pouvez décider si vous souhaitez utiliser ces bibliothèques avec des vulnérabilités ou non, après avoir analysé les images et vérifié les informations sur les vulnérabilités.
+Les conteneurs offrent un moyen simple et efficace de déployer des applications. Mais les images de conteneurs peuvent contenir du code open-source sur lequel vous n'avez pas un contrôle total. De nombreuses vulnérabilités dans les projets open-source ont été signalées, et vous pouvez décider si vous souhaitez utiliser ces bibliothèques avec des vulnérabilités ou non, après avoir analysé les images et vérifié les informations sur les vulnérabilités.
 
 Le plugin {product-name} Jenkins Vulnerability Scanner peut analyser les images après que votre image a été créée dans Jenkins. Le code source du plugin et la documentation la plus récente se trouvent https://github.com/jenkinsci/neuvector-vulnerability-scanner-plugin[ici] sur la page GitHub {product-name}.
 
@@ -29,7 +29,7 @@ Tout d'abord, allez dans votre navigateur à Jenkins pour rechercher le plugin {
 
 Sélectionnez-le et cliquez sur `+install without restart.+`
 
-Déployez le {product-name} conteneur de contrôleur et de scanner, si vous ne l'avez pas encore fait sur un hôte accessible par le serveur Jenkins. Cela peut se faire sur le même serveur que Jenkins, si désiré. Notez l'adresse IP de l'hôte sur lequel le contrôleur fonctionne. Remarque : Le port API REST par défaut est 10443. Ce port doit être exposé via l'All-in-One ou le contrôleur par un service dans Kubernetes ou un transfert de port (par exemple, - 10443:10443) dans le fichier Docker Run ou Compose. Assurez-vous également qu'un  conteneur de scanner en mode autonome est déployé et configuré pour se connecter au contrôleur (si le contrôleur est utilisé).
+Déployez le {product-name} conteneur de contrôleur et de scanner, si vous ne l'avez pas encore fait sur un hôte accessible par le serveur Jenkins. Cela peut se faire sur le même serveur que Jenkins, si désiré. Notez l'adresse IP de l'hôte sur lequel le contrôleur fonctionne. Remarque : Le port API REST par défaut est 10443. Ce port doit être exposé via l'All-in-One ou le contrôleur par un service dans Kubernetes ou un transfert de port (par exemple, - 10443:10443) dans le fichier Docker Run ou Compose. Assurez-vous également qu'un conteneur  scanner est déployé et configuré en mode autonome pour se connecter au contrôleur (si le contrôleur est utilisé).
 
 Il existe deux scénarios pour le scan d'images : le scan local et le scan des registries.
 
@@ -42,7 +42,7 @@ Scanner d'image local.
 
 Entrez les valeurs pour l'IP du  contrôleur, le port, le nom d'utilisateur et le mot de passe. Vous pouvez cliquer sur le bouton '\+Tester la connexion\+ pour valider les valeurs. Sie können auf die Schaltfläche '\`+Verbindung testen\+`' klicken, um die Werte zu validieren. 
 
-La valeur du temps d'attente terminera la phase de construction au moment saisi. La valeur par défaut de 0 signifie qu'aucun temps d'attente ne se produit.
+La valeur du temps d'attente mettra fin à la phase de construction au moment saisi. La valeur par défaut de 0 signifie qu'aucun temps d'attente ne se produit.
 
 Cliquez sur '\`+Ajouter un registre\+`'', pour entrer les valeurs pour le registre que vous utiliserez dans votre projet. Si vous ne scannez que des images locales, vous n'avez pas besoin d'ajouter un registre ici.
 
@@ -60,7 +60,7 @@ image:registry_console.png[registre-global]
 
 Exécuter le scan Jenkins en mode autonome est un moyen simple de scanner les vulnérabilités des images dans le pipeline. Le scanner est appelé dynamiquement et aucune installation ou configuration du contrôleur n'est requise. C'est particulièrement utile lorsque vous scannez une image avant qu'elle ne soit poussée dans un registre. Il n'y a également aucune limite au nombre de tâches de scan pouvant être exécutées simultanément.
 
-Pour exécuter un scan de vulnérabilités en mode autonome, le plugin Jenkins doit tirer l'image du scanner sur l'hôte sur lequel l'agent s'exécute. Vous devez donc entrer l'URL du registre {product-name} Scanner, le dépôt d'images et les informations d'identification, si nécessaire, sur la page de configuration du plugin {product-name}.
+Pour exécuter un scan de vulnérabilités en mode autonome, le plugin Jenkins doit tirer l'image du scanner sur l'hôte sur lequel l'agent s'exécute. Par conséquent, vous devez entrer l'URL du registre {product-name} Scanner, le dépôt d'images et les informations d'identification, si nécessaire, sur la page de configuration du plugin {product-name}.
 
 Le résultat du scan peut également être transmis au contrôleur et utilisé dans la fonction de contrôle d'admission. Dans ce cas, vous aurez besoin d'une configuration de contrôleur et devrez spécifier comment vous vous connectez au contrôleur sur la page de configuration du plugin {product-name}.
 
@@ -245,7 +245,7 @@ Pour configurer le plugin avec une route OpenShift pour accéder au contrôleur,
 
 image:rhos_jenkins_route.png[openshift]
 
-Pour utiliser l'authentification basée sur des jetons pour le registre OpenShift, utilisez NONAME comme utilisateur et entrez le jeton dans le champ du mot de passe.
+Pour utiliser l'authentification basée sur des jetons pour le registre OpenShift, utilisez NONAME comme utilisateur et saisissez le jeton dans le champ du mot de passe.
 
 == Cas d'utilisation spécial pour Jenkins dans le même cluster Kubernetes
 
