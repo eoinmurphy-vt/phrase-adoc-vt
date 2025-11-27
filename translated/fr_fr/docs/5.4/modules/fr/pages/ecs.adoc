@@ -28,11 +28,11 @@ Sélectionnez l'instance, puis choisissez "\`+Afficher/Modifier les attributs\+`
 
 image:1viewattributes.png[Attributs]
 
-Ajoutez ensuite un nouvel attribut. Par exemple, "\`+allinone-node\+`" avec la valeur "\`+true\+`.
+Ajoutez ensuite un nouvel attribut. Par exemple "\`+allinone-node\+`" avec la valeur "\`+true\+`.
 
 image:2addattribute.png[AddAttributes]
 --
-. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour le créer manuellement ou insérer le fichier JSON d'exemple (voir ci-dessous pour des exemples). Référez-vous à la section "\`+1. Fournir {product-name}\+`" dans ces documents pour savoir comment configurer l'Allinone.
+. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour le créer manuellement ou insérer le fichier JSON d'exemple (voir ci-dessous pour des exemples). Référez-vous à la section "\`+1. Fournir {product-name}\+`" dans ces documents pour savoir comment configurer l'All-in-One.
 +
 --
 Geben Sie die Platzierungsbeschränkung ein. Si vous avez utilisé le balisage d'attributs mentionné ci-dessus, entrez-le dans la contrainte.
@@ -49,13 +49,13 @@ image:3taskdef.png[AllinoneTask]
 Si vous vérifiez maintenant le fichier JSON mis à jour, vous verrez la contrainte de placement ajoutée.
 ====
 --
-. Créez un nouveau service pour la tâche Allinone. Définissez les "\`+Modèles de Placement\+`" sur "\`+Une Tâche Par Hôte\+`", afin qu'un seul Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte "`membreDe(attribut:allinone-node=~true)" est utilisée, ce qui exige que le nœud ait cet attribut.
+. Créez un nouveau service pour la tâche Allinone. Définissez les "\`+modèles de placement\+`" sur "\`+Une tâche par hôte\+`", afin qu'un seul All-in-One/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte "`membreDe(attribut:allinone-node=~true)" est utilisée, ce qui exige que le nœud ait cet attribut.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Vous pouvez maintenant déployer le service Allinone. Définissez le "\`+Nombre de tâches\+`" sur le nombre souhaité d'Allinone/Contrôleurs. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur s'exécutent sur les nœuds sélectionnés. Une fois que l'Allinone commence à fonctionner, vous devriez être en mesure de vous connecter à la console {product-name} via HTTPS sur le port 8443.
-. Créez la définition de tâche Enforcer. C'est similaire à la tâche Allinone. Configurez manuellement via la console ECS ou utilisez l'exemple JSON suivant.
+. Vous pouvez maintenant déployer le service Allinone. Définissez le "\`+nombre de tâches\+`" sur le nombre souhaité d'All-in-One/Contrôleurs. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur s'exécutent sur les nœuds sélectionnés. Une fois que l'All-in-One commence à fonctionner, vous devriez être en mesure de vous connecter à la console {product-name} via HTTPS sur le port 8443.
+. Créez la définition de tâche Enforcer. C'est similaire à la tâche All-in-One. Configurez manuellement via la console ECS ou utilisez l'exemple JSON suivant.
 +
 --
 Pour la restriction de placement de l'Enforcer, vous devez vous assurer que l'Enforcer n'est PAS sur le même nœud que l'All-in-One.
@@ -346,4 +346,4 @@ Vous pouvez effectuer une mise à jour en direct des {product-name} conteneurs d
 . Arrêtez et mettez à jour les Enforcers des services ECS. Tirez manuellement ou automatiquement les nouvelles images des Enforcers. Redémarrez ou mettez ensuite à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous pouvez voir que tous les Enforcers sont à jour.
 . Si vous utilisez le conteneur de gestion séparé au lieu de l'All-in-One (qui a déjà le gestionnaire), arrêtez et supprimez simplement l'ancien conteneur de gestion. Ensuite, tirez la nouvelle version du gestionnaire et déployez-la en pointant CLUSTER_JOIN_ADDR vers l'IP du contrôleur.
 
-Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct est automatiquement régénérée dès que de nouveaux flux de trafic en direct circulent entre les conteneurs.
+Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct sera automatiquement régénérée dès qu'un nouveau trafic en direct circule entre les conteneurs.
