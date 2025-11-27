@@ -28,11 +28,11 @@ Wählen Sie die Instanz aus und wählen Sie dann &quot;`View/Edit Attributes`+&q
 
 image:1viewattributes.png[Attribute]
 
-Fügen Sie ein neues Attribut hinzu. Zum Beispiel &quot;`allinone-node`&quot; mit dem Wert &quot;`true`&quot;.
+Fügen Sie ein neues Attribut hinzu. Zum Beispiel &quot;+`allinone-node`+&quot; mit dem Wert &quot;+`true`+&quot;.
 
 image:2addattribute.png[AddAttributes]
 --
-. Erstellen Sie die Allinone-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den Allinone-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt &quot;`1. Bereitstellung von {product-name}`&quot; dieser Dokumente zur Konfiguration des Allinone.
+. Erstellen Sie die Allinone-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den Allinone-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt &quot;+`1. Bereitstellung von {product-name}`+&quot; dieser Dokumente zur Konfiguration des Allinone.
 +
 --
 Geben Sie die Platzierungsbeschränkung ein. Wenn Sie beispielsweise das oben genannte Attribut-Labeling verwendet haben, geben Sie dies in der Einschränkung ein.
@@ -49,7 +49,7 @@ image:3taskdef.png[AllinoneTask]
 Wenn Sie die aktualisierte JSON-Datei jetzt überprüfen, sehen Sie die hinzugefügte Platzierungsbeschränkung.
 ====
 --
-. Erstellen Sie einen neuen Dienst für die Allinone-Aufgabe. Setzen Sie die &quot;`Placement Templates`&quot; auf &quot;`One Task Per Host`&quot;, damit nur ein Allinone/Controller auf einem Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung verwendet wird "+`memberOf(attribute:allinone-node=~true), was erfordert, dass der Knoten dieses Attribut hat.
+. Erstellen Sie einen neuen Dienst für die Allinone-Aufgabe. Setzen Sie die &quot;+`Placement Templates`+&quot; auf &quot;+`One Task Per Host`+&quot;, damit nur ein Allinone/Controller auf einem Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung verwendet wird "+`memberOf(attribute:allinone-node=~true), was erfordert, dass der Knoten dieses Attribut hat.
 +
 --
 image:3taskplacement.png[AllinonePlace]
@@ -67,12 +67,12 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Erstellen Sie einen neuen Dienst für die Enforcer-Aufgabe. Setzen Sie erneut die Aufgabenplatzierung auf &quot;`Eine Aufgabe pro Host`&quot;, damit nur ein Enforcer auf jedem Host bereitgestellt wird. Beachten Sie auch, dass die zusätzliche Einschränkung zeigt, dass sie die Bereitstellung auf einem All-in-One-Knoten verhindert.
+. Erstellen Sie einen neuen Dienst für die Enforcer-Aufgabe. Setzen Sie erneut die Aufgabenplatzierung auf &quot;+`Eine Aufgabe pro Host`+&quot;, damit nur ein Enforcer auf jedem Host bereitgestellt wird. Beachten Sie auch, dass die zusätzliche Einschränkung zeigt, dass sie die Bereitstellung auf einem All-in-One-Knoten verhindert.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in &quot;`Anzahl der Aufgaben`&quot; bereit. In sehr kurzer Zeit werden alle Enforcer betriebsbereit sein. Von der {product-name} Konsole aus können Sie alle Knoten sehen, die mit Enforcern erkannt werden.
+Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in &quot;+`Anzahl der Aufgaben`+&quot; bereit. In sehr kurzer Zeit werden alle Enforcer betriebsbereit sein. Von der {product-name} Konsole aus können Sie alle Knoten sehen, die mit Enforcern erkannt werden.
 --
 
 == Beispiel ECS JSON-Aufgabendefinitionen

@@ -28,11 +28,11 @@ Sélectionnez l'instance, puis choisissez &quot;`View/Edit Attributes`+&quot; da
 
 image:1viewattributes.png[Attributs]
 
-Ajoutez ensuite un nouvel attribut. Par exemple &quot;`allinone-node`&quot; avec la valeur &quot;`true`&quot;.
+Ajoutez ensuite un nouvel attribut. Par exemple &quot;+`allinone-node`+&quot; avec la valeur &quot;+`true`+&quot;.
 
 image:2addattribute.png[AddAttributes]
 --
-. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou coller le fichier JSON d'exemple (voir ci-dessous pour des exemples). Reportez-vous à la section &quot;`1. Déploiement de {product-name}`&quot; de ces documents pour configurer l'Allinone.
+. Créez la définition de tâche Allinone. Créez une nouvelle définition de tâche pour le conteneur Allinone. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou coller le fichier JSON d'exemple (voir ci-dessous pour des exemples). Reportez-vous à la section &quot;+`1. Déploiement de {product-name}`+&quot; de ces documents pour configurer l'Allinone.
 +
 --
 Entrez la contrainte de placement. Par exemple, si vous avez utilisé l'étiquetage d'attribut ci-dessus, entrez cela dans la contrainte.
@@ -49,7 +49,7 @@ image:3taskdef.png[AllinoneTask]
 Si vous examinez le fichier JSON mis à jour maintenant, vous verrez la contrainte de placement ajoutée.
 ====
 --
-. Créez un nouveau service pour la tâche Allinone. Définissez le &quot;`Modèles de Placement`&quot; sur &quot;`Une Tâche Par Hôte`&quot; afin qu'une seule Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "+`membreDe(attribut:allinone-node=~true) qui nécessite que le nœud ait cet attribut.
+. Créez un nouveau service pour la tâche Allinone. Définissez le &quot;+`Modèles de Placement`+&quot; sur &quot;+`Une Tâche Par Hôte`+&quot; afin qu'une seule Allinone/Contrôleur puisse s'exécuter sur n'importe quel hôte. Vous verrez également que la contrainte sera utilisée "+`membreDe(attribut:allinone-node=~true) qui nécessite que le nœud ait cet attribut.
 +
 --
 image:3taskplacement.png[AllinonePlace]
@@ -67,12 +67,12 @@ attribute:allinone-node!~true
 
 image:4enforcertask.png[EnforcerTask]
 --
-. Créez un nouveau service pour la tâche Enforcer. Encore une fois, définissez le placement de la tâche sur &quot;`Une tâche par hôte`&quot; afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la contrainte supplémentaire doit montrer qu'elle empêche le déploiement sur un nœud allinone.
+. Créez un nouveau service pour la tâche Enforcer. Encore une fois, définissez le placement de la tâche sur &quot;+`Une tâche par hôte`+&quot; afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la contrainte supplémentaire doit montrer qu'elle empêche le déploiement sur un nœud allinone.
 +
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Déployez ce service avec le nombre souhaité de nœuds enforcer dans &quot;`Nombre de tâches`&quot;. Très bientôt, tous les enforcers seront opérationnels. Depuis la console {product-name}, vous pourrez voir tous les nœuds détectés avec des enforcers.
+Déployez ce service avec le nombre souhaité de nœuds enforcer dans &quot;+`Nombre de tâches`+&quot;. Très bientôt, tous les enforcers seront opérationnels. Depuis la console {product-name}, vous pourrez voir tous les nœuds détectés avec des enforcers.
 --
 
 == Exemples de définitions de tâches JSON ECS
