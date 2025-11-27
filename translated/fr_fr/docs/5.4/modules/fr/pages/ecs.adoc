@@ -28,7 +28,7 @@ Sélectionnez l'instance, puis choisissez "\`+Afficher/Modifier les attributs\+`
 
 image:1viewattributes.png[Attributs]
 
-Ajoutez ensuite un nouvel attribut. Par exemple "\`+allinone-node\+`" avec la valeur "\`+true\+`.
+Ajoutez ensuite un nouvel attribut. Par exemple, "\`+allinone-node\+`" avec la valeur "\`+true\+`.
 
 image:2addattribute.png[AddAttributes]
 --
@@ -346,4 +346,4 @@ Vous pouvez effectuer une mise à jour en direct des {product-name} conteneurs d
 . Arrêtez et mettez à jour les Enforcers des services ECS. Tirez manuellement ou automatiquement les nouvelles images des Enforcers. Redémarrez ou mettez ensuite à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous pouvez voir que tous les Enforcers sont à jour.
 . Si vous utilisez le conteneur de gestion séparé au lieu de l'All-in-One (qui a déjà le gestionnaire), arrêtez et supprimez simplement l'ancien conteneur de gestion. Ensuite, tirez la nouvelle version du gestionnaire et déployez-la en pointant CLUSTER_JOIN_ADDR vers l'IP du contrôleur.
 
-Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct sera automatiquement régénérée dès qu'un nouveau trafic en direct circule entre les conteneurs.
+Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct est automatiquement régénérée dès que de nouveaux flux de trafic en direct circulent entre les conteneurs.
