@@ -1059,7 +1059,7 @@ TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
 
 ==== Fehlerbehebungen
 
-* Enforcer kann gelegentlich nicht starten.
+* Der Enforcer kann gelegentlich nicht starten.
 * Verbindungsleck in Multi-Cluster-Föderationsumgebungen.
 * Die Compliance-Seite lädt manchmal nicht in den Sicherheitsrisiken -> Compliance.
 
@@ -1083,13 +1083,13 @@ TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
 * Prise en charge du scan de vulnérabilité de l'OS openSUSE Leap (dans l'image du scanner).
 * Scanner: Implementierung von Löschattributen beim Rekonstruieren des Image-Repositorys.
 * Überprüfen Sie das Deployment {product-name} und den Support für Hosts mit aktiviertem SELinux. Siehe unten für Details zum vorübergehenden Patch, bis das Helm-Diagramm aktualisiert wird.
-* Deutlicher zwischen dem Funktionsdiagramm und den Partnerdiagrammen in der Rancher-Benutzeroberfläche unterscheiden. + Verbesserung der Eingangsannotation für nginx im Rancher-Helm-Diagramm. Hinzufügen / Aktualisieren ingress.kubernetes.io/protocol : https zu nginx.ingress.kubernetes.io/backend-protocol : "HTTPS".
+* Deutlicher zwischen dem Funktionsdiagramm und den Partnerdiagrammen in der Rancher-Benutzeroberfläche unterscheiden. + Verbesserung der Eingangsannotation für nginx im Rancher-Helm-Diagramm. Hinzufügen / Aktualisieren von ingress.kubernetes.io/protocol : https zu nginx.ingress.kubernetes.io/backend-protocol : "HTTPS".
 * Der aktuelle OpenShift-Operator unterstützt Pass-Through-Routen für API- und Föderationsdienste. Zusätzliche Helm-Wertparameter werden hinzugefügt, um die Edge- und Re-Encryption-Routenendtypen zu unterstützen.
 
 ==== Fehlerbehebungen
 
 * Der AKS-Cluster könnte einen unerwarteten Schlüssel im Admission Control Webhook hinzufügen.
-* Der Enforcer wird im K8s-Cluster 1.24 mit dem Containerd-Runtime 1.64 nicht betriebsbereit. Séparément, l'enforcer échoue parfois à démarrer.
+* Der Enforcer wird im K8s-Cluster 1.24 mit der Containerd-Runtime 1.64 nicht betriebsbereit. Séparément, l'enforcer échoue parfois à démarrer.
 * Jeder Benutzer mit der Rolle Administrator (lokaler Benutzer oder SSO), der einen Cluster zu einem Master-Fed befördert, sollte automatisch zur Rolle fedAdmin befördert werden.
 * Wenn SSO den Standardadministrator von Rancher in {product-name} auf dem Master-Cluster verwendet, ist die Anmelderolle {product-name} admin, nicht fedAdmin.
 * Mehrere Goroutine-Abstürze beheben.
