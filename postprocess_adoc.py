@@ -18,7 +18,7 @@ LOG_FILE = f"{LOG_DIR}/postprocess_log_{timestamp}_{run_id}.txt"
 stats = {
     "processed": 0,
     "errors": 0,
-    "skipped": 0,
+    "skipped": 0, # Note: This stat is no longer relevant as the revert_backticks function is removed
     "cleaned": 0,
 }
 
@@ -48,46 +48,47 @@ def detect_and_convert_to_utf8(file_path):
     return text
 
 
-BACKTICK_PATTERNS = [
-    # Handles quoted form:  &quot;`+text+`&quot;
-    (r'&quot;`\+(.+?)\+`&quot;', r"`\1`"),
-
-    # Handles: `+text+`
-    (r'`\+(.+?)\+`', r"`\1`"),
-
-    # Handles: +`text`+
-    (r'\+`(.+?)`\+', r"`\1`"),
-]
-
-
-def revert_backtick_wrapping(text):
-    before = text
-    for pattern, replacement in BACKTICK_PATTERNS:
-        text = re.sub(pattern, replacement, text)
-    return text
+# --- OBSOLETE FUNCTION REMOVED: revert_backticks() ---
 
 
 def cleanup_text(text):
+    """
+    Performs post-translation cleanup, including the full reversal of the 
+    literal monospace and entity conversion.
+    """
     before = text
 
-    # Reverse preprocessed backtick logic
-    text = revert_backtick_wrapping(text)
+    # --- START: REVERT MONOSPACE AND ENTITIES (The new, robust logic) ---
 
-    # literal → monospaced (existing behaviour)
-    text = re.sub(
-        r'\[literal\]#([^#]+)#',
-        r'[monospaced]#\1#',
-        text,
-        flags=re.IGNORECASE
-    )
+    # 1. Revert Quoted Double Entity: &quot;`+text+`&quot; -> "`text`"
+    # Note: We must ensure the backticks are included in the replacement.
+    pattern_double_quote = r'&quot;`\+([^`+]+)\+`&quot;'
+    text = re.sub(pattern_double_quote, r'"\g<1>"', text)
 
-    # Remove "+word+" artifacts
+    # 2. Revert Quoted Single Entity: &apos;`+text+`&apos; -> '`text`'
+    pattern_single_quote = r'&apos;`\+([^`+]+)\+`&apos;'
+    text = re.sub(pattern_single_quote, r"'\g<1>'", text)
+
+    # 3. Revert Plain Literal Monospace: `+text+` -> `text`
+    # This also acts as a final cleanup for residual `+` marks.
+    pattern_plain = r'`\+([^`+]+)\+`'
+    text = re.sub(pattern_plain, r'`\g<1>`', text)
+    
+    # --- END: REVERT MONOSPACE AND ENTITIES ---
+
+    # Convert [literal]#text# back to monospaced (Kept from original logic)
+    text = re.sub(r'\[literal\]#([^#]+)#', r'[monospaced]#\1#', text, flags=re.IGNORECASE)
+
+    # Collapse weird "+word+" inserts produced by translation (Kept from original logic)
     text = re.sub(r'\+([A-Za-z0-9/_\.-]+)\+', r'\1', text)
 
-    # Normalize newlines
+    # Note: The original line `text = re.sub(r'&quot;(`[^`]+`)&quot;', r'"\1"', text)` is now 
+    # redundant because of step 1, but we keep the logic that follows it:
+    
+    # Normalize line endings + remove stray CR
     text = text.replace("\r\n", "\n").replace("\r", "\n")
 
-    # Remove trailing spaces
+    # Remove repeated whitespace or accidental duplicates
     text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE)
 
     if text != before:
@@ -133,7 +134,7 @@ for path in Path(SRC_DIR).rglob("*.adoc"):
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
 
     text = detect_and_convert_to_utf8(src_path)
-    text = cleanup_text(text)
+    text = cleanup_text(text) # <--- The updated cleanup function is called here
 
     with open(dst_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
@@ -146,6 +147,5 @@ for path in Path(SRC_DIR).rglob("*.adoc"):
 log("\nSummary:")
 log(f"  ✅ Processed files: {stats['processed']}")
 log(f"  ⚠️ Encoding errors fixed: {stats['errors']}")
-log(f"  ⏩ Skipped non-code reverts: {stats['skipped']}")
 log(f"  ✅ Cleaned files: {stats['cleaned']}")
 log(f"\nCompleted: {datetime.datetime.now()}")

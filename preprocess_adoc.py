@@ -45,10 +45,10 @@ def normalize_ascii(text: str) -> str:
     """Basic cleanup: normalize whitespace, fix accidental CRLF, sanitize soft breaks."""
     before = text
 
-    text = text.replace("\r\n", "\n").replace("\r", "\n")      # Force LF only
-    text = re.sub(r'\u00A0', ' ', text)                      # Non-breaking space
-    text = re.sub(r'\t', '    ', text)                       # Tabs → spaces
-    text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE) # Trailing spaces
+    text = text.replace("\r\n", "\n").replace("\r", "\n")        # Force LF only
+    text = re.sub(r'\u00A0', ' ', text)                          # Non-breaking space
+    text = re.sub(r'\t', '    ', text)                           # Tabs → spaces
+    text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE)     # Trailing spaces
 
     if text != before:
         stats["normalized"] += 1
@@ -57,38 +57,45 @@ def normalize_ascii(text: str) -> str:
 
 
 def preprocess_content(text: str) -> str:
-    """
-    Minimal, safe transformations:
-    1) Quoted backticks -> &quot;`+...+`&quot;  (only if inner not already plus-wrapped)
-    2) Unquoted backticks -> `+...+`          (only if inner not already plus-wrapped)
-    3) [monospaced]#x# -> [literal]#x#
-    """
+    """Light transformations for translation prep: Convert monospace to literal (+...+) 
+    and encode surrounding quotes to entities."""
+    
+    # --- START OF REPLACEMENT LOGIC ---
+    
+    # Regex Breakdown:
+    # (['"]?)   : Group 1 - Match an optional quote (' or ")
+    # `         : Match a literal backtick
+    # ([^`]+)   : Group 2 - Match content inside (not backticks)
+    # `         : Match a literal closing backtick
+    # \1        : Match whatever was captured in Group 1 (the matching closing quote)
+    
+    pattern = r"(['\"]?)`([^`]+)`\1"
 
-    # ---- 1) Quoted backtick spans
-    # Match: a double quote, optional whitespace, a backtick, inner (no backtick),
-    #        backtick, optional whitespace, closing double quote.
-    # We only match if the inner does NOT start or end with '+' (avoid reprocessing).
-    #
-    # Regex explanation:
-    #   "            opening double quote
-    #   \s*`         optional spaces then a backtick
-    #   (?!\+)([^`]*?)(?<!\+)   capture inner that doesn't start or end with '+'
-    #   `\s*"        closing backtick, optional spaces, closing double quote
-    #
-    # Replacement: &quot;`+inner+`&quot;
-    quoted_pattern = re.compile(r'"\s*`(?!\+)([^`]+?)(?<!\+)`\s*"', flags=re.DOTALL)
-    text = quoted_pattern.sub(lambda m: f'&quot;`+{m.group(1)}+`&quot;', text)
+    def replacement_func(match):
+        quote = match.group(1)   # The quote found (or empty string)
+        content = match.group(2) # The text inside the backticks
+        
+        # 1. Ensure content is wrapped in +...+, avoiding double wrapping
+        if content.startswith('+') and content.endswith('+'):
+            inner = content
+        else:
+            inner = f"+{content}+"
 
-    # ---- 2) Unquoted backtick spans (remaining)
-    # Match lone `...` where inner does not start or end with '+'
-    # This avoids double-wrapping already-processed `+...+` or `+`+ cases.
-    inline_pattern = re.compile(r'`(?!\+)([^`]+?)(?<!\+)`', flags=re.DOTALL)
-    text = inline_pattern.sub(r'`+\1+`', text)
+        # 2. Check the surrounding quote and convert to entity
+        if quote == '"':
+            # Case: "`text`" -> &quot;`+text+`&quot;
+            return f'&quot;`{inner}`&quot;'
+        elif quote == "'":
+            # Case: '`text`' -> &apos;`+text+`&apos;
+            return f'&apos;`{inner}`&apos;'
+        else:
+            # Case: `text` -> `+text+` (No quotes)
+            return f'`{inner}`'
 
-    # ---- 3) monospaced → literal (unchanged)
-    text = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', text, flags=re.IGNORECASE)
+    # Substitute using the callback function
+    return re.sub(pattern, replacement_func, text)
 
-    return text
+    # --- END OF REPLACEMENT LOGIC ---
 
 
 def main():
@@ -110,7 +117,7 @@ def main():
 
     text = detect_and_read_utf8(src_file)
     text = normalize_ascii(text)
-    text = preprocess_content(text)
+    text = preprocess_content(text) # <--- The updated function is called here
 
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
