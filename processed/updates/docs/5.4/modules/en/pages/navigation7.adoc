@@ -36,9 +36,9 @@ image:Dashboard-Click.png[Dashboard]
 Some of the event data shown in the dashboard have limits, as described in the Reporting section.
 
 Application Protocols Detected
-This chart summarizes the application protocols detected in live connections in the cluster. The category '`+Other+`' means any unrecognized HTTP protocols or raw TCP connections. You can toggle between the Application Coverage and the Application Volume levels.
+This chart summarizes the application protocols detected in live connections in the cluster. The category &apos;`+Other+`&apos; means any unrecognized HTTP protocols or raw TCP connections. You can toggle between the Application Coverage and the Application Volume levels.
 
-* Application Coverage is the number of unique pod to pod conversations detected between application services. For example if service pod A connects to service pod B using HTTP that is one unique HTTP '`+conversation+`', but all connections between A and B count as one conversation.
+* Application Coverage is the number of unique pod to pod conversations detected between application services. For example if service pod A connects to service pod B using HTTP that is one unique HTTP &apos;`+conversation+`&apos;, but all connections between A and B count as one conversation.
 * Application Volume is the network activity measured in Gbytes for all services using that protocol.
 
 === Network Activity
@@ -59,7 +59,7 @@ Some of the actions possible are:
 
 * Move objects around to better view services and conversations
 * Click on any line (arrow) to see more detail such as protocol/port, latest time stamp, and to add or edit a rule (NOTE: both connection endpoints must be fully expanded by double clicking on each in order to see the connection details)
-* Click on any container to see details, and the '`+i+`' for real-time connections. You can also quarantine a node from here. Right click on a container to perform actions.
+* Click on any container to see details, and the &apos;`+i+`&apos; for real-time connections. You can also quarantine a node from here. Right click on a container to perform actions.
 * Filter view by protocol, or search by namespace, group, container (upper right). You can add multiple filters to the selection box.
 * Refresh the map to show latest conversations
 * Zoom in/out to switch between a logical view (all containers collapsed into a service group) or physical view (all containers for the same service displayed)
@@ -165,7 +165,7 @@ Configure SIEM integration through xref:reporting.adoc#_siem_and_syslog[SYSLOG],
 
 An integration with xref:ibmsa.adoc[IBM Security Advisor] and xref:ibmqr.adoc[QRadar] can be established.
 
-Import/Export the Security Policy file. You can configure SSO for SAML and LDAP/AD here as well. See the Enterprise Integration section for configuration details. *_Important!_* Be careful when importing the configuration file. Importing will overwrite the existing settings. If you import a '`+policy only+`' file, the Groups and Rules of the Policy will be overwritten. If you import a file with '`+all+`' settings, then the Policy, Users, and Configurations will be overwritten. Note that the original '`+admin+`' user's password of your current Controller will also be overwritten with the original admin's password in the imported file.
+Import/Export the Security Policy file. You can configure SSO for SAML and LDAP/AD here as well. See the Enterprise Integration section for configuration details. *_Important!_* Be careful when importing the configuration file. Importing will overwrite the existing settings. If you import a &apos;`+policy only+`&apos; file, the Groups and Rules of the Policy will be overwritten. If you import a file with &apos;`+all+`&apos; settings, then the Policy, Users, and Configurations will be overwritten. Note that the original &apos;`+admin+`&apos; user's password of your current Controller will also be overwritten with the original admin's password in the imported file.
 
 The Usage Report and Collect Log exports may be requested by your {product-name} support team.
 
@@ -260,7 +260,7 @@ A connection which has generated a violation alert is shown in lighter red.
 
 ==== Conversation being blocked
 
-If a connection is a violation, as shown in red, and has been blocked by {product-name}, the arrow will have an '`+x+`' in it.
+If a connection is a violation, as shown in red, and has been blocked by {product-name}, the arrow will have an &apos;`+x+`&apos; in it.
 
 ==== Quarantined container
 
