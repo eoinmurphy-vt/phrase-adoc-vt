@@ -32,7 +32,7 @@ Fügen Sie ein neues Attribut hinzu. Zum Beispiel "\`+allinone-node\+`" mit dem 
 
 image:2addattribute.png[AddAttributes]
 --
-. Erstellen Sie die All-in-One-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den All-in-One-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt "\`+1. Deploying {product-name}\+`" dieser Dokumentation, um zu erfahren, wie Sie den All-in-One konfigurieren.
+. Erstellen Sie die All-in-One-Aufgabendefinition. Erstellen Sie eine neue Aufgabendefinition für den All-in-One-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die Beispiel-JSON-Datei (siehe unten für Beispiele) einzufügen. Verweisen Sie auf Abschnitt "\`+1. Bereitstellung von {product-name}\+`" dieser Dokumentation, um zu erfahren, wie Sie den All-in-One konfigurieren.
 +
 --
 Geben Sie die Platzierungsbeschränkung ein. Wenn Sie beispielsweise die oben genannten Attributbeschriftungen verwendet haben, geben Sie dies in der Beschränkung ein.
@@ -72,7 +72,7 @@ image:4enforcertask.png[EnforcerTask]
 --
 image:5taskplacement.png[EnforcerPlacement]
 
-Stellen Sie diesen Dienst mit der gewünschten Anzahl von Enforcer-Knoten in "\`+Number of tasks\+`" bereit. In sehr kurzer Zeit werden alle Enforcer betriebsbereit sein. Von der {product-name}-Konsole aus können Sie alle Knoten sehen, die mit Enforcern erkannt werden.
+Stellen Sie diesen Dienst mit der gewünschten Anzahl von Durchsetzungs-Knoten in "\`+Anzahl der Aufgaben\+`" bereit. In sehr kurzer Zeit werden alle Durchsetzer betriebsbereit sein. Von der {product-name}-Konsole aus können Sie alle Knoten sehen, die mit Durchsetzern erkannt werden.
 --
 
 == Beispiel ECS JSON-Aufgabenbeschreibungen

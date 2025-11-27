@@ -1,25 +1,25 @@
-= Gestion Multi-Cluster d'Entreprise
+= Multi-Cluster Unternehmensverwaltung
 :revdate: 2024-09-27
 :page-revdate: {revdate}
 :page-opendocs-origin: /04.navigation/02.multicluster/02.multicluster.md
 :page-opendocs-slug:  /navigation/multicluster
 
-== Console d'Entreprise
+== Unternehmenskonsole
 
-La console {product-name} peut être utilisée pour gérer de grands déploiements multi-cluster et multi-cloud d'entreprise. Un cluster doit être sélectionné comme le cluster Principal, et d'autres clusters distants pourront alors rejoindre le Principal. Une fois connecté, le cluster Principal peut pousser des règles Fédérées vers chaque cluster distant, qui s'affichent comme des règles Fédérées dans les consoles de chaque cluster distant. Les registres Fédérés scannés synchroniseront également les résultats de scan avec les clusters distants. Seuls les utilisateurs locaux et les utilisateurs Rancher ayant des permissions d'administrateur peuvent promouvoir un cluster pour devenir le cluster principal.
+Die Konsole {product-name} kann verwendet werden, um große Multi-Cluster- und Multi-Cloud-Implementierungen zu verwalten. Ein Cluster muss als Hauptcluster ausgewählt werden, und andere entfernte Cluster können sich dann mit dem Hauptcluster verbinden. Sobald verbunden, kann das Hauptcluster föderierte Regeln an jedes entfernte Cluster pushen, die als föderierte Regeln in den Konsolen jedes entfernten Clusters angezeigt werden. Die gescannten föderierten Register synchronisieren ebenfalls die Scanergebnisse mit den entfernten Clustern. Nur lokale Benutzer und Rancher-Benutzer mit Administratorrechten können ein Cluster zum Hauptcluster befördern.
 
-En plus de la politique Fédérée, la gestion multi-cluster prend en charge la surveillance de chaque cluster distant sur une page de résumé, comme indiqué ci-dessous.
+Neben der föderierten Richtlinie unterstützt die Multi-Cluster-Verwaltung die Überwachung jedes entfernten Clusters auf einer Zusammenfassungsseite, wie unten gezeigt.
 
 image:multicluster_summary.png[Résumé]
 
-Il DOIT y avoir une connectivité réseau entre les contrôleurs de chaque cluster sur les ports requis. Le contrôleur est exposé à l'extérieur de son cluster par un service principal ou distant, comme on peut le voir dans le fichier yaml de déploiement {product-name} exemple.
+Es MUSS eine Netzwerkverbindung zwischen den Controllern jedes Clusters über die erforderlichen Ports bestehen. Der Controller ist über einen Haupt- oder entfernten Dienst außerhalb seines Clusters exponiert, wie im yaml-Bereitstellungsbeispiel {product-name} zu sehen ist.
 
-== Configuration des Clusters Principal et Distants
+== Konfiguration der Haupt- und entfernten Cluster
 
-Connectez-vous à la console du cluster qui sera le cluster Principal. Dans le menu déroulant en haut à droite, sélectionnez Plusieurs Clusters puis Promouvoir pour configurer le Principal. Remarque : Seuls les utilisateurs locaux et les utilisateurs Rancher ayant des permissions d'administrateur peuvent promouvoir un cluster pour devenir le cluster principal. Actuellement, les utilisateurs SSO/LDAP/OIDC avec rôle d'administrateur ne sont pas autorisés à promouvoir un cluster en principal.
+Melden Sie sich bei der Konsole des Clusters an, der das Hauptcluster sein wird. Wählen Sie im Dropdown-Menü oben rechts mehrere Cluster aus und dann Befördern, um das Hauptcluster zu konfigurieren. Hinweis: Nur lokale Benutzer und Rancher-Benutzer mit Administratorrechten können ein Cluster zum Hauptcluster befördern. Derzeit dürfen SSO/LDAP/OIDC-Benutzer mit Administratorrolle kein Cluster zum Hauptcluster befördern.
 image:master1.png[MasterConfig]
 
-Entrez l'IP publique et le port du service fed-master. Vous pouvez le trouver en exécutant
+Geben Sie die öffentliche IP und den Port des fed-master-Dienstes ein. Sie können es finden, indem Sie ausführen
 
 [,shell]
 ----
@@ -35,38 +35,38 @@ neuvector-service-controller-fed-master   LoadBalancer   10.27.249.147   35.238.
 neuvector-service-controller-fed-worker   LoadBalancer   10.27.251.1     35.226.199.111   10443:32736/TCP                 17d
 ----
 
-Dans l'exemple ci-dessus, le nom d'hôte/IP du contrôleur principal est 35.238.131.23 et le port est 11443. Remarque : Assurez-vous que cette adresse IP et ce port sont accessibles de l'extérieur (depuis les clusters distants). Remarque : Les horloges système (temps) doivent être les mêmes pour chaque cluster principal et distant afin de fonctionner correctement.
+Im obigen Beispiel ist der Hostname/IP des Hauptcontrollers 35.238.131.23 und der Port ist 11443. Hinweis: Stellen Sie sicher, dass diese IP-Adresse und dieser Port von außen (von den entfernten Clustern) zugänglich sind. Hinweis: Die Systemuhren (Zeit) müssen für jeden Haupt- und entfernten Cluster gleich sein, um korrekt zu funktionieren.
 
-Après vous être reconnecté à la console, sélectionnez à nouveau Plusieurs Clusters dans le menu en haut à droite, et cliquez sur l'icône pour générer un jeton nécessaire pour connecter les clusters distants. Copiez le jeton pour l'utiliser à l'étape suivante. Le jeton est valide pendant environ 1 heure, et s'il expire, il doit être généré à nouveau pour connecter de futurs clusters distants.
+Nachdem Sie sich erneut mit der Konsole verbunden haben, wählen Sie erneut "Mehrere Cluster" im Menü oben rechts aus und klicken Sie auf das Symbol, um ein Token zu generieren, das erforderlich ist, um die entfernten Cluster zu verbinden. Copiez le jeton pour l'utiliser à l'étape suivante. Das Token ist etwa 1 Stunde gültig, und wenn es abläuft, muss es erneut generiert werden, um zukünftige entfernte Cluster zu verbinden.
 
 image:master_token.png[Token]
 
-Pour rejoindre un cluster distant au principal, connectez-vous à la console du cluster distant en tant qu'administrateur. Sélectionnez Plusieurs Clusters dans le menu déroulant en haut à droite, et cliquez sur Rejoindre. Entrez l'IP ou le nom d'hôte du contrôleur pour le cluster distant ainsi que le port. Encore une fois, vous pouvez récupérer cette information depuis le cluster distant en faisant :
+Um sich mit einem entfernten Cluster mit dem Hauptcluster zu verbinden, melden Sie sich als Administrator an der Konsole des entfernten Clusters an. Sélectionnez Plusieurs Clusters dans le menu déroulant en haut à droite, et cliquez sur Rejoindre. Geben Sie die IP oder den Hostnamen des Controllers für den entfernten Cluster sowie den Port ein. Noch einmal, Sie können diese Informationen vom entfernten Cluster abrufen, indem Sie Folgendes tun:
 
 [,shell]
 ----
 kubectl get svc -n neuvector
 ----
 
-Utilisez la sortie pour le fed-worker du cluster distant pour configurer l'adresse IP et le port. Ensuite, entrez le jeton copié depuis le principal. Notez qu'après avoir entré le jeton, l'adresse IP et le port pour le principal seront automatiquement remplis, mais cela peut être modifié ou saisi manuellement.
+Verwenden Sie die Ausgabe für den fed-worker des entfernten Clusters, um die IP-Adresse und den Port zu konfigurieren. Ensuite, entrez le jeton copié depuis le principal. Beachten Sie, dass nach der Eingabe des Tokens die IP-Adresse und der Port für das Hauptcluster automatisch ausgefüllt werden, dies jedoch geändert oder manuell eingegeben werden kann.
 
 image:join_remote.png[JoinRemote]
 
-Déconnectez-vous du cluster distant et reconnectez-vous au principal. Ou si vous êtes déjà connecté, cliquez sur rafraîchir et le cluster distant sera listé dans le menu Plusieurs Clusters.
+Déconnectez-vous du cluster distant et reconnectez-vous au principal. Oder wenn Sie bereits verbunden sind, klicken Sie auf "Aktualisieren" und der entfernte Cluster wird im Menü "Mehrere Cluster" aufgeführt.
 
 image:fed_master_list.png[FedMaster]
 
-Vous pouvez cliquer sur l'icône de gestion dans la liste, ou utiliser le menu multi-cluster déroulant en haut pour changer de clusters à tout moment. Une fois que vous avez changé pour un cluster distant, tous les éléments du menu à gauche s'appliquent maintenant au cluster distant.
+Sie können auf das Verwaltungssymbol in der Liste klicken oder das Dropdown-Menü für mehrere Cluster oben verwenden, um jederzeit zwischen Clustern zu wechseln. Sobald Sie zu einem entfernten Cluster gewechselt haben, gelten alle Elemente im Menü links jetzt für den entfernten Cluster.
 
 == Dépannage
 
-Pour s'assurer que les services répondent comme prévu, vous pouvez exécuter les tests depuis l'extérieur des clusters, ou, si nécessaire, depuis les pods de test sur les clusters `+fed-master+` et `+fed-managed+` pour garantir que la connexion réseau est autorisée entre les clusters.
+Um sicherzustellen, dass die Dienste wie erwartet reagieren, können Sie die Tests von außerhalb der Cluster ausführen oder, falls erforderlich, von den Test-Pods auf den Clustern `+fed-master+` und `+fed-managed+`, um sicherzustellen, dass die Netzwerkverbindung zwischen den Clustern erlaubt ist.
 
-=== Vérifier le service fed-master
+=== Überprüfen Sie den Dienst fed-master
 
-Le port de service du cluster `+11443+` n'est accessible qu'après avoir activé le service `+fed-master+`. La commande ci-dessous renvoie un code d'erreur lorsque le service `+fed-master+` répond pour indiquer que la ressource demandée est indisponible.
+Der Dienstport des Clusters `+11443+` ist nur nach Aktivierung des Dienstes `+fed-master+` zugänglich. Der folgende Befehl gibt einen Fehlercode zurück, wenn der Dienst `+fed-master+` antwortet, um anzuzeigen, dass die angeforderte Ressource nicht verfügbar ist.
 
-.Exemple de sortie
+.Beispielausgabe
 [,shell]
 ----
 {"code":1,"error":"URL not found","message":"URL not found"}
@@ -74,7 +74,7 @@ Le port de service du cluster `+11443+` n'est accessible qu'après avoir activé
 
 [IMPORTANT]
 ====
-L'URL pour la commande `+curl+` dépend de la manière dont le service `+fed-master+` est exposé. Si un service `+ingress+` est configuré, il n'est pas nécessaire de spécifier un port.
+Die URL für den Befehl `+curl+` hängt davon ab, wie der Dienst `+fed-master+` bereitgestellt wird. Wenn ein Dienst `+ingress+` konfiguriert ist, ist es nicht erforderlich, einen Port anzugeben.
 ====
 
 [,shell]
@@ -82,11 +82,11 @@ L'URL pour la commande `+curl+` dépend de la manière dont le service `+fed-mas
 curl -v https://<fed-master>[:<port>]/v1/eula
 ----
 
-=== Vérifier le service fed-managed
+=== Überprüfen Sie den Dienst fed-managed
 
-Le port de service du cluster `+10443+` est partagé entre `+REST API+` et le service `+fed-managed+`. La commande ci-dessous renvoie un code de succès lorsque le service `+fed-managed+` répond pour indiquer qu'il est disponible.
+Der Dienstport des Clusters `+10443+` wird zwischen `+REST API+` und dem Dienst `+fed-managed+` geteilt. Der folgende Befehl gibt einen Erfolgscode zurück, wenn der Dienst `+fed-managed+` antwortet, um anzuzeigen, dass er verfügbar ist.
 
-.Exemple de sortie
+.Beispielausgabe
 [,shell]
 ----
 {"eula":{"accepted":true}})
@@ -94,7 +94,7 @@ Le port de service du cluster `+10443+` est partagé entre `+REST API+` et le se
 
 [IMPORTANT]
 ====
-L'URL pour la commande `+curl+` dépend de la manière dont le service `+fed-managed+` est exposé. Si un service `+ingress+` est configuré, il n'est pas nécessaire de spécifier un port.
+Die URL für den Befehl `+curl+` hängt davon ab, wie der Dienst `+fed-managed+` bereitgestellt wird. Wenn ein Dienst `+ingress+` konfiguriert ist, ist es nicht erforderlich, einen Port anzugeben.
 ====
 
 [,shell]
@@ -104,17 +104,17 @@ curl -v https://<fed-managed>[:<port>]/v1/eula
 
 == Politique fédérée
 
-Veuillez consulter la section Politique -> Politique fédérée pour des instructions sur la création de règles fédérées qui seront poussées à chaque cluster.
+Bitte konsultieren Sie den Abschnitt Richtlinie -> Föderierte Richtlinie für Anweisungen zur Erstellung von föderierten Regeln, die an jeden Cluster weitergegeben werden.
 
 == Registres fédérés pour les résultats de numérisation d'images distribuées
 
-Le cluster principal (maître) peut scanner un registre/dépôt désigné comme registre fédéré. Les résultats de numérisation de ces registres seront synchronisés à tous les clusters gérés (distants). Cela permet d'afficher les résultats de numérisation dans la console du cluster géré ainsi que d'utiliser les résultats dans les règles de contrôle d'admission du cluster géré. Les registres n'ont besoin d'être scannés qu'une seule fois au lieu de par chaque cluster, réduisant l'utilisation du CPU/mémoire et de la bande passante réseau.
+Le cluster principal (maître) peut scanner un registre/dépôt désigné comme registre fédéré. Die Scanergebnisse dieser Register werden mit allen verwalteten (entfernten) Clustern synchronisiert. Dies ermöglicht die Anzeige der Scanergebnisse in der Konsole des verwalteten Clusters sowie die Verwendung der Ergebnisse in den Zulassungsregeln des verwalteten Clusters. Register müssen nur einmal gescannt werden, anstatt von jedem Cluster, wodurch die CPU-/Speicher- und Netzwerkbandbreitennutzung reduziert wird.
 
-Les registres fédérés ne peuvent être configurés que par un administrateur fédéré sur le cluster principal dans Actifs -> Registres. Après avoir ajouté et scanné un dépôt fédéré, les résultats de numérisation seront synchronisés à tous les clusters gérés. Les règles de contrôle d'admission dans chaque cluster géré qui nécessitent un scan d'image (par exemple, les CVE, les règles basées sur la conformité) utiliseront automatiquement à la fois les résultats de scan fédérés ainsi que les résultats de scans de registre configurés localement.
+Föderierte Register können nur von einem föderierten Administrator im Hauptcluster in Assets -> Register konfiguriert werden. Nachdem ein föderiertes Repository hinzugefügt und gescannt wurde, werden die Scanergebnisse mit allen verwalteten Clustern synchronisiert. Die Zulassungsregeln in jedem verwalteten Cluster, die einen Bildscan erfordern (z. B. CVEs, compliance-basierte Regeln), verwenden automatisch sowohl die Ergebnisse von föderierten Scans als auch die Ergebnisse von lokal konfigurierten Registerscans.
 
-=== Fédération des résultats des scanners CI/CD (optionnel)
+=== Föderation der Ergebnisse von CI/CD-Scannern (optional)
 
-Les résultats de scan de registre fédérés sont toujours synchronisés avec les clusters gérés, comme décrit ci-dessus. Le cluster principal peut également recevoir des résultats de scan xref:scanners.adoc#_standalone_scanner_for_local_scanning[des scans de scanners autonomes] ou des plug-ins de scanner invoqués à partir d'un pipeline CI/CD de construction. Pour permettre aux résultats de scan de dépôt de phase de construction (CI/CD) de se synchroniser également avec les clusters gérés, activez-le d'abord en modifiant les paramètres du cluster principal (maître) comme indiqué ci-dessous.
+Die Ergebnisse von föderierten Registerscans werden immer mit den verwalteten Clustern synchronisiert, wie oben beschrieben. Der Hauptcluster kann auch Scanergebnisse xref:scanners.adoc#_standalone_scanner_for_local_scanning[von eigenständigen Scannern] oder Scanner-Plugins empfangen, die aus einem CI/CD-Bau-Pipeline aufgerufen werden. Um die Scanergebnisse des Bauphasen-Repositorys (CI/CD) auch mit den verwalteten Clustern zu synchronisieren, aktivieren Sie dies zunächst, indem Sie die Einstellungen des Hauptclusters (Master) wie unten angegeben ändern.
 
 image:fed_primary_config.png[master_settings]
 
