@@ -1,0 +1,30 @@
+Starting preprocess: source/docs/5.4/modules/en/pages/kubernetes.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/kubernetes.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/kubernetes.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-27 19:36:31.620391
+Starting preprocess: source/docs/5.4/modules/en/pages/ecs.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/ecs.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/ecs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-27 19:36:31.667560
+Starting preprocess: source/docs/5.4/modules/en/pages/internal.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/internal.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/docs/5.4/modules/en/pages/internal.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-27 19:36:31.792807
