@@ -161,7 +161,10 @@ def main():
     # Summary
     log("\nSummary:")
     log(f"  ✅ Processed: {stats['processed']}")
-    log(f"  ⚠️ Encoding issues fixed:
+    log(f"  ⚠️ Encoding issues fixed: {stats['errors']}")
+    log(f"  ✅ Normalized files: {stats['normalized']}")
+
+    log(f"\nCompleted at {datetime.datetime.now()}")
 
 
 if __name__ == "__main__":
