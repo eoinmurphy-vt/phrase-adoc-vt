@@ -36,15 +36,21 @@ jobs:
 
       - name: Copy processed files to phrase-adoc-client
         run: |
-          # Changed destination to 'docs/'
           mkdir -p temp_repo1/docs/
           
-          if [ -d "final" ] && find final -type f 2>/dev/null | grep . > /dev/null 2>&1; then
-            # Syncs contents of local 'final/' into 'temp_repo1/docs/'
-            rsync -a --delete final/ temp_repo1/docs/
-            echo "Copied files from final/ to docs/ (preserving structure)"
+          # Fix for double nesting: Check if 'final' contains a 'docs' subfolder
+          if [ -d "final/docs" ]; then
+             echo "Detected nested 'docs' folder in 'final'. Syncing content of 'final/docs/' to 'temp_repo1/docs/'..."
+             # Syncs 'final/docs/5.4...' -> 'temp_repo1/docs/5.4...'
+             rsync -a --delete final/docs/ temp_repo1/docs/
+             echo "Copied files (nested structure corrected)"
+          elif [ -d "final" ] && find final -type f 2>/dev/null | grep . > /dev/null 2>&1; then
+             echo "No nested 'docs' folder found. Syncing content of 'final/' to 'temp_repo1/docs/'..."
+             # Fallback: Syncs 'final/5.4...' -> 'temp_repo1/docs/5.4...'
+             rsync -a --delete final/ temp_repo1/docs/
+             echo "Copied files from final/ to docs/"
           else
-            echo "No files in final/ to copy (or folder missing); skipping."
+             echo "No files in final/ to copy (or folder missing); skipping."
           fi
 
       - name: Commit and push to phrase-adoc-client
