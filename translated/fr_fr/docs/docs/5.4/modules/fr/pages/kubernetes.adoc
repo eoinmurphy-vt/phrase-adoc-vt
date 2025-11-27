@@ -6,26 +6,26 @@
 
 == Déployer avec Kubernetes
 
-Vous pouvez utiliser Kubernetes pour déployer des conteneurs de gestionnaire, de contrôleur et d'exécuteur séparés et vous assurer que tous les nouveaux nœuds ont un exécuteur déployé. {product-name} nécessite et prend en charge les plugins réseau Kubernetes tels que flannel, weave ou calico.
+Vous pouvez utiliser Kubernetes pour déployer des conteneurs de gestion, de contrôleur et d'exécuteur séparés et vous assurer que tous les nouveaux nœuds ont un exécuteur déployé. {product-name} nécessite et prend en charge des plugins réseau Kubernetes tels que flannel, weave ou calico.
 
-Le fichier d'exemple déploiera un gestionnaire et 3 contrôleurs. Il déploiera un exécuteur sur chaque nœud en tant que daemonset. Par défaut, l'exemple ci-dessous déploiera également sur le nœud maître.
+Le fichier d'exemple déploiera un gestionnaire et 3 contrôleurs. Il déploiera un exécuteur sur chaque nœud en tant que DaemonSet. Par défaut, l'exemple suivant sera également déployé sur le nœud maître.
 
-Voir la section inférieure pour spécifier des nœuds de gestionnaire ou de contrôleur dédiés en utilisant des étiquettes de nœud. 
+Voir la section ci-dessous pour spécifier des nœuds de gestionnaire ou de contrôleur dédiés à l'aide de balises de nœud. 
 
 [NOTE]
 ====
-Il n'est pas recommandé de déployer (scaler) plus d'un gestionnaire derrière un équilibreur de charge en raison de problèmes potentiels d'état de session. Si vous prévoyez d'utiliser une réclamation PersistentVolume pour stocker la sauvegarde des fichiers de configuration {product-name}, veuillez consulter la section générale Sauvegarde/Données persistantes dans l'aperçu xref:production.adoc#_backups_and_persistent_data[Déploiement {product-name}].
+Il n'est pas recommandé de déployer plus d'un gestionnaire derrière un équilibreur de charge (scalabilité), car cela peut entraîner des problèmes potentiels avec l'état de session. Si vous prévoyez d'utiliser une demande PersistentVolume pour stocker la sauvegarde des fichiers de configuration {product-name}, veuillez lire la section générale Backup/Données persistantes dans l'aperçu xref:production.adoc#_backups_and_persistent_data[Déploiement {product-name}].
 ====
 
-Si votre déploiement prend en charge un équilibreur de charge intégré, changez le type NodePort en LoadBalancer pour la console dans le fichier yaml ci-dessous.
+Si votre déploiement prend en charge un équilibreur de charge intégré, changez le type NodePort en LoadBalancer pour la console dans le fichier yaml suivant.
 
-{product-name} prend en charge le déploiement basé sur Helm avec un graphique Helm à https://github.com/neuvector/neuvector-helm.
+{product-name} prend en charge le déploiement basé sur Helm avec un diagramme Helm à https://github.com/neuvector/neuvector-helm.
 
-Il y a une section séparée pour les instructions OpenShift, et Docker EE sur Kubernetes a quelques étapes spéciales décrites dans la section Docker.
+Il existe une section séparée pour les instructions OpenShift, et Docker EE sur Kubernetes a quelques étapes spécifiques décrites dans la section Docker.
 
-=== {product-name} Images sur Docker Hub
+=== {product-name} images sur Docker Hub
 
-Les images sont sur le registre Docker Hub {product-name}. Utilisez le tag de version approprié pour le gestionnaire, le contrôleur, l'exécuteur, et laissez la version comme 'latest' pour le scanner et le mise à jour. Par exemple :
+Les images se trouvent dans le registre Docker Hub {product-name}. Utilisez le tag de version approprié pour le gestionnaire, le contrôleur, l'exécuteur et laissez la version comme 'latest' pour le scanner et la mise à jour. Par exemple :
 
 * neuvector/manager:5.4.3
 * neuvector/controller:5.4.3
@@ -35,15 +35,15 @@ Les images sont sur le registre Docker Hub {product-name}. Utilisez le tag de ve
 
 Veuillez vous assurer de mettre à jour les références d'image dans les fichiers yaml appropriés.
 
-Si vous déployez avec le graphique Helm {product-name} actuel (v1.8.9+), les modifications suivantes doivent être apportées à values.yml:
+Si vous déployez avec le chart Helm actuel {product-name} (v1.8.9+), les modifications suivantes doivent être apportées à values.yml :
 
-* Mettez à jour le registre vers docker.io
-* Mettez à jour les noms/étiquettes d'image vers la version actuelle sur Docker hub, comme indiqué ci-dessus
+* Mettez à jour le dépôt sur docker.io
+* Mettez à jour les noms/étiquettes des images vers la version actuelle sur Docker Hub, comme indiqué ci-dessus
 * Laissez les imagePullSecrets vides
 
 [NOTE]
 ====
-Si vous déployez à partir du chart Rancher Manager 2.6.5+ {product-name}, les images sont automatiquement tirées du dépôt d'images miroir du Rancher Registry et déployées dans l'espace de noms cattle-neuvector-system.
+Si vous déployez à partir du Rancher Manager 2.6.5+ {product-name} Chart, les images seront automatiquement tirées du dépôt d'images miroir du registre Rancher et déployées dans l'espace de noms cattle-neuvector-system.
 ====
 
 
@@ -64,12 +64,12 @@ kubectl create sa registry-adapter -n neuvector
 kubectl create sa cert-upgrader -n neuvector
 ----
 --
-. (*Optionnel*) Créez l'admission de sécurité des pods (PSA) ou la politique de sécurité des pods (PSP) {product-name}. Si vous avez activé l'admission de sécurité des pods (alias normes de sécurité des pods) dans Kubernetes 1.25+, ou les politiques de sécurité des pods (avant 1.25) dans votre cluster Kubernetes, ajoutez ce qui suit pour {product-name} (par exemple, nv_psp.yaml). 
+. (*Optionnel*) Créez l'approbation de sécurité des pods (PSA) ou la politique de sécurité des pods (PSP) {product-name}. Si vous avez activé l'approbation de sécurité des pods (également connue sous le nom de normes de sécurité des pods) dans Kubernetes 1.25+ ou les politiques de sécurité des pods (avant 1.25) dans votre cluster Kubernetes, ajoutez ce qui suit pour {product-name} (z. B. nv_psp.yaml). 
 +
 [NOTE]
 ====
 * La PSP est obsolète dans Kubernetes 1.21 et sera complètement supprimée dans 1.25. 
-* Les pods Manager et Scanner s'exécutent sans uid. Si votre PSP a une règle `+Run As User: Rule: MustRunAsNonRoot+`, ajoutez ce qui suit dans l'exemple yaml ci-dessous (avec la valeur appropriée pour `+###+`) :
+* Les pods Manager et Scanner fonctionnent sans uid. Si votre PSP a une règle `+Run As User: Rule: MustRunAsNonRoot+`, ajoutez ce qui suit dans l'exemple YAML ci-dessous (avec la valeur appropriée pour `+###+`):
 ====
 +
 --
@@ -79,13 +79,13 @@ securityContext:
     runAsUser: ###
 ----
 
-Pour PSA dans Kubernetes 1.25+, étiquetez l'espace de noms {product-name} avec un profil privilégié pour le déploiement sur un cluster activé pour PSA. 
+Pour PSA dans Kubernetes 1.25+, marquez l'espace de noms {product-name} avec un profil privilégié pour le déploiement dans un cluster activé pour PSA. 
 [,shell]
 ----
 kubectl label namespace neuvector "pod-security.kubernetes.io/enforce=privileged" 
 ----
 --
-. Créez les ressources personnalisées (CRD) pour les règles de sécurité {product-name}. Pour Kubernetes 1.19+ : 
+. Créez les ressources personnalisées (CRD) pour les règles de sécurité {product-name}. Pour Kubernetes 1.19+: 
 +
 --
 [,shell]
@@ -99,11 +99,11 @@ kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kube
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.4.0/5.4.3_group-definition-k8s.yaml
 ----
 --
-. Ajoutez l'autorisation de lecture pour accéder à l'API kubernetes. 
+. Fügen Sie die Leseberechtigung hinzu, um auf die Kubernetes-API zuzugreifen. 
 +
 [IMPORTANT]
 ====
-Le déploiement standard {product-name} 5.2+ utilise des comptes de service à privilèges minimaux au lieu de ceux par défaut. Voir ci-dessous si vous mettez à niveau à partir d'une version antérieure à 5.3. 
+Le déploiement par défaut {product-name} 5.2+ utilise des comptes de service avec des autorisations minimales au lieu des comptes par défaut. Voir ci-dessous si vous mettez à niveau à partir d'une version antérieure à 5.3. 
 ====
 +
 [WARNING]
@@ -134,7 +134,7 @@ kubectl delete rolebinding neuvector-admin -n neuvector
 ====
 ======
 
-Appliquez les autorisations de lecture via les commandes "créer un clusterrole" suivantes : 
+Appliquez les autorisations de lecture via les commandes "Créer ClusterRole" suivantes : 
 
 [,shell]
 ----
@@ -218,7 +218,7 @@ neuvector-binding-lease           Role/neuvector-binding-lease           8m8s   
 neuvector-binding-secret          Role/neuvector-binding-secret          8m8s                    neuvector/controller, neuvector/enforcer, neuvector/scanner, neuvector/registry-adapter
 ----
 --
-. (*Optionnel*) Créez le Maître de Fédération et/ou les Services de Gestion Multi-Cluster à Distance. Si vous prévoyez d'utiliser les fonctions de gestion multi-cluster dans {product-name}, un cluster doit avoir le service Maître de Fédération déployé, et chaque cluster distant doit avoir le service Ouvrier de Fédération. Pour plus de flexibilité, vous pouvez choisir de déployer à la fois les services Maître et Ouvrier sur chaque cluster afin que n'importe quel cluster puisse être un maître ou distant. Gestion de Cluster Fédéré 
+. (*Optionnel*) Créez le maître de fédération et/ou les services de gestion multi-clusters distants. Si vous souhaitez utiliser les fonctionnalités de gestion multi-clusters dans {product-name}, un cluster doit avoir fourni le service maître de fédération, et chaque cluster distant doit avoir le service de travailleur de fédération. Pour plus de flexibilité, vous pouvez choisir de fournir à la fois les services maîtres et les services de travailleurs dans chaque cluster, de sorte que chaque cluster puisse être un maître ou distant. Gestion de Cluster Fédéré 
 +
 --
 [,yaml]
@@ -254,14 +254,14 @@ spec:
     app: neuvector-controller-pod
 ----
 
-Ensuite, créez le(s) service(s) approprié(s) : 
+Créez ensuite le(s) service(s) correspondant(s) : 
 
 [,shell]
 ----
 kubectl create -f nv_master_worker.yaml 
 ----
 --
-. Créez les services et pods principaux {product-name} en utilisant les commandes de version prédéfinies ou modifiez le yaml d'exemple ci-dessous. La version prédéfinie invoque un LoadBalancer pour la Console {product-name}. Si vous utilisez le fichier yaml d'exemple ci-dessous, remplacez les noms d'image et les balises <version> pour les références d'image du gestionnaire, du contrôleur et de l'exécuteur dans le fichier yaml. Faites également toutes les autres modifications nécessaires pour votre environnement de déploiement (comme LoadBalancer/NodePort/Ingress pour l'accès au gestionnaire, etc.). Le YAML ci-dessous doit être modifié pour les changements de certificat internes s'il est déployé à partir de v5.4.2 ou supérieur. Référez-vous à ce <<_kubernetes_deployment_yaml_for_v5_4_2_onwards,YAML>>.
+. Créez les services principaux et les pods {product-name} avec les commandes de version prédéfinies ou modifiez l'exemple YAML suivant. La version prédéfinie appelle un LoadBalancer pour la console {product-name}. Si vous utilisez le fichier YAML d'exemple suivant, remplacez les noms d'image et les balises <version> pour les références d'image du gestionnaire, du contrôleur et de l'exécuteur dans le fichier YAML. Apportez également toutes les autres modifications nécessaires pour votre environnement de déploiement (comme LoadBalancer/NodePort/Ingress pour accéder au gestionnaire, etc.). Le YAML suivant doit être modifié pour les changements de certificats internes s'il est déployé à partir de v5.4.2 ou supérieur. Référez-vous à ce <<_kubernetes_deployment_yaml_for_v5_4_2_onwards,YAML>>.
 +
 --
 [,shell]
@@ -269,19 +269,19 @@ kubectl create -f nv_master_worker.yaml
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.4.0/neuvector-k8s.yaml 
 ----
 
-Ou, si vous modifiez l'un des yaml ci-dessus ou les exemples ci-dessous : 
+Ou, si vous modifiez l'un des fichiers YAML ci-dessus ou les exemples suivants : 
 
 [,shell]
 ----
 kubectl create -f neuvector.yaml 
 ----
 
-C'est tout ! Vous devriez pouvoir vous connecter à la console {product-name} et vous connecter avec admin:admin, par exemple `+https://<public-ip>:8443+`.
+C'est tout ! Vous devriez être en mesure de vous connecter à la console {product-name} avec admin:admin, par exemple `+https://<public-ip>:8443+`.
 --
 
 [NOTE]
 ====
-Le service nodeport spécifié dans le fichier neuvector.yaml ouvrira un port aléatoire sur tous les nœuds kubernetes pour le port de la console web de gestion {product-name}. Alternativement, vous pouvez utiliser un LoadBalancer ou Ingress, en utilisant une IP publique et le port par défaut 8443. Pour nodeport, assurez-vous d'ouvrir l'accès à travers les pare-feu pour ce port, si nécessaire. Si vous voulez voir quel port est ouvert sur les nœuds hôtes, veuillez exécuter les commandes suivantes :
+Le service NodePort spécifié dans le fichier neuvector.yaml ouvre un port aléatoire sur tous les nœuds Kubernetes pour le port de la console Web de gestion {product-name}. Alternativement, vous pouvez utiliser un LoadBalancer ou Ingress en utilisant une IP publique et le port par défaut 8443. Pour NodePort, assurez-vous que l'accès via les pare-feu pour ce port est ouvert, si nécessaire. Si vous souhaitez voir quel port est ouvert sur le nœud hôte, exécutez les commandes suivantes :
 
 [,shell]
 ----
@@ -297,11 +297,11 @@ neuvector-service-webui     10.100.195.99     <nodes>       8443:30257/TCP      
 ----
 ====
 
-*PKS Changement*
+*PKS Änderung*
 
 [NOTE]
 ====
-PKS est testé sur le terrain et nécessite d'activer les conteneurs privilégiés pour le plan/tile, et de modifier le hostPath yaml comme suit pour Allinone, Controller, Enforcer :
+PKS est testé sur le terrain et nécessite l'activation de conteneurs privilégiés pour le plan/Tiles et l'ajustement du YAML hostPath comme suit pour All-in-One, Controller, Enforcer :
 
 [,yaml]
 ----
@@ -310,9 +310,9 @@ PKS est testé sur le terrain et nécessite d'activer les conteneurs privilégi�
 ----
 ====
 
-*Nœuds Maîtres Taints et Tolerations*
+*Master-nœud Taints et Tolerances*
 
-Toutes les informations de taint doivent correspondre pour planifier les Enforcers sur les nœuds. Pour vérifier les informations de taint sur un nœud (par exemple, Maître) :
+Toutes les informations de Taint doivent correspondre pour planifier les Enforcers sur les nœuds. Pour vérifier les informations de Taint sur un nœud (par exemple : B. Master) :
 
 [,shell]
 ----
@@ -333,7 +333,7 @@ spec:
     value: myvalue
 ----
 
-S'il y a des taints supplémentaires comme ci-dessus, ajoutez-les à la section des tolerations yaml d'exemple :
+S'il y a des Taints supplémentaires comme ci-dessus, ajoutez-les à la section YAML des Tolerances dans l'exemple :
 
 [,yaml]
 ----
@@ -351,16 +351,16 @@ spec:
           value: myvalue
 ----
 
-== Utilisation des Étiquettes de Nœud pour les Nœuds Manager et Controller
+== Utilisation des labels de nœud pour les nœuds Manager et Controller
 
-Pour contrôler sur quels nœuds le Manager et le Controller sont déployés, étiquetez chaque nœud. Remplacez nodename par le nom de nœud approprié ('\`+kubectl get nodes\+`'). Remarque : Par défaut, Kubernetes ne planifiera pas de pods sur le nœud maître.
+Pour contrôler sur quels nœuds le Manager et le Controller sont déployés, étiquetez chaque nœud. Remplacez nodename par le nom de nœud approprié ('\`+kubectl get nodes\+`'). Remarque : Par défaut, Kubernetes ne planifie pas de Pods sur le nœud Master.
 
 [,shell]
 ----
 kubectl label nodes nodename nvcontroller=true
 ----
 
-Ajoutez ensuite un nodeSelector au fichier yaml pour les sections de déploiement du Manager et du Controller. Par exemple :
+Ajoutez ensuite un nodeSelector au fichier YAML pour les sections de déploiement du Manager et du Controller. Par exemple :
 
 [,yaml]
 ----
@@ -372,7 +372,7 @@ Ajoutez ensuite un nodeSelector au fichier yaml pour les sections de déploiemen
       restartPolicy: Always
 ----
 
-Pour empêcher l'enforcer d'être déployé sur un nœud de contrôleur, s'il s'agit d'un nœud de gestion dédié (sans conteneurs d'application à surveiller), ajoutez une nodeAffinity à la section yaml de l'Enforcer. Par exemple :
+Pour empêcher l'Enforcer d'être déployé sur un nœud Controller, s'il s'agit d'un nœud de gestion dédié (sans surveiller les conteneurs d'application), ajoutez une nodeAffinity à la section YAML de l'Enforcer. Par exemple :
 
 [,yaml]
 ----
@@ -391,15 +391,15 @@ Pour empêcher l'enforcer d'être déployé sur un nœud de contrôleur, s'il s'
 
 == Mises à jour progressives
 
-Les outils d'orchestration tels que Kubernetes, RedHat OpenShift et Rancher prennent en charge les mises à jour progressives avec des politiques configurables. Vous pouvez utiliser cette fonctionnalité pour mettre à jour les conteneurs {product-name}. Le plus important sera de s'assurer qu'il y a au moins un Controller (ou Allinone) en cours d'exécution afin que les politiques, les journaux et les données de connexion ne soient pas perdues. Assurez-vous qu'il y a un minimum de 120 secondes entre les mises à jour des conteneurs afin qu'un nouveau leader puisse être élu et que les données soient synchronisées entre les contrôleurs.
+Des outils d'orchestration comme Kubernetes, RedHat OpenShift et Rancher prennent en charge les mises à jour progressives avec des politiques configurables. Vous pouvez utiliser cette fonctionnalité pour mettre à jour les conteneurs {product-name}. L'essentiel sera de s'assurer qu'au moins un Controller (ou All-in-One) fonctionne, afin que les politiques, les journaux et les identifiants ne soient pas perdus. Assurez-vous qu'il y a au moins 120 secondes entre les mises à jour des conteneurs afin qu'un nouveau leader puisse être élu et que les données soient synchronisées entre les contrôleurs.
 
-Les fichiers yamls de déploiement d'exemple fournis configurent déjà la stratégie de mise à jour continue. Si vous mettez à jour via le chart Helm {product-name}, veuillez tirer le dernier chart pour configurer correctement les nouvelles fonctionnalités telles que le contrôle d'admission, et supprimer l'ancien rôle de cluster et le lien de rôle de cluster pour {product-name}. Si vous mettez à jour via Kubernetes, vous pouvez mettre à jour manuellement vers une nouvelle version avec les commandes d'exemple ci-dessous.
+Les fichiers de déploiement YAML d'exemple fournis configurent déjà la stratégie de mise à jour continue. Lorsque vous mettez à jour via le chart Helm {product-name}, veuillez tirer le dernier chart pour configurer correctement les nouvelles fonctionnalités telles que le contrôle d'admission, et supprimer l'ancienne rôle de cluster et le lien de rôle de cluster pour {product-name}. Lorsque vous mettez à jour via Kubernetes, vous pouvez manuellement mettre à jour vers une nouvelle version avec les exemples de commandes suivants.
 
-=== Mise à jour continue Kubernetes d'exemple
+=== Exemple de mise à jour continue de Kubernetes
 
-Pour les mises à niveau qui nécessitent simplement de mettre à jour vers une nouvelle version d'image, vous pouvez utiliser cette approche simple.
+Pour les mises à niveau qui nécessitent simplement une mise à jour vers une nouvelle version d'image, vous pouvez utiliser cette approche simple.
 
-Si votre déploiement ou Daemonset est déjà en cours d'exécution, vous pouvez modifier le fichier yaml vers la nouvelle version, puis appliquer la mise à jour :
+Si votre déploiement ou DaemonSet est déjà en cours d'exécution, vous pouvez modifier le fichier YAML vers la nouvelle version et ensuite appliquer la mise à jour :
 
 [,shell]
 ----
@@ -408,14 +408,14 @@ kubectl apply -f <yaml file>
 
 Pour mettre à jour vers une nouvelle version de {product-name} depuis la ligne de commande.
 
-Pour le contrôleur en tant que déploiement (à faire aussi pour le gestionnaire)
+Pour le contrôleur en tant que déploiement (également à faire pour le gestionnaire)
 
 [,shell]
 ----
 kubectl set image deployment/neuvector-controller-pod neuvector-controller-pod=neuvector/controller:<version> -n neuvector
 ----
 
-Pour tout conteneur en tant que DaemonSet :
+Pour chaque conteneur en tant que DaemonSet :
 
 [,shell]
 ----
@@ -430,7 +430,7 @@ kubectl rollout status -n neuvector ds/neuvector-enforcer-pod
 kubectl rollout status -n neuvector deployment/neuvector-controller-pod
 ----
 
-Pour revenir à la mise à jour :
+Pour revenir à la mise à jour précédente :
 
 [,shell]
 ----
@@ -440,7 +440,7 @@ kubectl rollout undo -n neuvector deployment/neuvector-controller-pod
 
 == Exposer l'API REST dans Kubernetes
 
-Pour exposer l'API REST pour un accès depuis l'extérieur du cluster Kubernetes, voici un fichier yaml d'exemple :
+Pour exposer l'API REST pour un accès depuis l'extérieur du cluster Kubernetes, voici un exemple de fichier YAML :
 
 [,yaml]
 ----
@@ -463,7 +463,7 @@ Veuillez consulter la section Automatisation pour plus d'informations sur l'API 
 
 == Déploiement Kubernetes en mode non privilégié
 
-Les instructions suivantes peuvent être utilisées pour déployer {product-name} sans utiliser de conteneurs en mode privilégié. Le contrôleur est déjà en mode non privilégié et le déploiement de l'enforcer doit être modifié, comme le montrent les extraits ci-dessous.
+Les instructions suivantes peuvent être utilisées pour déployer {product-name} sans utiliser de conteneurs en mode privilégié. Le contrôleur fonctionne déjà en mode non privilégié, et le déploiement de l'Enforcer doit être modifié, comme le montrent les extraits suivants.
 
 Enforcer :
 
@@ -492,7 +492,7 @@ spec:
 
 == YAML de déploiement Kubernetes pour v5.4.2 et plus
 
-L'exemple YAML suivant est pour les versions 5.4.2 et ultérieures où nous devons monter les certificats internes sur les pods Controller, Enforcer et Scanner car nous ne supportons plus les certificats codés en dur. Créez le secret de certificat interne à partir du lien donné avant de déployer : xref:internal.adoc[Internal certificate replacement].
+L'exemple YAML suivant s'applique aux versions 5.4.2 et supérieures, où nous devons fournir les certificats internes sur les Pods Controller, Enforcer et Scanner, car nous ne supportons plus les certificats codés en dur. Créez le secret de certificat interne à partir du lien fourni avant de déployer : xref:internal.adoc[Remplacement des certificats internes].
 
 .Cliquez ici pour plus de détails
 [%collapsible]
@@ -1166,11 +1166,11 @@ spec:
 ----
 ====
 
-== PKS Change
+== PKS-Änderung
 
 [NOTE]
 ====
-PKS is field-tested and requires enabling privileged containers for the plan/tile, and changing the hostPath yaml as follows for Allinone, Enforcer:
+PKS est testé sur le terrain et nécessite l'activation de conteneurs privilégiés pour le plan/tuile et la modification du YAML hostPath comme suit pour Allinone, Enforcer:
 
 [,yaml]
 ----
