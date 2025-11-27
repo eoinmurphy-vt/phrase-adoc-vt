@@ -1,0 +1,13 @@
+Postprocess started: 2025-11-27 19:45:25.001440
+
+✓ translated/fr_fr/docs/5.4/modules/en/pages/ecs.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/ecs.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/ecs.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/pages/internal.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/internal.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/internal.adoc)
+
+Summary:
+  ✅ Processed files: 2
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 2
+
+Completed: 2025-11-27 19:45:25.021247
