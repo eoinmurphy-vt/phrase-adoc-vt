@@ -45,14 +45,15 @@ jobs:
           echo "Last synced commit: $LAST_COMMIT"
           echo "Current commit: $CURRENT_COMMIT"
 
+          # Changed monitoring folder from 'updates/' to 'docs/' below
           if [ -z "$LAST_COMMIT" ]; then
-            echo "No last commit recorded, listing all .adoc files under updates/"
-            CHANGED_FILES=$(git ls-tree -r --name-only HEAD updates/ | grep '\.adoc$' || true)
+            echo "No last commit recorded, listing all .adoc files under docs/"
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD docs/ | grep '\.adoc$' || true)
             DELETED_FILES=""
           else
             echo "Diffing from $LAST_COMMIT to $CURRENT_COMMIT..."
-            CHANGED_FILES=$(git diff --name-only "$LAST_COMMIT" "$CURRENT_COMMIT" -- updates/ | grep '\.adoc$' || true)
-            DELETED_FILES=$(git diff --name-only --diff-filter=D "$LAST_COMMIT" "$CURRENT_COMMIT" -- updates/ | grep '\.adoc$' || true)
+            CHANGED_FILES=$(git diff --name-only "$LAST_COMMIT" "$CURRENT_COMMIT" -- docs/ | grep '\.adoc$' || true)
+            DELETED_FILES=$(git diff --name-only --diff-filter=D "$LAST_COMMIT" "$CURRENT_COMMIT" -- docs/ | grep '\.adoc$' || true)
           fi
 
           echo "=== Final changed files list ==="

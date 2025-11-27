@@ -53,38 +53,42 @@ def detect_and_convert_to_utf8(file_path):
 
 def cleanup_text(text):
     """
-    Performs post-translation cleanup, including the full reversal of the 
-    literal monospace and entity conversion.
+    Performs post-translation cleanup, utilizing the robust revert logic
+    to restore literal monospace back to standard AsciiDoc.
     """
     before = text
 
-    # --- START: REVERT MONOSPACE AND ENTITIES (The new, robust logic) ---
+    # --- STEP 1: REVERT ENTITIES (Double Quotes) ---
+    # Finds: &quot;`+CONTENT+`&quot;
+    # Replaces with: "`CONTENT`"
+    # Matches: Entity + Backtick + Plus + Content (No Newlines) + Plus + Backtick + Entity
+    pattern_dq = re.compile(r'&quot;\`\+([^\`\n]+)\+\`&quot;')
+    text = pattern_dq.sub(r'"\`\1\`"', text)
 
-    # 1. Revert Quoted Double Entity: &quot;`+text+`&quot; -> "`text`"
-    # Note: We must ensure the backticks are included in the replacement.
-    pattern_double_quote = r'&quot;`\+([^`+]+)\+`&quot;'
-    text = re.sub(pattern_double_quote, r'"\g<1>"', text)
 
-    # 2. Revert Quoted Single Entity: &apos;`+text+`&apos; -> '`text`'
-    pattern_single_quote = r'&apos;`\+([^`+]+)\+`&apos;'
-    text = re.sub(pattern_single_quote, r"'\g<1>'", text)
+    # --- STEP 2: REVERT ENTITIES (Single Quotes) ---
+    # Finds: &apos;`+CONTENT+`&apos;
+    # Replaces with: '`CONTENT`'
+    pattern_sq = re.compile(r'&apos;\`\+([^\`\n]+)\+\`&apos;')
+    text = pattern_sq.sub(r"'\`\1\`'", text)
 
-    # 3. Revert Plain Literal Monospace: `+text+` -> `text`
-    # This also acts as a final cleanup for residual `+` marks.
-    pattern_plain = r'`\+([^`+]+)\+`'
-    text = re.sub(pattern_plain, r'`\g<1>`', text)
-    
-    # --- END: REVERT MONOSPACE AND ENTITIES ---
 
-    # Convert [literal]#text# back to monospaced (Kept from original logic)
+    # --- STEP 3: REVERT PLAIN WRAPPERS ---
+    # Finds: `+CONTENT+`
+    # Replaces with: `CONTENT`
+    # This catches any remaining blocks that weren't quoted.
+    pattern_plain = re.compile(r'\`\+([^\`\n]+)\+\`')
+    text = pattern_plain.sub(r'`\1`', text)
+
+
+    # --- STEP 4: OTHER CLEANUP TASKS (Preserved from original) ---
+
+    # Convert [literal]#text# back to monospaced
     text = re.sub(r'\[literal\]#([^#]+)#', r'[monospaced]#\1#', text, flags=re.IGNORECASE)
 
-    # Collapse weird "+word+" inserts produced by translation (Kept from original logic)
+    # Collapse weird "+word+" inserts produced by translation tools
     text = re.sub(r'\+([A-Za-z0-9/_\.-]+)\+', r'\1', text)
 
-    # Note: The original line `text = re.sub(r'&quot;(`[^`]+`)&quot;', r'"\1"', text)` is now 
-    # redundant because of step 1, but we keep the logic that follows it:
-    
     # Normalize line endings + remove stray CR
     text = text.replace("\r\n", "\n").replace("\r", "\n")
 
@@ -134,7 +138,7 @@ for path in Path(SRC_DIR).rglob("*.adoc"):
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
 
     text = detect_and_convert_to_utf8(src_path)
-    text = cleanup_text(text) # <--- The updated cleanup function is called here
+    text = cleanup_text(text)
 
     with open(dst_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)

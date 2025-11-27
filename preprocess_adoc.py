@@ -45,10 +45,10 @@ def normalize_ascii(text: str) -> str:
     """Basic cleanup: normalize whitespace, fix accidental CRLF, sanitize soft breaks."""
     before = text
 
-    text = text.replace("\r\n", "\n").replace("\r", "\n")        # Force LF only
-    text = re.sub(r'\u00A0', ' ', text)                          # Non-breaking space
-    text = re.sub(r'\t', '    ', text)                           # Tabs → spaces
-    text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE)     # Trailing spaces
+    text = text.replace("\r\n", "\n").replace("\r", "\n")      # Force LF only
+    text = re.sub(r'\u00A0', ' ', text)                      # Non-breaking space
+    text = re.sub(r'\t', '    ', text)                       # Tabs → spaces
+    text = re.sub(r'[ ]{2,}$', '', text, flags=re.MULTILINE) # Trailing spaces
 
     if text != before:
         stats["normalized"] += 1
@@ -57,45 +57,78 @@ def normalize_ascii(text: str) -> str:
 
 
 def preprocess_content(text: str) -> str:
-    """Light transformations for translation prep: Convert monospace to literal (+...+) 
-    and encode surrounding quotes to entities."""
+    """
+    Transformations for translation prep.
+    Includes robust literal monospace conversion that handles artifacts, 
+    preserves spacing, and enforces strict single-line matching.
+    """
     
-    # --- START OF REPLACEMENT LOGIC ---
+    # --- STEP 1: SANITIZE (Cleanup previous errors) ---
+    # We remove the specific artifacts "+` and `+" (and optional spaces attached to the +)
+    # This prepares the text so the main regex doesn't have to guess.
     
-    # Regex Breakdown:
-    # (['"]?)   : Group 1 - Match an optional quote (' or ")
-    # `         : Match a literal backtick
-    # ([^`]+)   : Group 2 - Match content inside (not backticks)
-    # `         : Match a literal closing backtick
-    # \1        : Match whatever was captured in Group 1 (the matching closing quote)
-    
-    pattern = r"(['\"]?)`([^`]+)`\1"
+    # Matches: Quote + Plus + (Optional Space) + Backtick
+    sanitize_start = re.compile(r'([\"\'“‘])\+[ \t]*(\`)')
+    text = sanitize_start.sub(r'\1\2', text)
 
-    def replacement_func(match):
-        quote = match.group(1)   # The quote found (or empty string)
-        content = match.group(2) # The text inside the backticks
+    # Matches: Backtick + (Optional Space) + Plus + Quote
+    sanitize_end = re.compile(r'(\`)[ \t]*\+([\"\'”’])')
+    text = sanitize_end.sub(r'\1\2', text)
+
+
+    # --- STEP 2: APPLY FORMATTING (Strict Single-Line, Space-Safe) ---
+    
+    # REGEX EXPLANATION:
+    # 1. Start Quote (Optional)
+    # 2. Pre-Artifact: (?:\+*) -> Only matches PLUS signs. NO SPACES.
+    # 3. Backtick Block: \`([^\`\n]+)\` -> No newlines allowed.
+    # 4. Post-Artifact: (?:\+*) -> Only matches PLUS signs. NO SPACES.
+    # 5. End Quote (Optional)
+
+    pattern = re.compile(
+        r'([\"\'\u201c\u201d\u2018\u2019])?'       # 1. Start Quote
+        r'(?:\+*)'                                 # 2. Pre-Junk (PLUS ONLY)
+        r'\`([^\`\n]+)\`'                          # 3. Backtick Block (No \n)
+        r'(?:\+*)'                                 # 4. Post-Junk (PLUS ONLY)
+        r'([\"\'\u201c\u201d\u2018\u2019])?'       # 5. End Quote
+    )
+
+    def replacement(match):
+        start_quote = match.group(1)
+        content = match.group(2)
+        end_quote = match.group(3)
         
-        # 1. Ensure content is wrapped in +...+, avoiding double wrapping
-        if content.startswith('+') and content.endswith('+'):
-            inner = content
+        # Helper: Ensure inner content is wrapped in +...+
+        clean_content = content
+        
+        # Safety check: Only strip wrappers if length > 1. 
+        # This prevents stripping a single '+' which would result in '++'.
+        if len(clean_content) > 1 and clean_content.startswith('+') and clean_content.endswith('+'):
+            clean_content = clean_content[1:-1]
+        
+        final_inner = f'+{clean_content}+'
+
+        # Context Logic
+        is_double = start_quote in ['"', '“', '”'] and end_quote in ['"', '“', '”']
+        is_single = start_quote in ["'", "‘", "’"] and end_quote in ["'", "‘", "’"]
+        
+        if is_double:
+            return f'&quot;`{final_inner}`&quot;'
+        elif is_single:
+            return f'&apos;`{final_inner}`&apos;'
         else:
-            inner = f"+{content}+"
+            # Preserve surrounding text (including spaces) if quotes didn't match
+            prefix = start_quote if start_quote else ""
+            suffix = end_quote if end_quote else ""
+            return f'{prefix}`{final_inner}`{suffix}'
 
-        # 2. Check the surrounding quote and convert to entity
-        if quote == '"':
-            # Case: "`text`" -> &quot;`+text+`&quot;
-            return f'&quot;`{inner}`&quot;'
-        elif quote == "'":
-            # Case: '`text`' -> &apos;`+text+`&apos;
-            return f'&apos;`{inner}`&apos;'
-        else:
-            # Case: `text` -> `+text+` (No quotes)
-            return f'`{inner}`'
+    text = pattern.sub(replacement, text)
 
-    # Substitute using the callback function
-    return re.sub(pattern, replacement_func, text)
+    # --- STEP 3: OTHER TRANSFORMATIONS (Preserved from original script) ---
+    # Example: mark monospaced blocks for safer translation
+    text = re.sub(r'\[monospaced\]#([^#]+)#', r'[literal]#\1#', text)
 
-    # --- END OF REPLACEMENT LOGIC ---
+    return text
 
 
 def main():
@@ -117,7 +150,7 @@ def main():
 
     text = detect_and_read_utf8(src_file)
     text = normalize_ascii(text)
-    text = preprocess_content(text) # <--- The updated function is called here
+    text = preprocess_content(text)
 
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
@@ -128,10 +161,7 @@ def main():
     # Summary
     log("\nSummary:")
     log(f"  ✅ Processed: {stats['processed']}")
-    log(f"  ⚠️ Encoding issues fixed: {stats['errors']}")
-    log(f"  ✅ Normalized files: {stats['normalized']}")
-
-    log(f"\nCompleted at {datetime.datetime.now()}")
+    log(f"  ⚠️ Encoding issues fixed:
 
 
 if __name__ == "__main__":
