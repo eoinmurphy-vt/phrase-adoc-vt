@@ -1,0 +1,349 @@
+= Amazon ECS
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /02.deploying/09.ecs/09.ecs.md
+:page-opendocs-slug: /deploying/ecs
+
+== Important: Deployment on Amazon ECS is no longer supported
+
+The reference section below is no longer maintained. However, it may provide some support in understanding how to deploy the All-in-One on ECS.
+
+== Deployment on AWS with ECS
+
+This is an example of how to deploy {product-name} with ECS.
+
+[NOTE]
+====
+Please refer to the Kubernetes examples for EKS.
+====
+
+. Prepare multiple Amazon ECS instances that have integrated the Docker engine and the ECS agent containers. Select a node for the management console. Then define security group rules that allow incoming TCP port 8443 ({product-name} default port of the management console) for access by your client browser.
+. Define a security group that allows TCP and UDP ports on 18300, 18301, 18400, 18401. This will be used by {product-name} executors to communicate with the controllers/All-in-One. Apply this security group to all ECS instances that will deploy the {product-name} executors and controllers/All-in-One.
+. Set an attribute on the nodes that you want to deploy {product-name} All-in-One or controller containers. For example, if you want to run {product-name} in controller HA mode, it is recommended to select at least 3 nodes and then add the attribute to all 3 nodes.
++
+--
+Here’s how to add attributes to your ECS instances:
+
+Select the instance and then choose "\`+View/Edit Attributes\+`" from the actions dropdown menu.
+
+image:1viewattributes.png[Attribut]
+
+Ajoutez un nouvel attribut. Par exemple, "\`+allinone-node\+`" avec la valeur "\`+true\+`".
+
+image:2addattribute.png[AddAttributes]
+--
+. Créez la définition de tâche tout-en-un. Créez une nouvelle définition de tâche pour le conteneur tout-en-un. Vous pouvez utiliser l'interface ECS pour la créer manuellement ou insérer le fichier JSON d'exemple (voir ci-dessous pour des exemples). Référez-vous à la section "\`+1. Déploiement de {product-name}\+`" de cette documentation pour savoir comment configurer le tout-en-un.
++
+--
+Geben Sie die Platzierungsbeschränkung ein. Si vous avez utilisé les étiquettes d'attribut ci-dessus, entrez cela dans la contrainte.
+
+[,json]
+----
+attribute:allinone-node=~true
+----
+
+image:3taskdef.png[AllinoneTask]
+
+[NOTE]
+====
+Si vous vérifiez maintenant le fichier JSON mis à jour, vous verrez la contrainte de placement ajoutée.
+====
+--
+. Créez un nouveau service pour la tâche tout-en-un. Définissez les "\`+Modèles de placement\+`" sur "\`+Une tâche par hôte\+`", afin qu'un seul tout-en-un/contrôleur puisse s'exécuter sur un hôte. Vous verrez également que la contrainte "`memberOf(attribute:allinone-node=~true)" est utilisée, ce qui exige que le nœud ait cet attribut.
++
+--
+image:3taskplacement.png[AllinonePlace]
+--
+. Vous pouvez maintenant déployer le service tout-en-un. Définissez le "\`+Nombre de tâches\+`" sur le nombre souhaité de tout-en-un/contrôleurs. Les {product-name} conteneurs tout-en-un ou contrôleurs seront maintenant lancés sur les nœuds sélectionnés. Une fois que le tout-en-un fonctionne, vous devriez être en mesure d'accéder à la console {product-name} via HTTPS sur le port 8443.
+. Créez la définition de tâche Enforcer. Ceci est similaire à la tâche tout-en-un. Configurez manuellement via la console ECS ou utilisez l'exemple JSON ci-dessous.
++
+--
+Pour la restriction de placement de l'Enforcer, vous devez vous assurer que l'Enforcer n'est PAS sur le même nœud que le tout-en-un.
+
+[,json]
+----
+attribute:allinone-node!~true
+----
+
+image:4enforcertask.png[EnforcerTask]
+--
+. Créez un nouveau service pour la tâche Enforcer. Réinitialisez le placement des tâches sur "\`+One Task Per Host\+`" afin qu'un seul Enforcer soit déployé sur chaque hôte. Notez également que la restriction supplémentaire montre que le déploiement sur un nœud tout-en-un est empêché.
++
+--
+image:5taskplacement.png[EnforcerPlacement]
+
+Déployez ce service avec le nombre souhaité de nœuds Enforcer dans "\`+Number of tasks\+`". Dans un très court laps de temps, tous les Enforcers seront opérationnels. Depuis la console {product-name}, vous pouvez voir tous les nœuds détectés avec des Enforcers.
+--
+
+== Exemples de descriptions de tâches ECS JSON
+
+Vous pouvez utiliser les exemples suivants comme point de départ pour configurer les descriptions de tâches pour les conteneurs {product-name}.
+
+Créez une nouvelle description de tâche, puis cliquez ci-dessous sur "Configurer via JSON". Avant d'insérer le JSON ci-dessous, remplacez l'adresse IP et le chemin de l'image (voir REMPLACER dans les exemples). Typiquement, l'adresse IP serait l'adresse IP privée de l'instance AWS sur laquelle le tout-en-un est exécuté. Vous pouvez également spécifier un autre nom de famille que my-allinone/my-enforcer (ci-dessous dans le JSON).
+
+Exemple de fichier JSON tout-en-un :
+
+.Cliquez ici pour les détails
+[%collapsible]
+====
+[,json]
+----
+{
+    "networkMode": "bridge",
+    "taskRoleArn": null,
+    "pidMode": "host",
+    "containerDefinitions": [
+        {
+            "volumesFrom": [],
+            "memory": null,
+            "extraHosts": null,
+            "dnsServers": null,
+            "disableNetworking": null,
+            "dnsSearchDomains": null,
+            "portMappings": [
+                {
+                    "hostPort": 18300,
+                    "containerPort": 18300,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 18301,
+                    "containerPort": 18301,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 18400,
+                    "containerPort": 18400,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 18401,
+                    "containerPort": 18401,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 18301,
+                    "containerPort": 18301,
+                    "protocol": "udp"
+                },
+                {
+                    "hostPort": 8443,
+                    "containerPort": 8443,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 1443,
+                    "containerPort": 10443,
+                    "protocol": "tcp"
+                }
+            ],
+            "hostname": null,
+            "essential": true,
+            "entryPoint": null,
+            "mountPoints": [
+                {
+                    "containerPath": "/lib/modules",
+                    "sourceVolume": "modules",
+                    "readOnly": null
+                },
+                {
+                    "containerPath": "/var/run/docker.sock",
+                    "sourceVolume": "dockersock",
+                    "readOnly": null
+                },
+                {
+                    "containerPath": "/host/proc",
+                    "sourceVolume": "proc",
+                    "readOnly": true
+                },
+                {
+                    "containerPath": "/host/cgroup",
+                    "sourceVolume": "cgroup",
+                    "readOnly": true
+                }
+            ],
+            "name": "allinone",
+            "ulimits": null,
+            "dockerSecurityOptions": null,
+            "environment": [
+                {
+                    "name": "CLUSTER_JOIN_ADDR",
+                    "value": "REPLACE: Private IP"
+                }
+            ],
+            "links": null,
+            "workingDirectory": null,
+            "readonlyRootFilesystem": false,
+            "image": "REPLACE: Image Path/Name",
+            "command": null,
+            "user": null,
+            "dockerLabels": {
+                "com.myself.name": "neuvector"
+            },
+            "logConfiguration": null,
+            "cpu": 0,
+            "privileged": true,
+            "memoryReservation": 768
+        }
+    ],
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "/lib/modules"
+            },
+            "name": "modules"
+        },
+        {
+            "host": {
+                "sourcePath": "/var/run/docker.sock"
+            },
+            "name": "dockersock"
+        },
+        {
+            "host": {
+                "sourcePath": "/proc"
+            },
+            "name": "proc"
+        },
+        {
+            "host": {
+                "sourcePath": "/sys/fs/cgroup"
+            },
+            "name": "cgroup"
+        }
+    ],
+    "family": "my-allinone",
+    "placementConstraints": []
+}
+----
+====
+
+Exemple de fichier JSON Enforcer :
+
+.Cliquez ici pour les détails
+[%collapsible]
+====
+[,json]
+----
+{
+    "networkMode": "bridge",
+    "taskRoleArn": null,
+    "pidMode": "host",
+    "containerDefinitions": [
+        {
+            "volumesFrom": [],
+            "memory": null,
+            "extraHosts": null,
+            "dnsServers": null,
+            "disableNetworking": null,
+            "dnsSearchDomains": null,
+            "portMappings": [
+                {
+                    "hostPort": 18301,
+                    "containerPort": 18301,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 18401,
+                    "containerPort": 18401,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 18301,
+                    "containerPort": 18301,
+                    "protocol": "udp"
+                }
+            ],
+            "hostname": null,
+            "essential": true,
+            "entryPoint": null,
+            "mountPoints": [
+                {
+                    "containerPath": "/lib/modules",
+                    "sourceVolume": "modules",
+                    "readOnly": null
+                },
+                {
+                    "containerPath": "/var/run/docker.sock",
+                    "sourceVolume": "dockersock",
+                    "readOnly": null
+                },
+                {
+                    "containerPath": "/host/proc",
+                    "sourceVolume": "proc",
+                    "readOnly": true
+                },
+                {
+                    "containerPath": "/host/cgroup",
+                    "sourceVolume": "cgroup",
+                    "readOnly": true
+                }
+            ],
+            "name": "enforcer",
+            "ulimits": null,
+            "dockerSecurityOptions": null,
+            "environment": [
+                {
+                    "name": "CLUSTER_JOIN_ADDR",
+                    "value": "REPLACE: Private IP"
+                }
+            ],
+            "links": null,
+            "workingDirectory": null,
+            "readonlyRootFilesystem": false,
+            "image": "REPLACE: Image Path/Name",
+            "command": null,
+            "user": null,
+            "dockerLabels": {
+                "com.myself.name": "neuvector"
+            },
+            "logConfiguration": null,
+            "cpu": 0,
+            "privileged": true,
+            "memoryReservation": 512
+        }
+    ],
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "/lib/modules"
+            },
+            "name": "modules"
+        },
+        {
+            "host": {
+                "sourcePath": "/var/run/docker.sock"
+            },
+            "name": "dockersock"
+        },
+        {
+            "host": {
+                "sourcePath": "/proc"
+            },
+            "name": "proc"
+        },
+        {
+            "host": {
+                "sourcePath": "/sys/fs/cgroup"
+            },
+            "name": "cgroup"
+        }
+    ],
+    "family": "my-enforcer",
+    "placementConstraints": []
+}
+----
+====
+
+== Live-Aktualisierung {product-name}
+
+Vous pouvez effectuer une mise à jour en direct des {product-name} conteneurs dans ECS sans interrompre les services. Les services de {product-name} peuvent être facilement mis à jour ou améliorés sans interrompre les services en cours. Pour ce faire dans Amazon ECS :
+
+. Si vous avez déployé plusieurs contrôleurs ou Allinones en tant que cluster, ignorez cette étape. S'il n'y a qu'un seul Allinone/Contrôleur dans le système, trouvez une nouvelle instance ECS et déployez un 2. Conteneur Allinone/Contrôleur dessus (suivez les étapes de déploiement ECS pour Allinone/Contrôleur {product-name}). Après le déploiement, vous verrez dans la console de gestion {product-name} ce nouveau contrôleur actif (sous Ressources > Contrôleur). Ceci est nécessaire pour que toutes les données d'état soient répliquées entre les contrôleurs.
+. Dans les services ECS, réinitialisez et supprimez l'ancien service Allinone/Contrôleur. Tirez manuellement les images {product-name} mises à jour ou déclenchez AWS ECS pour tirer de nouvelles versions des conteneurs Allinone/Contrôleur depuis Dockerhub ou votre dépôt privé.
+. Créez une nouvelle révision de la tâche Allinone/Contrôleur, mettez à jour "\`+CLUSTER_JOIN_ADDR\+`" avec l'adresse IP du nœud privé du 2. Allinone/Contrôleurs.
+. Créez un nouveau service pour déployer cette nouvelle tâche (suivez les mêmes étapes de déploiement dans ECS). Une fois terminé, la nouvelle version de l'Allinone/Contrôleur devrait être active. Depuis la console de gestion {product-name}, tous les journaux et politiques devraient toujours être présents. Optionnellement, vous pouvez maintenant arrêter le 2. Conteneur Allinone/Contrôleur, car un Allinone/Contrôleur devrait maintenant être démarré sur le nœud d'origine.
+. Arrêtez les Enforcers des services ECS et mettez-les à jour. Tirez manuellement ou automatiquement les nouvelles images des Enforcers. Démarrez ou mettez ensuite à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous pouvez voir que tous les Enforcers sont à jour.
+. Si vous utilisez le conteneur Manager séparé au lieu de l'Allinone (qui contient déjà le Manager), arrêtez simplement l'ancien conteneur Manager et supprimez-le. Tirez ensuite la nouvelle version du Manager et déployez-la, en veillant à ce que CLUSTER_JOIN_ADDR pointe vers l'IP du contrôleur.
+
+Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue de diagramme en direct sera automatiquement régénérée dès qu'un nouveau trafic en direct circule entre les conteneurs.
