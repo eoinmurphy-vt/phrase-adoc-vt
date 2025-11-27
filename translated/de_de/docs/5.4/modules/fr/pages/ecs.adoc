@@ -32,7 +32,7 @@ Fügen Sie dann ein neues Attribut hinzu. Zum Beispiel "\`+allinone-node\+`" mit
 
 image:2addattribute.png[AddAttributes]
 --
-. Créez la définition de tâche Allinone. Erstellen Sie eine neue Aufgabendefinition für den Allinone-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die JSON-Beispieldatei einzufügen (siehe unten für Beispiele). Verweisen Sie auf den Abschnitt "\`+1. Bereitstellung von {product-name}\+`" in diesen Dokumenten, um zu erfahren, wie Sie das Allinone konfigurieren.
+. Créez la définition de tâche Allinone. Erstellen Sie eine neue Aufgabendefinition für den Allinone-Container. Sie können die ECS-Oberfläche verwenden, um sie manuell zu erstellen oder die JSON-Beispieldatei einzufügen (siehe unten für Beispiele). Verweisen Sie auf den Abschnitt "\`+1. Bereitstellung von {product-name}\+`" in diesen Dokumenten, um zu erfahren, wie Sie das All-in-One konfigurieren.
 +
 --
 Geben Sie die Platzierungsbeschränkung ein. Wenn Sie beispielsweise das oben genannte Attribut-Tagging verwendet haben, geben Sie dies in die Einschränkung ein.
@@ -49,13 +49,13 @@ image:3taskdef.png[AllinoneTask]
 Wenn Sie die aktualisierte JSON-Datei jetzt überprüfen, sehen Sie die hinzugefügte Platzierungsbeschränkung.
 ====
 --
-. Erstellen Sie einen neuen Dienst für die Allinone-Aufgabe. Setzen Sie die "\`+Placement Templates\+`" auf "\`+One Task Per Host\+`", damit nur ein Allinone/Controller auf einem beliebigen Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung "`membreDe(attribut:allinone-node=~true)" verwendet wird, was erfordert, dass der Knoten dieses Attribut hat.
+. Erstellen Sie einen neuen Dienst für die Allinone-Aufgabe. Setzen Sie die "\`+Platzierungsvorlagen\+`" auf "\`+Eine Aufgabe pro Host\+`", damit nur ein All-in-One/Controller auf einem beliebigen Host ausgeführt werden kann. Sie werden auch sehen, dass die Einschränkung "`membreDe(attribut:allinone-node=~true)" verwendet wird, was erfordert, dass der Knoten dieses Attribut hat.
 +
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Sie können jetzt den Allinone-Dienst bereitstellen. Setzen Sie die "\`+Number of tasks\+`" auf die gewünschte Anzahl von Allinone/Controllern. Jetzt werden die {product-name} Allinone- oder Controller-Container auf den ausgewählten Knoten ausgeführt. Nachdem das Allinone zu laufen beginnt, sollten Sie in der Lage sein, sich über HTTPS auf Port 8443 mit der Konsole {product-name} zu verbinden.
-. Créez la définition de tâche Enforcer. Es ist ähnlich wie die Allinone-Aufgabe. Konfigurieren Sie manuell über die ECS-Konsole oder verwenden Sie das folgende JSON-Beispiel.
+. Sie können jetzt den Allinone-Dienst bereitstellen. Setzen Sie die "\`+Anzahl der Aufgaben\+`" auf die gewünschte Anzahl von All-in-One/Controllern. Jetzt werden die {product-name} Allinone- oder Controller-Container auf den ausgewählten Knoten ausgeführt. Nachdem das All-in-One zu laufen beginnt, sollten Sie in der Lage sein, sich über HTTPS auf Port 8443 mit der Konsole {product-name} zu verbinden.
+. Créez la définition de tâche Enforcer. Es ist ähnlich wie die All-in-One-Aufgabe. Konfigurieren Sie manuell über die ECS-Konsole oder verwenden Sie das folgende JSON-Beispiel.
 +
 --
 Für die Platzierungsbeschränkung des Enforcers müssen Sie sicherstellen, dass der Enforcer NICHT auf demselben Knoten wie das All-in-One ist.
@@ -346,4 +346,4 @@ Sie können eine Live-Aktualisierung der {product-name} Container in ECS durchf�
 . Stoppen und aktualisieren Sie die Enforcers von den ECS-Diensten. Ziehen Sie manuell oder automatisch die neuen Enforcer-Images. Starten oder aktualisieren Sie dann den Enforcer auf allen Knoten neu. Von der Konsole {product-name} sehen Sie, dass alle Enforcers auf dem neuesten Stand sind.
 . Wenn Sie den separaten Manager-Container anstelle des All-in-One verwenden (der bereits den Manager hat), stoppen und löschen Sie einfach den alten Manager-Container. Ziehen Sie dann die neue Version des Managers und stellen Sie sie bereit, indem Sie die CLUSTER_JOIN_ADDR auf die IP des Controllers zeigen.
 
-Alle Container {product-name} sind jetzt live aktualisiert. Alle Richtlinien, Protokolle und Konfigurationen sind nicht betroffen. The view of the live diagram is automatically regenerated as soon as new live traffic flows between the containers.
+Alle Container {product-name} sind jetzt live aktualisiert. Alle Richtlinien, Protokolle und Konfigurationen sind nicht betroffen. Die Ansicht des Live-Diagramms wird automatisch regeneriert, sobald neuer Live-Verkehr zwischen den Containern fließt.
