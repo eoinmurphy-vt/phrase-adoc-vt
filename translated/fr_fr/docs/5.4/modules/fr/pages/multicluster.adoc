@@ -6,7 +6,7 @@
 
 == Unternehmenskonsole
 
-La console {product-name} peut être utilisée pour gérer de grandes implémentations Multi-Cluster et Multi-Cloud. Un cluster doit être sélectionné comme cluster principal, et d'autres clusters distants peuvent alors se connecter au cluster principal. Une fois connecté, le cluster principal peut pousser des règles fédérées à chaque cluster distant, qui seront affichées comme des règles fédérées dans les consoles de chaque cluster distant. Les registres fédérés scannés synchronisent également les résultats de scan avec les clusters distants. Seuls les utilisateurs locaux et les utilisateurs Rancher avec des droits d'administrateur peuvent promouvoir un cluster en cluster principal.
+La console {product-name} peut être utilisée pour gérer de grandes implémentations Multi-Cluster et Multi-Cloud. Un cluster doit être sélectionné comme cluster principal, et d'autres clusters distants peuvent alors se connecter au cluster principal. Une fois connecté, le cluster principal peut pousser des règles fédérées à chaque cluster distant, qui seront affichées comme des règles fédérées dans les consoles de chaque cluster distant. Les registres fédérés scannés synchronisent également les résultats de scan avec les clusters distants. Seuls les utilisateurs locaux et les utilisateurs Rancher avec des droits d'administrateur peuvent promouvoir un cluster en tant que cluster principal.
 
 En plus de la politique fédérée, la gestion Multi-Cluster prend en charge la surveillance de chaque cluster distant sur une page de résumé, comme indiqué ci-dessous.
 
@@ -14,9 +14,9 @@ image:multicluster_summary.png[Résumé]
 
 Il DOIT y avoir une connexion réseau entre les contrôleurs de chaque cluster via les ports requis. Le contrôleur est exposé via un service principal ou distant en dehors de son cluster, comme le montre l'exemple de déploiement yaml {product-name}.
 
-== Configuration des clusters principal et distants
+== Configuration des clusters principal et distant
 
-Connectez-vous à la console du cluster qui sera le cluster principal. Sélectionnez plusieurs clusters dans le menu déroulant en haut à droite, puis cliquez sur Promouvoir pour configurer le cluster principal. Remarque : Seuls les utilisateurs locaux et les utilisateurs Rancher avec des droits d'administrateur peuvent promouvoir un cluster en cluster principal. Actuellement, les utilisateurs SSO/LDAP/OIDC avec un rôle d'administrateur ne peuvent pas promouvoir un cluster en cluster principal.
+Connectez-vous à la console du cluster qui sera le cluster principal. Sélectionnez plusieurs clusters dans le menu déroulant en haut à droite, puis cliquez sur Promouvoir pour configurer le cluster principal. Remarque : Seuls les utilisateurs locaux et les utilisateurs Rancher avec des droits d'administrateur peuvent promouvoir un cluster en tant que cluster principal. Actuellement, les utilisateurs SSO/LDAP/OIDC avec un rôle d'administrateur ne peuvent pas promouvoir un cluster en tant que cluster principal.
 image:master1.png[MasterConfig]
 
 Entrez l'IP publique et le port du service fed-master. Vous pouvez le trouver en exécutant
@@ -52,7 +52,7 @@ Utilisez la sortie pour le fed-worker du cluster distant pour configurer l'adres
 
 image:join_remote.png[JoinRemote]
 
-Déconnectez-vous du cluster distant et reconnectez-vous au principal. Ou si vous êtes déjà connecté, cliquez sur "Actualiser" et le cluster distant sera listé dans le menu "Plusieurs Clusters".
+Déconnectez-vous du cluster distant et reconnectez-vous au principal. Ou si vous êtes déjà connecté, cliquez sur "Actualiser" et le cluster distant sera répertorié dans le menu "Plusieurs Clusters".
 
 image:fed_master_list.png[FedMaster]
 
@@ -110,7 +110,7 @@ Veuillez consulter la section Politique -> Politique fédérée pour des instruc
 
 Le cluster principal (maître) peut scanner un registre/dépôt désigné comme registre fédéré. Les résultats de numérisation de ces registres sont synchronisés avec tous les clusters gérés (distants). Cela permet d'afficher les résultats de numérisation dans la console du cluster géré ainsi que d'utiliser les résultats dans les règles d'admission du cluster géré. Les registres doivent être scannés une seule fois, au lieu de chaque cluster, réduisant ainsi l'utilisation du CPU/mémoire et de la bande passante réseau.
 
-Les registres fédérés ne peuvent être configurés que par un administrateur fédéré dans le cluster principal dans les actifs -> Registre. Après qu'un dépôt fédéré a été ajouté et scanné, les résultats de numérisation sont synchronisés avec tous les clusters gérés. Les règles d'admission dans chaque cluster géré qui nécessitent une numérisation d'image (z. B. Les CVEs, les règles basées sur la conformité), utilisent automatiquement à la fois les résultats des analyses fédérées et les résultats des analyses de registre configurées localement.
+Les registres fédérés ne peuvent être configurés que par un administrateur fédéré dans le cluster principal dans les actifs -> Registre. Après qu'un dépôt fédéré a été ajouté et scanné, les résultats de numérisation sont synchronisés avec tous les clusters gérés. Les règles d'admission dans chaque cluster géré qui nécessitent une numérisation d'image (z. B. Les CVE, les règles basées sur la conformité), utilisent automatiquement à la fois les résultats des analyses fédérées et les résultats des analyses de registre configurées localement.
 
 === Fédération des résultats des analyseurs CI/CD (optionnel)
 
