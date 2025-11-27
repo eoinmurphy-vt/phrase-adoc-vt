@@ -4,26 +4,26 @@
 :page-opendocs-origin: /06.scanning/03.build/01.jenkins/01.jenkins.md
 :page-opendocs-slug:  /scanning/build/jenkins
 
-== Configuration détaillée pour le plug-in Jenkins
+== Detailed configuration for the Jenkins plug-in
 
-Les conteneurs offrent un moyen facile et efficace de déployer des applications. Mais les images de conteneurs peuvent contenir du code open source sur lequel vous n'avez pas un contrôle total. De nombreuses vulnérabilités dans les projets open source ont été signalées, et vous pouvez décider d'utiliser ces bibliothèques avec des vulnérabilités ou non après avoir analysé les images et examiné les informations sur les vulnérabilités les concernant.
+Containers provide an easy and efficient way to deploy applications. But container images may contain open source code over which you do not have full control. Many vulnerabilities in open source projects have been reported, and you can decide whether to use these libraries with vulnerabilities or not after analyzing the images and reviewing the vulnerability information about them.
 
-Le plug-in {product-name} Scanner de vulnérabilités Jenkins peut analyser les images après que votre image soit construite dans Jenkins. La source du plug-in et la dernière documentation peuvent être trouvées https://github.com/jenkinsci/neuvector-vulnerability-scanner-plugin[ici] sur la page GitHub {product-name}.
+The {product-name} Jenkins Vulnerability Scanner plug-in can scan images after your image is built in Jenkins. The source of the plug-in and the latest documentation can be found https://github.com/jenkinsci/neuvector-vulnerability-scanner-plugin[here] on the GitHub page {product-name}.
 
-Le plug-in prend en charge deux modes d'analyse. Le premier est le mode "Contrôleur & Scanner". Le second est le mode scanner autonome. Vous pouvez sélectionner le mode d'analyse dans la page de configuration du projet. Par défaut, il utilise le mode "Contrôleur & Scanner".
+The plug-in supports two scanning modes. The first is the "Controller & Scanner" mode. The second is the standalone scanner mode. Vous pouvez sélectionner le mode d'analyse dans la page de configuration du projet. By default, it uses the "Controller & Scanner" mode.
 
-Pour le mode "Contrôleur & Scanner", vous devez déployer le contrôleur et le scanner {product-name} dans le réseau. Pour analyser l'image locale (l'image sur la machine Jenkins), le "Contrôleur & Scanner" doit être installé sur le même nœud où l'image existe.
+For the "Controller & Scanner" mode, you need to deploy the controller and scanner {product-name} in the network. To scan the local image (the image on the Jenkins machine), the "Controller & Scanner" must be installed on the same node where the image exists.
 
-Pour le mode scanner autonome, le temps d'exécution Docker doit être installé sur le même hôte que Jenkins. De plus, ajoutez l'utilisateur jenkins au groupe docker.
+For the standalone scanner mode, Docker runtime must be installed on the same host as Jenkins. Additionally, add the jenkins user to the docker group.
 
 [,bash]
 ----
 sudo usermod -aG docker jenkins
 ----
 
-=== Installation du plug-in Jenkins
+=== Installing the Jenkins plug-in
 
-Tout d'abord, allez sur Jenkins dans votre navigateur pour rechercher le plug-in {product-name}. Cela peut être trouvé dans:
+First, go to Jenkins in your browser to search for the {product-name} plug-in. This can be found in:
 
 -> Gérer Jenkins -> Gérer les plugins -> Disponible -> filtre -> recherche `{product-name} Vulnerability Scanner` ->
 
@@ -44,36 +44,36 @@ Après avoir installé le plugin, trouvez la section '\`{product-name} Vulnerabi
 
 La valeur des minutes de délai d'attente mettra fin à l'étape de construction dans le temps saisi. La valeur par défaut de 0 signifie qu'aucun délai d'attente ne se produira.
 
-Cliquez sur le '\`Add Registry\`' pour entrer les valeurs pour le registre que vous utiliserez dans votre projet. Si vous ne scannez que des images locales, vous n'avez pas besoin d'ajouter un registre ici.
+Click on the '\`Add Registry\`' to enter the values for the registry you will use in your project. If you are only scanning local images, you do not need to add a registry here.
 
-Scénario 1 : exemple de configuration globale pour le scan d'images locales
+Scenario 1: example of global configuration for scanning local images
 
 image:jenkins1a.png[global-image]
 
-Scénario 2 : exemple de configuration globale pour le scan d'images de registre
+Scenario 2: example of global configuration for scanning registry images
 
-Pour la configuration du registre global, suivez les instructions ci-dessus pour local, puis ajoutez les détails du registre comme ci-dessous.
+For global registry configuration, follow the instructions above for local, then add the registry details as below.
 
-image:registry_console.png[registre-global]
+image:registry_console.png[global-registry]
 
-==== Scanner autonome
+==== Standalone Scanner
 
-Exécuter le scan Jenkins en mode autonome est un moyen léger de scanner les vulnérabilités des images dans le pipeline. Le scanner est invoqué dynamiquement et aucune installation de configuration de contrôleur n'est requise. C'est particulièrement utile lors du scan d'une image avant qu'elle ne soit poussée vers un registre. Il n'y a également aucune limite au nombre de tâches de scan pouvant s'exécuter en même temps.
+Running the Jenkins scan in standalone mode is a lightweight way to scan for vulnerabilities in images in the pipeline. The scanner is invoked dynamically and no controller configuration installation is required. This is particularly useful when scanning an image before it is pushed to a registry. There is also no limit to the number of scan tasks that can run at the same time.
 
-Pour exécuter un scan de vulnérabilité en mode autonome, le plugin Jenkins doit tirer l'image du scanner vers l'hôte où l'agent s'exécute, donc vous devez entrer l'URL du registre {product-name} Scanner, le dépôt d'images et les informations d'identification si nécessaire, dans la page de configuration du plugin {product-name}.
+To run a vulnerability scan in standalone mode, the Jenkins plugin must pull the scanner image to the host where the agent runs, so you need to enter the URL of the registry {product-name} Scanner, the image repository, and credentials if necessary, in the plugin configuration page {product-name}.
 
-Le résultat du scan peut également être soumis au contrôleur et utilisé dans la fonction de contrôle d'admission. Dans ce cas, vous avez besoin d'une configuration de contrôleur et de spécifier comment se connecter au contrôleur dans la page de configuration du plugin {product-name}.
+The scan result can also be submitted to the controller and used in the admission control function. In this case, you need a controller configuration and specify how to connect to the controller in the plugin configuration page {product-name}.
 
-=== Configuration locale pour scanner un hôte Docker distant
+=== Local configuration to scan a remote Docker host
 
-==== Conditions préalables pour un scan local sur un hôte Docker distant
+==== Prerequisites for a local scan on a remote Docker host
 
-Pour permettre à {product-name} de scanner une image qui n'est pas sur le même hôte que le contrôleur/allinone :
+To allow {product-name} to scan an image that is not on the same host as the controller/allinone:
 
 * Assurez-vous que le socket de l'API d'exécution Docker est exposé via TCP
-* Ajoutez la variable d'environnement suivante au contrôleur/allinone : SCANNER_DOCKER_URL=tcp://192.168.1.10:2376
+* Add the following environment variable to the controller/allinone: SCANNER_DOCKER_URL=tcp://192.168.1.10:2376
 
-=== Configuration du projet
+=== Project configuration
 
 Dans votre projet, choisissez le plugin '{product-name} Scanner de vulnérabilités' dans le menu déroulant 'Ajouter une étape de construction.' Cochez la case "Scanner avec le scanner autonome" si vous souhaitez effectuer le scan en mode scanner autonome. Par défaut, il utilise le mode "Contrôleur & Scanner" pour effectuer le scan.
 
