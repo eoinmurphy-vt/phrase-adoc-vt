@@ -110,7 +110,7 @@ Siehe die Dokumentation xref:cve.adoc[Sicherheitswarnungen und CVEs] für weiter
 * **NVSHAS-9865**: Les politiques réseau exportées diffèrent, selon l'ordre de sélection (mêmes groupes sélectionnés).
 * **NVSHAS-9828**: [Enforcer: Prozess] Der NeuVector Enforcer kann Pods mit kurzer Lebensdauer (weniger als 5 Sekunden) nicht erkennen.
 * **NVSHAS-9783**: Nachdem die Netzwerkrichtlinie zum Verbot von ICMP-Paketen hinzugefügt wurde, sieht NeuVector keine Warnung in `+Security Events+`.
-* **NVSHAS-9176**: Eine Skriptfehler auf der Seite **Risiken von Sicherheit > Schwachstellen** anzeigen, wenn ein Benutzer mit der Rolle des Namensraums `+rt_scan:w+` angemeldet ist.
+* **NVSHAS-9176**: Einen Skriptfehler auf der Seite **Risiken von Sicherheit > Schwachstellen** anzeigen, wenn ein Benutzer mit der Rolle des Namensraums `+rt_scan:w+` angemeldet ist.
 
 === 5.4.3 März 2025
 
@@ -187,7 +187,7 @@ Siehe die Dokumentation xref:cve.adoc[Sicherheitswarnungen und CVEs] für weiter
 
 [NOTE]
 ====
-Die Standardtypen des Managers und des Registrierungsadapterdienstes wurden in ClusterIP geändert.  Benutzer können das Parameter immer ersetzen, indem sie `+manager.svc.type+` und `+cve.adapter.svc.type+` ersetzen, wenn NodePort bevorzugt wird.
+Die Standardtypen des Managers und des Registrierungsadapterdienstes wurden in ClusterIP geändert.  Benutzer können die Parameter immer ersetzen, indem sie `+manager.svc.type+` und `+cve.adapter.svc.type+` ersetzen, wenn NodePort bevorzugt wird.
 ====
 
 In der Version 5.4.2 von NeuVector wird die Unterstützung für Deployments, die das integrierte interne Zertifikat verwenden, eingestellt. Le certificat trouvé à `+/etc/neuvector/certs/internal+` dans les images de conteneur NeuVector 5.4.2 sera supprimé. Um NeuVector weiterhin zu verwenden, müssen die Benutzer:
@@ -373,7 +373,7 @@ Bitte beachten Sie, dass der autonome Scanner von diesen Änderungen nicht betro
 * **NVSHAS-9282**: UI: L'édition de l'entrée du registre OpenShift échoue en raison d'un jeton manquant.
 * **NVSHAS-9098**: Verbessern Sie die Benutzererfahrung beim Laden der Risikoseite.
 * **NVSHAS-9267**: Die Benutzeroberfläche auf dem Hauptcluster 5.4 darf nicht auf verwaltete Cluster vor 5.4 wechseln, aufgrund von Änderungen an der REST-API.
-* **NVSHAS-9285**: UI : Der Dropdown-Button überlappt andere Elemente.
+* **NVSHAS-9285**: BENUTZEROBERFLÄCHE : Der Dropdown-Button überlappt andere Elemente.
 * **NVSHAS-9302** : Es ist nicht möglich, einen APIKEY mit der Rolle FedReader und FedAdmin zu erstellen.
 * **NVSHAS-8539** : Die Neukonfiguration der Proxy-Einstellungen verliert das Passwort.
 * **NVSHAS-9293** : Suppression des détails d'image non liés dans les rapports de vulnérabilité.
@@ -386,7 +386,7 @@ Bitte beachten Sie, dass der autonome Scanner von diesen Änderungen nicht betro
 * **NVSHAS-8242**: gRPC-Aufruf zum Testen, ob der Controller die kritische Schwere verwaltet.
 * **NVSHAS-8908**: Den X-Forwarded-Port unter Berücksichtigung des Komma-Trennzeichens korrekt analysieren.
 * **NVSHAS-9024**: Riskante Rolle der Admission Control Performance.
-* **NVSHAS-9091**: Es ist nicht möglich, alle Module unter ol:9.1, photon:5.0, rhel:9.1 und amzn:2023 im Repository, im Registry und in der autonomen Analyse zu melden.
+* **NVSHAS-9091**: Es ist nicht möglich, alle Module unter ol:9.1, photon:5.0, rhel:9.1 und amzn:2023 im Repository, in der Registry und in der autonomen Analyse zu melden.
 * **NVSHAS-8997**: Die Anzahl der Richtlinien-Slots pro Knoten erheblich reduzieren, um die Leistung zu verbessern.
 * **NVSHAS-9059**: CRD-Gruppen sind in NV sichtbar, selbst nach der Löschung von K8s.
 * **NVSHAS-9107**: Crash de goroutine à rest.handlerConfigLocalCluster.
@@ -686,12 +686,12 @@ Die Version 5.3.1 wurde aus dem Docker Hub entfernt, um das Upgrade-Problem zu v
 * Améliorer le chargement/performance de l'interface utilisateur de la page des vulnérabilités
 * Vereinheitlichen Sie die Browsersitzungsverbindung. Damit teilen sich alle Tabs im Browser dieselbe Anmeldesitzung, das Öffnen eines neuen Tabs aus einer bestehenden Sitzung erfordert keine Anmeldeinformationen, und wenn sich ein Tab abmeldet, melden sich alle Tabs ab.
 * Améliorations de la sécurité de la console (UI) : 1) Fügen Sie erforderliche Sicherheitsheader hinzu (X-Content-Type-Options nosniff; X-XSS-Protection 1; mode=block; X-Frame-Options SAMEORIGIN; Cache-Control privat, no-cache, no-store, must-revalidate
-HTTP Strict Transport Security max-age=15724800, 2) Fügen Sie einen CSP-Header hinzu (z. B. eine Richtlinie '\`+default-src\+`' festlegen), 3) Entfernen Sie die Offenlegung des Servernamens
+HTTP Strict Transport Security max-age=15724800, 2) Fügen Sie einen CSP-Header hinzu (z. B. eine Richtlinie '\`+default-src\+`' festlegen), 3) Entfernen Sie die Offenlegung des Servernamens.
 * Unterstützung für neuere Versionen der CIS-Benchmarks. Kubernetes (1.8.0), Kubernetes V1.24 (1.0.0), Kubernetes V1.23 (1.0.1), RedHat OpenShift Container Platform (1.4.0)
-* Anzeigen in den Assets -> Container -> Details der Container, die in den Registern im Vergleich zur Ausführung analysiert wurden
-* Einen Link zur Gruppe in den Sicherheitsrisiken -> Schwachstellen -> Popup-Auswirkungen hinzufügen, um den Gruppenmodus einfach zu ändern
-* Unterstützung für Deep Links in URLs zur Seite der Schwachstelle von Bildern und/oder Containern
-* Eine Passwort-Reset-Option für den Administrator hinzufügen, um das Passwort des Benutzers in den Konsoleneinstellungen -> Benutzer zurückzusetzen
+* Anzeigen in den Assets -> Container -> Details der Container, die in den Registern im Vergleich zur Ausführung analysiert wurden.
+* Einen Link zur Gruppe in den Sicherheitsrisiken -> Schwachstellen -> Popup-Auswirkungen hinzufügen, um den Gruppenmodus einfach zu ändern.
+* Unterstützung für Deep Links in URLs zur Seite der Schwachstelle von Bildern und/oder Containern.
+* Eine Passwort-Reset-Option für den Administrator hinzufügen, um das Passwort des Benutzers in den Konsoleneinstellungen -> Benutzer zurückzusetzen.
 * Das Senden von Ereignisprotokollen an die Protokolle des Pod-Controllers in den Einstellungen -> Konfiguration -> Benachrichtigung erlauben. Die gesendeten Ereignisse beginnen mit 'notification=' und werden nur im führenden Pod-Controller protokolliert. Bitte beachten Sie, dass es einen Fehler in dieser Version gibt, bei dem SYSLOG aktiviert sein muss, um das Ereignisniveau zu ändern (und nach der Änderung des Niveaus deaktiviert werden kann, wenn gewünscht).
 * Die Anforderung für den Controller/Enforcer, "/host/cgroup" zu mounten, entfernen.
 * Das Menü Hilfe erhalten hinzufügen mit Links zu Slack, der Dokumentation und anderen Ressourcen
@@ -702,15 +702,15 @@ HTTP Strict Transport Security max-age=15724800, 2) Fügen Sie einen CSP-Header 
 * Interner Serverfehler in den Sicherheitsrisiken -> Schwachstellen mit einer großen Anzahl von CVEs
 * SIGSEGV: Segmentierungsfehler im Controller
 * Das Löschen von verwundbaren Dateien (z. B. jar) entfernt sie nicht aus der Liste der Schwachstellen
-* Ungültiges Syslog-Zertifikat mit dem Signaturalgorithmus SHA256withECDSA
+* Ungültiges Syslog-Zertifikat mit dem Signaturalgorithmus SHA256withECDSA.
 * {product-name} montre les événements de sécurité qui devraient être autorisés par une règle réseau
 * Nicht verwalteter Knoten mit einem "Zombie"-Enforcer, der läuft
 * Der erweiterte Filter zeigt leere Felder für Behebung und Auswirkungen an
 * Corriger la gestion des chaînes pour éviter un redémarrage inattendu de l'enforcer
-* Unerwartete Verstöße bezüglich integrierter Gruppen
+* Unerwartete Verstöße bezüglich integrierter Gruppen.
 * Appel RPC de débogage de l'enforcer de bundle de support pour les données renvoie une erreur
 * Le groupe ne correspond pas dans les événements de sécurité
-* Das Senden von Ereignissen an Slack funktioniert nicht - mit Proxy
+* Das Senden von Ereignissen an Slack funktioniert nicht - mit Proxy.
 * Affichage des événements de sécurité pour les règles réseau autorisées
 
 ==== Sonstiges
@@ -719,7 +719,7 @@ HTTP Strict Transport Security max-age=15724800, 2) Fügen Sie einen CSP-Header 
 * Parameter zum Ausführen des Controllers im privilegierten Modus im Helm-Diagramm entfernen und die Anforderung für den Controller/Enforcer, "/host/cgroup" zu mounten.
 * Beispieldateien für die Kubernetes-Bereitstellung wurden aus den Dokumenten {product-name} entfernt. Bitte beziehen Sie sich auf den Link für Beispiele.
 
-==== Hervorgehobene Änderungen, die möglicherweise Änderungen für manuelle Bereitstellungen erfordern (alle Änderungen sind bereits im letzten Helm-Diagramm für 5.3.x reflektiert)
+==== Hervorgehobene Änderungen, die möglicherweise Änderungen für manuelle Bereitstellungen erfordern (alle Änderungen sind bereits im letzten Helm-Diagramm für 5.3.x reflektiert).
 
 * Die automatische Erkennung der Containerlaufzeit (Socket) beseitigt die Notwendigkeit, die Containerlaufzeit und den Socket-Pfad anzugeben.
 * Die Entfernung der Anforderung, den Controller im privilegierten Modus auszuführen, beseitigt die Notwendigkeit, den Ausführungssocket zu mounten und /host/cgroup/ zu mounten.
@@ -885,7 +885,7 @@ Usage: cli set system detect_unmanaged_wl status [OPTIONS] {true|false}
 * Die automatische Löschung der leeren Gruppe dauert 2 Stunden, um gelöscht zu werden, anstatt 1 Stunde gemäß dem Zeitplan.
 * Die Compliance-Kontrolldatei wird nicht in der UI-Konsole angezeigt.
 * Le filtre avancé dans les événements de sécurité manque le niveau "Erreur".
-* Das Passwort, das ein Sonderzeichen enthält, schlägt bei einem zukünftigen Authentifizierungsversuch fehl.
+* Ein Passwort, das ein Sonderzeichen enthält, schlägt bei einem zukünftigen Authentifizierungsversuch fehl.
 * Die Seite für mehrere Cluster wird nicht korrekt angezeigt, wenn die Anfragen hoch sind.
 * Das Detailfeld des Registers (unten) wird nicht aktualisiert.
 
@@ -1083,8 +1083,7 @@ TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
 * Prise en charge du scan de vulnérabilité de l'OS openSUSE Leap (dans l'image du scanner).
 * Scanner: Implementierung von Löschattributen beim Rekonstruieren des Image-Repositorys.
 * Überprüfen Sie das Deployment {product-name} und den Support für Hosts mit aktiviertem SELinux. Siehe unten für Details zum vorübergehenden Patch, bis das Helm-Diagramm aktualisiert wird.
-* Deutlicher zwischen dem Funktionsdiagramm und den Partnerdiagrammen in der Rancher-Benutzeroberfläche unterscheiden. + Verbesserung der Eingangsannotation für nginx im Rancher-Helm-Diagramm. Hinzufügen / Aktualisieren
-ingress.kubernetes.io/protocol : https zu nginx.ingress.kubernetes.io/backend-protocol : "HTTPS".
+* Deutlicher zwischen dem Funktionsdiagramm und den Partnerdiagrammen in der Rancher-Benutzeroberfläche unterscheiden. + Verbesserung der Eingangsannotation für nginx im Rancher-Helm-Diagramm. Hinzufügen / Aktualisieren ingress.kubernetes.io/protocol : https zu nginx.ingress.kubernetes.io/backend-protocol : "HTTPS".
 * Der aktuelle OpenShift-Operator unterstützt Pass-Through-Routen für API- und Föderationsdienste. Zusätzliche Helm-Wertparameter werden hinzugefügt, um die Edge- und Re-Encryption-Routenendtypen zu unterstützen.
 
 ==== Fehlerbehebungen
@@ -1155,7 +1154,7 @@ neuvector-scanner-pod-87474dcff-s8vgt       1/1     Running   0          114s   
 
 * Automatisierte Förderung von Gruppenmodi. Promeut le mode de protection d'un groupe en fonction du temps écoulé et des critères. Gilt nicht für von CRD erstellte Gruppen. Diese Funktion ermöglicht es einer neuen Anwendung, während eines bestimmten Zeitraums in Discover zu laufen, das Verhalten zu lernen und {product-name} Regeln für die Genehmigungsliste für das Netzwerk und den Prozess zu erstellen, und wechselt dann automatisch in den Überwachungsmodus und dann in den Schutzmodus. Kriterium von Discover zu Monitor: Verstrichene Zeit, um alle Netzwerk- und Prozessaktivitäten von mindestens einem aktiven Pod in der Gruppe zu lernen. Kriterium von Monitor zu Protect: Es gibt keine Sicherheitsereignisse (Netzwerk, Prozess usw.) für den festgelegten Zeitraum für die Gruppe.
 * Unterstützung für Rancher-Anwendungen 2.6.5 und das Marketplace-Diagramm. Bereitstellung im Namespace cattle-neuvector-system und Aktivierung von Rancher SSO bei {product-name}. Hinweis: Frühere Bereitstellungen von Rancher (z. B. Partnerkatalog-Diagramme, Version 1.9.x und früher) müssen vollständig entfernt werden, um auf das neue Diagramm zu aktualisieren.
-* Unterstützung für den Scan von SUSE Linux (SLE, SLES) und Microsoft Mariner
+* Unterstützung für den Scan von SUSE Linux (SLE, SLES) und Microsoft Mariner.
 * Schutz von Prozessen und Dateien ohne Drift. Dies ist der neue Standardmodus für den Schutz von Prozessen und Dateien. Zero-Drift erlaubt automatisch nur die Prozesse, die vom übergeordneten Prozess stammen, der sich im ursprünglichen Container-Image befindet, und erlaubt keine Dateiaktualisierungen oder die Installation neuer Dateien. Wenn Sie sich im Entdeckungs- oder Überwachungsmodus befinden, wird Zero-Drift bei verdächtigen Prozess- oder Dateiaktivitäten alarmieren. Im Schutzmodus wird eine solche Aktivität blockiert. Die Null-Abweichung erfordert nicht, dass die Prozesse gelernt oder zu einer Genehmigungsliste hinzugefügt werden. Die Deaktivierung der Null-Abweichung für eine Gruppe sorgt dafür, dass die für die Gruppe aufgelisteten Prozess- und Dateiregeln anstelle dessen wirksam werden.
 * Schutz im geteilten Politikmodus für das Netzwerk, den Prozess/Datei. Es gibt jetzt eine globale Einstellung in den Einstellungen -> Konfiguration, um den Schutzmodus des Netzwerks für die Anwendung der Netzwerkregeln separat festzulegen. Das Aktivieren dieser Option (standardmäßig deaktiviert) sorgt dafür, dass alle Netzwerkregeln im ausgewählten Schutzmodus (Entdeckung, Überwachung, Schutz) sind, während die Prozess-/Dateiregeln im Schutzmodus für diese Gruppe bleiben, wie im Bildschirm Politik -> Gruppen angezeigt. Auf diese Weise können die Netzwerkregeln auf Schutz (Blockierung) festgelegt werden, während die Politik für Prozesse/Dateien auf Überwachung festgelegt werden kann, oder umgekehrt.
 * Erkennung von WAF-Regeln, verbesserte DLP-Regeln (Header, URL, vollständiges Paket). Verwendet für eingehende Verbindungen zu Webanwendungs-Pods sowie für ausgehende Verbindungen zu API-Diensten, um die API-Sicherheit anzuwenden.
@@ -1288,7 +1287,7 @@ kubectl create clusterrolebinding neuvector-binding-nvdlpsecurityrules --cluster
 
 ==== Améliorations
 
-* Unterstützung für den Scan von SUSE Linux (SLE, SLES) und Microsoft Mariner
+* Unterstützung für den Scan von SUSE Linux (SLE, SLES) und Microsoft Mariner.
 * Schutz von Prozessen und Dateien ohne Drift. Dies ist der neue Standardmodus für den Schutz von Prozessen und Dateien. Zero-Drift erlaubt automatisch nur die Prozesse, die vom übergeordneten Prozess stammen, der sich im ursprünglichen Container-Image befindet, und erlaubt keine Dateiaktualisierungen oder die Installation neuer Dateien. Wenn Sie sich im Entdeckungs- oder Überwachungsmodus befinden, wird Zero-Drift bei verdächtigen Prozess- oder Dateiaktivitäten alarmieren. Im Schutzmodus wird eine solche Aktivität blockiert. Die Null-Abweichung erfordert nicht, dass die Prozesse gelernt oder zu einer Genehmigungsliste hinzugefügt werden. Die Deaktivierung der Null-Abweichung für eine Gruppe sorgt dafür, dass die für die Gruppe aufgelisteten Prozess- und Dateiregeln anstelle dessen wirksam werden.
 * Schutz im geteilten Politikmodus für das Netzwerk, den Prozess/Datei. Es gibt jetzt eine globale Einstellung in den Einstellungen -> Konfiguration, um den Schutzmodus des Netzwerks für die Anwendung der Netzwerkregeln separat festzulegen. Das Aktivieren dieser Option (standardmäßig deaktiviert) sorgt dafür, dass alle Netzwerkregeln im ausgewählten Schutzmodus (Entdeckung, Überwachung, Schutz) sind, während die Prozess-/Dateiregeln im Schutzmodus für diese Gruppe bleiben, wie im Bildschirm Politik -> Gruppen angezeigt. Auf diese Weise können die Netzwerkregeln auf Schutz (Blockierung) festgelegt werden, während die Politik für Prozesse/Dateien auf Überwachung festgelegt werden kann, oder umgekehrt.
 * WAF-Regelerkennung, verbesserte DLP-Regeln (Header, URL, vollständiges Paket)

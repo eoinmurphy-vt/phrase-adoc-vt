@@ -114,7 +114,7 @@ Föderierte Register können nur von einem föderierten Administrator im Hauptcl
 
 === Föderation der Ergebnisse von CI/CD-Scannern (optional)
 
-Die Ergebnisse von föderierten Registerscans werden immer mit den verwalteten Clustern synchronisiert, wie oben beschrieben. Der Hauptcluster kann auch Scanergebnisse xref:scanners.adoc#_standalone_scanner_for_local_scanning[von eigenständigen Scannern] oder Scanner-Plugins empfangen, die aus einem CI/CD-Bau-Pipeline aufgerufen werden. Um die Scanergebnisse des Bauphasen-Repositorys (CI/CD) auch mit den verwalteten Clustern zu synchronisieren, aktivieren Sie dies zunächst, indem Sie die Einstellungen des Hauptclusters (Master) wie unten angegeben ändern.
+Die Ergebnisse von föderierten Registerscans werden immer mit den verwalteten Clustern synchronisiert, wie oben beschrieben. Der Hauptcluster kann auch Scanergebnisse xref:scanners.adoc#_standalone_scanner_for_local_scanning[von eigenständigen Scannern] oder Scanner-Plugins empfangen, die aus einer CI/CD-Bau-Pipeline aufgerufen werden. Um die Scanergebnisse des Bauphasen-Repositorys (CI/CD) auch mit den verwalteten Clustern zu synchronisieren, aktivieren Sie dies zunächst, indem Sie die Einstellungen des Hauptclusters (Master) wie unten angegeben ändern.
 
 image:fed_primary_config.png[master_settings]
 
