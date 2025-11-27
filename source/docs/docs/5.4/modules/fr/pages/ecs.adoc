@@ -28,7 +28,7 @@ Wählen Sie die Instanz aus und wählen Sie dann "\`Attribute anzeigen/bearbeite
 
 image:1viewattributes.png[Attribute]
 
-Fügen Sie dann ein neues Attribut hinzu. Zum Beispiel "\`allinone-node\`" mit dem Wert "\`true\`".
+Fügen Sie dann ein neues Attribut hinzu. Zum Beispiel "\`allinone-node\`" mit dem Wert "\`true\`.
 
 image:2addattribute.png[AddAttributes]
 --
@@ -339,11 +339,11 @@ Beispiel für eine Enforcer JSON-Datei:
 
 Sie können eine Live-Aktualisierung der {product-name} Container in ECS durchführen, ohne die Dienste zu unterbrechen. Die {product-name} Dienste können problemlos aktualisiert oder verbessert werden, ohne die laufenden Dienste zu unterbrechen. Um dies in Amazon ECS zu tun:
 
-. Wenn Sie mehrere Controller oder Allinones als Cluster bereitgestellt haben, überspringen Sie diesen Schritt. Wenn nur ein Allinone/Controller im System vorhanden ist, finden Sie eine neue ECS-Instanz und stellen Sie einen 2. Allinone/Controller-Container darauf bereit (folgen Sie den Bereitstellungsschritten für ECS Allinone/Controller {product-name}). Nach der Bereitstellung sehen Sie in der Management-Konsole {product-name} diesen neuen operativen Controller (unter Ressourcen > Controller). Dies ist notwendig, damit alle Statusdaten zwischen den Controllern repliziert werden.
-. Setzen Sie in den ECS-Diensten den alten Allinone/Controller-Dienst zurück und löschen Sie ihn. Ziehen Sie manuell die aktualisierten {product-name} Images oder lösen Sie AWS ECS aus, um neue Versionen der Allinone/Controller-Container von Dockerhub oder Ihrem privaten Repository zu ziehen.
-. Erstellen Sie eine neue Revision der Allinone/Controller-Aufgabe, aktualisieren Sie die "\`CLUSTER_JOIN_ADDR\`" auf die IP-Adresse des privaten Knotens des 2. Allinone/Controllers.
-. Erstellen Sie einen neuen Dienst, um diese neue Aufgabe bereitzustellen (folgen Sie denselben Schritten zur Bereitstellung auf ECS). Sobald dies abgeschlossen ist, sollte die neue Version des Allinone/Controllers betriebsbereit sein. Von der Management-Konsole {product-name} sollten alle Protokolle und Richtlinien weiterhin vorhanden sein. Optional können Sie jetzt den 2. Allinone/Controller-Container stoppen, da der Allinone/Controller jetzt auf dem ursprünglichen Knoten gestartet sein sollte.
+. Wenn Sie mehrere Controller oder Allinones als Cluster bereitgestellt haben, überspringen Sie diesen Schritt. Wenn nur ein All-in-One/Controller im System vorhanden ist, finden Sie eine neue ECS-Instanz und stellen Sie einen 2. All-in-One/Controller-Container darauf bereit (folgen Sie den Bereitstellungsschritten für ECS All-in-One/Controller {product-name}). Nach der Bereitstellung sehen Sie in der Management-Konsole {product-name} diesen neuen operativen Controller (unter Ressourcen > Controller). Dies ist notwendig, damit alle Statusdaten zwischen den Controllern repliziert werden.
+. Setzen Sie in den ECS-Diensten den alten Allinone/Controller-Dienst zurück und löschen Sie ihn. Ziehen Sie manuell die aktualisierten {product-name} Images oder lösen Sie AWS ECS aus, um neue Versionen der All-in-One/Controller-Container von Dockerhub oder Ihrem privaten Repository zu ziehen.
+. Erstellen Sie eine neue Revision der All-in-One/Controller-Aufgabe, aktualisieren Sie die "\`CLUSTER_JOIN_ADDR\`" auf die IP-Adresse des privaten Knotens des 2. All-in-One/Controllers.
+. Erstellen Sie einen neuen Dienst, um diese neue Aufgabe bereitzustellen (folgen Sie denselben Schritten zur Bereitstellung auf ECS). Sobald dies abgeschlossen ist, sollte die neue Version des All-in-One/Controllers betriebsbereit sein. Von der Management-Konsole {product-name} sollten alle Protokolle und Richtlinien weiterhin vorhanden sein. Optional können Sie jetzt den 2. All-in-One/Controller-Container stoppen, da der All-in-One/Controller jetzt auf dem ursprünglichen Knoten gestartet sein sollte.
 . Stoppen und aktualisieren Sie die Enforcers von den ECS-Diensten. Ziehen Sie manuell oder automatisch die neuen Enforcer-Images. Starten oder aktualisieren Sie dann den Enforcer auf allen Knoten neu. Von der Konsole {product-name} sehen Sie, dass alle Enforcers auf dem neuesten Stand sind.
-. Wenn Sie den separaten Manager-Container anstelle des Allinone verwenden (der bereits den Manager hat), stoppen und löschen Sie einfach den alten Manager-Container. Ziehen Sie dann die neue Version des Managers und stellen Sie sie bereit, indem Sie die CLUSTER_JOIN_ADDR auf die IP des Controllers zeigen.
+. Wenn Sie den separaten Manager-Container anstelle des All-in-One verwenden (der bereits den Manager hat), stoppen und löschen Sie einfach den alten Manager-Container. Ziehen Sie dann die neue Version des Managers und stellen Sie sie bereit, indem Sie die CLUSTER_JOIN_ADDR auf die IP des Controllers zeigen.
 
-Alle Container {product-name} sind jetzt live aktualisiert. Alle Richtlinien, Protokolle und Konfigurationen sind nicht betroffen. Die Ansicht des Live-Diagramms wird automatisch regeneriert, sobald neuer Live-Verkehr zwischen den Containern fließt.
+Alle Container {product-name} sind jetzt live aktualisiert. Alle Richtlinien, Protokolle und Konfigurationen sind nicht betroffen. The view of the live diagram is automatically regenerated as soon as new live traffic flows between the containers.

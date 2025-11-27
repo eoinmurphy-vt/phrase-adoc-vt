@@ -381,7 +381,7 @@ Bitte beachten Sie, dass der eigenständige Scanner von diesen Änderungen nicht
 * **NVSHAS-9363**: Benachrichtigungskonfiguration > Webhooks-Raster sind nicht richtig ausgerichtet.
 * **NVSHAS-9362**: Der Sicherheitsrisiko-Schwachstellenfilter gibt 0 Ergebnisse zurück.
 * **NVSHAS-8699**: Kann den Benutzer nicht unterscheiden, wenn der Rancher AD-Benutzer derselbe ist.
-* **NVSHAS-9062**: Anzeige von Rancher SSO-Benutzern in der NV UI, die denselben Benutzernamen haben (Konvertierung auf dem Controller).
+* **NVSHAS-9062**: Anzeige von Rancher SSO-Benutzern in der NV-Benutzeroberfläche, die denselben Benutzernamen haben (Konvertierung auf dem Controller).
 * **NVSHAS-9071**: Einige Module werden nur im Container-Scan nicht gemeldet.
 * **NVSHAS-8242**: gRPC-Aufruf, um zu testen, ob der Controller kritische Schweregrade behandelt.
 * **NVSHAS-8908**: X-Forwarded-Port korrekt analysieren unter Berücksichtigung des Komma-Trennzeichens.
@@ -646,7 +646,7 @@ Die Version 5.3.1 wurde aus dem Docker-Hub entfernt, um das Upgrade-Problem zu v
 * Unerwarteter Verstoß vom Container zum Hostmode-Container
 * Akzeptieren Sie das OCI-Bildformat beim Wechsel zu Docker API 1.24
 * Registry-Scan sollte keine Nicht-Bild-Artefakte scannen / keinen Fehler protokollieren.
-* Ermöglichen Sie die signaturverifizierung von schlüsselpaare ohne internet oder sigstore abhängigkeit.
+* Ermöglichen Sie die Signaturverifizierung von Schlüsselpaare ohne Internet oder Sigstore-Abhängigkeit.
 * Sicherheitsereignisse, die durch Netzwerkregeln in einem bestimmten Knoten nicht erlaubt werden (bezogen auf "Container Task chan full" Fehlermeldungen)
 * Container kann nicht erfolgreich zur Arbeitslast hinzugefügt werden (häufige Vorkommen). Resultierend aus einem Deadlock von Kanalnachrichten.
 
@@ -679,7 +679,7 @@ Die Version 5.3.1 wurde aus dem Docker-Hub entfernt, um das Upgrade-Problem zu v
 * Unterstützung für die ARM64-Plattform hinzufügen. Das Abrufen von ARM-basierten Plattformen zieht automatisch die entsprechenden ARM64 {product-name} Bilder.
 * Unterstützung von Webhooks über einen Proxy
 * Verbessern Sie die Funktion zur Überprüfung der Zulassungskontrolle, um die Ergebnisse aller Regeln einzuschließen. Listen Sie das Ergebnis jeder Regel auf und fügen Sie einen weiteren Eintrag für die endgültige Aktion hinzu, die auftreten würde, wenn sie in einer Live-Zulassungskontrolle bewertet wird.
-* Deaktivierte Zulassungskontrollregeln über CRD oder yaml (kubectl) anwenden
+* Deaktivierte Zulassungskontrollregeln über CRD oder yaml (kubectl) anwenden.
 * Exportieren / Importieren von Schwachstellenprofilen über die Konsole, CRD oder REST-API. Das Importieren ersetzt das vorhandene Profil. Das Löschen der CRD führt zu einem leeren Profil.
 * Exportieren / Importieren von Compliance-Profilvorlagen über die Konsole, CRD oder REST-API. Das Importieren ersetzt die vorhandene Vorlage.
 * Fügen Sie einen 'Manuellen' Status in den Compliance-Berichten für CIS-Benchmarks hinzu, die manuell von Benutzern ausgeführt werden müssen (nicht ausgeführt von {product-name}).
@@ -709,8 +709,8 @@ HTTP Strict Transport Security max-age=15724800, 2) Fügen Sie den CSP-Header hi
 * Behandeln von Zeichenfolgen anpassen, um unerwartete Neustarts des Durchsetzers zu verhindern
 * Unerwartete Verstöße in Bezug auf integrierte Gruppen
 * Support-Bundle-Durchsetzer-Debug-RPC-Aufruf für Daten gibt Fehler zurück
-* Gruppe stimmt nicht mit Sicherheitsereignissen überein
-* Ereignisse an Slack senden funktioniert nicht - mit Proxy
+* Gruppe stimmt nicht mit Sicherheitsereignissen überein.
+* Ereignisse an Slack senden funktioniert nicht - mit Proxy.
 * Zeigt Sicherheitsereignisse für erlaubte Netzwerkregeln an
 
 ==== Andere
@@ -719,27 +719,27 @@ HTTP Strict Transport Security max-age=15724800, 2) Fügen Sie den CSP-Header hi
 * Entfernen der Einstellung für den Betrieb des Controllers im privilegierten Modus im Helm-Diagramm und der Anforderung, dass Controller/Durchsetzer "/host/cgroup" einbinden müssen.
 * Die Beispiel-Kubernetes-Bereitstellungsdateien wurden aus den {product-name}-Dokumenten entfernt. Bitte beziehen Sie sich auf den Link für Beispiele.
 
-==== Hervorgehobene Änderungen, die möglicherweise Änderungen für manuelle Bereitstellungen erfordern (alle Änderungen sind bereits im neuesten Helm-Diagramm für 5.3.x enthalten)
+==== Hervorgehobene Änderungen, die möglicherweise Änderungen für manuelle Bereitstellungen erfordern (alle Änderungen sind bereits im neuesten Helm-Diagramm für 5.3.x enthalten).
 
 * Die automatische Erkennung der Containerlaufzeit (Socket) beseitigt die Notwendigkeit, die Containerlaufzeit und den Socket-Pfad anzugeben.
 * Die Entfernung der Anforderung, den Controller im privilegierten Modus auszuführen, beseitigt die Notwendigkeit, den Laufzeitsocket und /host/cgroup/ einzubinden.
 * Rolle/Rollenbindung für neuvector-binding-secret sowie neuvector-secret in yaml hinzugefügt.
 * Neue Dienstkonten und Rollenbindungen für 5.3 erforderlich
-* Alle referenzierten Bereitstellungs-yaml-Dateien haben jetzt /5.3.0/ in ihren Pfaden
+* Alle referenzierten Bereitstellungs-yaml-Dateien haben jetzt /5.3.0/ in ihren Pfaden.
 
-=== 5.2.4-s1 Januar 2024
+=== 5.2.4-s1 Januar 2024.
 
 ==== Sicherheits-Patch-Veröffentlichung
 
 * Behebt CVE-2023-6129 in openssl sowie CVE-2023-46219 und CVE-2023-46218 in curl.
 
-=== 5.2.4 November 2023
+=== 5.2.4 November 2023.
 
 ==== Fehlerbehebungen
 
 * Änderungen an Azure AKS ValidatingWebhookConfiguration und Fehlerprotokollierung.
 
-=== 5.2.3 November 2023
+=== 5.2.3 November 2023.
 
 ==== Verbesserungen
 
@@ -755,13 +755,13 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 
 * Scan auf einem Knoten schlägt aufgrund eines blockierten docker cp / grpc-Problems fehl.
 
-=== 5.2.2-s1 Oktober 2023
+=== 5.2.2-s1 Oktober 2023.
 
 ==== Sicherheitsupdate
 
 * Pakete aktualisieren, um CVEs zu beheben, einschließlich Hoch CVE-2023-38545 und CVE-2023-43804.
 
-=== 5.2.2 Oktober 2023
+=== 5.2.2 Oktober 2023.
 
 ==== Sicherheitsberatung für CVE-2023-32188
 
@@ -818,7 +818,7 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 ==== Verbesserungen
 
 * Unterstützen Sie Tokens für den {product-name} API-Zugriff. Siehe Einstellungen -> Benutzer, API-Schlüssel..., um einen neuen API-Schlüssel zu erstellen. Schlüssel können auf Standard- oder benutzerdefinierte Rollen gesetzt werden.
-* Unterstützung für AWS Marketplace PAYG-Abrechnung für {product-name} monatliche Support-Abonnements. Benutzer können sich für {product-name} durch SUSE-Support anmelden, der monatlich auf ihr AWS-Konto basierend auf dem durchschnittlichen Knotenverbrauch des Vormonats abgerechnet wird. Details https://open-docs.neuvector.com/deploying/awsmarketplace[hier].
+* Unterstützung für AWS Marketplace PAYG-Abrechnung für {product-name} monatliche Support-Abonnements. Benutzer können sich für {product-name} durch den SUSE-Support anmelden, der monatlich auf ihr AWS-Konto basierend auf dem durchschnittlichen Knotenverbrauch des Vormonats abgerechnet wird. Details https://open-docs.neuvector.com/deploying/awsmarketplace[hier].
 * Unterstützung für die Signierung von Bildern für Zulassungssteuerungen. Benutzer können {product-name} verlangen, um zu überprüfen, dass Bilder von bestimmten Parteien signiert sind, bevor sie in die Produktionsumgebung bereitgestellt werden können, durch eine Integration mit Sigstore/Cosign. Siehe Assets -> Sigstore-Überprüfer zur Erstellung neuer Signatur-Assets. Regeln können dann mit den Kriterien Bildsignierung und/oder Bild-Sigstore-Überprüfer erstellt werden.
 * Aktivieren Sie, dass jede Zulassungssteuerungsregel ihren eigenen Modus von Überwachen oder Schützen hat. Eine Verweigerungsaktion im Überwachungsmodus wird alarmieren, und eine Verweigerungsaktion im Schutzmodus wird blockieren. Erlaubte Aktionen sind nicht betroffen.
 * Fügen Sie einen neuen Regex-Operator in Richtlinie > Zulassungssteuerung > Regel hinzufügen für Benutzer und Benutzergruppen hinzu, um Regex zu unterstützen. Unterstützen Sie die Operatoren "entspricht JEDER Regex in" und "entspricht KEINER Regex in".
@@ -843,7 +843,7 @@ docker run --rm --privileged --pid=host neuvector/scanner -n
 
 ==== Fehlerbehebungen
 
-* Wiederholende Protokolle in den Protokollen des Durchsetzungs-/Steuerungssystems reduzieren.
+* Wiederholende Protokolle im Durchsetzungs-/Steuerungssystem reduzieren.
 * Die Seite mit mehreren Clustern wird nicht gerendert.
 * Die automatische Entfernung leerer Gruppen dauert 2 Stunden zum Löschen anstelle von 1 Stunde gemäß Zeitplan.
 * Manuell erlaubte Netzwerkregel wird nicht angewendet und führt zu einer Verletzung für das Pause-Image.
