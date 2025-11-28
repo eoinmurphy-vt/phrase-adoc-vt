@@ -1,0 +1,20 @@
+Starting preprocess: source/docs/5.4/modules/fr/pages/ecs.adoc
+✓ Decoded source/docs/5.4/modules/fr/pages/ecs.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/fr/pages/ecs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-28 05:20:53.357012
+Starting preprocess: source/docs/docs/5.4/modules/fr/pages/ecs.adoc
+✓ Decoded source/docs/docs/5.4/modules/fr/pages/ecs.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/docs/5.4/modules/fr/pages/ecs.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-11-28 05:20:53.417165
