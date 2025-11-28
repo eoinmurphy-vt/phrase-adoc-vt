@@ -41,19 +41,21 @@ jobs:
         run: |
           CURRENT_COMMIT=$(git rev-parse HEAD)
           LAST_COMMIT="${{ steps.get-last-commit.outputs.last_commit }}"
+          
+          # TARGET SPECIFIC FOLDER: docs/5.4/modules/en/
+          WATCH_PATH="docs/5.4/modules/en/"
 
           echo "Last synced commit: $LAST_COMMIT"
           echo "Current commit: $CURRENT_COMMIT"
 
-          # Changed monitoring folder from 'updates/' to 'docs/' below
           if [ -z "$LAST_COMMIT" ]; then
-            echo "No last commit recorded, listing all .adoc files under docs/"
-            CHANGED_FILES=$(git ls-tree -r --name-only HEAD docs/ | grep '\.adoc$' || true)
+            echo "No last commit recorded, listing all .adoc files under $WATCH_PATH"
+            CHANGED_FILES=$(git ls-tree -r --name-only HEAD "$WATCH_PATH" | grep '\.adoc$' || true)
             DELETED_FILES=""
           else
             echo "Diffing from $LAST_COMMIT to $CURRENT_COMMIT..."
-            CHANGED_FILES=$(git diff --name-only "$LAST_COMMIT" "$CURRENT_COMMIT" -- docs/ | grep '\.adoc$' || true)
-            DELETED_FILES=$(git diff --name-only --diff-filter=D "$LAST_COMMIT" "$CURRENT_COMMIT" -- docs/ | grep '\.adoc$' || true)
+            CHANGED_FILES=$(git diff --name-only "$LAST_COMMIT" "$CURRENT_COMMIT" -- "$WATCH_PATH" | grep '\.adoc$' || true)
+            DELETED_FILES=$(git diff --name-only --diff-filter=D "$LAST_COMMIT" "$CURRENT_COMMIT" -- "$WATCH_PATH" | grep '\.adoc$' || true)
           fi
 
           echo "=== Final changed files list ==="
@@ -118,7 +120,7 @@ jobs:
           git add source/ .last_synced_commit
           git commit -m "Synced changed .adoc files from phrase-adoc-client (including deletions)" || echo "No changes to commit"
           git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
-          git push origin main  # Assume main branch; adjust if needed
+          git push origin main
 
       - name: Clean up
         run: rm -rf temp_repo1

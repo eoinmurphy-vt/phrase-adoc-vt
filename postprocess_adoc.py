@@ -63,14 +63,14 @@ def cleanup_text(text):
     # Replaces with: "`CONTENT`"
     # Matches: Entity + Backtick + Plus + Content (No Newlines) + Plus + Backtick + Entity
     pattern_dq = re.compile(r'&quot;\`\+([^\`\n]+)\+\`&quot;')
-    text = pattern_dq.sub(r'"\`\1\`"', text)
+    text = pattern_dq.sub(r'"`\1`"', text)
 
 
     # --- STEP 2: REVERT ENTITIES (Single Quotes) ---
     # Finds: &apos;`+CONTENT+`&apos;
     # Replaces with: '`CONTENT`'
     pattern_sq = re.compile(r'&apos;\`\+([^\`\n]+)\+\`&apos;')
-    text = pattern_sq.sub(r"'\`\1\`'", text)
+    text = pattern_sq.sub(r"'`\1`'", text)
 
 
     # --- STEP 3: REVERT PLAIN WRAPPERS ---
