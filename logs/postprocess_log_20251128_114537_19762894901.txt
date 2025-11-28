@@ -1,0 +1,39 @@
+Postprocess started: 2025-11-28 11:45:37.891386
+
+✓ translated/fr_fr/docs/5.4/modules/en/pages/kubernetes.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/kubernetes.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/kubernetes.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/pages/5x.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/5x.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/5x.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/pages/ecs.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/ecs.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/ecs.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/pages/gcr-sa.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/gcr-sa.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/gcr-sa.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/pages/customui.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/customui.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/customui.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/pages/adfs.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/pages/adfs.adoc (from translated/fr_fr/docs/5.4/modules/en/pages/adfs.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/kubernetes.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/kubernetes.adoc (from translated/de_de/docs/5.4/modules/en/pages/kubernetes.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/publick8s.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/publick8s.adoc (from translated/de_de/docs/5.4/modules/en/pages/publick8s.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/5x.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/5x.adoc (from translated/de_de/docs/5.4/modules/en/pages/5x.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/ecs.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/ecs.adoc (from translated/de_de/docs/5.4/modules/en/pages/ecs.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/gcr-sa.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/gcr-sa.adoc (from translated/de_de/docs/5.4/modules/en/pages/gcr-sa.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/customui.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/customui.adoc (from translated/de_de/docs/5.4/modules/en/pages/customui.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/usingcrd.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/usingcrd.adoc (from translated/de_de/docs/5.4/modules/en/pages/usingcrd.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/adfs.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/adfs.adoc (from translated/de_de/docs/5.4/modules/en/pages/adfs.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/openid.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/openid.adoc (from translated/de_de/docs/5.4/modules/en/pages/openid.adoc)
+
+Summary:
+  ✅ Processed files: 15
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 15
+
+Completed: 2025-11-28 11:45:38.205779
