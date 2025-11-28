@@ -1,0 +1,220 @@
+= Verbinden Sie sich mit dem Manager, REST-API-Server
+:revdate: 2025-05-08
+:page-revdate: {revdate}
+:page-opendocs-origin: /03.configuration/01.console/01.console.md
+:page-opendocs-slug: /konfiguration/konsole
+
+== Verbinden Sie sich mit der Benutzeroberfläche
+
+Öffnen Sie ein Browserfenster und verbinden Sie sich mit dem Manager über HTTPS. Nach der Annahme der EULA kann der Benutzer auf die Benutzeroberfläche zugreifen.
+
+[TIP]
+====
+Je nach gewählter Bereitstellungsmethode wird die Manageradresse wie folgt sein
+====
+
+[tabs]
+======
+Docker::
++
+====
+[,shell]
+----
+https://<manager_host_ip>:8443
+----
+==== 
+
+Kubernetes ohne LoadBalancer oder Ingress::
++
+====
+[,shell]
+----
+https://<node_host_ip>:<NodePort>
+----
+====
+
+LoadBalancer oder Ingress konfiguriert::
++
+====
+[,shell]
+----
+https://<FQDN|IP>/
+---- 
+==== 
+======
+
+image:3_0_Dashboard.png[Navigation]
+
+Sie können {product-name} von der Konsole oder über die REST-API verwalten.
+
+[NOTE]
+====
+Siehe unten für Fälle, in denen Ihre Unternehmensfirewall 8443 blockiert.
+====
+
+[NOTE]
+====
+Wenn Ihr Chrome-Browser das {product-name} selbstsignierte Zertifikat blockiert, siehe den nächsten Abschnitt zum Hochladen von Chrome-Zertifikaten. 
+====
+
+== Verbinden Sie sich mit dem REST-API-Server 
+
+Alle Operationen in {product-name} können über die REST-API anstelle der Konsole aufgerufen werden. Der REST-API-Server ist Teil des Controller/All-in-One-Containers. Für Details zur REST-API siehe bitte den Abschnitt über Workflow und xref:automation.adoc[Automation]. 
+
+== Standardbenutzername und -passwort 
+
+**admin:admin** 
+
+Nach erfolgreichem Login sollte der Admin-Benutzer das Konto mit einem sichereren Passwort aktualisieren. 
+
+== Zusätzliche Benutzer erstellen 
+
+Neue Benutzer können über das Menü Einstellungen -> Benutzer & Rollen hinzugefügt werden. Es gibt vordefinierte globale Rollen in {product-name}: 
+
+* Admin. Kann alle Aktionen ausführen, außer föderierte Richtlinien. 
+* Föderierter Admin. Kann alle Aktionen ausführen, einschließlich der Einrichtung von Master-/Remote-Clustern und föderierten Richtlinien (Regeln). Nur sichtbar, wenn xref:multicluster.adoc[Multi-Cluster] aktiviert ist. 
+* Nur Ansicht (Leser). Keine Aktionen erlaubt, nur Ansicht. 
+* CI-Integration (ciops). Kann CI/CD-Scanning-Integrationsaufgaben wie Bild-Scanning durchführen. Diese Benutzerrolle wird für den Einsatz in Scanning-Plugins in der Build-Phase wie Jenkins, Bamboo usw. und für die Verwendung in den REST-API-Aufrufen empfohlen. Sie ist auf Scanfunktionen beschränkt und kann keine Aktionen in der Konsole durchführen. 
+
+Benutzer können mithilfe der erweiterten Einstellungen auf einen oder mehrere Namensräume beschränkt werden. 
+
+Siehe den Abschnitt xref:users.adoc[Benutzer & Rollen] für die erweiterte Benutzerverwaltung und die Erstellung benutzerdefinierter Rollen. 
+
+== Einstellung für die Verbindungszeitüberschreitung 
+
+Sie können die Anzahl der Sekunden festlegen, nach denen die Konsole im oberen rechten Bereich der Konsole in Mein Profil -> Sitzungstimeout eine Zeitüberschreitung hat. Der Standardwert beträgt 5 Minuten und das Maximum 3600 Sekunden (1 Stunde). 
+
+== HTTP für Manager aktivieren 
+
+Um HTTPS zu deaktivieren und den HTTP-Zugriff zu aktivieren, fügen Sie dies zum Manager- oder All-in-one-YAML-Bereich in den Umgebungsvariablen hinzu. Zum Beispiel in Kubernetes: 
+
+[,yaml]
+----
+- name: MANAGER_SSL 
+  value: "off" 
+----
+
+Für OpenShift entfernen Sie auch diese Einstellung aus dem Routenbereich der YAML: 
+
+[,yaml]
+----
+tls:
+    termination: passthrough 
+----
+
+Dies ist nützlich, wenn der Manager hinter einem Lastenausgleich platziert wird. 
+
+== Zugriff vom Unternehmensnetzwerk aktivieren, das 8443 blockiert 
+
+Wenn Ihr Unternehmensnetzwerk keinen Zugriff auf Port 8443 zur Manager-Konsole erlaubt, können Sie einen Ingress-Dienst erstellen, um ihn zuzuordnen und den Zugriff zu ermöglichen. 
+
+[NOTE]
+====
+Die {product-name} UI-Konsole läuft als Nicht-Root-Benutzer im Container, daher kann sie nicht auf einem Port unter 1024 lauschen. Deshalb kann es nicht auf 443 geändert werden. 
+====
+
+Wenn Sie versuchen, von Ihrem Unternehmensnetzwerk auf die Konsole zuzugreifen. Hier ist der Weg, den ClusterIP-Dienst und die Ingress-HTTPS-Umleitung zu verwenden, um dies zu erreichen. 
+
+Zuerst erstellen Sie ein Zertifikat für die HTTPS-Terminierung. Hier ist ein Beispiel:
+
+[,shell]
+----
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=mycloud.domain.com" kubectl create secret tls neuvector-ingress-tls -n neuvector --key="tls.key" --cert="tls.crt" 
+----
+
+Verwenden Sie dann die folgende YAML-Datei, um den Port 443 freizugeben, der die HTTPS-Verbindung zum Manager umleitet. 
+
+[,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: neuvector-cluster-webui
+  namespace: neuvector
+spec:
+  ports:
+  - port: 443
+    targetPort: 8443
+    protocol: TCP
+  type: ClusterIP
+  selector:
+    app: neuvector-manager-pod
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: neuvector-ingress-webui
+  namespace: neuvector
+  annotations:
+    ingress.mycloud.net/ssl-services: ssl-service=neuvector-cluster-webui
+spec:
+  tls:
+  - hosts:
+    - cloud.neuvector.com
+    secretName: neuvector-ingress-tls
+  rules:
+  - host: cloud.neuvector.com
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: neuvector-cluster-webui
+          servicePort: 443
+----
+
+Sie müssen die Annotation für die Ingress-Adresse von ingress.mycloud.net auf Ihre entsprechende Adresse ändern. 
+
+Dieses Beispiel verwendet die URL cloud.neuvector.com. Nachdem der Ingress-Dienst erstellt wurde, können Sie seine externe IP finden. Sie können dann die Hosts-Datei so konfigurieren, dass cloud.neuvector.com auf diese IP zeigt. Danach sollten Sie in der Lage sein, zu `+https://cloud.neuvector.com+` (der URL, die Sie verwenden möchten) zu browsen. 
+
+=== Verwendung von SSL-Passthrough anstelle von Umleitung 
+
+Um TLS/SSL-Passthrough anstelle des obigen Umleitungsbeispiels zu verwenden (unterstützt von einigen Ingress-Controllern wie nginx), stellen Sie sicher, dass der Ingress-Controller entsprechend für Passthrough konfiguriert ist und die entsprechende Annotation zum Ingress hinzugefügt wird. Zum Beispiel, 
+
+[,yaml]
+----
+annotations: 
+  ingress.kubernetes.io/ssl-passthrough: "true" 
+----
+
+== Ersetzen der {product-name} Selbstsignierten Zertifikate 
+
+Bitte sehen Sie sich den nächsten Abschnitt xref:replacecert.adoc[Ersetzen der Selbstsignierten Zertifikate] für Details an. Das Zertifikat muss sowohl in den Manager- als auch in den Controller/All-in-one-YAMLs ersetzt werden. 
+
+== Konfigurieren von AWS ALB mit Zertifikat ARN 
+
+Hier ist eine Beispiel-Ingress-Konfiguration mit dem AWS-Lastenausgleich und der Zertifikat ARN (tatsächliche ARN anonymisiert). 
+[,yaml]
+----
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/#healthcheck-path
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:596810101010:certificate/380b6abc-1234-408d-axyz-651710101010
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/success-codes: "301"
+    alb.ingress.kubernetes.io/target-type: instance
+    external-dns.alpha.kubernetes.io/hostname: eks.neuvector.com
+    kubernetes.io/ingress.class: alb
+  labels:
+    app: neuvector-webui-ingress
+  name: neuvector-webui-ingress
+  namespace: neuvector
+spec:
+  tls:
+  - hosts:
+    - eks.neuvector.com
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: neuvector-service-webui
+          servicePort: 8443
+        path: /*
+----
