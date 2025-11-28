@@ -17,7 +17,7 @@ Voici un exemple de la façon de déployer {product-name} avec ECS.
 Veuillez consulter les exemples Kubernetes pour EKS.
 ====
 
-. Préparez plusieurs instances Amazon ECS qui intègrent le moteur Docker et les conteneurs ECS-Agent. Sélectionnez un nœud pour la console de gestion. Définissez ensuite des règles de groupe de sécurité qui autorisent le port TCP entrant 8443 ({product-name} port standard de la console de gestion) pour l'accès via votre navigateur client.
+. Préparez plusieurs instances Amazon ECS intégrant le moteur Docker et les conteneurs ECS-Agent. Sélectionnez un nœud pour la console de gestion. Définissez ensuite des règles de groupe de sécurité qui autorisent le port TCP entrant 8443 ({product-name} port standard de la console de gestion) pour l'accès via votre navigateur client.
 . Définissez un groupe de sécurité qui permet les ports TCP et UDP sur 18300, 18301, 18400, 18401. Ceci est utilisé par les {product-name} agents pour communiquer avec les contrôleurs/All-in-One. Appliquez ce groupe de sécurité à toutes les instances ECS qui déploieront les agents et les contrôleurs/All-in-One {product-name}.
 . Définissez un attribut pour les nœuds sur lesquels vous souhaitez déployer {product-name} All-in-One ou le conteneur de contrôleur. Par exemple, si vous souhaitez exécuter {product-name} en mode HA-Controller, il est recommandé de sélectionner au moins 3 nœuds et d'ajouter l'attribut sur les 3 nœuds.
 +
@@ -54,7 +54,7 @@ Si vous vérifiez maintenant le fichier JSON mis à jour, vous verrez la contrai
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Vous pouvez maintenant déployer le service Allinone. Définissez le "\`+nombre de tâches\+`" sur le nombre souhaité d'All-in-One/Contrôleurs. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur s'exécutent sur les nœuds sélectionnés. Une fois que l'All-in-One commence à fonctionner, vous devriez être en mesure de vous connecter à la console {product-name} via HTTPS sur le port 8443.
+. Vous pouvez maintenant déployer le service Allinone. Définissez le "\`+nombre de tâches\+`" sur le nombre souhaité d'All-in-One/Contrôleurs. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur s'exécutent sur les nœuds sélectionnés. Une fois que l'All-in-One commence à fonctionner, vous devriez être en mesure de vous connecter via HTTPS sur le port 8443 avec la console {product-name}.
 . Créez la définition de tâche Enforcer. C'est similaire à la tâche All-in-One. Configurez manuellement via la console ECS ou utilisez l'exemple JSON suivant.
 +
 --
@@ -341,9 +341,9 @@ Vous pouvez effectuer une mise à jour en direct des {product-name} conteneurs d
 
 . Si vous avez déployé plusieurs contrôleurs ou All-in-One en tant que cluster, passez cette étape. S'il n'y a qu'un seul All-in-One/Contrôleur dans le système, trouvez une nouvelle instance ECS et déployez un 2. Conteneur All-in-One/Contrôleur dessus (suivez les étapes de déploiement pour ECS All-in-One/Contrôleur {product-name}). Après le déploiement, vous verrez dans la console de gestion {product-name} ce nouveau contrôleur opérationnel (sous Ressources > Contrôleur). C'est nécessaire pour que toutes les données d'état soient répliquées entre les contrôleurs.
 . Réinitialisez et supprimez l'ancien service All-in-One/Contrôleur dans les services ECS. Tirez manuellement les images {product-name} mises à jour ou déclenchez AWS ECS pour tirer de nouvelles versions des conteneurs All-in-One/Contrôleur depuis Dockerhub ou votre dépôt privé.
-. Créez une nouvelle révision de la tâche All-in-One/Contrôleur, mettez à jour "\`+CLUSTER_JOIN_ADDR\+`" avec l'adresse IP du nœud privé du 2. All-in-One/Contrôleurs.
+. Créez une nouvelle révision de la tâche All-in-One/Contrôleur, mettez à jour le "\`+CLUSTER_JOIN_ADDR\+`" avec l'adresse IP du nœud privé du 2. All-in-One/Contrôleurs.
 . Créez un nouveau service pour déployer cette nouvelle tâche (suivez les mêmes étapes de déploiement sur ECS). Une fois cela terminé, la nouvelle version de l'All-in-One/Contrôleur devrait être opérationnelle. Depuis la console de gestion {product-name}, tous les journaux et politiques devraient toujours être présents. Optionnellement, vous pouvez maintenant arrêter le 2. Conteneur All-in-One/Contrôleur, car l'All-in-One/Contrôleur devrait maintenant être démarré sur le nœud d'origine.
 . Arrêtez et mettez à jour les Enforcers des services ECS. Tirez manuellement ou automatiquement les nouvelles images des Enforcers. Redémarrez ou mettez ensuite à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous pouvez voir que tous les Enforcers sont à jour.
 . Si vous utilisez le conteneur de gestion séparé au lieu de l'All-in-One (qui a déjà le gestionnaire), arrêtez et supprimez simplement l'ancien conteneur de gestion. Ensuite, tirez la nouvelle version du gestionnaire et déployez-la en pointant CLUSTER_JOIN_ADDR vers l'IP du contrôleur.
 
-Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct sera automatiquement régénérée dès qu'un nouveau trafic en direct circulera entre les conteneurs.
+Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct est automatiquement régénérée dès que de nouveaux flux de trafic en direct circulent entre les conteneurs.
