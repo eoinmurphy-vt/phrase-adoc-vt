@@ -54,7 +54,7 @@ Si vous vérifiez maintenant le fichier JSON mis à jour, vous verrez la contrai
 --
 image:3taskplacement.png[AllinonePlace]
 --
-. Vous pouvez maintenant déployer le service Allinone. Définissez le "\`+nombre de tâches\+`" sur le nombre souhaité d'All-in-One/Contrôleurs. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur s'exécutent sur les nœuds sélectionnés. Une fois que l'All-in-One commence à fonctionner, vous devriez être en mesure de vous connecter à la console {product-name} via HTTPS sur le port 8443.
+. Vous pouvez maintenant déployer le service Allinone. Définissez le "\`+nombre de tâches\+`" sur le nombre souhaité d'All-in-One/Contrôleurs. Maintenant, les {product-name} conteneurs Allinone ou Contrôleur s'exécutent sur les nœuds sélectionnés. Une fois que l'All-in-One commence à fonctionner, vous devriez être en mesure de vous connecter via HTTPS sur le port 8443 avec la console {product-name}.
 . Créez la définition de tâche Enforcer. C'est similaire à la tâche All-in-One. Configurez manuellement via la console ECS ou utilisez l'exemple JSON suivant.
 +
 --
@@ -346,4 +346,4 @@ Vous pouvez effectuer une mise à jour en direct des {product-name} conteneurs d
 . Arrêtez et mettez à jour les Enforcers des services ECS. Tirez manuellement ou automatiquement les nouvelles images des Enforcers. Redémarrez ou mettez ensuite à jour l'Enforcer sur tous les nœuds. Depuis la console {product-name}, vous pouvez voir que tous les Enforcers sont à jour.
 . Si vous utilisez le conteneur de gestion séparé au lieu de l'All-in-One (qui a déjà le gestionnaire), arrêtez et supprimez simplement l'ancien conteneur de gestion. Ensuite, tirez la nouvelle version du gestionnaire et déployez-la en pointant CLUSTER_JOIN_ADDR vers l'IP du contrôleur.
 
-Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct sera automatiquement régénérée dès qu'un nouveau trafic en direct circulera entre les conteneurs.
+Tous les conteneurs {product-name} sont maintenant mis à jour en direct. Toutes les politiques, journaux et configurations ne sont pas affectés. La vue du diagramme en direct est automatiquement régénérée dès que de nouveaux flux de trafic en direct circulent entre les conteneurs.
