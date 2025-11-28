@@ -1,0 +1,15 @@
+Postprocess started: 2025-11-28 11:02:03.707194
+
+✓ translated/de_de/docs/5.4/modules/en/pages/kubernetes.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/kubernetes.adoc (from translated/de_de/docs/5.4/modules/en/pages/kubernetes.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/5x.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/5x.adoc (from translated/de_de/docs/5.4/modules/en/pages/5x.adoc)
+✓ translated/de_de/docs/5.4/modules/en/pages/ecs.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/pages/ecs.adoc (from translated/de_de/docs/5.4/modules/en/pages/ecs.adoc)
+
+Summary:
+  ✅ Processed files: 3
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 3
+
+Completed: 2025-11-28 11:02:03.802031
