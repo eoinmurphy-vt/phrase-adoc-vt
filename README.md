@@ -83,12 +83,12 @@ Ensure your project follows this structure to support the scripts:
 
 .  
 ├── .github/  
-│&nbsp;&nbsp;&nbsp;└── workflows/  
-│       ├── push_to_phrase.yml      # Triggered on push to main  
-│       └── pull_from_phrase.yml    # Triggered on phrase updates  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── workflows/  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── push_to_phrase.yaml      # Triggered on push to main  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── pull_from_phrase.yaml    # Triggered on phrase updates  
 ├── scripts/+
-│   ├── preprocess_adoc.py          # The Protection Script  
-│   └── postprocess_adoc.py         # The Restoration Script  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess_adoc.py          # The Protection Script  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── postprocess_adoc.py         # The Restoration Script  
 ├── source/                         # Source English files  
 ├── logs/                           # Execution logs  
 └── requirements.txt                # Python dependencies
