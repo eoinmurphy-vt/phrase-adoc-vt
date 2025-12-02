@@ -3,6 +3,8 @@ name: Preprocess AsciiDoc Files
 on:
   push:
     branches: [ main ]
+    # LIMITATION: Variables cannot be used here. 
+    # If vars.CONTENT_DIR changes, you must update this path manually.
     paths:
       - 'source/**/*.adoc'
       - 'preprocess_adoc.py'
@@ -37,19 +39,23 @@ jobs:
 
       - name: Detect Changed AsciiDoc Files
         id: changed
+        env:
+          # We use the variable here
+          DIR: ${{ vars.CONTENT_DIR || 'source' }} 
         run: |
-          echo "Detecting changed AsciiDoc files..."
+          echo "Detecting changed AsciiDoc files in $DIR..."
 
           if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
-            git diff --name-only --diff-filter=AM HEAD^ HEAD -- source/ | grep '\.adoc$' > changed_files.txt || true
+            # Filter diff by the configured directory
+            git diff --name-only --diff-filter=AM HEAD^ HEAD -- "$DIR/" | grep '\.adoc$' > changed_files.txt || true
           else
             echo "Initial commit — using all .adoc files"
-            find source/ -type f -name "*.adoc" > changed_files.txt || true
+            find "$DIR/" -type f -name "*.adoc" > changed_files.txt || true
           fi
 
           if [ ! -s changed_files.txt ]; then
             echo "No changed files detected; processing all .adoc"
-            find source/ -type f -name "*.adoc" > changed_files.txt
+            find "$DIR/" -type f -name "*.adoc" > changed_files.txt
           fi
 
           echo "Changed files:"
@@ -69,7 +75,6 @@ jobs:
         if: env.no_changes == 'false'
         run: |
           mkdir -p processed logs
-
           while IFS= read -r file; do
             [ -z "$file" ] && continue
             echo "Processing: $file"

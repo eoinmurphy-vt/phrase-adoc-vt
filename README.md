@@ -4,9 +4,9 @@
 
 [![Sync from Repo 1](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-from-repo1.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-from-repo1.yaml)
 
-[![AsciiDoc Preprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yml)
+[![AsciiDoc Preprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yaml)
 
-[![AsciiDoc Postprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yml)
+[![AsciiDoc Postprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yaml)
 
 [![Sync to Repo 1](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-to-repo1.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-to-repo1.yaml)
 

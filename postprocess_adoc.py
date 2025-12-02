@@ -4,8 +4,10 @@ import datetime
 import chardet
 from pathlib import Path
 
-SRC_DIR = "translated"
-DST_DIR = "final"
+# --- CONFIGURATION FROM ENV VARS ---
+# We read from environment variables, falling back to defaults if not set.
+SRC_DIR = os.getenv("SRC_DIR", "translated")
+DST_DIR = os.getenv("DST_DIR", "final")
 LOG_DIR = "logs"
 
 os.makedirs(LOG_DIR, exist_ok=True)

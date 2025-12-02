@@ -1,9 +1,10 @@
-name: Sync Processed Files to phrase-adoc-client
+name: Sync Processed Files to External Repo
 
 on:
   push:
+    # LIMITATION: 'paths' cannot use variables.
     paths:
-      - 'final/**'  # Trigger on changes to outgoing folder in Repo2
+      - 'final/**'  
   repository_dispatch:
     types: [trigger-sync-to-repo1]
   workflow_dispatch:
@@ -11,65 +12,77 @@ on:
 jobs:
   sync-back:
     runs-on: ubuntu-latest
+    env:
+      # Configuration via Variables
+      FINAL_DIR: ${{ vars.FINAL_DIR || 'final' }}
+      EXT_REPO: ${{ vars.EXTERNAL_REPO_URL || 'e-murph/phrase-adoc-client' }}
+      EXT_TARGET_DIR: ${{ vars.EXTERNAL_TARGET_DIR || 'docs' }} # e.g., 'docs'
+
     steps:
-      - name: Checkout phrase-adoc-vt
+      - name: Checkout Current Repo
         uses: actions/checkout@v4
 
       - name: Debug Final Folder Contents
         run: |
-          echo "Contents of final/ after checkout:"
-          ls -R final/ 2>/dev/null || echo "final/ folder not found or empty."
+          echo "Contents of $FINAL_DIR/ after checkout:"
+          ls -R "$FINAL_DIR/" 2>/dev/null || echo "$FINAL_DIR/ folder not found or empty."
 
       - name: Set up Git
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email github-actions@github.com
 
-      - name: Clone phrase-adoc-client for writing
+      - name: Clone External Repo for writing
         run: |
-          git clone https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git temp_repo1
+          # Use Variable for External Repo
+          git clone "https://${{ secrets.REPO1_WRITE_PAT }}@github.com/$EXT_REPO.git" temp_repo1
+          
           cd temp_repo1
-          git remote set-url origin https://${{ secrets.REPO1_WRITE_PAT }}@github.com/e-murph/phrase-adoc-client.git
+          git remote set-url origin "https://${{ secrets.REPO1_WRITE_PAT }}@github.com/$EXT_REPO.git"
+          
           DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' || echo "main")
           echo "Detected default branch: $DEFAULT_BRANCH"
           git checkout $DEFAULT_BRANCH
 
-      - name: Copy processed files to phrase-adoc-client
+      - name: Copy processed files to External Repo
         run: |
-          mkdir -p temp_repo1/docs/
+          # Ensure target folder exists in external repo
+          mkdir -p "temp_repo1/$EXT_TARGET_DIR/"
           
-          # Fix for double nesting: Check if 'final' contains a 'docs' subfolder
-          if [ -d "final/docs" ]; then
-             echo "Detected nested 'docs' folder in 'final'. Syncing content of 'final/docs/' to 'temp_repo1/docs/'..."
-             # IMPORTANT: Removed --delete to ensure we merge languages, not replace them
-             rsync -a final/docs/ temp_repo1/docs/
-             echo "Copied files (nested structure corrected)"
-          elif [ -d "final" ] && find final -type f 2>/dev/null | grep . > /dev/null 2>&1; then
-             echo "No nested 'docs' folder found. Syncing content of 'final/' to 'temp_repo1/docs/'..."
-             # IMPORTANT: Removed --delete to ensure we merge languages, not replace them
-             rsync -a final/ temp_repo1/docs/
-             echo "Copied files from final/ to docs/"
+          # Fix for double nesting logic using variables
+          if [ -d "$FINAL_DIR/$EXT_TARGET_DIR" ]; then
+              echo "Detected nested '$EXT_TARGET_DIR' folder in '$FINAL_DIR'. Syncing content..."
+              rsync -a "$FINAL_DIR/$EXT_TARGET_DIR/" "temp_repo1/$EXT_TARGET_DIR/"
+              echo "Copied files (nested structure corrected)"
+          elif [ -d "$FINAL_DIR" ] && find "$FINAL_DIR" -type f 2>/dev/null | grep . > /dev/null 2>&1; then
+              echo "No nested '$EXT_TARGET_DIR' folder found. Syncing content of '$FINAL_DIR/' to 'temp_repo1/$EXT_TARGET_DIR/'..."
+              rsync -a "$FINAL_DIR/" "temp_repo1/$EXT_TARGET_DIR/"
+              echo "Copied files from $FINAL_DIR/ to $EXT_TARGET_DIR/"
           else
-             echo "No files in final/ to copy (or folder missing); skipping."
+              echo "No files in $FINAL_DIR/ to copy (or folder missing); skipping."
           fi
 
-      - name: Commit and push to phrase-adoc-client
+      - name: Commit and push to External Repo
         working-directory: temp_repo1
         run: |
-          # Add the 'docs' folder specifically
-          git add docs/
+          # Add the target folder specifically
+          git add "$EXT_TARGET_DIR/"
           
-          if git commit -m "Added processed files from phrase-adoc-vt to docs folder"; then
+          if git commit -m "Added processed files from translation pipeline"; then
             MAX_ATTEMPTS=10
             ATTEMPT=1
             while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
               echo "Attempt $ATTEMPT: rebasing and pushing..."
-              git fetch origin main
-              if ! git rebase origin/main; then
+              git fetch origin
+              # Detect branch again or hardcode if preferred (using HEAD here is safer)
+              BRANCH=$(git rev-parse --abbrev-ref HEAD)
+              
+              if ! git rebase "origin/$BRANCH"; then
                 echo "Rebase failed, aborting."
                 exit 1
               fi
-              if git push --force-with-lease origin main; then
+              
+              if git push --force-with-lease origin "$BRANCH"; then
                 echo "Push succeeded on attempt $ATTEMPT."
                 break
               else

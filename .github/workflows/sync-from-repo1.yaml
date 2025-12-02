@@ -1,9 +1,11 @@
-name: Sync Changes from phrase-adoc-client
+name: Sync Changes from External Repo
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Every 15 minutes; adjust as needed
-  workflow_dispatch:  # Allows manual trigger
+    # LIMITATION: Cron schedules cannot use variables. 
+    # This must remain hardcoded.
+    - cron: '*/15 * * * *'  
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -11,7 +13,7 @@ jobs:
     outputs:
       changed_files: ${{ steps.get-changes.outputs.changed_files }}
     steps:
-      - name: Checkout phrase-adoc-vt
+      - name: Checkout Current Repo
         uses: actions/checkout@v4
 
       - name: Set up Git
@@ -19,13 +21,18 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
 
-      - name: Clone phrase-adoc-client
+      - name: Clone External Repo
         run: |
-          git clone https://github.com/e-murph/phrase-adoc-client.git temp_repo1  # Remove ${{ secrets.REPO1_READ_PAT }}@ if phrase-adoc-client is public
+          # Uses variable for External Repo URL
+          EXT_REPO="${{ vars.EXTERNAL_REPO_URL }}"
+          # Fallback if variable is empty
+          if [ -z "$EXT_REPO" ]; then EXT_REPO="e-murph/phrase-adoc-client"; fi
+          
+          git clone "https://github.com/$EXT_REPO.git" temp_repo1
           cd temp_repo1
           git fetch origin
 
-      - name: Get last synced commit from phrase-adoc-vt state
+      - name: Get last synced commit
         id: get-last-commit
         run: |
           if [ -f .last_synced_commit ]; then
@@ -38,13 +45,17 @@ jobs:
       - name: Get changed files since last sync
         working-directory: temp_repo1
         id: get-changes
+        env:
+          # Uses variable for Watch Path
+          WATCH_PATH: ${{ vars.EXTERNAL_WATCH_PATH }}
         run: |
           CURRENT_COMMIT=$(git rev-parse HEAD)
           LAST_COMMIT="${{ steps.get-last-commit.outputs.last_commit }}"
           
-          # TARGET SPECIFIC FOLDER: docs/5.4/modules/en/
-          WATCH_PATH="docs/5.4/modules/en/"
+          # Default if variable is missing
+          if [ -z "$WATCH_PATH" ]; then WATCH_PATH="docs/5.4/modules/en/"; fi
 
+          echo "Watching path: $WATCH_PATH"
           echo "Last synced commit: $LAST_COMMIT"
           echo "Current commit: $CURRENT_COMMIT"
 
@@ -58,11 +69,6 @@ jobs:
             DELETED_FILES=$(git diff --name-only --diff-filter=D "$LAST_COMMIT" "$CURRENT_COMMIT" -- "$WATCH_PATH" | grep '\.adoc$' || true)
           fi
 
-          echo "=== Final changed files list ==="
-          echo "$CHANGED_FILES"
-          echo "=== Final deleted files list ==="
-          echo "$DELETED_FILES"
-
           echo "changed_files<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -71,55 +77,49 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
           echo "current_commit=$CURRENT_COMMIT" >> $GITHUB_OUTPUT
 
-      - name: Debug changed/deleted files output
+      - name: Debug Output
         run: |
-          echo "=== Changed files reported by get-changes ==="
-          echo "${{ steps.get-changes.outputs.changed_files }}"
-          echo "=== Deleted files reported by get-changes ==="
-          echo "${{ steps.get-changes.outputs.deleted_files }}"
+          echo "Changed: ${{ steps.get-changes.outputs.changed_files }}"
+          echo "Deleted: ${{ steps.get-changes.outputs.deleted_files }}"
 
-      - name: Copy changed files to source folder in phrase-adoc-vt
+      - name: Copy changed files to source folder
         if: steps.get-changes.outputs.changed_files != ''
+        env:
+          TARGET_DIR: ${{ vars.CONTENT_DIR || 'source' }}
         run: |
-          mkdir -p source
-          # Iterate line by line to preserve spaces and subfolders
+          mkdir -p "$TARGET_DIR"
           echo "${{ steps.get-changes.outputs.changed_files }}" | while IFS= read -r file; do
             if [ -n "$file" ] && [ -f "temp_repo1/$file" ]; then
-              mkdir -p "source/$(dirname "$file")"
-              cp "temp_repo1/$file" "source/$file"
+              mkdir -p "$TARGET_DIR/$(dirname "$file")"
+              cp "temp_repo1/$file" "$TARGET_DIR/$file"
               echo "Copied $file"
-            else
-              echo "Skipping $file (not found or empty line)"
             fi
           done
 
-      - name: Remove deleted files from source folder in phrase-adoc-vt
+      - name: Remove deleted files from source folder
         if: steps.get-changes.outputs.deleted_files != ''
+        env:
+          TARGET_DIR: ${{ vars.CONTENT_DIR || 'source' }}
         run: |
-          # Iterate line by line to preserve spaces in paths
           echo "${{ steps.get-changes.outputs.deleted_files }}" | while IFS= read -r file; do
-            if [ -n "$file" ] && [ -f "source/$file" ]; then
-              rm -f "source/$file"
-              echo "Removed source/$file"
-            else
-              echo "File source/$file not found; skipping removal."
+            if [ -n "$file" ] && [ -f "$TARGET_DIR/$file" ]; then
+              rm -f "$TARGET_DIR/$file"
+              echo "Removed $TARGET_DIR/$file"
             fi
           done
 
-      - name: Debug source folder contents
-        run: |
-          echo "Workspace path:"
-          pwd
-          echo "Contents of source/ after copy/delete:"
-          ls -R source/ 2>/dev/null || echo "source/ folder not found or empty."
-
-      - name: Update last synced commit and commit changes to phrase-adoc-vt
+      - name: Update last synced commit and push
         if: steps.get-changes.outputs.changed_files != '' || steps.get-changes.outputs.deleted_files != ''
+        env:
+          TARGET_DIR: ${{ vars.CONTENT_DIR || 'source' }}
+          CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
         run: |
           echo "${{ steps.get-changes.outputs.current_commit }}" > .last_synced_commit
-          git add source/ .last_synced_commit
-          git commit -m "Synced changed .adoc files from phrase-adoc-client (including deletions)" || echo "No changes to commit"
-          git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/eoinmurphy-vt/phrase-adoc-vt.git
+          git add "$TARGET_DIR/" .last_synced_commit
+          git commit -m "Synced changes from external repo" || echo "No changes to commit"
+          
+          # Push using PAT and Variable for Repo Name
+          git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/$CURRENT_REPO.git
           git push origin main
 
       - name: Clean up
@@ -127,12 +127,14 @@ jobs:
 
       - name: Dispatch Preprocess Workflow
         if: steps.get-changes.outputs.changed_files != ''
+        env:
+          CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
         run: |
           CHANGED_FILES="${{ steps.get-changes.outputs.changed_files }}"
           PAYLOAD=$(jq -n --arg et "trigger-preprocess" --arg cf "$CHANGED_FILES" '{event_type: $et, client_payload: {changed_files: $cf}}')
+          
           curl -X POST \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/eoinmurphy-vt/phrase-adoc-vt/dispatches \
+            "https://api.github.com/repos/$CURRENT_REPO/dispatches" \
             -d "$PAYLOAD"
-
