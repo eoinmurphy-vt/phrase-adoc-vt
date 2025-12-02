@@ -81,17 +81,17 @@ The badge above shows the current automation state:
 
 Ensure your project follows this structure to support the scripts:
 
-.
-├── .github/+
-│   └── workflows/+
-│       ├── push_to_phrase.yml      # Triggered on push to main+
-│       └── pull_from_phrase.yml    # Triggered on phrase updates+
+.  
+├── .github/  
+│   └── workflows/  
+│       ├── push_to_phrase.yml      # Triggered on push to main  
+│       └── pull_from_phrase.yml    # Triggered on phrase updates  
 ├── scripts/+
-│   ├── preprocess_adoc.py          # The Protection Script+
-│   └── postprocess_adoc.py         # The Restoration Script+
-├── source/                         # Source English files+
-├── logs/                           # Execution logs+
-└── requirements.txt                # Python dependencies+
+│   ├── preprocess_adoc.py          # The Protection Script  
+│   └── postprocess_adoc.py         # The Restoration Script  
+├── source/                         # Source English files  
+├── logs/                           # Execution logs  
+└── requirements.txt                # Python dependencies
 
 ---
 
