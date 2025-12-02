@@ -83,7 +83,7 @@ Ensure your project follows this structure to support the scripts:
 
 .  
 ├── .github/  
-│   └── workflows/  
+│&nbsp;&nbsp;&nbsp;└── workflows/  
 │       ├── push_to_phrase.yml      # Triggered on push to main  
 │       └── pull_from_phrase.yml    # Triggered on phrase updates  
 ├── scripts/+
