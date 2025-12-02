@@ -136,9 +136,9 @@ If these variables are not set, the workflow will use the Default Values listed 
 
 ### ⚠️ Important Limitations
 
-While most settings are configurable via the Variables UI, specific GitHub architecture limitations require the following to be changed manually in the YAML files if updated:
-Schedules: The sync frequency (e.g., */15 * * * *) must be edited in .github/workflows/sync-from-repo1.yaml.
-Trigger Paths: If you rename the source or translated folders, you must manually update the paths: filters in preprocess.yaml and postprocess.yaml so the workflows trigger correctly.
+   * While most settings are configurable via the Variables UI, specific GitHub architecture limitations require the following to be changed manually in the YAML files if updated:
+   * Schedules: The sync frequency (e.g., */15 * * * *) must be edited in .github/workflows/sync-from-repo1.yaml.
+   * Trigger Paths: If you rename the source or translated folders, you must manually update the paths: filters in preprocess.yaml and postprocess.yaml so the workflows trigger correctly.
 
 ---
 
