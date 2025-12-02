@@ -84,14 +84,14 @@ Ensure your project follows this structure to support the scripts:
 &nbsp;.  
 &nbsp;├── .github/  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── workflows/  
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── push_to_phrase.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── push_to_phrase.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── pull_from_phrase.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates  
 &nbsp;├── scripts/  
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Protection Script  
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── postprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Restoration Script  
-&nbsp;├── source/         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Source English files  
-&nbsp;├── logs/           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Execution logs  
-&nbsp;└── requirements.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Python dependencies
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Protection Script  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── postprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Restoration Script  
+&nbsp;├── source/         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Source English files  
+&nbsp;├── logs/           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Execution logs  
+&nbsp;└── requirements.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Python dependencies
 
 ---
 
