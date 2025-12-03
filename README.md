@@ -112,7 +112,7 @@ This workflow uses GitHub Actions Variables to manage repository connections and
 
    * Navigate to the main page of this repository.
    * Click the Settings tab in the top navigation bar.
-   * In the left sidebar, locate the Security section (sometimes labeled Secrets and variables).
+   * In the left sidebar, locate the Security section and Secrets and variables.
    * Click Actions.
    * Select the Variables tab (ensure you are not on the "Secrets" tab).
    * To change a setting, click the pencil icon (Edit) next to the variable.
