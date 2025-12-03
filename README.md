@@ -122,15 +122,16 @@ This workflow uses GitHub Actions Variables to manage repository connections and
 
 If these variables are not set, the workflow will use the Default Values listed below.
 
-| Variable Name             | Default Value    | Description                                                                                         |
-| ------------------------- | ---------------- | --------------------------------------------------------------------------------------------------- |
-| **`CONTENT_DIR`**         | source           | The local folder where English .adoc files are stored.                                              |
-| **`TRANSLATED_DIR`**      | translated       | The folder where Phrase TMS pushes translated files.                                                |
-| **`FINAL_DIR`**           | final            | The folder where the final, cleaned AsciiDoc files are saved.                                       |
-| **`CURRENT_REPO_NAME`**   | (Your Repo)      | The owner/repo string of this repository (e.g., my-org/docs-connector). Used for dispatch triggers. |
-| **`EXTERNAL_REPO_URL`**   | (Client Repo)    | The owner/repo string of the external repository you are syncing with (e.g., client-org/main-docs). |
-| **`EXTERNAL_WATCH_PATH`** | docs/modules/en/ | The specific subfolder in the External Repo to watch for changes.                                   |
-| **`EXTERNAL_TARGET_DIR`** | docs             | The specific subfolder in the External Repo where finished translations should be pushed.           |
+| Variable Name             | Default Value       | Description                                                                                         |
+| ------------------------- | ------------------- | --------------------------------------------------------------------------------------------------- |
+| **`CONTENT_DIR`**         | source              | The local folder where English .adoc files are stored.                                              |
+| **`TRANSLATED_DIR`**      | translated          | The folder where Phrase TMS pushes translated files.                                                |
+| **`FINAL_DIR`**           | final               | The folder where the final, cleaned AsciiDoc files are saved.                                       |
+| **`CURRENT_REPO_NAME`**   | (Your Repo)         | The owner/repo string of this repository (e.g., my-org/docs-connector). Used for dispatch triggers. |
+| **`EXTERNAL_REPO_URL`**   | (Client Repo)       | The owner/repo string of the external repository you are syncing with (e.g., client-org/main-docs). |
+| **`EXTERNAL_WATCH_PATH`** | docs/modules/en/    | The specific subfolder in the External Repo to watch for changes.                                   |
+| **`EXTERNAL_TARGET_DIR`** | docs                | The specific subfolder in the External Repo where finished translations should be pushed.           |
+| **`TRANSLATION_BRANCH`**  | translations/import | The branch Phrase TMS pushes to.                                                                    |
 
 ---
 
