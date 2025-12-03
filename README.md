@@ -47,7 +47,7 @@ It ensures consistent formatting, automatic preprocessing before translation, an
 2. **Translation Stage (in Phrase TMS)**
 
    * Phrase TMS syncs the `processed/` folder as the **source**
-   * Translators work directly in Phrase TMS
+   * Machine translation is applied directly in Phrase TMS
    * When translation is complete, Phrase TMS pushes the files to the `translated/` folder in GitHub
 
 3. **Postprocessing Stage**
@@ -136,7 +136,7 @@ If these variables are not set, the workflow will use the Default Values listed 
 
 ### ⚠️ Important Limitations
 
-   * While most settings are configurable via the Variables UI, specific GitHub architecture limitations require the following to be changed manually in the YAML files if updated:
+   While most settings are configurable via the Variables UI, specific GitHub architecture limitations require the following to be changed manually in the YAML files if updated:
    * Schedules: The sync frequency (e.g., */15 * * * *) must be edited in .github/workflows/sync-from-repo1.yaml.
    * Trigger Paths: If you rename the source or translated folders, you must manually update the paths: filters in preprocess.yaml and postprocess.yaml so the workflows trigger correctly.
 
