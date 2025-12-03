@@ -1,0 +1,160 @@
+Starting preprocess: source/docs/5.4/modules/en/chrome_4.adoc
+✓ Decoded source/docs/5.4/modules/en/chrome_4.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/chrome_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.110688
+Starting preprocess: source/docs/5.4/modules/en/cli_4.adoc
+✓ Decoded source/docs/5.4/modules/en/cli_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/cli_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-03 17:45:55.172743
+Starting preprocess: source/docs/5.4/modules/en/configmap_4.adoc
+✓ Decoded source/docs/5.4/modules/en/configmap_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/configmap_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-03 17:45:55.234644
+Starting preprocess: source/docs/5.4/modules/en/customui_4.adoc
+✓ Decoded source/docs/5.4/modules/en/customui_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/customui_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.301939
+Starting preprocess: source/docs/5.4/modules/en/cve_4.adoc
+✓ Decoded source/docs/5.4/modules/en/cve_4.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/en/cve_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-03 17:45:55.355734
+Starting preprocess: source/docs/5.4/modules/en/details_4.adoc
+✓ Decoded source/docs/5.4/modules/en/details_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/details_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.408685
+Starting preprocess: source/docs/5.4/modules/en/docker-ee_4.adoc
+✓ Decoded source/docs/5.4/modules/en/docker-ee_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker-ee_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.468563
+Starting preprocess: source/docs/5.4/modules/en/docker_4.adoc
+✓ Decoded source/docs/5.4/modules/en/docker_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-03 17:45:55.526403
+Starting preprocess: source/docs/5.4/modules/en/ecr-iam_4.adoc
+✓ Decoded source/docs/5.4/modules/en/ecr-iam_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecr-iam_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.578714
+Starting preprocess: source/docs/5.4/modules/en/ecs_4.adoc
+✓ Decoded source/docs/5.4/modules/en/ecs_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecs_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.633740
+Starting preprocess: source/docs/5.4/modules/en/filerules_4.adoc
+✓ Decoded source/docs/5.4/modules/en/filerules_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/filerules_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.688086
+Starting preprocess: source/docs/5.4/modules/en/gcr-sa_4.adoc
+✓ Decoded source/docs/5.4/modules/en/gcr-sa_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gcr-sa_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.739710
+Starting preprocess: source/docs/5.4/modules/en/general-guidelines_4.adoc
+✓ Decoded source/docs/5.4/modules/en/general-guidelines_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/general-guidelines_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.791914
+Starting preprocess: source/docs/5.4/modules/en/gitlab_4.adoc
+✓ Decoded source/docs/5.4/modules/en/gitlab_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gitlab_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.843637
+Starting preprocess: source/docs/5.4/modules/en/groups_4.adoc
+✓ Decoded source/docs/5.4/modules/en/groups_4.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/groups_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.897090
+Starting preprocess: source/docs/5.4/modules/en/ibmqr_4.adoc
+✓ Decoded source/docs/5.4/modules/en/ibmqr_4.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/ibmqr_4.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-03 17:45:55.982000
