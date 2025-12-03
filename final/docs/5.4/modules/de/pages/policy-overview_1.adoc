@@ -1,0 +1,67 @@
+= Übersicht der Sicherheitsrichtlinie
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /05.policy/01.overview/01.overview.md
+:page-opendocs-slug:  /policy/overview
+
+== {product-name} Sicherheitsrichtlinie
+
+Um Verstöße gegen das normale Verhalten zu erkennen, verwaltet {product-name} eine Sicherheitsrichtlinie, die über die GUI, CLI, CRD oder REST API verwaltet werden kann.
+
+=== Gruppen
+
+Dies bietet die primäre Ansicht von Dienstgruppen und benutzerdefinierten Gruppen, um den Modus (Entdecken, Überwachen, Schützen) für jeden Dienst festzulegen und Regeln zu verwalten. Gruppen werden automatisch von {product-name} erstellt, aber benutzerdefinierte Gruppen können hinzugefügt werden. Regeln für jede Gruppe werden automatisch von {product-name} erstellt, wenn Container zu laufen beginnen. Containergruppen können einen Split-Policy-Modus haben, bei dem die Prozess-/Dateiregeln in einem anderen Durchsetzungsmodus als die Netzwerkregeln sind, wie xref:modes.adoc#_network_service_policy_mode[hier] beschrieben.
+
+Um eine Gruppe auszuwählen, die angezeigt oder verwaltet werden soll, wählen Sie das Kontrollkästchen daneben aus. Hier werden Prozessprofilregeln, Dateizugriffsregeln, DLP und benutzerdefinierte Compliance-Prüfungen verwaltet. Netzwerkregeln können hier angezeigt werden, werden jedoch in einem separaten Menü verwaltet.
+Netzwerk- und Reaktionsregeln in {product-name} werden mit einem '`from`' und '`to`' Feld erstellt, das eine Gruppe als Eingabe erfordert. Eine Gruppe kann eine Anwendung sein, die aus Bildbeschriftungen, DNS-Namen oder anderen benutzerdefinierten Gruppierungen abgeleitet ist. DNS-Subdomains werden unterstützt, z.B. *.foo.com. IP-Adressen oder Subnetze können ebenfalls verwendet werden, was nützlich ist, um den Datenverkehr von nicht-containerisierten Arbeitslasten zu steuern.
+
+image:groups_node_demo.png[gruppen]
+
+Reservierte Gruppennamen, die automatisch von {product-name} erstellt wurden, umfassen:
+
+* Container. Alle laufenden Container.
+* Extern. Verbindungen, die in den Cluster kommen (Ingress).
+* Knoten. Knoten oder Hosts, die durch {product-name} identifiziert werden.
+
+Das Menü Gruppen ist auch der Ort, an dem die "Gruppenrichtlinie exportieren" durchgeführt werden kann. Dies exportiert die Sicherheitsrichtlinie (Regeln) für die ausgewählten Gruppen als YAML-Datei im Format der {product-name} benutzerdefinierten Ressourcenbeschreibung (CRD), die überprüft und dann in andere Cluster bereitgestellt werden kann.
+
+Beachten Sie, dass der Status der Container einer Gruppe in den Richtlinien -> Gruppen -> Mitglieder angezeigt wird, was den {product-name} Schutzmodus (Entdecken, Überwachen, Schützen) anzeigt. Wenn der Container im Zustand 'Exit' angezeigt wird, ist er noch auf dem Host, aber gestoppt. Das Entfernen des Containers entfernt ihn aus dem Exit-Zustand.
+
+=== Netzwerkregeln
+
+Eine Liste von Whitelist- und Blacklist-Regeln für {product-name}, die durchgesetzt werden sollen. {product-name} kann automatisch entdecken und eine Reihe von Whitelist-Regeln im Entdeckungsmodus erstellen. Regeln können manuell hinzugefügt werden, wenn gewünscht.
+
+{product-name} erstellt automatisch Layer 7 (Anwendungsschicht) Whitelist-Regeln im Entdeckungsmodus, indem es die Netzwerkverbindungen beobachtet und Regeln erstellt, die Anwendungsprotokolle durchsetzen.
+
+{product-name} hat auch eine integrierte Netzwerkanalyse zur Erkennung von Angriffen, die immer aktiviert ist, unabhängig vom Modus (Entdecken, Überwachen, Schützen). Die erkannten Netzwerkbedrohungen umfassen DDoS-Angriffe, Tunneling und SQL-Injection. Bitte sehen Sie sich den Abschnitt Netzwerkregeln für eine vollständige Liste der integrierten Bedrohungserkennung an.
+
+DLP (Data Loss Prevention)-Regeln können auch auf Containergruppen angewendet werden, um die Netzwerklast auf potenziellen Datendiebstahl oder Datenschutzverletzungen wie unverschlüsselte Kreditkartendaten zu überprüfen. Verstöße können blockiert werden. Bitte sehen Sie sich den Abschnitt zu DLP für Details zur Erstellung und Anwendung von DLP-Filtern an.
+
+=== Prozessprofil und Dateizugriffsregeln
+
+{product-name} verfügt über eine integrierte Erkennung von verdächtigen Prozessen und Dateiaktivitäten sowie über eine Baseline-Technologie für Container. Die integrierte Erkennung umfasst Prozesse wie Port-Scanning (z.B. NMAP), Reverse Shell und sogar Privilegieneskalationen zu Root. Systemdateien und -verzeichnisse werden automatisch überwacht. Jeder Dienst, der von {product-name} entdeckt wird, erstellt eine Basislinie für '`normal`' Prozess- und Dateiaktivitäten für diesen Containerdienst. Diese Regeln können bei Bedarf angepasst werden.
+
+=== Reaktionsregeln
+
+Reaktionsregeln ermöglichen es Benutzern, Aktionen zur Reaktion auf Sicherheitsereignisse zu definieren. Ereignisse umfassen Bedrohungen, Verstöße, Vorfälle und Ergebnisse von Schwachstellenscans. Aktionen umfassen Containerquarantäne, Webhooks und Unterdrückung von Warnungen.
+
+Reaktionsregeln bieten eine flexible, anpassbare Regel-Engine zur Automatisierung von Reaktionen auf wichtige Sicherheitsereignisse.
+
+=== Zulassungssteuerungsregeln
+
+Zulassungssteuerungsregeln erlauben oder blockieren Bereitstellungen. Weitere Details finden Sie in diesem Abschnitt unter Zulassungssteuerungen.
+
+=== DLP- und WAF-Sensoren
+
+Data Loss Prevention (Datenleckschutz) und WAF-Regeln können für jede ausgewählte Containergruppe aktiviert werden. Dies nutzt die Deep Packet Inspection, um reguläre Ausdrücke auf die Netzwerklast anzuwenden, die in die ausgewählte Containergruppe ein- oder ausgeht. Integrierte Sensoren für Kreditkarten und US-Sozialversicherungsnummern sind als Beispiele enthalten, und benutzerdefinierte reguläre Ausdrücke können hinzugefügt werden.
+
+=== Migration, Backup, Import/Export
+
+Die Migration der Sicherheitsrichtlinie kann durch CRD, REST API oder Import/Export erfolgen. Zum Beispiel können erlernte und benutzerdefinierte Regeln eine CRD-YAML-Datei(en) in einer Staging-Umgebung für die Bereitstellung in der Produktionsumgebung generieren.
+
+Die Sicherheitsrichtlinie für {product-name} kann in den Einstellungen -> Konfiguration exportiert und importiert werden. Es wird empfohlen, alle Konfigurationen vor einem Update von {product-name} auf eine neue Version zu sichern.
+
+[IMPORTANT]
+====
+Das Importieren ALLER (Konfiguration und Richtlinie) überschreibt alles, einschließlich der Haupt-Admin-Anmeldeinformationen. Stellen Sie sicher, dass Sie die Haupt-Admin-Anmeldung für die importierte Datei vor dem Importieren kennen.
+====

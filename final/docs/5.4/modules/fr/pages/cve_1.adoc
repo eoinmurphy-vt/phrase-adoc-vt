@@ -1,0 +1,112 @@
+= Avis de sécurité et CVE
+:revdate: 2025-08-26
+:page-revdate: {revdate}
+
+NeuVector s'engage à informer la communauté des problèmes de sécurité. Ci-dessous se trouve une liste de références CVE des avis de sécurité publiés et des CVE (Vulnérabilités et Expositions Courantes) pour les problèmes que nous avons résolus.
+
+== Liste des CVE
+
+|===
+| ID | Description | Date | Version
+
+| https://github.com/neuvector/neuvector/security/advisories/GHSA-8pxw-9c75-6w56[CVE-2025-8077] 
+| Pour le déploiement de NeuVector dans un environnement basé sur Kubernetes, le mot de passe de démarrage de l'utilisateur admin par défaut sera généré aléatoirement et stocké dans un secret Kubernetes. L'admin par défaut devra d'abord obtenir le mot de passe de démarrage à partir du secret Kubernetes et sera invité à changer le mot de passe après la première connexion réussie à l'interface utilisateur.
+| 25 août 2025 
+| https://github.com/neuvector/neuvector/releases/tag/v5.4.6[NeuVector v5.4.6]
+
+| https://github.com/neuvector/neuvector/security/advisories/GHSA-8ff6-pc43-jwv3[CVE-2025-53884] 
+| NeuVector utilise un sel cryptographiquement sécurisé avec l'algorithme PBKDF2 au lieu d'un simple hachage pour protéger les mots de passe des utilisateurs. Pour les mises à niveau progressives à partir de versions antérieures, NeuVector recalcule et stocke le nouveau hachage de mot de passe uniquement après la prochaine connexion réussie de chaque utilisateur.
+| 25 août 2025 
+| https://github.com/neuvector/neuvector/releases/tag/v5.4.6[NeuVector v5.4.6]
+
+| https://github.com/neuvector/neuvector/security/advisories/GHSA-w54x-xfxg-4gxq[CVE-2025-54467] 
+| Par défaut, NeuVector censure les commandes de processus qui contiennent les chaînes password, passwd, pwd, token ou key dans les journaux de sécurité, syslog, journaux de débogage de l'enforcer, journaux de débogage du contrôleur, webhooks et journaux de support. Les utilisateurs peuvent configurer un ConfigMap Kubernetes pour définir des motifs regex personnalisés pour d'autres commandes de processus à censurer.
+| 25 août 2025 
+| https://github.com/neuvector/neuvector/releases/tag/v5.4.6[NeuVector v5.4.6]
+
+|===
+
+== Exposition d'informations sensibles dans les journaux de conteneur de NeuVector Manager
+
+*ID CVE:* CVE-2025-46808
+*Score CVSS:* 6.8 — https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N&version=3.1[AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N]
+*CWE:* https://cwe.mitre.org/data/definitions/532[CWE-532 : Insertion d'informations sensibles dans le fichier journal]
+
+=== Versions affectées
+
+* Toutes les versions antérieures à `5.0.0`
+* Versions de `5.0.0` jusqu'à et y compris `5.4.4`
+
+*Version corrigée : `5.4.5`*
+
+=== Impact
+
+Une vulnérabilité a été identifiée dans les versions de NeuVector jusqu'à et y compris `5.4.4`, où des informations sensibles sont divulguées dans le journal du conteneur du gestionnaire. Les champs suivants peuvent être exposés :
+
+[cols="1,2,2,2,2", options="header"]
+|===
+|Champ |Description du champ |Où il apparaît |Reproduction |Environnement
+
+|`X-R-Sess`
+|Jeton de session de Rancher pour l'authentification unique
+|En-tête de requête
+|Connectez-vous via l'interface utilisateur de Rancher et accédez à NeuVector SSO
+|Rancher avec NeuVector SSO
+
+|`personal_access_token`
+|Jeton GitHub / Azure DevOps
+|Corps de la requête
+|Soumettre la configuration du dépôt distant sous *Configuration > Paramètres*
+|NeuVector
+
+|`token1.token`
+|Jeton de session de l'utilisateur NeuVector
+|Corps de la réponse
+|Requête GET à `https://<neuvector-ui-url>/user?name=<username>`
+|NeuVector
+
+|`rekor_public_key`, `root_cert`, `sct_public_key`
+|Clé publique Rekor, certificat racine, clé publique SCT dans la racine de confiance privée
+|Corps de la requête
+|Créer/mettre à jour la racine de confiance privée dans la page Sigstore
+|NeuVector
+
+|`public_key`
+|Clé publique du vérificateur
+|Corps de la requête
+|Créer/mettre à jour le vérificateur dans la page Sigstore
+|NeuVector
+|===
+
+[NOTE]
+====
+Les installations de NeuVector qui n'utilisent pas Rancher SSO ou la configuration du dépôt distant ne sont *pas affectées* par ce problème.
+====
+
+Dans la version corrigée, la valeur `X-R-Sess` est partiellement masquée pour des raisons de sécurité. D'autres champs tels que `personal_access_token`, `token`, `rekor_public_key`, `root_cert`, `sct_public_key` et `public_key` ne sont plus enregistrés, car l'enregistrement du corps de la requête a été supprimé.
+
+[NOTE]
+====
+* La gravité de cette vulnérabilité dépend de votre stratégie de journalisation :
+  ** *Journalisation locale (par défaut) :* Limite l'exposition à l'impact.
+  ** *Journalisation externe :* Augmente le risque, en fonction de la posture de sécurité de votre collecteur de journaux externe.
+* La gravité de l'impact peut également dépendre des autorisations des identifiants exposés.
+
+Voir aussi : https://attack.mitre.org/techniques/T1552/[Technique MITRE T1552 : Identifiants non sécurisés].
+====
+
+=== Correctifs
+
+Les versions corrigées incluent `5.4.5` et supérieures. Les utilisateurs doivent faire tourner tout jeton GitHub utilisé dans la configuration du dépôt distant après la mise à niveau.
+
+=== Solutions de contournement
+
+Aucune solution de contournement n'est actuellement disponible. Mettez à niveau vers la version corrigée dès que possible.
+
+== Questions et support
+
+* Contactez l'équipe de sécurité https://github.com/rancher/rancher/security/policy[SUSE Rancher].
+* Ouvrez un problème dans le https://github.com/neuvector/neuvector/issues/new/choose[référentiel GitHub NeuVector].
+* Références :
+  ** https://www.suse.com/suse-neuvector/support-matrix/all-supported-versions/neuvector-v-all-versions/[Matrice de support NeuVector]
+  ** https://www.suse.com/lifecycle/#suse-security[Cycle de vie du support produit]

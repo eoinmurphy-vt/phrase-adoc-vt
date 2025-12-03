@@ -1,0 +1,170 @@
+Starting preprocess: source/docs/5.4/modules/en/pages/policy-overview_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/policy-overview_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/policy-overview_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.008910
+Starting preprocess: source/docs/5.4/modules/en/pages/production_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/production_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/production_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.060534
+Starting preprocess: source/docs/5.4/modules/en/pages/publick8s_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/publick8s_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/publick8s_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.110477
+Starting preprocess: source/docs/5.4/modules/en/pages/rancher_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/rancher_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/rancher_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.161179
+Starting preprocess: source/docs/5.4/modules/en/pages/registry-scanning-configuration_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/registry-scanning-configuration_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/registry-scanning-configuration_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.216792
+Starting preprocess: source/docs/5.4/modules/en/pages/replacecert_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/replacecert_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/replacecert_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.267736
+Starting preprocess: source/docs/5.4/modules/en/pages/requirements_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/requirements_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/requirements_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.319106
+Starting preprocess: source/docs/5.4/modules/en/pages/responserules_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/responserules_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/responserules_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.371178
+Starting preprocess: source/docs/5.4/modules/en/pages/rest-api_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/rest-api_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/rest-api_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.422654
+Starting preprocess: source/docs/5.4/modules/en/pages/scanners_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/scanners_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/scanners_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.473680
+Starting preprocess: source/docs/5.4/modules/en/pages/sigstore_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/sigstore_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/sigstore_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.522010
+Starting preprocess: source/docs/5.4/modules/en/pages/splunk_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/splunk_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/splunk_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.570838
+Starting preprocess: source/docs/5.4/modules/en/pages/testing_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/testing_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/testing_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.620724
+Starting preprocess: source/docs/5.4/modules/en/pages/troubleshooting_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/troubleshooting_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/troubleshooting_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.670946
+Starting preprocess: source/docs/5.4/modules/en/pages/updating-cve-database_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/updating-cve-database_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/updating-cve-database_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-02 19:31:51.721517
+Starting preprocess: source/docs/5.4/modules/en/pages/updating_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/updating_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/updating_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.773003
+Starting preprocess: source/docs/5.4/modules/en/pages/usingcrd_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/usingcrd_1.adoc as utf-8 (0.88)
+Saved processed file → processed/docs/5.4/modules/en/pages/usingcrd_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:51.949002

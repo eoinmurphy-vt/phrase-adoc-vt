@@ -1,0 +1,170 @@
+Starting preprocess: source/docs/5.4/modules/en/pages/ibmqr_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/ibmqr_1.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/pages/ibmqr_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.037902
+Starting preprocess: source/docs/5.4/modules/en/pages/improve-score_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/improve-score_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/improve-score_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.086905
+Starting preprocess: source/docs/5.4/modules/en/pages/installation_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/installation_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/installation_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.135837
+Starting preprocess: source/docs/5.4/modules/en/pages/integration_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/integration_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/integration_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.184185
+Starting preprocess: source/docs/5.4/modules/en/pages/internal_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/internal_1.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/docs/5.4/modules/en/pages/internal_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.335500
+Starting preprocess: source/docs/5.4/modules/en/pages/jenkins_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/jenkins_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/jenkins_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-02 19:31:50.388296
+Starting preprocess: source/docs/5.4/modules/en/pages/kubernetes_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/kubernetes_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/kubernetes_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.448493
+Starting preprocess: source/docs/5.4/modules/en/pages/ldap_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/ldap_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/ldap_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.497123
+Starting preprocess: source/docs/5.4/modules/en/pages/modes_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/modes_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/modes_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.547011
+Starting preprocess: source/docs/5.4/modules/en/pages/msazure_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/msazure_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/msazure_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.596026
+Starting preprocess: source/docs/5.4/modules/en/pages/multicluster_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/multicluster_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/multicluster_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.645530
+Starting preprocess: source/docs/5.4/modules/en/pages/navigation_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/navigation_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/navigation_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.698534
+Starting preprocess: source/docs/5.4/modules/en/pages/networkrules_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/networkrules_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/networkrules_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.749322
+Starting preprocess: source/docs/5.4/modules/en/pages/openid_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/openid_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/openid_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-02 19:31:50.799293
+Starting preprocess: source/docs/5.4/modules/en/pages/openshift_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/openshift_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/openshift_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.857979
+Starting preprocess: source/docs/5.4/modules/en/pages/operators_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/operators_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/operators_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.909299
+Starting preprocess: source/docs/5.4/modules/en/pages/overview_1.adoc
+✓ Decoded source/docs/5.4/modules/en/pages/overview_1.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/pages/overview_1.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-02 19:31:50.958204
