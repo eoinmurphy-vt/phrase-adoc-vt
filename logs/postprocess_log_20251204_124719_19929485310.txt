@@ -1,0 +1,11 @@
+Postprocess started: 2025-12-04 12:47:19.481054
+
+📂  Scanning configured directory: translated
+❌ No .adoc files processed. Checked 'translated' and fallback patterns.
+
+Summary:
+  ✅ Processed files: 0
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 0
+
+Completed: 2025-12-04 12:47:19.481345
