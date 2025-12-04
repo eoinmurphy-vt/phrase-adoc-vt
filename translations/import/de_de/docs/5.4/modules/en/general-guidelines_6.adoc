@@ -1,0 +1,34 @@
+= Allgemeine Richtlinien
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /13.special/01.general/01.general.md
+:page-opendocs-slug:  /special/general
+
+== Testen {product-name} mit dem All-in-One-Container
+
+Die Beispiele in diesem Abschnitt setzen die All-in-One- und Enforcer-Container ein. Dies ist nützlich, um {product-name} auszuprobieren, insbesondere in Nicht-Kubernetes-Umgebungen (z. B. docker-nativ). Für Kubernetes-basierte Bereitstellungen wird empfohlen, das neueste {product-name} Helm-Chart zu verwenden. Bitte sehen Sie sich den Abschnitt Bereitstellung von {product-name} an.
+
+== Allgemeine Richtlinien für die Bereitstellung
+
+Bereiten Sie Ihre Host-Umgebung für eine ordnungsgemäße Installation vor. Stellen Sie sicher, dass die {product-name} Container zwischen den Hosts miteinander kommunizieren können. Überprüfen und bearbeiten Sie dann die Beispiel-Dateien für Ihre Umgebung.
+
+Im Allgemeinen ist es wichtig, Folgendes zu tun:
+
+. Knoten angemessen kennzeichnen. Wenn Sie Knotensymbole verwenden, um zu steuern, wo der All-in-One oder Controller bereitgestellt wird, kennzeichnen Sie sie vor der Bereitstellung.
+. Stellen Sie sicher, dass Volumes ordnungsgemäß zugeordnet werden können. Zum Beispiel
++
+[,yaml]
+----
+volumes:
+        - /var/neuvector:/var/neuvector
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup:/host/cgroup:ro
+----
+
+. Öffnen Sie erforderliche Ports auf den Hosts. Stellen Sie sicher, dass die erforderlichen Ports ordnungsgemäß zugeordnet und auf dem Host geöffnet sind. Der All-in-One benötigt 8443 (wenn die Konsole verwendet wird), 18300, 18301, 18400 und 18401. Der Vollstrecker benötigt 18301 und 18401.
+. Bearbeiten Sie die CLUSTER_JOIN_ADDR. Finden Sie die IP-Adresse des Knotens, den Knotennamen (wenn ein Namensserver verwendet wird) oder die Knotenvariable (wenn Orchestrierungstools verwendet werden) für das All-in-One (Controller), die in den Beispieldateien für sowohl All-in-One als auch Vollstrecker für die &quot;`+node IP+`&quot; verwendet werden soll.
+
+== Zugriff auf die Konsole
+
+Bitte sehen Sie sich den ersten Abschnitt Grundlagen -> Verbindung zum Manager an, um Optionen zum Deaktivieren von https oder zum Zugriff auf die Konsole über eine Unternehmensfirewall zu erhalten, die den Port 8443 für den Konsolenzugriff nicht zulässt.

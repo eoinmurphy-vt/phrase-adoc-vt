@@ -1,0 +1,50 @@
+Starting preprocess: source/docs/5.4/modules/en/5x_6.adoc
+✓ Decoded source/docs/5.4/modules/en/5x_6.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/en/5x_6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-04 13:26:55.748311
+Starting preprocess: source/docs/5.4/modules/en/adfs_6.adoc
+✓ Decoded source/docs/5.4/modules/en/adfs_6.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/adfs_6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-04 13:26:55.799717
+Starting preprocess: source/docs/5.4/modules/en/admission_6.adoc
+✓ Decoded source/docs/5.4/modules/en/admission_6.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/admission_6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-04 13:26:55.868179
+Starting preprocess: source/docs/5.4/modules/en/airgap_6.adoc
+✓ Decoded source/docs/5.4/modules/en/airgap_6.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/airgap_6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-04 13:26:55.920451
+Starting preprocess: source/docs/5.4/modules/en/automation_6.adoc
+⚠ Decode failed (Windows-1252), forcing UTF-8 replacement
+Saved processed file → processed/docs/5.4/modules/en/automation_6.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 1
+  ✅ Normalized files: 1
+
+Completed at 2025-12-04 13:26:56.171961
