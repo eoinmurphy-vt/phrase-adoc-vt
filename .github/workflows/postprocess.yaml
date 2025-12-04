@@ -6,7 +6,7 @@ on:
     branches: 
       - 'translations/**' 
     paths:
-      - '**/*.adoc'  # Changed to catch files at root or any folder
+      - '**/*.adoc'
       - 'postprocess_adoc.py'
 
   workflow_dispatch:
@@ -39,26 +39,34 @@ jobs:
       - name: Install Dependencies
         run: pip install chardet
 
-      - name: Run Postprocessing (On Translation Branch)
+      # DEBUG STEP: List files so we know where Phrase put them
+      - name: Debug File Structure
+        run: |
+          echo "Listing root directory structure:"
+          ls -R
+
+      - name: Run Postprocessing
         run: |
           mkdir -p "$DST_DIR" logs
           # This script will now auto-detect if files are at root
           python postprocess_adoc.py
+
+      - name: Verify Output
+        run: |
+          # Fail the job if the final folder is empty
+          if [ -z "$(ls -A "$DST_DIR")" ]; then
+             echo "::error::Post-processing script generated 0 files. Check logs."
+             exit 1
+          fi
 
       - name: Stash Generated Files
         run: |
           # Move the generated final folder and logs to a temp location
           # so they survive the branch switch
           mkdir -p ../temp_artifacts
-          # Only copy if the folder is not empty
-          if [ "$(ls -A $DST_DIR)" ]; then
-             cp -r "$DST_DIR" ../temp_artifacts/
-             cp -r logs ../temp_artifacts/
-             echo "Files stashed in ../temp_artifacts"
-          else
-             echo "::error::No files were generated in $DST_DIR. Check logs."
-             exit 1
-          fi
+          cp -r "$DST_DIR" ../temp_artifacts/
+          cp -r logs ../temp_artifacts/
+          echo "Files stashed."
 
       - name: Switch to Main Branch
         run: |
@@ -74,12 +82,6 @@ jobs:
           # Copy the clean files back into the main branch workspace
           cp -r ../temp_artifacts/"$DST_DIR" .
           cp -r ../temp_artifacts/logs .
-          echo "Files restored to main branch"
-
-      - name: Debug Final Folder Contents
-        run: |
-          echo "$DST_DIR/ content:"
-          ls -R "$DST_DIR" || echo "$DST_DIR folder missing"
 
       - name: Commit Final Files to Main
         run: |

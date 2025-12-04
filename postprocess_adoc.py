@@ -166,7 +166,7 @@ for path in scan_path.rglob("*.adoc"):
         rel = str(path)
         # FILTER: If running at root, ONLY process paths starting with a lang code pattern
         # This prevents processing random READMEs or scripts.
-        if not re.match(r'^[a-z]{2}_[a-z]{2}', str(path)):
+        if not re.match(r'^[a-z]{2}_[a-z]{2}', str(path).split(os.sep)[0]):
             continue
     else:
         rel = os.path.relpath(str(path), SRC_DIR)
