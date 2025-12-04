@@ -105,49 +105,88 @@ def cleanup_text(text):
 
 def map_output_path(src_path: str, rel: str) -> str:
     """
-    Convert:
-      de_de/docs/.../modules/en/pages/file.adoc
-    Into:
-      docs/.../modules/de/pages/file.adoc
+    Smart Path Mapper.
+    Detects language folders (e.g., de_de) and maps them to standard structure.
     """
+    parts = rel.split(os.sep)
 
-    # Detect language folder
-    lang_folder = rel.split(os.sep)[0]  # de_de or fr_fr
-    lang_code = lang_folder.split("_")[0]  # de, fr, it, es, etc.
+    # Check if the first folder looks like a locale (e.g., de_de, fr_fr)
+    if len(parts) > 1 and (len(parts[0]) == 5 and "_" in parts[0]):
+        lang_folder = parts[0]   # e.g., de_de
+        lang_code = lang_folder.split("_")[0] # e.g., de
 
-    # Strip language prefix folder
-    rel = os.path.join(*rel.split(os.sep)[1:])
+        # Strip language prefix folder
+        new_rel_parts = parts[1:]
+        new_rel = os.path.join(*new_rel_parts)
 
-    # Replace modules/en/ with modules/<lang_code>/
-    rel = rel.replace("/modules/en/", f"/modules/{lang_code}/")
+        # Replace modules/en/ with modules/<lang_code>/ if present
+        if "/modules/en/" in f"/{new_rel}".replace("\\", "/"):
+             new_rel = new_rel.replace("/modules/en/", f"/modules/{lang_code}/").replace("\\modules\\en\\", f"\\modules\\{lang_code}\\")
+        
+        return os.path.join(DST_DIR, new_rel)
+    
+    else:
+        # Fallback: Just mirror the path
+        return os.path.join(DST_DIR, rel)
 
-    # Construct final path
-    return os.path.join(DST_DIR, rel)
 
-# Start log
+# --- MAIN EXECUTION START ---
+
 with open(LOG_FILE, "w", encoding="utf-8") as f:
     f.write(f"Postprocess started: {datetime.datetime.now()}\n\n")
 
+# Logic to handle missing 'translated' folder (root push)
+scan_path = Path(SRC_DIR)
+is_fallback = False
 
-# Walk all language folders recursively
-for path in Path(SRC_DIR).rglob("*.adoc"):
-    src_path = str(path)
-    rel = os.path.relpath(src_path, SRC_DIR)
+if not scan_path.exists():
+    log(f"⚠️  Folder '{SRC_DIR}' not found. Phrase likely pushed to root.")
+    log("🔄  Switching to scan current directory for language folders (xx_xx)...")
+    scan_path = Path(".")
+    is_fallback = True
+else:
+    log(f"📂  Scanning configured directory: {SRC_DIR}")
 
-    # language folder → correct docs/modules/<lang>/
-    dst_path = map_output_path(src_path, rel)
+# Walk recursively
+file_count = 0
+for path in scan_path.rglob("*.adoc"):
+    # SKIP: The destination directory itself
+    if str(path).startswith(DST_DIR) or str(path).startswith(f"./{DST_DIR}"):
+        continue
+    # SKIP: Hidden git folders
+    if ".git" in str(path):
+        continue
+    # SKIP: Source directory if we are in fallback mode (don't process English source)
+    if is_fallback and "source" in str(path):
+        continue
+
+    # Determine relative path for mapping
+    if is_fallback:
+        # If scanning root, rel path is just the path (e.g., fr_fr/docs/...)
+        rel = str(path)
+        # FILTER: If running at root, ONLY process paths starting with a lang code pattern
+        # This prevents processing random READMEs or scripts.
+        if not re.match(r'^[a-z]{2}_[a-z]{2}', str(path)):
+            continue
+    else:
+        rel = os.path.relpath(str(path), SRC_DIR)
+
+    file_count += 1
+    dst_path = map_output_path(str(path), rel)
 
     os.makedirs(os.path.dirname(dst_path), exist_ok=True)
 
-    text = detect_and_convert_to_utf8(src_path)
+    text = detect_and_convert_to_utf8(str(path))
     text = cleanup_text(text)
 
     with open(dst_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
 
     stats["processed"] += 1
-    log(f"✓ Restored {dst_path} (from {src_path})")
+    log(f"✓ Restored {dst_path} (from {path})")
 
+if file_count == 0:
+    log(f"❌ No .adoc files processed. Checked '{SRC_DIR}' and fallback patterns.")
 
 # Summary
 log("\nSummary:")
