@@ -1,0 +1,112 @@
+= Sicherheitswarnungen und CVEs
+:revdate: 2025-08-26
+:page-revdate: {revdate}
+
+NeuVector verpflichtet sich, die Gemeinschaft über Sicherheitsprobleme zu informieren. Nachfolgend finden Sie eine CVE-Referenzliste veröffentlichter Sicherheitswarnungen und CVEs (Common Vulnerabilities and Exposures) für Probleme, die wir gelöst haben.
+
+== CVE-Liste
+
+|===
+| ID | Beschreibung | Datum | Veröffentlichung
+
+| https://github.com/neuvector/neuvector/security/advisories/GHSA-8pxw-9c75-6w56[CVE-2025-8077] 
+| Für die NeuVector-Bereitstellung in der Kubernetes-basierten Umgebung wird das Bootstrap-Passwort des Standard-Administrators zufällig generiert und in einem Kubernetes-Geheimnis gespeichert. Der Standardadministrator muss zuerst das Bootstrap-Passwort aus dem Kubernetes-Geheimnis abrufen und wird aufgefordert, das Passwort nach dem ersten erfolgreichen UI-Login zu ändern.
+| 25. Aug 2025 
+| https://github.com/neuvector/neuvector/releases/tag/v5.4.6[NeuVector v5.4.6]
+
+| https://github.com/neuvector/neuvector/security/advisories/GHSA-8ff6-pc43-jwv3[CVE-2025-53884] 
+| NeuVector verwendet ein kryptographisch sicheres Salt mit dem PBKDF2-Algorithmus anstelle eines einfachen Hashs, um Benutzerpasswörter zu schützen. Bei rollierenden Upgrades von früheren Versionen berechnet NeuVector den neuen Passwort-Hash nur nach dem nächsten erfolgreichen Login jedes Benutzers.
+| 25. Aug 2025 
+| https://github.com/neuvector/neuvector/releases/tag/v5.4.6[NeuVector v5.4.6]
+
+| https://github.com/neuvector/neuvector/security/advisories/GHSA-w54x-xfxg-4gxq[CVE-2025-54467] 
+| Standardmäßig entfernt NeuVector Prozessbefehle, die die Zeichenfolgen password, passwd, pwd, token oder key in Sicherheitsprotokollen, Syslog, Enforcer-Debug-Protokollen, Controller-Debug-Protokollen, Webhooks und Support-Protokollen enthalten. Benutzer können ein Kubernetes ConfigMap konfigurieren, um benutzerdefinierte Regex-Muster für zusätzliche Prozessbefehle zu definieren, die entfernt werden sollen.
+| 25. Aug 2025 
+| https://github.com/neuvector/neuvector/releases/tag/v5.4.6[NeuVector v5.4.6]
+
+|===
+
+== Offenlegung sensibler Informationen in NeuVector Manager-Containerprotokollen
+
+*CVE-ID:* CVE-2025-46808
+*CVSS-Score:* 6.8 — https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N&version=3.1[AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:N/A:N]
+*CWE:* https://cwe.mitre.org/data/definitions/532[CWE-532: Einfügen sensibler Informationen in Protokolldatei]
+
+=== Betroffene Versionen
+
+* Alle Versionen vor `+5.0.0+`
+* Versionen von `+5.0.0+` bis einschließlich `+5.4.4+`
+
+*Festgelegte Version: `+5.4.5+`*
+
+=== Auswirkung
+
+Eine Schwachstelle wurde in NeuVector-Versionen bis einschließlich `+5.4.4+` identifiziert, bei der sensible Informationen in das Protokoll des Manager-Containers geleakt werden. Die folgenden Felder können exponiert sein:
+
+[cols="1,2,2,2,2", options="header"]
+|===
+|Feld |Feldbeschreibung |Wo es erscheint |Reproduktion |Umgebung
+
+|`+X-R-Sess+`
+|Rancher-Sitzungstoken für Single Sign-On
+|Anforderungsheader
+|Melden Sie sich über die Rancher-Benutzeroberfläche an und greifen Sie auf NeuVector SSO zu
+|Rancher mit NeuVector SSO
+
+|`+personal_access_token+`
+|GitHub / Azure DevOps-Token
+|Anforderungstext
+|Reichen Sie die Konfiguration des Remote-Repositorys unter *Konfiguration > Einstellungen* ein
+|NeuVector
+
+|`+token1.token+`
+|Sitzungstoken des NeuVector-Benutzers
+|Antworttext
+|GET-Anfrage an `+https://<neuvector-ui-url>/user?name=<username>+`
+|NeuVector
+
+|`+rekor_public_key+`, `+root_cert+`, `+sct_public_key+`
+|Rekor-Öffentlicher Schlüssel, Root-Zertifikat, SCT-Öffentlicher Schlüssel im privaten Vertrauensanker
+|Anforderungstext
+|Privaten Vertrauensanker auf der Sigstore-Seite erstellen/aktualisieren
+|NeuVector
+
+|`+public_key+`
+|Öffentlicher Schlüssel des Verifiers
+|Anforderungstext
+|Verifier auf der Sigstore-Seite erstellen/aktualisieren
+|NeuVector
+|===
+
+[NOTE]
+====
+NeuVector-Installationen, die Rancher SSO oder Remote Repository-Konfiguration nicht verwenden, sind *von diesem Problem* nicht betroffen.
+====
+
+In der gepatchten Version ist der `+X-R-Sess+`-Wert teilweise maskiert, um die Sicherheit zu gewährleisten. Andere Felder wie `+personal_access_token+`, `+token+`, `+rekor_public_key+`, `+root_cert+`, `+sct_public_key+` und `+public_key+` werden nicht mehr protokolliert, da das Protokollieren des Anfragekörpers entfernt wurde.
+
+[NOTE]
+====
+* Die Schwere dieser Sicherheitsanfälligkeit hängt von Ihrer Protokollierungsstrategie ab:
+  ** *Lokale Protokollierung (Standard):* Begrenzt die Exposition des Einflusses.
+  ** *Externe Protokollierung:* Erhöht das Risiko, abhängig von der Sicherheitslage Ihres externen Protokollsammlers.
+* Die Schwere des Einflusses kann auch von den Berechtigungen der exponierten Anmeldeinformationen abhängen.
+
+Siehe auch: https://attack.mitre.org/techniques/T1552/[MITRE-Technik T1552: Unsichere Anmeldeinformationen].
+====
+
+=== Patches
+
+Gepatchte Versionen umfassen `+5.4.5+` und höher. Benutzer sollten nach dem Upgrade jeden in der Remote Repository-Konfiguration verwendeten GitHub-Token rotieren.
+
+=== Workarounds
+
+Derzeit sind keine Umgehungen verfügbar. Upgrade auf die feste Version so schnell wie möglich.
+
+== Fragen und Unterstützung
+
+* Kontaktieren Sie das https://github.com/rancher/rancher/security/policy[SUSE Rancher Sicherheitsteam].
+* Öffnen Sie ein Problem im https://github.com/neuvector/neuvector/issues/new/choose[NeuVector GitHub-Repository].
+* Referenzen:
+  ** https://www.suse.com/suse-neuvector/support-matrix/all-supported-versions/neuvector-v-all-versions/[NeuVector Support-Matrix]
+  ** https://www.suse.com/lifecycle/#suse-security[Produkt-Support-Lebenszyklus]
