@@ -1,0 +1,79 @@
+name: Pull New/Changed .adoc Files from Phrase Incoming Branch
+
+on:
+  push:
+    branches:
+      - ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  transfer-adoc-files:
+    runs-on: ubuntu-latest
+
+    env:
+      TRANSLATED_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
+      INCOMING_BRANCH: ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}
+      CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
+
+    steps:
+      - name: Checkout incoming branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.INCOMING_BRANCH }}
+          fetch-depth: 0
+
+      - name: Find .adoc files changed in last push
+        id: find_changed
+        run: |
+          # Get list of changed .adoc files ONLY
+          git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep '\.adoc$' > changed_files.txt || true
+
+          echo "Changed files:"
+          cat changed_files.txt || echo "None"
+
+          COUNT=$(wc -l < changed_files.txt | tr -d ' ')
+          echo "file_count=$COUNT" >> $GITHUB_OUTPUT
+
+      - name: Stop if no .adoc files changed
+        if: steps.find_changed.outputs.file_count == '0'
+        run: |
+          echo "No new or changed .adoc files detected. Exiting workflow."
+          exit 0
+
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Copy changed .adoc files into translated/
+        run: |
+          mkdir -p "$TRANSLATED_DIR"
+
+          while IFS= read -r file; do
+            # Create folder if needed
+            mkdir -p "$TRANSLATED_DIR/$(dirname "$file")"
+
+            # Copy file from incoming branch
+            git show "${GITHUB_SHA}:${file}" > "$TRANSLATED_DIR/$file"
+
+            echo "Copied: $file"
+          done < changed_files.txt
+
+      - name: Commit imported files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add "$TRANSLATED_DIR/"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit on main."
+            exit 0
+          fi
+
+          git commit -m "Import updated .adoc files from phrase-incoming"
+          git push origin main
