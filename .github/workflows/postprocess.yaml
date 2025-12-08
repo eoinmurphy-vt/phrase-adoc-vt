@@ -6,7 +6,7 @@ on:
     branches: 
       - 'translations/**' 
     paths:
-      - '**/*.adoc'
+      - '**/*.adoc'  # Catch files anywhere
       - 'postprocess_adoc.py'
 
   workflow_dispatch:
