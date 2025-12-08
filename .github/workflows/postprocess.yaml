@@ -3,6 +3,8 @@ name: Postprocess Translated Files
 on:
   push:
     branches: [ main ]
+    # LIMITATION: 'paths' cannot use variables. 
+    # If vars.TRANSLATED_DIR changes, update this path manually.
     paths:
       - 'translated/**/*.adoc'
       - 'postprocess_adoc.py'
@@ -16,17 +18,15 @@ jobs:
   postprocess:
     runs-on: ubuntu-latest
     env:
+      # Map GitHub Vars to Env Vars for Python
       SRC_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
       DST_DIR: ${{ vars.FINAL_DIR || 'final' }}
       CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
-      # Variable for the main branch to merge back into
-      TARGET_BRANCH: 'main'
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # Fetch 0 to ensure we can switch between branches (main vs translations)
           fetch-depth: 0
 
       - name: Set up Python
@@ -37,44 +37,22 @@ jobs:
       - name: Install Dependencies
         run: pip install chardet
 
-      - name: Run Postprocessing (On Translation Branch)
+      - name: Run Postprocessing
         run: |
-          # This runs against the files Phrase just pushed to 'translations/import'
           mkdir -p "$DST_DIR" logs
+          # Python script now reads SRC_DIR and DST_DIR from env
           python postprocess_adoc.py
-
-      - name: Stash Generated Files
-        run: |
-          # Move the generated final folder and logs to a temp location
-          # so they survive the branch switch
-          mkdir -p ../temp_artifacts
-          cp -r "$DST_DIR" ../temp_artifacts/
-          cp -r logs ../temp_artifacts/
-          echo "Files stashed in ../temp_artifacts"
-
-      - name: Switch to Main Branch
-        run: |
-          git config user.name "github-actions"
-          git config user.email actions@github.com
-          
-          # Checkout main so we can commit the results there
-          git checkout $TARGET_BRANCH
-          git pull origin $TARGET_BRANCH
-
-      - name: Restore Stashed Files
-        run: |
-          # Copy the clean files back into the main branch workspace
-          cp -r ../temp_artifacts/"$DST_DIR" .
-          cp -r ../temp_artifacts/logs .
-          echo "Files restored to main branch"
 
       - name: Debug Final Folder Contents
         run: |
           echo "$DST_DIR/ content:"
           ls -R "$DST_DIR" || echo "$DST_DIR folder missing"
 
-      - name: Commit Final Files to Main
+      - name: Commit Final Files
         run: |
+          git config user.name "github-actions"
+          git config user.email actions@github.com
+
           git add "$DST_DIR/" logs/ || true
 
           if git diff --cached --quiet; then
@@ -83,24 +61,23 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Auto-restored final AsciiDoc files (merged from translation branch)"
+          git commit -m "Auto-restored final AsciiDoc files after translation"
 
-          # Push to MAIN
+          # Uses variable for Repo Name
           git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/$CURRENT_REPO.git
 
           MAX_ATTEMPTS=10
           ATTEMPT=1
 
           while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
-            # We are already on main, but fetch to be safe
-            git fetch origin $TARGET_BRANCH
-            
-            if ! git rebase origin/$TARGET_BRANCH; then
+            git fetch origin main
+
+            if ! git rebase origin/main; then
               echo "Rebase failed"
               exit 1
             fi
 
-            if git push --force-with-lease origin $TARGET_BRANCH; then
+            if git push --force-with-lease origin main; then
               echo "Push succeeded"
               echo "COMMITTED=true" >> $GITHUB_ENV
               break
