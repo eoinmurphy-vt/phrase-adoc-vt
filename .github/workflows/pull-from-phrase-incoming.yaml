@@ -3,7 +3,8 @@ name: Pull New/Changed .adoc Files from Phrase Incoming Branch
 on:
   push:
     branches:
-      - ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}
+      - phrase-incoming
+      
   workflow_dispatch:
 
 permissions:
