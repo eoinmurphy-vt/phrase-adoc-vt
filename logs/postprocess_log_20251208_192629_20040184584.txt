@@ -1,0 +1,23 @@
+Postprocess started: 2025-12-08 19:26:29.310470
+
+✓ processed/docs/5.4/modules/en/adfs_11.adoc decoded as ascii (1.00)
+✓ Restored final/docs/5.4/modules/processed/adfs_11.adoc (from processed/docs/5.4/modules/en/adfs_11.adoc)
+✓ processed/docs/5.4/modules/en/admission_11.adoc decoded as ascii (1.00)
+✓ Restored final/docs/5.4/modules/processed/admission_11.adoc (from processed/docs/5.4/modules/en/admission_11.adoc)
+✓ processed/docs/5.4/modules/en/5x_11.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/processed/5x_11.adoc (from processed/docs/5.4/modules/en/5x_11.adoc)
+✓ translated/de_de/docs/5.4/modules/en/adfs_11.adoc decoded as utf-8 (0.99)
+✓ Restored final/de_de/docs/5.4/modules/translated/adfs_11.adoc (from translated/de_de/docs/5.4/modules/en/adfs_11.adoc)
+✓ source/docs/5.4/modules/en/adfs_11.adoc decoded as ascii (1.00)
+✓ Restored final/docs/5.4/modules/source/adfs_11.adoc (from source/docs/5.4/modules/en/adfs_11.adoc)
+✓ source/docs/5.4/modules/en/admission_11.adoc decoded as ascii (1.00)
+✓ Restored final/docs/5.4/modules/source/admission_11.adoc (from source/docs/5.4/modules/en/admission_11.adoc)
+✓ source/docs/5.4/modules/en/5x_11.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/source/5x_11.adoc (from source/docs/5.4/modules/en/5x_11.adoc)
+
+Summary:
+  ✅ Processed files: 7
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 6
+
+Completed: 2025-12-08 19:26:29.437958
