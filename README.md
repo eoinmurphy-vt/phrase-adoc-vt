@@ -155,6 +155,6 @@ If these variables are not set, the workflow will use the Default Values listed 
 
 ### 📝 License
 
-This project is licensed under the MIT License.
+This project is licensed under the Apache 2.0 License.
 
 ---
