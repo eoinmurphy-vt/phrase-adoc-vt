@@ -1,0 +1,15 @@
+Postprocess started: 2025-12-08 19:29:57.796271
+
+✓ translated/fr_fr/docs/5.4/modules/en/adfs_11.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/adfs_11.adoc (from translated/fr_fr/docs/5.4/modules/en/adfs_11.adoc)
+✓ translated/de_de/docs/5.4/modules/en/adfs_11.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/adfs_11.adoc (from translated/de_de/docs/5.4/modules/en/adfs_11.adoc)
+✓ translated/de_de/docs/5.4/modules/en/admission_11.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/admission_11.adoc (from translated/de_de/docs/5.4/modules/en/admission_11.adoc)
+
+Summary:
+  ✅ Processed files: 3
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 3
+
+Completed: 2025-12-08 19:29:57.828238
