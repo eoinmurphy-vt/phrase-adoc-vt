@@ -1,0 +1,597 @@
+= Registry-Scan-Konfiguration
+:revdate: 2025-06-25
+:page-revdate: {revdate}
+:page-opendocs-origin: /06.scanning/02.registry/02.registry.md
+:page-opendocs-slug:  /scanning/registry
+
+Für den Registry-Scan muss der {product-name} Allinone- oder Controller-Container auf einem Host/Knoten bereitgestellt werden. Bitte siehe den Abschnitt xref:installation.adoc[Installation/Bereitstellung] für Informationen zur Bereitstellung der {product-name} Container. Konfiguriere den Registry-Scan von der {product-name} Konsole, nachdem du dich beim Manager angemeldet hast.
+
+Stelle außerdem sicher, dass ein {product-name} Scanner-Container bereitgestellt und konfiguriert ist, um sich mit dem Allinone oder Controller zu verbinden. In Version 4.0 und später muss der neuvector/scanner-Container getrennt vom Allinone oder Controller bereitgestellt werden.
+
+[NOTE]
+====
+Der Registry-Image-Scan wird vom Scanner durchgeführt, und das Image wird in den Arbeitsspeicher geladen und entpackt. Wenn mit entpackten Image-Größen von mehr als 500 MB gerechnet wird, ziehe in Betracht, den Speicher des Scanners auf 1,5 GB oder mehr zu erhöhen, um Kapazität und Spielraum für den Scanner zu bieten.
+====
+
+Um die Leistung und Skalierbarkeit des Registry-Scans zu erhöhen, können mehrere Scanner-Pods auf verschiedenen Knoten bereitgestellt werden, um die Scan-Aufgaben auf mehrere Scanner zu verteilen. Siehe den Abschnitt xref:scanners.adoc[Mehrere parallele Scanner] für weitere Details.
+
+Für Multi-Cluster (federierte) Umgebungen kann der primäre (Master-)Cluster ein als föderierten Registry bezeichnetes Registry/Repo scannen. Die Scan-Ergebnisse dieser Registries werden mit allen verwalteten (remote) Clustern synchronisiert. Dies ermöglicht die Anzeige der Scan-Ergebnisse in der verwalteten Cluster-Konsole sowie die Verwendung der Ergebnisse in Zulassungssteuerungsregeln des verwalteten Clusters. Registries müssen nur einmal gescannt werden, anstatt von jedem Cluster, was die CPU-/Speicher- und Netzwerkbandbreitennutzung reduziert. Siehe den Abschnitt xref:multicluster.adoc[Multi-Cluster] für weitere Details.
+
+== Registry-Scanning konfigurieren
+
+Um Registries und Repositories für den Scan zu konfigurieren, gehe zum Menü Assets -> Registries in der {product-name} Konsole. Füge Registries hinzu oder bearbeite sie, um gescannt zu werden. Verwenden Sie den Filter, um Repositories oder Teilmengen von Bildern zu definieren, die gescannt werden sollen. Wenn Ihr Registry den Zugriff über einen Proxy erfordert, kann dies in den Einstellungen -> Konfiguration konfiguriert werden.
+
+image:registry-scan.png[Registry]
+
+Das Registry wird gemäß einem Zeitplan gescannt, der konfigurierbar ist. Standardmäßig werden nur neue oder aktualisierte Bilder gescannt. Wenn Sie alle anwendbaren Bilder erneut scannen möchten, wann immer die CVE-Datenbank aktualisiert wird, wählen Sie die Schaltfläche Nach CVE DB-Update scannen aus, wenn Sie das Registry konfigurieren. Sie können auch den Schichtscan auswählen, um Schwachstellen nach jeder Schicht im Bild anzuzeigen (Hinweis: Schichtscans können länger dauern und mehr Ressourcen verbrauchen).
+
+Nachdem der Scan abgeschlossen ist, sehen Sie die Ergebnisse darunter. Klicken Sie auf das Repository/Tag, um Schwachstellen zu sehen, und klicken Sie auf die Schwachstelle, um weitere Informationen zu erhalten. Sie können auch den Bericht in einer CSV-Datei herunterladen oder die Ergebnisse in den Ereignisprotokollen anzeigen.
+
+image:image_scan_4.png[Layered]
+
+NeuVector bietet eine **"Alle gescannten Bilder anzeigen"** Option. Benutzer müssen nicht in ein Registry schauen, um ein bestimmtes Bild zu sehen. Stattdessen können Benutzer auf die letzte Zeile klicken, um alle gescannten Bilder aufzulisten.
+
+image:view-all-scanned-images.png[Registry]
+
+Benutzer können auch auf die **Registries** Seite gelangen und spezifische Bilder über den Hyperlink von der **Containers** Seite öffnen. Wenn der Bildname nicht anklickbar ist, bedeutet dies, dass das Bild noch nicht gescannt wurde.
+
+image:link-to-image-scan-result.png[Container]
+
+Die Scanergebnisse enthalten Schwachstellen nach Bildschicht, wenn diese Option während der Konfiguration des Registrys/Repositories ausgewählt wurde, sowie die Ergebnisse der Compliance-Prüfungen. Klicken Sie auf die Compliance-Registerkarte, wenn Sie die Scanergebnisse für das Bild anzeigen, um die Compliance-Prüfungen zu sehen.
+
+Das Scannen wird auch alle Module (d.h. ein Inventar) im Bild entdecken und auflisten, wie unten gezeigt. Es wird auch das Risiko von Schwachstellen nach Modul zusammenfassen und alle Schwachstellen für jedes Modul auflisten.
+
+image:Image_Modules.png[Module]
+
+Das Scannen wird für Bilder in öffentlichen und privaten Docker-Registrierungen unterstützt, die auf Native Docker, Amazon ECR, Redhat/Openshift, jFrog, Microsoft ACR, Sonatype Nexus, Harbor, Google Cloud und anderen Registrierungen basieren.  Der Scanbericht für das Bild umfasst den Schwachstellenstatus verschiedener Pakete und Binärdateien im Bild. Die kurze Zusammenfassung des Scanberichts kann über Webhook mithilfe der Konfiguration der Antwortregel in den Richtlinien -> Antwortregeln oder über Syslog durch Konfiguration eines Syslog-Servers in den Einstellungen -> Konfiguration gesendet werden. Die Ergebnisse können auch in den Ereignisprotokollen angezeigt werden.
+
+Mindestens ein Repository-Filter ist erforderlich (darf nicht leer gelassen werden).
+
+=== Beispiele für Repository-Filter
+
+image:1-filter-examples.png[Filter]
+
+[NOTE]
+====
+. Um alle Bild-Tags zu scannen, fügen Sie den Filter als &#42; oder &#42;:&#42; hinzu. Dies funktioniert für alle Registrierungsarten, außer für die öffentliche Docker-Registrierung.
+. Das Repository sollte der vollständige Name sein, wenn die Organisation für die öffentliche Docker-Registrierung null ist, oder fügen Sie die Bibliothek vor dem Repository hinzu, wie oben angegeben.
+. Erstellen Sie ein virtuelles Repository und fügen Sie alle lokalen Repositories hinzu, um alle Tags in einem JFrog-Registry mit der Subdomain-Docker-Zugriffsmethode zu scannen.
+. Reguläre Ausdrücke können in einem Filter verwendet werden. Zum Beispiel wird alpine:3.[8|9].* alle 3.8.x und 3.9.x Bilder und Tags auf Docker Hub scannen.
+====
+
+=== Registry-Scan-Optionen
+
+* Schichten scannen:
+** Bietet Schwachstellenscan-Ergebnisse für jede Bildschicht separat
+** Bietet Informationen über ausgeführte Befehle, in der Schicht hinzugefügte Pakete
+** Bildgröße jeder Schicht
+* Auto-Scan:
+** Auto-Scan wird nur mit der OpenShift-Imagestream-Integration unterstützt. Die richtige Rollenzuweisung sollte im Voraus konfiguriert werden.
+** Wenn Auto-Scan aktiviert ist, wird der Bildscan geplant, sobald ein Bild in das Repository hochgeladen wird.
+* Periodischer Scan:
+** Aktivieren Sie den periodischen Scan, um regelmäßig zu scannen.
+** Das Scan-Intervall kann zwischen 5 Minuten und 7 Tagen eingestellt werden.
+** Da viele Admission-Control-Prüfungen auf den Ergebnissen des Bildscans basieren, hilft die Aktivierung des periodischen Scans sicherzustellen, dass die Admission-Control über die aktuellen Informationen der Bilder verfügt.
+** Beachten Sie, dass {product-name} Bilder in einem Repository scannt, die neu oder geändert sind im Vergleich zum vorherigen Scan.
+* Erneuter Scan nach CVE-Datenbank-Update
+** Aktivieren Sie diese Option, um alle Bilder nach dem Update der Schwachstellendatenbank erneut zu scannen.
+
+=== Proxy-Server für das Repository konfigurieren
+
+Bitte gehen Sie zu Einstellungen -> Konfiguration, um die Proxy-Einstellungen für das Scannen des Repositories zu konfigurieren.
+
+=== Native Docker-Registry (auch Quay und Harbor)
+
+==== Native Docker-Registry hinzufügen
+
+* Wählen Sie Docker-Registry als Typ aus
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL mit Port an
+* Geben Sie Benutzernamen und Passwort an, falls vom Repository erforderlich
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Repository kann Wildcards mit einem Anfangsstring haben
+** Beispiel neuvector/all&#42;:2&#42;
+
+Hinzufügen eines privaten Docker-Registrys mit Benutzername/Passwort, Scannen von Schichten aktiviert, periodisches Scannen alle 30 Minuten aktiviert und * als Filter, um alle Tags aus allen Repositories zu scannen.
+
+image:2-dockerprivate.png[docker]
+
+Hinzufügen eines öffentlichen Docker-Registrys zum Scannen ohne Benutzername/Passwort und 2 Repositories mit Wildcard, Scannen von Schichten aktiviert und periodisches Scannen aktiviert.
+
+image:3-dockerpublic.png[docker3]
+
+Hinzufügen eines öffentlichen Docker-Registrys zum Scannen mit Benutzername/Passwort, Wildcard-Repository, Scannen von Schichten aktiviert und periodisches Scannen aktiviert.
+
+image:4-dockerpub-wild.png[docker4]
+
+[NOTE]
+.Quay-Registry
+====
+* Geben Sie die URL der obersten Ebene für Ihre Quay-Registry ein; geben Sie keine Verzeichnisse zum Pfad ein.
+* Sie müssen ein verschlüsseltes Passwort in Ihrem Quay-Server/Konto generieren und diese Anmeldeinformationen hier verwenden.  Dann Filter(e) wie oben beschrieben übergeben.
+
+image:https://user-images.githubusercontent.com/13239496/218163999-9b281bd9-d049-49f6-85cd-395d7c20c481.png[4 1-quay]
+====
+
+==== Beginnen Sie mit dem Scannen der Docker-Registry
+
+* Wählen Sie das zu scannende Registry aus
+* Klicken Sie auf die Schaltfläche Start, um zu scannen
+* Warten Sie, bis der Status von Scannen auf Leerlauf wechselt
+** Die Scanzeit variiert je nach Größe des Repositories
+
+image:5-scandocker.png[scandocker]
+
+==== Scanergebnis anzeigen
+
+* Klicken Sie auf ein Bild im Bildbereich, um das Scanergebnis für das Bild anzuzeigen.
+* Greifen Sie auf das Scan-Ergebnis zu, um den Sicherheitsstatus des Images zu finden.
+* Klicken Sie auf die Schaltfläche "Herunterladen", um das Scan-Ergebnis des Images bei Bedarf herunterzuladen.
+* Bewegen Sie die Maus zwischen den CVE-Details und den Bildern, um zur Zusammenfassung zurückzukehren.
+
+Angezeigte Bilder, die für das ausgewählte Repository gescannt wurden.
+
+image:6-imagescan.png[gescannt]
+
+Beispiel, das das Schicht-Scan-Ergebnis eines Images zeigt, das die Schwachstellen jeder Schicht, die Schichtgröße und die auf jeder Schicht ausgeführten Befehle anzeigt. Darüber hinaus gibt es eine Compliance-Registerkarte, die die Compliance-Test-Ergebnisse für das Image anzeigt.
+
+image:image_scan_4.png[geschichtet]
+
+=== Amazon ECR-Repository
+
+Ref:  https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html
+
+==== Fügen Sie das Amazon ECR-Repository hinzu.
+
+* Wählen Sie Amazon-Repository als Typ aus.
+* Geben Sie der Registry einen eindeutigen Namen
+* Die Repository-URL wird automatisch mit anderen Informationen gefunden.
+* Geben Sie die folgenden Informationen für das Repository an. Verweisen Sie auf den obigen Amazon-Link, um die folgenden Informationen zu erhalten.
+** Repository-ID
+** Region
+** Zugriffsschlüssel-ID
+** Geheimer Zugriffsschlüssel
+* Fügen Sie das Repository im folgenden Format als Filter hinzu.
+** Organisation/Repository:Tag
+** Repository kann Wildcards mit einem Anfangsstring haben
+** Beispiel neuvector/all&#42;:2&#42;
+** Die Organisation kann leer sein, wenn ein solches Image im Repository verfügbar ist.
+** &#42; um alle Bild-Tags zu scannen
+
+image:9-aws.png[aws]
+
+=== Redhat-Registry
+
+Ref:  https://access.redhat.com/containers
+
+==== Red Hat-Registry hinzufügen
+
+* Wählen Sie Redhat-Registry als Typ aus
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL https://registry.connect.redhat.com/ ein
+* Geben Sie Benutzernamen und Passwort des Kontos an, das zur Verwaltung der Registry verwendet wird
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Repository kann Wildcards mit einem Anfangsstring haben
+** Beispiel neuvector/all&#42;:2&#42;
+** &#42; um alle Bild-Tags zu scannen
+
+image:10-redhat.png[redhat]
+
+=== Openshift-Registry
+
+==== Fügen Sie die OpenShift-Registry mit Benutzernamen und Passwort hinzu
+
+* Wählen Sie OpenShift-Registry als Typ aus
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL ein (erhalten von der Ausgabe des "oc get is"-Befehls im OpenShift-Netzwerk, falls sie von der Standard-URL abweicht)
+** Standard-Registry-URL `https://docker-registry.default.svc:5000/`
+* Geben Sie Benutzernamen und Passwort des Kontos an, das zur Verwaltung der Registry verwendet wird
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Beispiel openshift/htt&#42;:&#42;
+** &#42; um alle Bild-Tags zu scannen
+* Aktivieren Sie die automatische Überprüfung, um den Scan zu starten, sobald das Bild im OpenShift-Image-Stream aktualisiert wird.
+
+image:1a_openshift.png[openshift]
+
+==== Fügen Sie die OpenShift-Registry mit Token hinzu
+
+* Wählen Sie OpenShift-Registry als Typ aus
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL ein (erhalten von der Ausgabe des "oc get is"-Befehls im OpenShift-Netzwerk, falls sie von der Standard-URL abweicht)
+** Standard-Registry-URL `https://docker-registry.default.svc:5000/`
+* Geben Sie das Token des Dienstkontos an, das Zugriff auf alle Namespaces hat
+** Überprüfen Sie die folgende Notiz, um ein Dienstkonto zu erstellen und das Token zu erhalten.
+** Dienstkonto erstellen
+*** oc Projektstandard
+*** oc erstelle sa nvqa
+*** oc hole sa
+** Weisen Sie dem Cluster-Administrator-Rolle dem Dienstkonto zu, um das gesamte Registry zu lesen
+*** oc adm Richtlinie füge-Cluster-Rolle-zu-Benutzer cluster-admin system:serviceaccount:default:nvqa hinzu
+** Token für das Dienstkonto abrufen
+*** oc sa hole-token nvqa
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Beispiel openshift/htt&#42;:&#42;
+** &#42; um alle Bild-Tags zu scannen
+* Aktivieren Sie den automatischen Scan, um den Scan zu starten, sobald das Bild im OpenShift-Image-Stream aktualisiert wird.
+
+image:1a_openshift_token.png[openshift]
+
+==== Stabilitätsprobleme im Openshift 3.7 Registry
+
+In OpenShift 3.7 können API-Aufrufe zum Abrufen von Containerbild-Metadaten oder zum Herunterladen eines Bildes zufällig fehlschlagen. Es kann auch bei zufälligen Bildern in verschiedenen Scan-Durchläufen fehlschlagen. Sie können unvollständige Bildlisten sehen oder Scans können bei einigen Bildern fehlschlagen, wenn dies passiert. Wenn dies auftritt, kann das Repository erneut gescannt werden.
+
+=== JFrog Artifactory
+
+Hinzufügen des JFrog Artifactory-Registrys (Docker-Zugriffsmethode -- Repository-Pfad) JFrog-Managementseite admin->HTTP-Einstellung zeigt die Docker-Zugriffsmethode - Repository-Pfad
+
+image:12-jfrog.png[jfrog]
+
+==== Fügen Sie das JFrog Artifactory-Registry hinzu (Docker-Zugriffsmethode -- Repository-Pfad)
+
+* Wählen Sie JFrog Artifactory als Typ
+* Geben Sie der Registry einen eindeutigen Namen
+** Geben Sie die Registry-URL mit Port ein, zum Beispiel `http://10.1.7.122:8081/`
+* Geben Sie einen Benutzernamen und ein Passwort an, falls dies vom Registrierungsdienst erforderlich ist
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Repository oder Tag kann am Ende Platzhalter haben, wie abc/&#42;, abc/n&#42;
+** Um alle Tags für ein Repository zu scannen, verwenden Sie zum Beispiel alpine:&#42;
+** Der Platzhalter muss dem vollständigen Namen, Pfad oder Anfangsstring vorausgehen
+** &#42;, um alle Tags zu scannen
+
+==== Fügen Sie das JFrog Artifactory-Registry hinzu (Docker-Zugriffsmethode -- Subdomain)
+
+JFrog-Verwaltungsseite admin->HTTP-Einstellung zeigt die Docker-Zugriffsmethode -- Subdomain an
+
+image:14-artifact.png[artifactory]
+
+Fügen Sie das JFrog Artifactory-Registry hinzu (Docker-Zugriffsmethode -- Subdomain)
+
+* Wählen Sie JFrog Artifactory als Typ
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL mit Port ein, zum Beispiel `http://10.1.7.122:8081/`
+* Wählen Sie Subdomain als JFrog Docker-Zugriffsmethode
+* Geben Sie einen Benutzernamen und ein Passwort an, falls dies vom Registrierungsdienst erforderlich ist
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Subdomain/Repository:Tag
+** Repository oder Tag kann am Ende Platzhalter haben, wie abc/&#42;, abc/n&#42;
+** Um alle Tags für ein Repository zu scannen, verwenden Sie zum Beispiel alpine:&#42;
+** Der Platzhalter muss dem vollständigen Namen, Pfad oder Anfangsstring vorausgehen
+** &#42;, um alle Tags von allen Subdomains zu scannen
+
+[NOTE]
+====
+Erstellen Sie ein virtuelles Repository und fügen Sie alle lokalen und entfernten Repositories hinzu. Geben Sie dieses virtuelle Repository im Filterbereich an, um alle Tags von lokalen und entfernten Repositories zu scannen.
+====
+
+Fügen Sie ein subdomain-basiertes JFrog-Registry hinzu, um Bilder von der docker-local Subdomain zu scannen
+
+image:jfrog_sub_local.png[local]
+
+Fügen Sie ein subdomain-basiertes JFrog-Registry hinzu, um alle Tags von allen Subdomains zu scannen
+
+image:jfrog_all_subs.png[all]
+
+==== Fügen Sie das JFrog Artifactory-Registry hinzu (Docker-Zugriffsmethode -- Port)
+
+JFrog-Management-Seite Admin->HTTP-Einstellung zeigt Docker-Zugriffsmethode - Port
+
+image:jfrogport1.png[jfrogport]
+
+JFrog-Management-Seite Admin->Lokales Repository->docker-local Repository-> Erweitert - zeigt Repository-URL und Registrierungsport 8181
+
+image:jfrogport2.png[jfrogport]
+
+JFrog-Management-Seite Admin->Lokales Repository->guo Repository-> Erweitert - zeigt Repository-URL und Registrierungsport 8182
+
+image:jfrogport3.png[jfrogport]
+
+* Wählen Sie JFrog Artifactory als Typ
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL mit Port ein, zum Beispiel `http://10.1.7.122:8181/`
+** Jeder Registrierungsname hat einen einzigartigen Port
+* Wählen Sie Port als JFrog Docker-Zugriffsmethode
+* Geben Sie einen Benutzernamen und ein Passwort an, falls dies vom Registrierungsdienst erforderlich ist
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Repository oder Tag kann am Ende Wildcards haben, wie abc/_, abc/n_
+** Um alle Tags für ein Repository zu scannen, verwenden Sie zum Beispiel alpine:*
+** Der Platzhalter muss dem vollständigen Namen, Pfad oder Anfangsstring vorausgehen
+** &#42; zum Scannen aller Tags
+
+Fügen Sie das JFrog-Registry für die Portzugriffsmethode für das Registry docker-local mit Port 8181 hinzu
+
+image:jfrog104.png[jfrogport]
+
+Fügen Sie das JFrog-Registry für die Portzugriffsmethode für das Registry mit Port 8182 hinzu
+
+image:jfrog105.png[jfrogport]
+
+Fügen Sie das JFrog-Registry für die Portzugriffsmethode für das virtuelle Registry mit Port 8188 hinzu, das alle lokalen Registrierungen enthält.
+
+image:jfrog106.png[jfrogport]
+
+Zeige gescanntes Ergebnis für docker-local Registry
+
+image:jfrogport6.png[jfrogport]
+
+==== Fügen Sie das SaaS JFrog Artifactory-Registry hinzu (Docker-Zugriffsmethode -- Port)
+
+Wählen Sie JFrog Artifactory als Typ
+
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL ein, zum Beispiel https://jfrogtraining-docker-nv-virtual.jfrog.io
+* Wählen Sie Port als JFrog Docker-Zugriffsmethode
+* Geben Sie einen Benutzernamen und ein Passwort an, falls dies vom Registrierungsdienst erforderlich ist
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** &#42; um alle Tags aller Repositories zu scannen
+
+image:jfrog_saas.png[jfrogsaas]
+
+==== Beginnen Sie mit dem Scannen eines JFrog Artifactory-Registrys
+
+* Wählen Sie das zu scannende Registry aus
+* Klicken Sie auf die Schaltfläche Start, um zu scannen
+* Warten Sie, bis der Status von Scannen auf Leerlauf wechselt
+** Die Scanzeit variiert je nach Größe des Repositories
+
+=== Google Container Registry
+
+Ref:
+https://cloud.google.com/container-registry/docs/advanced-authentication
+https://cloud.google.com/container-registry/docs/advanced-authentication#json_key_file
+
+==== Aktivieren Sie die Cloud Resource Manager API für das Projekt
+
+Google Cloud Platform->Projekt wählen->API und Dienste->APIS und Dienste aktivieren->Suche "`Cloud Resource Manager API`"->API aktivieren
+https://console.cloud.google.com/apis/library?project=nvtest-219600&q=Cloud%20Resource%20Manager%20API   (Projektname ändern)
+
+image:17-gcp.png[gcp]
+
+==== Schlüssel für den Container-Dienstkonto erstellen
+
+Google Cloud Platform->IAM->Dienstkonto->Konto mit Container-Registry->Schlüssel erstellen(Aktion)
+
+image:18-gcpiam.png[gcpiam]
+
+==== JSON-Datei auf den Client-Computer kopieren
+
+==== Google Container Registry aus der {product-name} GUI hinzufügen
+
+* Wählen Sie Google-Registry als Typ
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL ein. Beispiel https://gcr.io/ (dies könnte auch us.gcr.io, eu.gcr.io usw. sein)
+* Fügen Sie den gesamten Inhalt über der erfassten JSON-Datei in den JSON-Schlüssel ein.
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Projekt-id/Repository:Tag
+** Beispiel nvtestid-1/neuvector&#42;:&#42;
+** &#42; um alle Bild-Tags zu scannen
+
+image:19-gcpscan.png[gcpscan]
+
+==== Scannen eines Google Container Registry starten
+
+* Wählen Sie das zu scannende Registry aus
+* Klicken Sie auf die Schaltfläche Start, um zu scannen
+* Warten Sie, bis der Status von Scannen auf Leerlauf wechselt
+** Die Scanzeit variiert je nach Größe des Repositories
+
+=== Azure Container Registry
+
+Ref:
+https://azure.microsoft.com/en-us/services/container-registry/
+
+==== Erhalten Sie den Azure-Container-Benutzernamen und das Passwort wie unten gezeigt
+
+Azure Container Registry -> Benutzer-> Zugriffsschlüssel->Passwort
+
+Zeigt den Benutzernamen und das Passwort des Azure-Portals für den Zugriff auf die Container-Registry
+
+image:20-azure.png[azure]
+
+==== Fügen Sie das Azure Container-Registry über die {product-name} GUI hinzu
+
+* Wählen Sie Azure-Registry als Typ aus
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL ein. Beispiel `https://neuvector.azure.io` (erhalten aus dem Azure-Portal)
+** Container-Registry->Benutzer->Übersicht->Anmeldeserver
+* Benutzername und Passwort hinzufügen
+** Azure Container Registry -> Benutzer-> Zugriffsschlüssel->Passwort
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** repository:tag
+** Beispiel alpine:&#42;
+** &#42; um alle Bild-Tags zu scannen
+
+Anzeigen des Anmeldeservers des Azure-Portals für die Azure-Container-Registry
+
+image:21-azurereg.png[azure]
+
+Fügen Sie die Azure-Container-Registry hinzu, um alle Tags zu scannen
+
+image:22-azureadd.png[azureadd]
+
+==== Beginnen Sie mit dem Scannen einer Azure-Container-Registry
+
+* Wählen Sie das zu scannende Registry aus
+* Klicken Sie auf die Schaltfläche Start, um zu scannen
+* Warten Sie, bis der Status von Scannen auf Leerlauf wechselt
+** Die Scanzeit variiert je nach Größe des Repositories
+
+=== Sonatype Nexus Docker-Registry
+
+Ref:
+https://help.sonatype.com/repomanager3/private-registry-for-docker
+https://hub.docker.com/r/sonatype/nexus3/
+
+==== Fügen Sie die Sonatype Nexus Docker-Registry hinzu
+
+* Wählen Sie Sonatype Nexus als Typ aus
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL mit Port an
+* Geben Sie Benutzernamen und Passwort an, falls vom Repository erforderlich
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Repository kann Wildcards mit einem Anfangsstring haben
+** Beispiel neuvector/all&#42;:2&#42;
+** &#42; um alle Bild-Tags zu scannen
+
+Fügen Sie die Sonatype Nexus Docker-Registry mit Benutzername/Passwort und Repository &#42;:&#42; zum Scannen hinzu
+
+image:23-sonatype.png[sonatype]
+
+==== Beginnen Sie mit dem Scannen der Sonatype Nexus Docker-Registry
+
+* Wählen Sie das zu scannende Registry aus
+* Klicken Sie auf die Schaltfläche Start, um zu scannen
+* Warten Sie, bis der Status von Scannen auf Leerlauf wechselt
+** Die Scanzeit variiert je nach Größe des Repositories
+
+=== Gitlab Container-Registry
+
+==== Beispielkonfigurationen für GitLab-Umgebungen
+
+[,bash]
+----
+sudo docker run --detach \
+  --hostname gitlab \
+  --env GITLAB_OMNIBUS_CONFIG="external_url 'http://10.1.7.73:9096'; gitlab_rails['lfs_enabled'] = true;" \
+  --publish 10.1.7.73:9095:9095 --publish 10.1.7.73:9096:9096 --publish 10.1.7.73:6222:22 \
+  --name gitlab \
+  --restart always \
+  --volume /srv/gitlab/config:/etc/gitlab \
+  --volume /srv/gitlab/logs:/var/log/gitlab \
+  --volume /srv/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
+External_URL:  http://10.1.7.73:9096
+Registry_URL: https://10.1.7.73:9095
+----
+
+==== Erhalten Sie das private Token von GitLab wie unten gezeigt
+
+* Navigieren Sie zur Einstellungsseite über das Symbol in der oberen rechten Ecke der GitLab-Anmeldeseite, wie unten dargestellt:
+
+image:gitlabsettings.png[gitlab]
+
+* Navigieren Sie zur Seite Access_Tokens, wie unten von der Seite Benutzer_Einstellungen gezeigt:
+
+image:gitlabusersettings.png[gitlab]
+
+* Füllen Sie alle anwendbaren Felder aus und klicken Sie "`Create personal access token`", wenn Sie bereit sind, das Zugriffstoken zu generieren:
+
+image:gitlabpersonaltoken_new.png[gitlab]
+
+* Das Zugriffstoken ist nicht mehr verfügbar, sobald der Benutzer von der Seite mit dem generierten Token weg navigiert hat.  Daher wird dringend empfohlen, eine Kopie des Zugriffstokens zu erstellen, bevor Sie die folgende Seite verlassen oder schließen:
+
+image:gitlabaccesstoken.png[gitlab]
+
+==== Erhalten von externen und Registrierungs-URLs
+
+External-URL:   Die externe URL ist die URL des API-Servers. +
+Registry-URL:  Diese kann von der Container-Registrierungsseite der GitLab-Webkonsole abgerufen werden.  Ein Weg, um zu dieser Seite zu gelangen, ist die Navigation von der GitLab-Webkonsole über Projekte > Ihre Projekte > Administrator / ... > Linkes-Fenster (Container-Registrierung) > Mausüber (root/.../)
+
+Das Folgende ist ein Beispiel für einen Bildschirmfoto der Seite, die sowohl die externe URL als auch die Registrierungs-URL zeigt:
+
+image:gitlabexternalurl.png[gitlab]
+
+==== Fügen Sie das GitLab-Registry von der {product-name} Konsole hinzu
+
+* Wählen Sie GitLab als Registrierungsart
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL mit Port an
+* Geben Sie Benutzernamen und Passwort an, falls vom Repository erforderlich
+* Geben Sie die externe GitLab-URL und das private Token an, das im letzten Abschnitt erhalten wurde
+
+image:gitlabregistryscan.png[gitlab]
+
+[NOTE]
+====
+Die Registrierungs-URL wird verwendet, um Bilder in die {product-name} Scanner-Plattform von GitLab zu ziehen, um eine Registrierungsprüfung durchzuführen.  Während die externe URL verwendet wird, um eine Liste von Bildern, Registrierungen und Metadaten abzurufen, die von der Registrierungsprüfungsfunktion verwendet werden.
+====
+
+=== IBM Cloud Container Registry
+
+Ref:  https://www.ibm.com/cloud/container-registry
+
+==== Fügen Sie das IBM Container-Registry hinzu
+
+* Wählen Sie IBM Cloud Container Registry als Typ
+* Geben Sie der Registry einen eindeutigen Namen
+* Geben Sie die Registry-URL https://us.icr.io/ ein
+* Geben Sie iamapikey als Benutzernamen und den untenstehenden apikey als Passwort an
+** API-Schlüssel über die CLI erstellen
+*** ibmcloud iam api-key-create atibmKey
+** API-Schlüssel über die GUI erstellen
+*** IBM Cloud->Manage-Access(IAM)-IBM Cloud API Keys
+* IBM Cloud-Konto bereitstellen
+** IBM Cloud-Konto über die CLI abrufen
+*** Ibmcloud cr info
+* Fügen Sie das Repository im folgenden Format als Filter hinzu
+** Organisation/Repository:Tag
+** Repository kann Wildcards mit einem Anfangsstring haben
+** Beispiel neuvector/all__:2__
+** {blank}
+*** alle Bild-Tags scannen
+* Weitere Parameter aktivieren, falls erforderlich
+
+image:ibm-1.png[ibm]
+
+[NOTE]
+====
+Der Benutzername für die Registrierung muss 'iamapikey' sein
+====
+
+=== Harbor-Registrierung
+
+Verwenden Sie die gleichen Anweisungen wie für die native Docker-Registrierung und wählen Sie **Harbor-Registrierung** als die Registrierung aus.
+
+image::https://github.com/user-attachments/assets/9d382fde-7be4-423d-8401-c1034a9e4c2f[Harbor]
+
+Das Filterfeld darf nicht leer gelassen werden. Geben Sie einen Repository-Filter ein oder fügen Sie den Filter als * hinzu, um alle Repositories zu scannen.
+
+=== GitHub Container-Registrierung
+
+Verfügbar in NeuVector v5.4.3 und später, wird das Scannen von Bildern jetzt von der https://ghcr.io[GitHub Container-Registrierung (GHCR)] unterstützt, sodass Benutzer Bilder, die in GitHub gespeichert sind, in ihre Sicherheits- und Compliance-Workflows einbeziehen können.
+
+==== Fügen Sie die GitHub Container-Registrierung hinzu
+
+Um das GHCR in NeuVector zu konfigurieren, gehen Sie zu **Registry hinzufügen** und wählen Sie **GitHub Container Registry** aus dem Dropdown-Menü für den Registrierungstyp aus.
+
+|===
+| Feld | Beschreibung
+
+| **Name**
+| Ein Name zur Identifizierung dieser Registrierungs-Konfiguration.
+
+| **Registrierung**
+| Die GHCR-Registrierungs-URL. Beispiel: `https://ghcr.io/`.
+
+| **Benutzername**
+| Ihr GitHub-Benutzername.
+
+| **Token**
+| Ein https://github.com/settings/tokens[GitHub Personal Access Token] mit `read:packages` Berechtigung (und `repo`, wenn auf private Bilder zugegriffen wird).
+
+| **Filter**
+| Geben Sie den Namespace an, der gescannt werden soll (z. B. `github_user/hello-world:*` oder `repo/package_name:version`).
+|===
+
+==== Token-Berechtigungen
+
+Um auf GHCR zuzugreifen, müssen Sie ein GitHub-Token mit den folgenden Berechtigungen generieren:
+
+* `read:packages` (erforderlich)
+* `repo` (wenn auf private Repositories zugegriffen wird)
+
+Sie können ein Token https://github.com/settings/tokens[hier] erstellen.
+
+==== Fehlerbehebung
+
+Wenn Sie auf Probleme wie `403 Forbidden` oder `invalid credentials` stoßen, stellen Sie bitte sicher:
+
+* Ihr Token hat die richtigen Berechtigungen.
+* Die Registrierungs-URL ist korrekt formatiert (z. B. `\https://ghcr.io/`).
