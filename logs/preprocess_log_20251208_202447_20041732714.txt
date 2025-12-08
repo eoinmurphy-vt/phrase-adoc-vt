@@ -1,0 +1,200 @@
+Starting preprocess: source/docs/5.4/modules/en/ldap_12.adoc
+✓ Decoded source/docs/5.4/modules/en/ldap_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ldap_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.032435
+Starting preprocess: source/docs/5.4/modules/en/modes_12.adoc
+✓ Decoded source/docs/5.4/modules/en/modes_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/modes_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.081685
+Starting preprocess: source/docs/5.4/modules/en/msazure_12.adoc
+✓ Decoded source/docs/5.4/modules/en/msazure_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/msazure_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.134494
+Starting preprocess: source/docs/5.4/modules/en/multicluster_12.adoc
+✓ Decoded source/docs/5.4/modules/en/multicluster_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/multicluster_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.183897
+Starting preprocess: source/docs/5.4/modules/en/navigation_12.adoc
+✓ Decoded source/docs/5.4/modules/en/navigation_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/navigation_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.236744
+Starting preprocess: source/docs/5.4/modules/en/networkrules_12.adoc
+✓ Decoded source/docs/5.4/modules/en/networkrules_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/networkrules_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.288049
+Starting preprocess: source/docs/5.4/modules/en/openid_12.adoc
+✓ Decoded source/docs/5.4/modules/en/openid_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/openid_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-08 20:24:47.337685
+Starting preprocess: source/docs/5.4/modules/en/openshift_12.adoc
+✓ Decoded source/docs/5.4/modules/en/openshift_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/openshift_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.397069
+Starting preprocess: source/docs/5.4/modules/en/operators_12.adoc
+✓ Decoded source/docs/5.4/modules/en/operators_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/operators_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.447710
+Starting preprocess: source/docs/5.4/modules/en/overview_12.adoc
+✓ Decoded source/docs/5.4/modules/en/overview_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/overview_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.495948
+Starting preprocess: source/docs/5.4/modules/en/policy-overview_12.adoc
+✓ Decoded source/docs/5.4/modules/en/policy-overview_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/policy-overview_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.544295
+Starting preprocess: source/docs/5.4/modules/en/production_12.adoc
+✓ Decoded source/docs/5.4/modules/en/production_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/production_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.594718
+Starting preprocess: source/docs/5.4/modules/en/publick8s_12.adoc
+✓ Decoded source/docs/5.4/modules/en/publick8s_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/publick8s_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.645627
+Starting preprocess: source/docs/5.4/modules/en/rancher_12.adoc
+✓ Decoded source/docs/5.4/modules/en/rancher_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rancher_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.696292
+Starting preprocess: source/docs/5.4/modules/en/registry-scanning-configuration_12.adoc
+✓ Decoded source/docs/5.4/modules/en/registry-scanning-configuration_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/registry-scanning-configuration_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.751122
+Starting preprocess: source/docs/5.4/modules/en/replacecert_12.adoc
+✓ Decoded source/docs/5.4/modules/en/replacecert_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/replacecert_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.799063
+Starting preprocess: source/docs/5.4/modules/en/requirements_12.adoc
+✓ Decoded source/docs/5.4/modules/en/requirements_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/requirements_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.849044
+Starting preprocess: source/docs/5.4/modules/en/responserules_12.adoc
+✓ Decoded source/docs/5.4/modules/en/responserules_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/responserules_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.899886
+Starting preprocess: source/docs/5.4/modules/en/rest-api_12.adoc
+✓ Decoded source/docs/5.4/modules/en/rest-api_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rest-api_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.948812
+Starting preprocess: source/docs/5.4/modules/en/scanners_12.adoc
+✓ Decoded source/docs/5.4/modules/en/scanners_12.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/scanners_12.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-08 20:24:47.998466
