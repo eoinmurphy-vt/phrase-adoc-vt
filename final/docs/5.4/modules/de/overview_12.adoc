@@ -1,0 +1,89 @@
+= 5.x Übersicht
+:revdate: 2025-01-10
+:page-revdate: {revdate}
+:page-opendocs-origin: /01.basics/01.overview/01.overview.adoc
+:page-opendocs-slug: /grundlagen/übersicht
+
+== Die vollständige Lebenszyklus-Container-Sicherheitsplattform
+
+[NOTE]
+====
+Diese Dokumente beschreiben die 5.x (Open Source) Version. Die 5.x Bilder sind über Docker Hub mit dem entsprechenden Tag zugänglich, z.B. `neuvector/controller:(version)`.
+====
+
+{product-name} bietet eine leistungsstarke End-to-End-Container-Sicherheitsplattform. Dies umfasst eine End-to-End-Schwachstellenscanning und vollständigen Laufzeitschutz für Container, Pods und Hosts, einschließlich:
+
+. CI/CD Schwachstellenmanagement & Zugangssteuerung. Scannen Sie Bilder mit einem Jenkins-Plugin, scannen Sie Registries und setzen Sie Zugangssteuerungsregeln für Bereitstellungen in die Produktion durch.
+. Verletzungsschutz. Entdeckt Verhalten und erstellt eine whitelist-basierte Richtlinie zur Erkennung von Verletzungen des normalen Verhaltens.
+. Bedrohungserkennung. Erkennt gängige Angriffe auf Anwendungen wie DDoS- und DNS-Angriffe auf Container.
+. DLP- und WAF-Sensoren. Überwacht den Netzwerkverkehr zur Datenverlustprävention sensibler Daten und erkennt gängige OWASP Top10 WAF-Angriffe.
+. Laufzeit-Schwachstellenscanning. Scannt Registries, Bilder und laufende Container-Orchestrierungsplattformen und Hosts auf gängige (CVE) sowie anwendungsspezifische Schwachstellen.
+. Compliance & Auditing. Führt automatisch Docker Bench-Tests und Kubernetes CIS-Benchmarks durch.
+. Endpoint-/Host-Sicherheit. Erkennt Privilegieneskalationen, überwacht Prozesse und Dateiaktivitäten auf Hosts und in Containern und überwacht die Dateisysteme von Containern auf verdächtige Aktivitäten.
+. Multi-Cluster-Management. Überwachen und Verwalten mehrerer Kubernetes-Cluster von einer einzigen Konsole aus.
+
+Weitere Funktionen von {product-name} umfassen die Möglichkeit, Container zu isolieren und Protokolle über SYSLOG und Webhooks zu exportieren, die Paketaufzeichnung zur Untersuchung zu initiieren und die Integration mit OpenShift RBACs, LDAP, Microsoft AD und SSO mit SAML. Hinweis: Quarantäne bedeutet, dass der gesamte Netzwerkverkehr blockiert wird.  Der Container bleibt bestehen und läuft weiter - nur ohne Netzwerkverbindungen.  Kubernetes wird keinen Container starten, um einen quarantänisierten Container zu ersetzen, da der API-Server weiterhin auf den Container zugreifen kann.
+
+== Sicherheitscontainer
+
+Die {product-name} Laufzeit-Container-Sicherheitslösung enthält vier Arten von Sicherheitscontainern: *Controller*, *Durchsetzer*, *Manager* und *Scanner*. Ein spezieller Container namens *Allinone* wird ebenfalls bereitgestellt, um die Funktionen von Controller, Durchsetzer und Manager in einem einzigen Container zu kombinieren, hauptsächlich für docker-native Bereitstellungen.
+
+{product-name} kann auf virtuellen Maschinen oder auf Bare-Metal-Systemen mit einem einzigen Betriebssystem bereitgestellt werden.
+
+image:1Overview.png[Bereitstellung]
+
+=== Controller
+
+Der Controller verwaltet den {product-name} Durchsetzer-Container-Cluster. Er bietet auch REST-APIs für die Verwaltungs-Konsole. Obwohl typische Testbereitstellungen einen Controller haben, wird empfohlen, mehrere Controller in einer Hochverfügbarkeitskonfiguration zu verwenden. 3 Controller sind die Standardkonfiguration im Kubernetes-Produktionsbereitstellungsbeispiel yaml.
+
+=== Durchsetzer
+
+Der Durchsetzer ist ein leichtgewichtiger Container, der die Sicherheitsrichtlinien durchsetzt. Ein Durchsetzer sollte auf jedem Knoten (Host) bereitgestellt werden, z.B. als Daemon-Set.
+
+[NOTE]
+====
+Für Docker-native (nicht Kubernetes) Bereitstellungen können der Durchsetzer-Container und der Controller nicht auf demselben Knoten bereitgestellt werden (außer im All-in-One-Fall unten).
+====
+
+
+=== Manager
+
+Der Manager ist ein zustandsloser Container, der eine Web-UI (nur HTTPS) Konsole für Benutzer bereitstellt, um die {product-name} Sicherheitslösung zu verwalten. Mehr als ein Manager-Container kann nach Bedarf bereitgestellt werden.
+
+=== All-in-One
+
+Der All-in-One-Container enthält einen Controller, einen Durchsetzer und einen Manager in einem Paket. Es ist nützlich für eine einfache Installation in Einzelknoten- oder Kleininstallationen.
+
+=== Scanner
+
+Der Scanner ist ein Container, der die Schwachstellen- und Compliance-Scans für Images, Container und Knoten durchführt. Er wird typischerweise als ReplicaSet bereitgestellt und kann auf so viele parallele Scanner skaliert werden, wie gewünscht, um die Scan-Leistung zu erhöhen. Der Controller weist jedem verfügbaren Scanner die Scan-Jobs im Round-Robin-Verfahren zu, bis alle Scans abgeschlossen sind. Der Scanner enthält auch die neueste CVE-Datenbank und wird regelmäßig von {product-name} aktualisiert.
+
+=== Updater
+
+Der Updater ist ein Container, der beim Ausführen die CVE-Datenbank für {product-name} aktualisiert. {product-name} veröffentlicht regelmäßig neue Scanner-Images, um die neuesten CVE für Schwachstellenscans einzuschließen. Der Updater stellt alle Scanner-Pods erneut bereit, indem er die Bereitstellung auf null setzt und sie wieder hochskaliert, wodurch ein Pull eines aktualisierten Scanner-Images erzwungen wird.
+
+== Architektur
+
+Hier ist ein allgemeiner Architekturüberblick über {product-name}. Nicht gezeigt wird der separate Scanner-Container, der auch als eigenständiger Pipeline-Scanner betrieben werden kann.
+
+image:architecture.png[Architektur]
+
+== Bereitstellungsbeispiele
+
+Für gängige Bereitstellungsmuster und bewährte Praktiken siehe den xref:production.adoc#_best_practices_tips_qa_for_deploying_and_managing_suse_security[Onboarding/Bewährte Praktiken Abschnitt].
+
+=== All-in-One und Durchsetzer
+
+Diese Bereitstellung ist ideal für Einzelknoten- oder Kleininstallationen, zum Beispiel für Evaluierung, Tests und kleine Bereitstellungen. Ein All-in-One-Container wird auf einem Knoten bereitgestellt, der auch ein Knoten mit laufenden Anwendungscontainern sein kann. Ein Durchsetzer kann auf allen anderen Knoten bereitgestellt werden, wobei auf jedem Knoten, den Sie mit {product-name} schützen möchten, ein Durchsetzer erforderlich ist. Dies ist auch nützlich für native Docker-Bereitstellungen, bei denen ein Controller und ein Durchsetzer nicht auf demselben Host ausgeführt werden können.
+
+=== Controller-, Manager- und Durchsetzer-Container
+
+Dies ist ein allgemeinerer Bereitstellungsanwendungsfall, der aus einem oder mehreren Controllern, einem Manager und einer Gruppe von Durchsetzern besteht. Der Controller und der Manager können auf demselben Knoten oder auf anderen Knoten als der Durchsetzer bereitgestellt werden.
+
+=== Nur All-in-One
+
+Sie können nur den All-in-One-Container für die Registrierungsscans bereitstellen, indem Sie das Jenkins-Plugin verwenden oder einfache Tests auf einem Knoten von {product-name} durchführen.
+
+=== Nur Controller
+
+Es ist möglich, einen einzelnen Controller-Container und/oder Scanner bereitzustellen, um die Schwachstellenscans außerhalb eines Clusters zu verwalten, zum Beispiel zur Verwendung mit dem Jenkins-Plugin. Die Registrierungsscans können auch vom Controller ausschließlich über die REST-API durchgeführt werden, aber typischerweise wird auch ein Manager-Container gewünscht, um eine konsolenbasierte Konfiguration und Ergebnisansicht für die Registrierungsscans bereitzustellen.
