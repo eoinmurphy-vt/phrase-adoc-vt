@@ -18,7 +18,6 @@ jobs:
   postprocess:
     runs-on: ubuntu-latest
     env:
-      SRC_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
       DST_DIR: ${{ vars.FINAL_DIR || 'final' }}
       CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
       # Variable for the main branch to merge back into
@@ -39,30 +38,36 @@ jobs:
       - name: Install Dependencies
         run: pip install chardet
 
-      # DEBUG STEP: List files so we know where Phrase put them
-      - name: Debug File Structure
+      # --- DEBUG: SEE EXACTLY WHAT PHRASE PUSHED ---
+      - name: Debug Root Structure
         run: |
-          echo "Listing root directory structure:"
-          ls -R
+          echo "=== Root Directory Contents ==="
+          ls -F
+          echo "=== Recursively finding adoc files ==="
+          find . -name "*.adoc" -maxdepth 4
+      # ---------------------------------------------
 
       - name: Run Postprocessing
         run: |
+          # Clean previous final folder if exists
+          rm -rf "$DST_DIR"
           mkdir -p "$DST_DIR" logs
-          # This script will now auto-detect if files are at root
           python postprocess_adoc.py
 
-      - name: Verify Output
+      - name: Debug Generated Output
         run: |
-          # Fail the job if the final folder is empty
-          if [ -z "$(ls -A "$DST_DIR")" ]; then
-             echo "::error::Post-processing script generated 0 files. Check logs."
+          echo "=== Contents of $DST_DIR after script ==="
+          ls -R "$DST_DIR" || echo "$DST_DIR is empty or missing"
+
+      - name: Verify Output Exists
+        run: |
+          if [ -z "$(ls -A "$DST_DIR" 2>/dev/null)" ]; then
+             echo "::error::Script generated 0 files. Stopping workflow."
              exit 1
           fi
 
       - name: Stash Generated Files
         run: |
-          # Move the generated final folder and logs to a temp location
-          # so they survive the branch switch
           mkdir -p ../temp_artifacts
           cp -r "$DST_DIR" ../temp_artifacts/
           cp -r logs ../temp_artifacts/
@@ -73,17 +78,19 @@ jobs:
           git config user.name "github-actions"
           git config user.email actions@github.com
           
-          # Checkout main so we can commit the results there
+          # Clean checkout of main
           git checkout $TARGET_BRANCH
           git pull origin $TARGET_BRANCH
 
       - name: Restore Stashed Files
         run: |
-          # Copy the clean files back into the main branch workspace
+          # Overwrite main's final folder with our new one
+          rm -rf "$DST_DIR"
           cp -r ../temp_artifacts/"$DST_DIR" .
           cp -r ../temp_artifacts/logs .
+          echo "Restored files to main branch."
 
-      - name: Commit Final Files to Main
+      - name: Commit and Push
         run: |
           git add "$DST_DIR/" logs/ || true
 
@@ -95,36 +102,24 @@ jobs:
 
           git commit -m "Auto-restored final AsciiDoc files (merged from translation branch)"
 
-          # Push to MAIN
           git remote set-url origin https://${{ secrets.REPO2_WRITE_PAT }}@github.com/$CURRENT_REPO.git
 
+          # Simple Push Loop
           MAX_ATTEMPTS=10
           ATTEMPT=1
-
           while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
-            # We are already on main, but fetch to be safe
             git fetch origin $TARGET_BRANCH
+            git rebase origin/$TARGET_BRANCH || git rebase --abort
             
-            if ! git rebase origin/$TARGET_BRANCH; then
-              echo "Rebase failed"
-              exit 1
-            fi
-
-            if git push --force-with-lease origin $TARGET_BRANCH; then
+            if git push origin $TARGET_BRANCH; then
               echo "Push succeeded"
               echo "COMMITTED=true" >> $GITHUB_ENV
               break
             fi
-
             echo "Push failed, retrying... ($ATTEMPT)"
             ATTEMPT=$((ATTEMPT+1))
             sleep 10
           done
-
-          if [ $ATTEMPT -gt $MAX_ATTEMPTS ]; then
-            echo "Push failed after all retries"
-            exit 1
-          fi
 
       - name: Dispatch Sync to Repo1
         if: env.COMMITTED == 'true'
