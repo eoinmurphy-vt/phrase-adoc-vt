@@ -131,7 +131,6 @@ If these variables are not set, the workflow will use the Default Values listed 
 | **`EXTERNAL_REPO_URL`**   | (Client Repo)       | The owner/repo string of the external repository you are syncing with (e.g., client-org/main-docs). |
 | **`EXTERNAL_WATCH_PATH`** | docs/modules/en/    | The specific subfolder in the External Repo to watch for changes.                                   |
 | **`EXTERNAL_TARGET_DIR`** | docs                | The specific subfolder in the External Repo where finished translations should be pushed.           |
-| **`TRANSLATION_BRANCH`**  | translations/import | The branch Phrase TMS pushes to.                                                                    |
 
 ---
 
