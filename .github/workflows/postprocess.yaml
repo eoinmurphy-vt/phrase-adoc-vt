@@ -10,11 +10,6 @@ on:
       - 'postprocess_adoc.py'
 
   workflow_dispatch:
-  
-# ADD THIS SECTION
-concurrency:
-  group: postprocess-${{ github.ref }}
-  cancel-in-progress: false
 
 permissions:
   contents: write
