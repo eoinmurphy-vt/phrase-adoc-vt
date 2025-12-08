@@ -13,6 +13,11 @@ on:
     types: [trigger-preprocess]
 
   workflow_dispatch:
+  
+# ADD THIS SECTION
+concurrency:
+  group: preprocess-${{ github.ref }}
+cancel-in-progress: false # Set to true if you want to abort old runs, false to queue them
 
 permissions:
   contents: write
