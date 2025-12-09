@@ -1,112 +1,64 @@
-name: Pull Files From Phrase Incoming Branch
+name: Pull from Phrase Incoming Branch
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - phrase-incoming
 
-permissions:
-  contents: write
-
 env:
-  INCOMING_BRANCH: phrase-incoming
-  TRANSLATED_DIR: translated
-  CHANGED_FILE_LIST: ${{ github.workspace }}/changed_files.txt
+  TRANSLATED_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
+  PHRASE_INCOMING_BRANCH: ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}
 
 jobs:
-  pull-incoming:
+  sync-incoming:
     runs-on: ubuntu-latest
 
     steps:
-      # --------------------------------------------
-      # CHECKOUT incoming branch first
-      # --------------------------------------------
-      - name: Checkout incoming branch (phrase-incoming)
-        uses: actions/checkout@v4
-        with:
-          ref: phrase-incoming
-          fetch-depth: 0
-
-      # --------------------------------------------
-      # Identify which *.adoc files changed in this push
-      # --------------------------------------------
-      - name: Identify changed .adoc files
-        id: detect_changes
-        run: |
-          echo "Detecting changed .adoc files…"
-
-          # Extract changed files between HEAD and previous commit
-          git diff --name-only HEAD^ HEAD | grep '\.adoc$' > "$CHANGED_FILE_LIST" || true
-
-          echo "Changed files:"
-          cat "$CHANGED_FILE_LIST" || echo "(none found)"
-
-          # Create output list for debugging
-          FILE_LIST=$(paste -sd ' ' "$CHANGED_FILE_LIST" || true)
-          echo "changed_files=$FILE_LIST" >> $GITHUB_OUTPUT
-
-      - name: Stop if no changed .adoc files
-        if: steps.detect_changes.outputs.changed_files == ''
-        run: echo "No .adoc files changed. Exiting."
-        
-      # --------------------------------------------
-      # Now checkout MAIN branch (working branch)
-      # --------------------------------------------
       - name: Checkout main branch
-        if: steps.detect_changes.outputs.changed_files != ''
         uses: actions/checkout@v4
         with:
-          ref: main
           fetch-depth: 0
-          path: main_branch
+          ref: main
 
-      # --------------------------------------------
-      # Copy changed .adoc files from incoming → main_branch/translated
-      # --------------------------------------------
-      - name: Copy changed .adoc files into translated/
-        if: steps.detect_changes.outputs.changed_files != ''
-        working-directory: ${{ github.workspace }}/main_branch
+      - name: Fetch incoming branch
         run: |
+          git fetch origin "${PHRASE_INCOMING_BRANCH}"
+
+      - name: Prepare translated/ directory
+        run: |
+          echo "Clearing existing translated folder…"
+          rm -rf "$TRANSLATED_DIR"
           mkdir -p "$TRANSLATED_DIR"
 
-          echo "Copying from incoming commit SHA: $GITHUB_SHA"
-          
-          while IFS= read -r file; do
-            echo "Processing: $file"
-
-            mkdir -p "$TRANSLATED_DIR/$(dirname "$file")"
-
-            # Pull file from phrase-incoming commit
-            git show "${GITHUB_SHA}:${file}" > "$TRANSLATED_DIR/$file"
-
-            echo "Copied: $file"
-          done < "$CHANGED_FILE_LIST"
-
-      # --------------------------------------------
-      # Commit results back into main branch
-      # --------------------------------------------
-      - name: Commit translated files into main
-        if: steps.detect_changes.outputs.changed_files != ''
-        working-directory: ${{ github.workspace }}/main_branch
+      - name: Copy all language folders from phrase-incoming
         run: |
-          git config user.name "github-actions"
-          git config user.email actions@github.com
+          echo "Copying folders from ${PHRASE_INCOMING_BRANCH}…"
 
-          git add "$TRANSLATED_DIR/" || true
+          # Extract files from the incoming branch tree
+          git archive "${PHRASE_INCOMING_BRANCH}" | tar -x
+
+          # Detect language folders: xx_xx/
+          for lang in $(ls -d */ 2>/dev/null | grep -E "^[a-z]{2}_[a-z]{2}/"); do
+            echo "Found language folder: $lang"
+            mkdir -p "$TRANSLATED_DIR/$lang"
+            cp -R "$lang" "$TRANSLATED_DIR/"
+          done
+
+          echo "Translated directory content:"
+          ls -R "$TRANSLATED_DIR"
+
+      - name: Commit translated files into main
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email actions@github.com
+
+          git add "$TRANSLATED_DIR"
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
 
-          git commit -m "Imported translated files from phrase-incoming"
-
+          git commit -m "Sync translated content from phrase-incoming"
           git push origin main
-
-      # --------------------------------------------
-      # Final Diagnostics
-      # --------------------------------------------
-      - name: Debug final state
-        run: |
-          echo "Changed files were:"
-          cat "$CHANGED_FILE_LIST" || echo "(none found)"
