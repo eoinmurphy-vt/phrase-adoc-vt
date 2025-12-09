@@ -6,6 +6,8 @@
 
 [![AsciiDoc Preprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/preprocess.yaml)
 
+[![Process Phrase Incoming Files](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/pull-from-phrase-incoming.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/pull-from-phrase-incoming.yaml)
+
 [![AsciiDoc Postprocess](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/postprocess.yaml)
 
 [![Sync to Repo 1](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-to-repo1.yaml/badge.svg)](https://github.com/eoinmurphy-vt/phrase-adoc-vt/actions/workflows/sync-to-repo1.yaml)
@@ -19,12 +21,13 @@ It ensures consistent formatting, automatic preprocessing before translation, an
 
 ### ⚙️ Folder Structure
 
-| Folder            | Purpose                                                        |
-| ----------------- | -------------------------------------------------------------- |
-| **`source/`**     | Original AsciiDoc files before translation                     |
-| **`processed/`**  | Preprocessed UTF-8 files prepared for Phrase TMS               |
-| **`translated/`** | Folder where Phrase TMS commits completed translations         |
-| **`final/`**      | Final postprocessed files restored to original AsciiDoc format |
+| Folder                  | Purpose                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------ |
+| **`source/`**           | Original AsciiDoc files before translation                                     |
+| **`processed/`**        | Preprocessed UTF-8 files prepared for Phrase TMS                               |
+| **`phrase-incoming/`**  | Branch where Phrase TMS commits completed translations                         |
+| **`translated/`**       | Folder where GitHub commits completed translations from phrase-incoming branch |
+| **`final/`**            | Final postprocessed files restored to original AsciiDoc format                 |
 
 ---
 
@@ -84,8 +87,11 @@ Ensure your project follows this structure to support the scripts:
 &nbsp;.  
 &nbsp;├── .github/  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── workflows/  
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── sync-from-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main  
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── sync-to-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── sync-from-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── pull-from-phrase-incoming.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── postprocess.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── sync-to-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates
 &nbsp;├── scripts/  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Protection Script  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── postprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Restoration Script  

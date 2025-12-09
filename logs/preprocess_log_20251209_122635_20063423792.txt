@@ -1,0 +1,10 @@
+Starting preprocess: source/docs/5.4/modules/en/5x_17.adoc
+✓ Decoded source/docs/5.4/modules/en/5x_17.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/en/5x_17.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-09 12:26:35.496199
