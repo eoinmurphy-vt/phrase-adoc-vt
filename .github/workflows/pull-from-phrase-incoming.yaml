@@ -21,9 +21,11 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Fetch incoming branch
+      - name: Fetch all branches
         run: |
-          git fetch origin "${PHRASE_INCOMING_BRANCH}"
+          git fetch --all --prune
+          echo "Available branches:"
+          git branch -a
 
       - name: Prepare translated/ directory
         run: |
