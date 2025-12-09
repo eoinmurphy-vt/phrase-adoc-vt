@@ -87,11 +87,11 @@ Ensure your project follows this structure to support the scripts:
 &nbsp;.  
 &nbsp;├── .github/  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── workflows/  
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── sync-from-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main +
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates +
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── pull-from-phrase-incoming.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main +
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── postprocess.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main +
-&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── sync-to-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates +
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── sync-from-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── pull-from-phrase-incoming.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── postprocess.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on push to main  
+&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── sync-to-repo1.yaml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Triggered on phrase updates  
 &nbsp;├── scripts/  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── preprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Protection Script  
 &nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── postprocess_adoc.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The Restoration Script  
