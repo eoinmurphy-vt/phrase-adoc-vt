@@ -1,80 +1,107 @@
-name: Pull New/Changed .adoc Files from Phrase Incoming Branch
+name: Process Phrase Incoming Files
 
 on:
   push:
     branches:
       - phrase-incoming
-      
-  workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
-  transfer-adoc-files:
+  process-incoming:
     runs-on: ubuntu-latest
 
     env:
-      TRANSLATED_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
-      INCOMING_BRANCH: ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}
-      CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
+      INCOMING_BRANCH: phrase-incoming
+      TRANSLATED_DIR: translated
+      MAIN_BRANCH: main
 
     steps:
+      # ----------------------------
+      # Checkout incoming branch
+      # ----------------------------
       - name: Checkout incoming branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.INCOMING_BRANCH }}
+          ref: phrase-incoming
           fetch-depth: 0
 
-      - name: Find .adoc files changed in last push
-        id: find_changed
+      # ----------------------------
+      # Identify changed .adoc files
+      # ----------------------------
+      - name: Identify changed .adoc files
+        id: changes
         run: |
-          # Get list of changed .adoc files ONLY
-          git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep '\.adoc$' > changed_files.txt || true
+          echo "Detecting changed .adoc files…"
+
+          # Find changed .adoc files relative to previous commit
+          git diff --name-only HEAD^ HEAD | grep '\.adoc$' > changed_files.txt || true
 
           echo "Changed files:"
-          cat changed_files.txt || echo "None"
+          cat changed_files.txt || echo "(none)"
 
-          COUNT=$(wc -l < changed_files.txt | tr -d ' ')
-          echo "file_count=$COUNT" >> $GITHUB_OUTPUT
+          # Export to job output as space-separated string
+          FILE_LIST=$(paste -sd ' ' changed_files.txt)
+          echo "changed_files=$FILE_LIST" >> $GITHUB_OUTPUT
 
-      - name: Stop if no .adoc files changed
-        if: steps.find_changed.outputs.file_count == '0'
+      # ----------------------------
+      # Stop workflow if no .adoc files changed
+      # ----------------------------
+      - name: Stop if no files changed
+        if: ${{ steps.changes.outputs.changed_files == '' }}
         run: |
-          echo "No new or changed .adoc files detected. Exiting workflow."
+          echo "No changed .adoc files. Exiting workflow."
           exit 0
 
+      # ----------------------------
+      # Process each changed file
+      # ----------------------------
+      - name: Run post-processing on each file
+        run: |
+          while IFS= read -r file; do
+            echo "Processing: $file"
+            # 🔧 Replace this with your real script
+            ./scripts/postprocess_adoc.sh "$file"
+          done < changed_files.txt
+
+      # ----------------------------
+      # Checkout main branch separately
+      # ----------------------------
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
           ref: main
+          path: main_branch
           fetch-depth: 0
 
+      # ----------------------------
+      # Copy processed files into translated/{targetLang}/
+      # ----------------------------
       - name: Copy changed .adoc files into translated/
         run: |
-          mkdir -p "$TRANSLATED_DIR"
+          LANG_NAME="${GITHUB_REF_NAME}" # if you ever use per-language branches
+          DEST_DIR="main_branch/${TRANSLATED_DIR}/${LANG_NAME}"
+
+          echo "Copying files to: $DEST_DIR"
+          mkdir -p "$DEST_DIR"
 
           while IFS= read -r file; do
-            # Create folder if needed
-            mkdir -p "$TRANSLATED_DIR/$(dirname "$file")"
+            echo "Copying: $file"
 
-            # Copy file from incoming branch
-            git show "${GITHUB_SHA}:${file}" > "$TRANSLATED_DIR/$file"
+            # Create folder structure
+            mkdir -p "$DEST_DIR/$(dirname "$file")"
 
-            echo "Copied: $file"
+            # Copy from incoming branch version of the file
+            git show "${GITHUB_SHA}:${file}" > "$DEST_DIR/$file"
           done < changed_files.txt
 
-      - name: Commit imported files
+      # ----------------------------
+      # Commit to main
+      # ----------------------------
+      - name: Commit processed files to main
         run: |
+          cd main_branch
           git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          git config user.email "github-actions@github.com"
 
-          git add "$TRANSLATED_DIR/"
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit on main."
-            exit 0
-          fi
-
-          git commit -m "Import updated .adoc files from phrase-incoming"
+          git add translated/
+          git commit -m "Processed incoming files from Phrase TMS" || echo "nothing to commit"
           git push origin main
