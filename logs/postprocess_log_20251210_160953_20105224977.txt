@@ -1,0 +1,13 @@
+Postprocess started: 2025-12-10 16:09:53.034463
+
+✓ translated/fr_fr/docs/5.4/modules/en/jenkins__30.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/jenkins__30.adoc (from translated/fr_fr/docs/5.4/modules/en/jenkins__30.adoc)
+✓ translated/de_de/docs/5.4/modules/en/jenkins__30.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/jenkins__30.adoc (from translated/de_de/docs/5.4/modules/en/jenkins__30.adoc)
+
+Summary:
+  ✅ Processed files: 2
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 2
+
+Completed: 2025-12-10 16:09:53.054426
