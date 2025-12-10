@@ -1,0 +1,10 @@
+Starting preprocess: source/docs/5.4/modules/en/updating__32.adoc
+✓ Decoded source/docs/5.4/modules/en/updating__32.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating__32.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 17:46:51.283110
