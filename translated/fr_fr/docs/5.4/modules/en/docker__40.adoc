@@ -1,0 +1,456 @@
+= Docker et Mirantis Kubernetes Engine
+:revdate: 2025-01-10
+:page-revdate: {revdate}
+:page-opendocs-origin: /02.deploying/05.docker/05.docker.md
+:page-opendocs-slug: /deploying/docker
+
+== Déploiement de Kubernetes sur Mirantis Kubernetes Engine
+
+Suivez les instructions de la xref:kubernetes.adoc[section Kubernetes].
+
+[NOTE]
+====
+{product-name} ne prend pas en charge les clusters mixtes Kubernetes / Swarm.
+====
+
+== Déployer des conteneurs {product-name} en utilisant Docker Native ou UCP/Swarm
+
+Notez que le déploiement natif de Docker sur Mirantis Kubernetes Engine à l'aide de Swarm NE prend PAS en charge le déploiement de services avec des conteneurs en mode privilégié, ou avec des capacités seccomp ajoutées. Pour déployer dans cet environnement, vous devez utiliser Docker Compose ou Run pour déployer les conteneurs {product-name}. Vous pouvez utiliser le déploiement de l'hôte distant (docker-compose -H HOST) pour faciliter cette tâche.
+
+Voici les exemples de fichiers de configuration de docker compose. Notez que l'utilisation de docker native ne permet pas de déployer l'enforcer sur le même nœud que le contrôleur, ce qui nécessite l'utilisation du conteneur Allinone si les fonctions du contrôleur et de l'enforcer sont souhaitées sur un nœud.
+
+NOTE: La variable d'environnement NV_PLATFORM_INFO=platform=Docker est utilisée pour notifier à {product-name} que la plateforme est Docker/Swarm, même s'il peut y avoir des conteneurs Kubernetes inutilisés détectés par {product-name} sur un déploiement Docker EE. Pour pouvoir les voir dans Network Activity -> View -> Show System, ajoutez la variable d'environnement pour l'Enforcer NV_SYSTEM_GROUPS.
+
+=== Déployer Allinone pour la haute disponibilité
+
+Pour l'HA dans les environnements de production Docker natifs ou EE, déployez le conteneur Allinone sur les trois premiers hôtes de production. Chaque Allinone doit pointer vers les adresses IP de tous les hôtes Allinone. Par exemple, trois conteneurs Allinone est le minimum pour l'AH, et le CLUSTER_JOIN_ADDR doit énumérer les trois adresses IP séparées par des virgules. Des HA Allinone supplémentaires peuvent être déployées en nombres impairs, par exemple 5, 7. Le déploiement de l'Enforcer sur les hôtes restants du cluster, dans n'importe quelle configuration.
+
+=== Déployer Allinone en utilisant docker-compose (mode privilégié)
+
+Voici un exemple de fichier docker-compose pour déployer le conteneur allinone sur le premier nœud. Comme le conteneur allinone contient un module enforcer, les conteneurs d'application situés sur le même nœud peuvent être sécurisés. Les déploiements sur sites vierges et sur sites industriels sont soutenus.
+
+[,yaml]
+----
+allinone:
+    pid: host
+    image: neuvector/allinone:<version>
+    container_name: allinone
+    privileged: true
+    environment:
+        - CLUSTER_JOIN_ADDR=node_ip
+        - NV_PLATFORM_INFO=platform=Docker
+    ports:
+        - 18300:18300
+        - 18301:18301
+        - 18400:18400
+        - 18401:18401
+        - 18301:18301/udp
+        - 8443:8443
+    volumes:
+        - /lib/modules:/lib/modules:ro
+        - /var/neuvector:/var/neuvector
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup:/host/cgroup:ro
+----
+
+La variable d'environnement la plus importante est *CLUSTER_JOIN_ADDR*. Il s'agit de l'adresse IP à laquelle les autres agents d'exécution se connectent. Normalement, il doit être défini sur l'adresse IP du nœud où le conteneur tout-en-un est en cours d'exécution.
+
+Les ports 18300 et 18301 sont des ports par défaut pour la communication avec les clusters. Ils doivent être identiques pour tous les contrôleurs et exécutants du cluster. Veuillez vous référer à la section _"Docker-compose Details"_ pour savoir comment changer les ports par défaut.
+
+[NOTE]
+====
+Pour exposer l'API REST dans l'Allinone, ajoutez le port map pour 10443, par exemple - 10443:10443.
+====
+
+=== Ajouter un conteneur enforcer en utilisant docker-compose (mode privilégié)
+
+Voici un exemple de fichier docker-compose pour joindre un enforcer au cluster. Les déploiements sur sites vierges et sur sites industriels sont soutenus.
+
+[,yaml]
+----
+enforcer:
+    pid: host
+    image: neuvector/enforcer:<version>
+    container_name: enforcer
+    privileged: true
+    environment:
+        - CLUSTER_JOIN_ADDR=controller_node_ip
+        - NV_PLATFORM_INFO=platform=Docker
+    ports:
+        - 18301:18301
+        - 18401:18401
+        - 18301:18301/udp
+    volumes:
+        - /lib/modules:/lib/modules:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup/:/host/cgroup/:ro
+----
+
+La variable d'environnement la plus importante est *CLUSTER_JOIN_ADDR*. Pour les contrôleurs, remplacez `+<controller_node_ip>+` par l'adresse IP du nœud du contrôleur. Typiquement, *CLUSTER_JOIN_ADDR* dans le fichier docker-compose du contrôleur/all-in-one et le fichier docker-compose de enforcer ont la même valeur.
+
+=== Déployer le conteneur {product-name} Scanner
+
+À partir de {product-name} 4.0+, un conteneur d'analyse distinct doit être déployé pour effectuer l'analyse des vulnérabilités. Important : Utilisez toujours la balise :latest lors de l'extraction et de l'exécution de l'image scanner afin de vous assurer que la dernière base de données CVE est déployée.
+
+Exemple d'exécution de docker pour déployer le scanner sur le même hôte que le contrôleur
+
+[,shell]
+----
+docker run -td --name scanner -e CLUSTER_JOIN_ADDR=controller_node_ip -p 18402:18402 -v /var/run/docker.sock:/var/run/docker.sock:ro neuvector/scanner:latest
+----
+
+Et exemple de docker-compose
+
+[,yaml]
+----
+Scanner:
+   image: neuvector/scanner:latest
+   container_name: scanner
+   environment:
+     - CLUSTER_JOIN_ADDR=controller_node_ip
+   ports:
+     - 18402:18402
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+----
+
+Pour déployer le scanner sur un hôte différent du contrôleur, ajoutez la variable d'environnement CLUSTER_ADVERTISED_ADDR afin que le contrôleur puisse atteindre le scanner.
+
+[,shell]
+----
+docker run -td --name scanner -e CLUSTER_JOIN_ADDR=controller_node_ip -e CLUSTER_ADVERTISED_ADDR=scanner_host_ip -p 18402:18402 -v /var/run/docker.sock:/var/run/docker.sock:ro neuvector/scanner:latest
+----
+
+Pour déployer plusieurs scanners sur le même hôte que le contrôleur, supprimez le mappage des ports et la variable d'environnement CLUSTER_ADVERTISED_ADDR.
+
+[,shell]
+----
+docker run -itd --name s1  -e CLUSTER_JOIN_ADDR=controller_node_ip neuvector/scanner:latest
+----
+
+Où s1 est le scanner 1 (utilisez s2, s3 etc. pour chaque scanner supplémentaire).
+
+Pour déployer un scanner autonome (pas de contrôleur/allinone), veuillez consulter la section xref:scanners.adoc[Scanners parallèles et autonomes].
+
+Pour mettre à jour le scanner afin d'obtenir les dernières mises à jour de la base de données CVE à partir de {product-name}, créez une tâche cron pour arrêter et redémarrer le scanner, afin d'obtenir les dernières mises à jour. Voir xref:docker.adoc#_docker_native_updates[cette section] pour plus de détails.
+
+=== Déploiement sans utiliser le mode privilégié
+
+Pour certaines configurations de plate-forme, il est possible de déployer les conteneurs {product-name} sans avoir à les exécuter en mode privilégié. La configuration doit permettre d'ajouter des capacités et de définir le profil d'armement. Notez que Docker DataCenter/UCP et Swarm ne prennent actuellement pas en charge cette fonctionnalité, mais il est toujours possible de déployer {product-name} manuellement à l'aide de Compose ou Run.
+
+=== Déployer allinone (NO mode privilégié) avec docker-compose
+
+[,yaml]
+----
+allinone:
+    pid: host
+    image: neuvector/allinone:<version>
+    container_name: neuvector.allinone
+    cap_add:
+        - SYS_ADMIN
+        - NET_ADMIN
+        - SYS_PTRACE
+        - IPC_LOCK
+    security_opt:
+        - apparmor=unconfined
+        - seccomp=unconfined
+        - label=disable
+    environment:
+        - CLUSTER_JOIN_ADDR=[AllInOne Node IP Address]
+        - NV_PLATFORM_INFO=platform=Docker
+    ports:
+        - 18300:18300
+        - 18301:18301
+        - 18400:18400
+        - 18401:18401
+        - 18301:18301/udp
+        - 8443:8443
+    volumes:
+        - /lib/modules:/lib/modules:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup:/host/cgroup:ro
+        - /var/neuvector:/var/neuvector
+----
+
+=== Déployer enforcer (NO privileged mode) avec docker-compose
+
+[,yaml]
+----
+enforcer:
+    pid: host
+    image: neuvector/enforcer:<version>
+    container_name: neuvector.enforcer
+    cap_add:
+        - SYS_ADMIN
+        - NET_ADMIN
+        - SYS_PTRACE
+        - IPC_LOCK
+    security_opt:
+        - apparmor=unconfined
+        - seccomp=unconfined
+        - label=disable
+    environment:
+        - CLUSTER_JOIN_ADDR=[AllInOne Node IP Address]
+        - NV_PLATFORM_INFO=platform=Docker
+    ports:
+        - 18301:18301
+        - 18401:18401
+        - 18301:18301/udp
+    volumes:
+        - /lib/modules:/lib/modules:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup/:/host/cgroup/:ro
+----
+
+=== Déployer allinone (mode privilégié) avec docker run
+
+Vous pouvez utiliser docker run à la place de compose pour le déploiement. En voici quelques exemples.
+
+[,shell]
+----
+docker run -d --name allinone \
+--pid=host \
+--privileged \
+    -e CLUSTER_JOIN_ADDR=[AllInOne Node IP Address] \
+    -e NV_PLATFORM_INFO=platform=Docker \
+    -p 18300:18300 \
+    -p 18301:18301 \
+    -p 18400:18400 \
+    -p 18401:18401 \
+    -p 18301:18301/udp \
+    -p 8443:8443 \
+    -v /lib/modules:/lib/modules:ro \
+    -v /var/neuvector:/var/neuvector \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -v /sys/fs/cgroup:/host/cgroup:ro \
+    -v /proc:/host/proc:ro \
+neuvector/allinone:<version>
+----
+
+=== Déployer enforcer (mode privilégié) avec docker run
+
+[,shell]
+----
+docker run -d --name enforcer \
+--pid=host \
+--privileged \
+    -e CLUSTER_JOIN_ADDR=[AllInOne Node IP Address] \
+    -e NV_PLATFORM_INFO=platform=Docker \
+    -p 18301:18301 \
+    -p 18401:18401 \
+    -p 18301:18301/udp \
+    -v /lib/modules:/lib/modules:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -v /sys/fs/cgroup:/host/cgroup:ro \
+    -v /proc:/host/proc:ro \
+neuvector/enforcer:<version>
+----
+
+=== Déployer allinone (NO privileged mode) avec docker run
+
+Vous pouvez utiliser docker run à la place de compose pour le déploiement. En voici quelques exemples.
+
+[,shell]
+----
+docker run -d --name allinone \
+--pid=host \
+--cap-add=SYS_ADMIN \
+--cap-add=NET_ADMIN \
+--cap-add=SYS_PTRACE \
+--cap-add=IPC_LOCK \
+--security-opt label=disable \
+--security-opt apparmor=unconfined \
+--security-opt seccomp=unconfined \
+    -e CLUSTER_JOIN_ADDR=[AllInOne Node IP Address] \
+    -e NV_PLATFORM_INFO=platform=Docker \
+    -p 18300:18300 \
+    -p 18301:18301 \
+    -p 18400:18400 \
+    -p 18401:18401 \
+    -p 18301:18301/udp \
+    -p 8443:8443 \
+    -v /lib/modules:/lib/modules:ro \
+    -v /var/neuvector:/var/neuvector \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -v /sys/fs/cgroup:/host/cgroup:ro \
+    -v /proc:/host/proc:ro \
+neuvector/allinone:<version>
+----
+
+=== Déployer enforcer (NO privileged mode) avec docker run
+
+[,shell]
+----
+docker run -d --name enforcer \
+--pid=host \
+--cap-add=SYS_ADMIN \
+--cap-add=NET_ADMIN \
+--cap-add=SYS_PTRACE \
+--cap-add=IPC_LOCK \
+--security-opt label=disable \
+--security-opt apparmor=unconfined \
+--security-opt seccomp=unconfined \
+    -e CLUSTER_JOIN_ADDR=[AllInOne Node IP Address]  \
+    -e NV_PLATFORM_INFO=platform=Docker \
+    -p 18301:18301 \
+    -p 18401:18401 \
+    -p 18301:18301/udp \
+    -v /lib/modules:/lib/modules:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    -v /sys/fs/cgroup:/host/cgroup:ro \
+    -v /proc:/host/proc:ro \
+neuvector/enforcer:<version>
+----
+
+== Déployer des composants {product-name} distincts sur des hôtes différents
+
+Si vous prévoyez de dédier un hôte Docker à un contrôleur et/ou à un gestionnaire (sans Enforcer), ces conteneurs peuvent être déployés individuellement au lieu de l'Allinone. Notez que docker ne permet pas de déployer l'enforcer sur le même nœud que le contrôleur en tant que composants séparés, ce qui nécessite l'utilisation du conteneur Allinone si les fonctions de contrôleur et d'enforcer sont souhaitées sur un nœud.
+
+Fichier de composition du contrôleur (remplacer [IP du contrôleur] par l'IP du premier nœud du contrôleur)
+
+[,yaml]
+----
+controller:
+    image: neuvector/controller:<version>
+    container_name: controller
+    pid: host
+    privileged: true
+    environment:
+      - CLUSTER_JOIN_ADDR=[controller IP]
+      - NV_PLATFORM_INFO=platform=Docker
+    ports:
+        - 18300:18300
+        - 18301:18301
+        - 18400:18400
+        - 18401:18401
+        - 18301:18301/udp
+        - 10443:10443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys/fs/cgroup:/host/cgroup:ro
+      - /var/neuvector:/var/neuvector
+----
+
+Docker run peut également être utilisé, par exemple
+
+[,shell]
+----
+docker run -itd --privileged --name neuvector.controller -e CLUSTER_JOIN_ADDR=controller_ip -p 18301:18301 -p 18301:18301/udp -p 18300:18300 -p 18400:18400 -p 10443:10443 -v /var/neuvector:/var/neuvector -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc:/host/proc:ro -v /sys/fs/cgroup/:/host/cgroup/:ro neuvector/controller:<version>
+----
+
+Manager compose file (remplacer [controller IP] par l'IP du nœud contrôleur auquel se connecter). Le service Docker UCP HRM utilise le port par défaut 8443 qui entre en conflit avec le port de la console {product-name}. Si vous utilisez le port HRM par défaut, modifiez le mappage du port {product-name} dans l'exemple ci-dessous pour un autre port, par exemple 9443:8443 pour le conteneur manager comme indiqué ci-dessous.
+
+[,yaml]
+----
+manager:
+    image: neuvector/manager:<version>
+    container_name: nvmanager
+    environment:
+      - CTRL_SERVER_IP=[controller IP]
+    ports:
+      - 9443:8443
+----
+
+Le fichier de composition de l'Enforcer :
+
+[,yaml]
+----
+enforcer:
+    image: neuvector/enforcer:<version>
+    pid: host
+    container_name: enforcer
+    privileged: true
+    environment:
+        - CLUSTER_JOIN_ADDR=controller_node_ip
+        - NV_PLATFORM_INFO=platform=Docker
+    ports:
+        - 18301:18301
+        - 18401:18401
+        - 18301:18301/udp
+    volumes:
+        - /lib/modules:/lib/modules:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup/:/host/cgroup/:ro
+----
+
+== Surveillance et redémarrage {product-name}
+
+Les conteneurs {product-name} n'étant pas déployés en tant que service UCP/Swarm, ils ne sont pas automatiquement démarrés/redémarrés sur les nœuds. Vous devez mettre en place un système d'alerte via votre système SIEM pour les événements SYSLOG {product-name} ou via DataCenter pour détecter si un conteneur {product-name} n'est pas en cours d'exécution.
+
+== Déploiement sans mode privilégié
+
+En général, vous devrez remplacer le paramètre privilégié par :
+
+[,yaml]
+----
+    cap_add:
+        - SYS_ADMIN
+        - NET_ADMIN
+        - SYS_PTRACE
+        - IPC_LOCK
+    security_opt:
+        - apparmor=unconfined
+        - seccomp=unconfined
+        - label=disable
+----
+
+La syntaxe ci-dessus est pour Docker EE v17.06.0+. Les versions antérieures à celle-ci utilisent le : au lieu du =, par exemple apparmor:unconfined.
+
+== Mises à jour de Docker Native
+
+[CAUTION]
+====
+Utilisez toujours la balise `+:latest+` lors de l'extraction et de l'exécution de l'image scanner pour vous assurer que la dernière base de données CVE est déployée.
+====
+
+[,shell]
+----
+docker stop scanner
+docker rm <scanner id>
+docker pull neuvector/scanner:latest
+<docker run command from below>
+----
+
+[NOTE]
+====
+`+docker rm -f <scanner id>+` peut également être utilisée pour forcer l'arrêt et la suppression de l'analyseur en cours.
+
+Pour docker-compose
+
+[,shell]
+----
+docker-compose -f file.yaml down
+docker-compose -f file.yaml pull        // pre-pull the image before starting the scanner
+docker-compose -f file.yaml up -d
+----
+
+Exemple d'exécution de docker
+
+[,shell]
+----
+docker run -td --name scanner -e CLUSTER_JOIN_ADDR=controller_node_ip -e CLUSTER_ADVERTISED_ADDR=node_ip -e SCANNER_DOCKER_URL=tcp://192.168.1.10:2376 -p 18402:18402 -v /var/run/docker.sock:/var/run/docker.sock:ro neuvector/scanner:latest
+----
+
+Et exemple de docker-compose
+
+[,yaml]
+----
+Scanner:
+   image: neuvector/scanner:latest
+   container_name: scanner
+   environment:
+     - SCANNER_DOCKER_URL=tcp://192.168.1.10:2376
+     - CLUSTER_JOIN_ADDR=controller_node_ip
+     - CLUSTER_ADVERTISED_ADDR=node_ip
+   ports:
+     - 18402:18402
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+----
+====
