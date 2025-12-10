@@ -22,7 +22,6 @@ jobs:
       SRC_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
       DST_DIR: ${{ vars.FINAL_DIR || 'final' }}
       CURRENT_REPO: ${{ vars.CURRENT_REPO_NAME || 'eoinmurphy-vt/phrase-adoc-vt' }}
-      INCOMING_BRANCH: ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}   # NEW VARIABLE
 
     steps:
       - name: Checkout Repository

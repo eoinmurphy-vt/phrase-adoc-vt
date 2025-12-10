@@ -16,8 +16,7 @@ jobs:
       # Configuration via Variables
       FINAL_DIR: ${{ vars.FINAL_DIR || 'final' }}
       EXT_REPO: ${{ vars.EXTERNAL_REPO_URL || 'e-murph/phrase-adoc-client' }}
-      EXT_TARGET_DIR: ${{ vars.EXTERNAL_TARGET_DIR || 'docs' }}
-      INCOMING_BRANCH: ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}  # NEW
+      EXT_TARGET_DIR: ${{ vars.EXTERNAL_TARGET_DIR || 'docs' }} # e.g., 'docs'
 
     steps:
       - name: Checkout Current Repo
