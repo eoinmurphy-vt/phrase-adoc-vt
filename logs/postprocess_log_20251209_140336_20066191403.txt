@@ -1,9 +1,0 @@
-Postprocess started: 2025-12-09 14:03:36.293431
-
-
-Summary:
-  ✅ Processed files: 0
-  ⚠️ Encoding errors fixed: 0
-  ✅ Cleaned files: 0
-
-Completed: 2025-12-09 14:03:36.293711
