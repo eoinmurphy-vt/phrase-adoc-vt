@@ -1,0 +1,10 @@
+Starting preprocess: source/docs/5.4/modules/en/ibmqr__34.adoc
+✓ Decoded source/docs/5.4/modules/en/ibmqr__34.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/ibmqr__34.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 18:28:01.619916
