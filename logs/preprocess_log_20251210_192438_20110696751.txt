@@ -1,0 +1,60 @@
+Starting preprocess: source/docs/5.4/modules/en/splunk__40.adoc
+✓ Decoded source/docs/5.4/modules/en/splunk__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/splunk__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:38.002869
+Starting preprocess: source/docs/5.4/modules/en/testing__40.adoc
+✓ Decoded source/docs/5.4/modules/en/testing__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/testing__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:38.051725
+Starting preprocess: source/docs/5.4/modules/en/troubleshooting__40.adoc
+✓ Decoded source/docs/5.4/modules/en/troubleshooting__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/troubleshooting__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:38.100861
+Starting preprocess: source/docs/5.4/modules/en/updating-cve-database__40.adoc
+✓ Decoded source/docs/5.4/modules/en/updating-cve-database__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating-cve-database__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-10 19:24:38.149735
+Starting preprocess: source/docs/5.4/modules/en/updating__40.adoc
+✓ Decoded source/docs/5.4/modules/en/updating__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:38.200582
+Starting preprocess: source/docs/5.4/modules/en/usingcrd__40.adoc
+✓ Decoded source/docs/5.4/modules/en/usingcrd__40.adoc as utf-8 (0.88)
+Saved processed file → processed/docs/5.4/modules/en/usingcrd__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:38.374099

@@ -1,0 +1,180 @@
+Starting preprocess: source/docs/5.4/modules/en/docker-ee__40.adoc
+✓ Decoded source/docs/5.4/modules/en/docker-ee__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker-ee__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.005959
+Starting preprocess: source/docs/5.4/modules/en/docker__40.adoc
+✓ Decoded source/docs/5.4/modules/en/docker__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-10 19:24:36.057423
+Starting preprocess: source/docs/5.4/modules/en/ecr-iam__40.adoc
+✓ Decoded source/docs/5.4/modules/en/ecr-iam__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecr-iam__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.105064
+Starting preprocess: source/docs/5.4/modules/en/ecs__40.adoc
+✓ Decoded source/docs/5.4/modules/en/ecs__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecs__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.157149
+Starting preprocess: source/docs/5.4/modules/en/filerules__40.adoc
+✓ Decoded source/docs/5.4/modules/en/filerules__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/filerules__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.208288
+Starting preprocess: source/docs/5.4/modules/en/gcr-sa__40.adoc
+✓ Decoded source/docs/5.4/modules/en/gcr-sa__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gcr-sa__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.257975
+Starting preprocess: source/docs/5.4/modules/en/general-guidelines__40.adoc
+✓ Decoded source/docs/5.4/modules/en/general-guidelines__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/general-guidelines__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.305455
+Starting preprocess: source/docs/5.4/modules/en/gitlab__40.adoc
+✓ Decoded source/docs/5.4/modules/en/gitlab__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gitlab__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.355551
+Starting preprocess: source/docs/5.4/modules/en/groups__40.adoc
+✓ Decoded source/docs/5.4/modules/en/groups__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/groups__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.408380
+Starting preprocess: source/docs/5.4/modules/en/ibmqr__40.adoc
+✓ Decoded source/docs/5.4/modules/en/ibmqr__40.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/ibmqr__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.489687
+Starting preprocess: source/docs/5.4/modules/en/improve-score__40.adoc
+✓ Decoded source/docs/5.4/modules/en/improve-score__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/improve-score__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.539088
+Starting preprocess: source/docs/5.4/modules/en/installation__40.adoc
+✓ Decoded source/docs/5.4/modules/en/installation__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/installation__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.587918
+Starting preprocess: source/docs/5.4/modules/en/integration__40.adoc
+✓ Decoded source/docs/5.4/modules/en/integration__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/integration__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.636265
+Starting preprocess: source/docs/5.4/modules/en/internal__40.adoc
+✓ Decoded source/docs/5.4/modules/en/internal__40.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/docs/5.4/modules/en/internal__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.779884
+Starting preprocess: source/docs/5.4/modules/en/jenkins__40.adoc
+✓ Decoded source/docs/5.4/modules/en/jenkins__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/jenkins__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-10 19:24:36.832639
+Starting preprocess: source/docs/5.4/modules/en/kubernetes__40.adoc
+✓ Decoded source/docs/5.4/modules/en/kubernetes__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/kubernetes__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.893439
+Starting preprocess: source/docs/5.4/modules/en/ldap__40.adoc
+✓ Decoded source/docs/5.4/modules/en/ldap__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ldap__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.941711
+Starting preprocess: source/docs/5.4/modules/en/modes__40.adoc
+✓ Decoded source/docs/5.4/modules/en/modes__40.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/modes__40.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-10 19:24:36.990641
