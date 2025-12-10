@@ -24,6 +24,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
+          token: ${{ secrets.REPO2_TRIGGER_PAT }}  # NEW: Use PAT here to enable triggering downstream workflows
 
       - name: Fetch all branches
         run: |
