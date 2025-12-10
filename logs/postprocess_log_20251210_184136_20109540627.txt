@@ -1,0 +1,17 @@
+Postprocess started: 2025-12-10 18:41:36.061363
+
+✓ translated/fr_fr/docs/5.4/modules/en/cve__33.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/cve__33.adoc (from translated/fr_fr/docs/5.4/modules/en/cve__33.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/ibmqr__34.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/ibmqr__34.adoc (from translated/fr_fr/docs/5.4/modules/en/ibmqr__34.adoc)
+✓ translated/de_de/docs/5.4/modules/en/cve__33.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/cve__33.adoc (from translated/de_de/docs/5.4/modules/en/cve__33.adoc)
+✓ translated/de_de/docs/5.4/modules/en/ibmqr__34.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/ibmqr__34.adoc (from translated/de_de/docs/5.4/modules/en/ibmqr__34.adoc)
+
+Summary:
+  ✅ Processed files: 4
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 4
+
+Completed: 2025-12-10 18:41:36.078078
