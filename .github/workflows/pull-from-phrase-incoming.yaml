@@ -6,9 +6,15 @@ on:
     branches:
       - phrase-incoming
 
+permissions:
+  contents: write
+  pull-requests: write
+
 env:
   TRANSLATED_DIR: ${{ vars.TRANSLATED_DIR || 'translated' }}
   PHRASE_INCOMING_BRANCH: ${{ vars.PHRASE_INCOMING_BRANCH || 'phrase-incoming' }}
+  # Define the PR branch name here so we can reference it easily in multiple steps
+  PR_BRANCH: chore/phrase-sync
 
 jobs:
   sync-incoming:
@@ -22,45 +28,49 @@ jobs:
           ref: main
 
       - name: Fetch all branches
-        run: |
-          git fetch --all --prune
-          echo "Available branches:"
-          git branch -a
+        run: git fetch --all --prune
 
-      - name: Prepare translated/ directory
+      - name: Sync translated directory from incoming
         run: |
-          echo "Clearing existing translated folder…"
+          echo "Clearing existing translated folder..."
           rm -rf "$TRANSLATED_DIR"
-          mkdir -p "$TRANSLATED_DIR"
 
-      - name: Copy all language folders from phrase-incoming
-        run: |
-          echo "Copying folders from ${PHRASE_INCOMING_BRANCH}…"
-
-          # Extract files from the incoming branch tree
-          git archive "${PHRASE_INCOMING_BRANCH}" | tar -x
-
-          # Detect language folders: xx_xx/
-          for lang in $(ls -d */ 2>/dev/null | grep -E "^[a-z]{2}_[a-z]{2}/"); do
-            echo "Found language folder: $lang"
-            mkdir -p "$TRANSLATED_DIR/$lang"
-            cp -R "$lang" "$TRANSLATED_DIR/"
-          done
+          echo "Copying $TRANSLATED_DIR from origin/${PHRASE_INCOMING_BRANCH}..."
+          git checkout "origin/${PHRASE_INCOMING_BRANCH}" -- "$TRANSLATED_DIR"
 
           echo "Translated directory content:"
           ls -R "$TRANSLATED_DIR"
 
-      - name: Commit translated files into main
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: sync translations from phrase-incoming"
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          
+          # Branch configuration (uses the env var we defined)
+          branch: ${{ env.PR_BRANCH }}
+          delete-branch: true 
+          
+          title: "Sync: Updated Translations from Phrase"
+          body: |
+            This PR syncs the latest changes from the `${{ env.PHRASE_INCOMING_BRANCH }}` branch.
+            Automated by GitHub Actions.
+          base: main
+
+      - name: Enable Auto-Merge
+        if: steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email actions@github.com
-
-          git add "$TRANSLATED_DIR"
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          git commit -m "Sync translated content from phrase-incoming"
-          git push origin main
+          echo "Merging Pull Request..."
+          
+          # This command tells GitHub to merge the PR immediately.
+          # --merge: Use a merge commit (preserves history). Use --squash if you prefer one clean commit.
+          # --auto: If you have required status checks, this waits for them to pass before merging.
+          # --delete-branch: Deletes the temp branch after merge.
+          
+          gh pr merge ${{ env.PR_BRANCH }} --merge --auto --delete-branch
