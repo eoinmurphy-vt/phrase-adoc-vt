@@ -1,0 +1,345 @@
+= Déploiement de Rancher
+:revdate: 2024-12-03
+:page-revdate: {revdate}
+:page-opendocs-origin: /02.deploying/03.rancher/03.rancher.md
+:page-opendocs-slug: /déploiement/rancher
+
+== Déployer et gérer {product-name} via Rancher Extensions ou Apps & Marketplace
+
+{product-name} peut être déployé facilement soit par le biais de Rancher Extensions pour les clients Prime, soit par le biais de Rancher Apps and Marketplace. Le déploiement par défaut (basé sur Helm) de {product-name} déploiera les conteneurs {product-name} dans l'espace de noms cattle-neuvector-system.
+
+[NOTE]
+====
+Seuls les déploiements de {product-name} via Rancher Extensions ({product-name}) de Rancher version 2.7.0+, ou Apps & Marketplace de Rancher version 2.6.5+ peuvent être gérés directement (single sign on sur la console {product-name} ) via Rancher. Si vous ajoutez des clusters à Rancher avec {product-name} déjà déployé, ou si {product-name} a été déployé directement sur le cluster, ces clusters ne seront pas activés pour l'intégration SSO.
+====
+
+=== {product-name} Extension de l'interface utilisateur pour Rancher
+
+Les clients de Rancher Prime peuvent facilement déployer {product-name} et l'extension {product-name} UI pour Rancher. Cela permettra aux utilisateurs Prime de surveiller et de gérer certaines fonctions et certains événements de {product-name} directement via l'interface utilisateur de Rancher. Pour les utilisateurs de la communauté, veuillez consulter la section Déployer {product-name} ci-dessous pour déployer à partir de Rancher Apps et Marketplace.
+
+. La première étape consiste à activer globalement la fonctionnalité Rancher Extensions si elle ne l'est pas déjà.
++
+--
+image:ui0_extensions.png[extensions]
+
+image:ui1_enable.png[permettre]
+--
+. Installer le {product-name}-UI-Ext de la liste disponible
++
+--
+image:ui2_installext.png[installer]
+--
+. Recharger l'extension une fois l'installation terminée
++
+--
+image:ui3reload.png[recharger]
+--
+. Sur le cluster sélectionné, installez l'application {product-name} à partir de l'onglet {product-name} si l'application {product-name} n'est pas déjà installée. Cela devrait vous amener aux étapes d'installation de l'application. Pour plus de détails sur ce processus d'installation, voir la section Déployer {product-name} ci-dessous.
++
+--
+image:ui5installnv.png[install_nv]
+--
+. Le tableau de bord {product-name} devrait maintenant s'afficher à partir du menu {product-name} pour ce cluster. Ce tableau de bord permet de surveiller l'état de la sécurité de la grappe. Le tableau de bord comporte des éléments interactifs, tels que l'invocation d'un assistant pour améliorer votre score (de risque de sécurité), y compris la possibilité d'activer l'analyse automatique des vulnérabilités si elle n'est pas activée.
++
+--
+image:ui6dashboard.png[tableau de bord]
+
+En outre, les liens en haut à droite du tableau de bord permettent d'accéder à la console complète {product-name} pour une analyse et une configuration plus détaillées.
+--
+. Pour désinstaller l'extension, retournez à la page Extensions.
++
+--
+image:ui7uninstall.png[ininstaller]
+
+[NOTE]
+====
+La désinstallation de l'extension de l'interface utilisateur {product-name} ne désinstalle PAS l'application {product-name} de chaque groupe. Le menu {product-name} fournira à nouveau un lien SSO vers la console {product-name}.
+====
+--
+
+=== Déployer {product-name}
+
+Tout d'abord, trouvez le graphique {product-name} dans les graphiques de Rancher, sélectionnez-le et examinez les instructions et les différentes valeurs de configuration. (Facultatif) Créez un projet à déployer si vous le souhaitez, par exemple {product-name}. Remarque : Si vous voyez plus d'un diagramme {product-name}, ne sélectionnez pas celui qui est destiné à la mise à niveau des déploiements de diagrammes Helm {product-name} 4.x.
+
+image:rancher_chart.png[rancher_chart]
+
+
+
+* 
+*
+* 
+* 
+
+
+
+
+
+ 
+
+
+
+=== 
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+[IMPORTANT]
+====
+
+====
+
+=== 
+
+
+
+
+
+==== 
+
+[NOTE]
+====
+
+====
+
+
+
+`permission.neuvector.com`
+
+
+
+[,shell]
+----
+get    // for read-only(i.e. view)
+*      // for read/write(i.e. modify)
+----
+
+
+
+
+
+[,shell]
+----
+AdmissionControl
+Authentication
+CI Scan
+Cluster
+Federation
+Vulnerability
+----
+
+
+
+[,shell]
+----
+AuditEvents
+Authorization
+Compliance
+Events
+Namespace
+RegistryScan
+RuntimePolicy
+RuntimeScan
+SecurityEvents
+SystemConfig
+----
+
+==== 
+
+[NOTE]
+====
+
+====
+
+
+
+`permission.neuvector.com`
+
+
+
+[,shell]
+----
+get    // for read-only(i.e. view)
+*      // for read/write(i.e. modify)
+----
+
+
+
+
+
+[,shell]
+----
+AuditEvents
+Authorization
+Compliance
+Events
+Namespace
+RegistryScan
+RuntimePolicy
+RuntimeScan
+SecurityEvents
+SystemConfig
+----
+
+=== 
+
+
+
+
+
+=== 
+
+
+
+[NOTE]
+====
+
+====
+
+.
+.
+
+ 
+
+
+
+[,yaml]
+----
+manager:
+   scale: 1
+   image: neuvector/manager
+   restart: always
+   environment:
+     - CTRL_SERVER_IP=controller
+   ports:
+     - 8443:8443
+controller:
+   scale: 3
+   image: neuvector/controller
+   restart: always
+   privileged: true
+   environment:
+     - CLUSTER_JOIN_ADDR=controller
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /proc:/host/proc:ro
+     - /sys/fs/cgroup:/host/cgroup:ro
+     - /var/neuvector:/var/neuvector
+enforcer:
+   image: neuvector/enforcer
+   pid: host
+   restart: always
+   privileged: true
+   environment:
+     - CLUSTER_JOIN_ADDR=controller
+   volumes:
+     - /lib/modules:/lib/modules
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /proc:/host/proc:ro
+     - /sys/fs/cgroup/:/host/cgroup/:ro
+   labels:
+     io.rancher.scheduler.global: true
+----
+
+== 
+
+ 
+
+
+
+
+
+[,yaml]
+----
+manager:
+   scale: 1
+   image: neuvector/manager
+   restart: always
+   environment:
+     - CTRL_SERVER_IP=controller
+   ports:
+     - 8443:8443
+controller:
+   scale: 3
+   image: neuvector/controller
+   pid: host
+   restart: always
+   cap_add:
+     - SYS_ADMIN
+     - NET_ADMIN
+     - SYS_PTRACE
+   security_opt:
+     - apparmor=unconfined
+     - seccomp=unconfined
+     - label=disable
+   environment:
+     - CLUSTER_JOIN_ADDR=controller
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /proc:/host/proc:ro
+     - /sys/fs/cgroup:/host/cgroup:ro
+     - /var/neuvector:/var/neuvector
+enforcer:
+   image: neuvector/enforcer
+   pid: host
+   restart: always
+   cap_add:
+     - SYS_ADMIN
+     - NET_ADMIN
+     - SYS_PTRACE
+     - IPC_LOCK
+   security_opt:
+     - apparmor=unconfined
+     - seccomp=unconfined
+     - label=disable
+   environment:
+     - CLUSTER_JOIN_ADDR=controller
+   volumes:
+     - /lib/modules:/lib/modules
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /proc:/host/proc:ro
+     - /sys/fs/cgroup/:/host/cgroup/:ro
+   labels:
+     io.rancher.scheduler.global: true
+----
+
+== 
+
+
+
+
+
+ 
+
+[,yaml]
+----
+   labels:
+     io.rancher.scheduler.global: true
+     io.rancher.scheduler.affinity:host_label: "nvmanager=true"
+----
+
+
+
+[,yaml]
+----
+   labels:
+     io.rancher.scheduler.global: true
+     io.rancher.scheduler.affinity:host_label: "nvcontroller=true"
+----
+
+
+
+[,yaml]
+----
+  labels:
+     io.rancher.scheduler.global: true
+     io.rancher.scheduler.affinity:host_label_ne: "nvcontroller=true"
+----
