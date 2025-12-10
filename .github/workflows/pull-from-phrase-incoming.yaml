@@ -25,29 +25,16 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Fetch incoming branch
+      - name: Fetch all branches
         run: |
-          git fetch origin "${PHRASE_INCOMING_BRANCH}"
+          git fetch --all --prune
+          echo "Available branches:"
+          git branch -a
 
-      - name: Prepare translated/ directory
+      - name: Overlay translated/ from phrase-incoming
         run: |
-          echo "Clearing existing translated folder…"
-          rm -rf "$TRANSLATED_DIR"
-          mkdir -p "$TRANSLATED_DIR"
-
-      - name: Copy all language folders from phrase-incoming
-        run: |
-          echo "Copying folders from ${PHRASE_INCOMING_BRANCH}…"
-
-          # Extract files from the incoming branch tree
-          git archive "${PHRASE_INCOMING_BRANCH}" | tar -x
-
-          # Detect language folders: xx_xx/
-          for lang in $(ls -d */ 2>/dev/null | grep -E "^[a-z]{2}_[a-z]{2}/"); do
-            echo "Found language folder: $lang"
-            mkdir -p "$TRANSLATED_DIR/$lang"
-            cp -R "$lang" "$TRANSLATED_DIR/"
-          done
+          echo "Overlaying translated/ from origin/${PHRASE_INCOMING_BRANCH}…"
+          git checkout "origin/${PHRASE_INCOMING_BRANCH}" -- "${TRANSLATED_DIR}/"
 
           echo "Translated directory content:"
           ls -R "$TRANSLATED_DIR"
