@@ -52,4 +52,8 @@ jobs:
           fi
 
           git commit -m "Sync translated content from phrase-incoming"
+
+          # NEW: Authenticate push with PAT to allow triggering other workflows
+          git remote set-url origin https://${{ secrets.REPO2_TRIGGER_PAT }}@github.com/${{ github.repository }}.git
+
           git push origin main
