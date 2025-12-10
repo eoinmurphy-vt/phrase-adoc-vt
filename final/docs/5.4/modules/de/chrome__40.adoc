@@ -1,0 +1,75 @@
+= Hochladen von Chrome-Zertifikaten - MacOS
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /03.configuration/01.console/02.chrome/02.chrome.md
+:page-opendocs-slug: /konfiguration/konsole/chrom
+
+== Aktivieren von Chrome-Browsern, um das selbstsignierte Zertifikat {product-name} unter MacOS zu akzeptieren
+
+Unter bestimmten Umständen weigert sich der Chrome-Browser, ein selbstsigniertes Zertifikat von {product-name} zu akzeptieren.  Ein möglicher Grund könnte sein, dass das Zertifikat noch nicht in den macOS-Login-Zertifikatspeicher importiert wurde.  Eine andere Möglichkeit ist, dass ein vorhandenes Zertifikat noch nicht als vertrauenswürdig konfiguriert wurde.  Dadurch wird der Benutzer daran gehindert, sie zu akzeptieren und die Anmeldeseite {product-name} mit Chrome aufzurufen, wie im folgenden Beispiel gezeigt:
+
+image:chrome1.png[chrome]
+
+Es können Korrekturmaßnahmen ergriffen werden, damit Chrome das selbstsignierte Zertifikat akzeptiert, das im macOS-Schlüsselbund-Speicher abgelegt ist.  Dazu muss das Zertifikat von {product-name} über das Mac-Programm Keychain Access als vertrauenswürdig konfiguriert werden.  Dabei wird davon ausgegangen, dass das Zertifikat tatsächlich im macOS-Schlüsselbund-Zugriffsspeicher vorhanden ist.  Wir werden uns zunächst ansehen, wie ein Zertifikat von einem bestehenden {product-name} Knoten aus einem System exportiert und später in ein anderes System importiert werden kann.   Es gibt 2 Möglichkeiten, das Zertifikat zu exportieren, die wir im Folgenden erläutern werden.  Sie verwenden den Chrome-Browser und die Anwendung macOS Keychain Access.
+
+=== Zertifikatsexport mit Chrome
+
+Die folgende Abbildung zeigt, wie Sie mit Chrome auf das Zertifikat {product-name} zugreifen können.
+
+image:chrome2.png[chrome]
+
+Um das Zertifikat zu exportieren, ziehen Sie es per Drag & Drop an einen Ort Ihrer Wahl.
+
+image:chrome3.png[chrome]
+
+=== Zertifikatsexport mit macOS Schlüsselbund-Zugang
+
+Starten Sie das Programm macOS Keychain Access durch gleichzeitige Eingabe der Tasten ⌘ + F auf einer Mac-Tastatur, suchen Sie nach Keychain Access und doppelklicken Sie auf das Programm.
+Dadurch wird die Anwendung Keychain Access gestartet.  Wählen Sie das Zertifikat {product-name} und wählen Sie im Dropdown-Menü die Option Export "`{product-name}`".  Dies ermöglicht den Export des Zertifikats an einen Ort Ihrer Wahl.
+
+image:chrome4.png[chrome]
+
+=== Starten der macOS Schlüsselbund-Zugriffsanwendung
+
+Es gibt zwei Möglichkeiten, das Programm macOS Keychain Access zu starten.  Dies kann über die Suche im macOS erfolgen, die in den oben genannten Schritten beschrieben wurde, oder über den Chrome-Browser.
+
+=== Starten von Keychain-Access aus dem Chrome-Browser
+
+Einstellungen > Erweitert > Zertifikate verwalten
+
+image:chrome5.png[chrome]
+
+Wenn Sie auf die oben gezeigte Schaltfläche "Zertifikate verwalten" klicken, wird die Mac-Anwendung "Schlüsselbundzugriff" wie unten dargestellt gestartet.
+
+image:chrome6.png[chrome]
+
+=== Zertifikatsimport in den macOS Schlüsselbund-Zugangsspeicher
+
+Starten Sie das Programm macOS Keychain Access durch gleichzeitige Eingabe der Tasten ⌘ + F auf einer Mac-Tastatur, suchen Sie nach Keychain Access und klicken Sie auf das Programm.  Importieren Sie dann das Zertifikat, indem Sie ein Zertifikat von {product-name} (Beispiel: nvcertificate.cer) per Drag & Drop in den rechten Bereich "Zertifikat" der Anwendung "Schlüsselbund" ziehen.  Nachdem das Zertifikat importiert wurde, ist es noch nicht vertrauenswürdig.
+Das folgende Beispiel zeigt die Standard-Vertrauenseinstellungen, nachdem ein Zertifikat von {product-name} in die Anwendung Keychain Access importiert wurde.
+
+image:chrome7.png[chrome]
+
+Beachten Sie, dass keiner der Parameter konfiguriert wurde und die Datei standardmäßig nicht vertrauenswürdig ist.  Sie muss als vertrauenswürdig konfiguriert werden, damit der Benutzer über den Chrome-Browser auf die Anmeldeseite zugreifen kann.
+
+=== Aktivieren des Vertrauens für das {product-name} Zertifikat
+
+Die folgenden Schritte beschreiben, wie Sie das Vertrauen für das Zertifikat {product-name} im Schlüsselbund-Zugriffsspeicher aktivieren.
+
+image:chrome8.png[chrome]
+
+Durch einen Doppelklick auf das Zertifikat {product-name} aus dem obigen Screenshot wird ein weiteres Popup-Dialogfeld angezeigt, in dem die Vertrauensberechtigungen für verschiedene Parameter konfiguriert werden können.  Konfigurieren Sie Secure Sockets Layer (SSL) auf "`Always Trust`".
+
+image:chrome9.png[chrome]
+
+Schließen Sie das Dialogfeld und klicken Sie auf "\+Einstellungen aktualisieren+", nachdem Sie das Kennwort des Mac-Anmeldebenutzers im folgenden Popup-Dialogfeld eingegeben haben.
+
+image:chrome10.png[chrome]
+
+Damit sind die Vertrauenskonfigurationen abgeschlossen.  Löschen Sie anschließend den Cache des Chrome-Browsers, schließen Sie alle Chrome-Browser und starten Sie den Chrome-Browser neu.  Rufen Sie dann die Anmeldeseite {product-name} auf. Wenn Sie auf den Link "`Advanced`" klicken, wird der Link Proceed to ... (unsafe) angezeigt.  Wenn der Benutzer auf ... (unsicher) klickt, kann er zur Seite mit dem Benutzernamen und dem Passwort für die Anmeldung übergehen.
+
+image:chrome11.png[chrome]
+
+Die folgende Abbildung zeigt einen Bildschirmausschnitt, der es dem Benutzer ermöglicht, zur Anmeldeseite {product-name} zu gelangen, nachdem er auf den Link Proceed to ... (Unsafe) geklickt hat.
+
+image:chrome12.png[chrome]
