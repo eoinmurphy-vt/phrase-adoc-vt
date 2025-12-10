@@ -1,0 +1,43 @@
+Postprocess started: 2025-12-10 19:39:52.905465
+
+✓ translated/fr_fr/docs/5.4/modules/en/gcr-sa__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/gcr-sa__40.adoc (from translated/fr_fr/docs/5.4/modules/en/gcr-sa__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/docker-ee__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/docker-ee__40.adoc (from translated/fr_fr/docs/5.4/modules/en/docker-ee__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/rancher__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/rancher__40.adoc (from translated/fr_fr/docs/5.4/modules/en/rancher__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/docker-ee__35.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/docker-ee__35.adoc (from translated/fr_fr/docs/5.4/modules/en/docker-ee__35.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/jenkins__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/jenkins__40.adoc (from translated/fr_fr/docs/5.4/modules/en/jenkins__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/cve__33.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/cve__33.adoc (from translated/fr_fr/docs/5.4/modules/en/cve__33.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/customui__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/customui__40.adoc (from translated/fr_fr/docs/5.4/modules/en/customui__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/ibmqr__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/ibmqr__40.adoc (from translated/fr_fr/docs/5.4/modules/en/ibmqr__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/integration__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/integration__40.adoc (from translated/fr_fr/docs/5.4/modules/en/integration__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/ibmqr__34.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/ibmqr__34.adoc (from translated/fr_fr/docs/5.4/modules/en/ibmqr__34.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/troubleshooting__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/troubleshooting__40.adoc (from translated/fr_fr/docs/5.4/modules/en/troubleshooting__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/operators__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/operators__40.adoc (from translated/fr_fr/docs/5.4/modules/en/operators__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/airgap__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/airgap__40.adoc (from translated/fr_fr/docs/5.4/modules/en/airgap__40.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/general-guidelines__40.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/general-guidelines__40.adoc (from translated/fr_fr/docs/5.4/modules/en/general-guidelines__40.adoc)
+✓ translated/de_de/docs/5.4/modules/en/docker-ee__35.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/docker-ee__35.adoc (from translated/de_de/docs/5.4/modules/en/docker-ee__35.adoc)
+✓ translated/de_de/docs/5.4/modules/en/cve__33.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/cve__33.adoc (from translated/de_de/docs/5.4/modules/en/cve__33.adoc)
+✓ translated/de_de/docs/5.4/modules/en/ibmqr__34.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/ibmqr__34.adoc (from translated/de_de/docs/5.4/modules/en/ibmqr__34.adoc)
+
+Summary:
+  ✅ Processed files: 17
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 17
+
+Completed: 2025-12-10 19:39:53.019785
