@@ -1,0 +1,89 @@
+= 5.x Überblick
+:revdate: 2025-01-10
+:page-revdate: {revdate}
+:page-opendocs-origin: /01.basics/01.overview/01.overview.adoc
+:page-opendocs-slug: /Grundlagen/Übersicht
+
+== Die Container-Sicherheitsplattform für den gesamten Lebenszyklus
+
+[NOTE]
+====
+Diese Dokumente beschreiben die Version 5.x (Open Source). Die 5.x-Images sind über Docker Hub mit dem entsprechenden Tag zugänglich, z. B. `+neuvector/controller:(version)+`.
+====
+
+{product-name} bietet eine leistungsstarke End-to-End-Sicherheitsplattform für Container. Dazu gehören End-to-End-Schwachstellen-Scans und ein vollständiger Laufzeitschutz für Container, Pods und Hosts, einschließlich:
+
+. CI/CD Schwachstellenmanagement und Zugangskontrolle. Scannen von Images mit einem Jenkins-Plug-in, Scannen von Registern und Durchsetzung von Regeln zur Zugangskontrolle für die Bereitstellung in der Produktion.
+. Schutz vor Verstößen. Entdeckt Verhalten und erstellt eine auf einer Whitelist basierende Richtlinie, um Verstöße gegen das normale Verhalten zu erkennen.
+. Erkennung von Bedrohungen. Erkennt gängige Anwendungsangriffe wie DDoS- und DNS-Angriffe auf Container.
+. DLP- und WAF-Sensoren. Untersuchen Sie den Netzwerkverkehr zur Verhinderung von Datenverlusten bei sensiblen Daten und erkennen Sie gängige OWASP Top10 WAF-Angriffe.
+. Scannen von Sicherheitslücken zur Laufzeit. Scannt Registrierungen, Images und laufende Container-Orchestrierungsplattformen und Hosts auf allgemeine (CVE) und anwendungsspezifische Schwachstellen.
+. Einhaltung der Vorschriften und Rechnungsprüfung. Führt automatisch Docker Bench Tests und Kubernetes CIS Benchmarks durch.
+. Endpunkt/Host-Sicherheit. Erkennt Privilegienerweiterungen, überwacht Prozesse und Dateiaktivitäten auf Hosts und in Containern und überwacht Container-Dateisysteme auf verdächtige Aktivitäten.
+. Multicluster-Management. Überwachen und verwalten Sie mehrere Kubernetes-Cluster von einer einzigen Konsole aus.
+
+Zu den weiteren Funktionen von {product-name} gehören die Möglichkeit, Container unter Quarantäne zu stellen und Protokolle über SYSLOG und Webhooks zu exportieren, die Erfassung von Paketen zur Untersuchung zu initiieren und die Integration mit OpenShift RBACs, LDAP, Microsoft AD und SSO mit SAML. Anmerkung: Quarantäne bedeutet, dass der gesamte Netzwerkverkehr blockiert wird.  Der Container bleibt bestehen und läuft weiter - nur eben ohne Netzwerkverbindungen.  Kubernetes startet keinen Container, der einen unter Quarantäne gestellten Container ersetzt, da der API-Server den Container weiterhin erreichen kann.
+
+== Sicherheitsbehälter
+
+Die {product-name} Laufzeit-Container-Sicherheitslösung enthält vier Arten von Sicherheits-Containern: *Kontrolleure*, *Durchsetzer*, *Manager* und *Scanner*. Ein spezieller Container namens *Allinone* wird ebenfalls bereitgestellt, um die Controller-, Enforcer- und Manager-Funktionen in einem Container zu vereinen, hauptsächlich für native Docker-Bereitstellungen.
+
+{product-name} kann auf virtuellen Maschinen oder auf Bare-Metal-Systemen mit einem einzigen Betriebssystem eingesetzt werden.
+
+image:1Overview.png[Einsatz]
+
+=== Controller
+
+Der Controller verwaltet den {product-name} Enforcer Container-Cluster. Außerdem bietet es REST-APIs für die Verwaltungskonsole. Obwohl typische Testinstallationen einen Controller haben, werden mehrere Controller in einer Hochverfügbarkeitskonfiguration empfohlen. 3 Controller ist die Standardeinstellung in der Kubernetes Production deployment sample yaml.
+
+=== Vollstrecker
+
+Der Enforcer ist ein leichtgewichtiger Container, der die Sicherheitsrichtlinien durchsetzt. Auf jedem Knoten (Host) sollte ein Enforcer eingesetzt werden, z. B. als Daemon-Set.
+
+[NOTE]
+====
+Bei nativen Docker-Bereitstellungen (nicht Kubernetes) können der Enforcer-Container und der Controller nicht auf demselben Knoten bereitgestellt werden (außer im All-in-One-Fall unten).
+====
+
+
+=== Manager
+
+Der Manager ist ein zustandsloser Container, der den Benutzern eine Web-UI-Konsole (nur HTTPS) für die Verwaltung der Sicherheitslösung {product-name} bietet. Bei Bedarf kann mehr als ein Manager-Container eingesetzt werden.
+
+=== All-in-One
+
+Der All-in-One-Container enthält einen Controller, einen Enforcer und einen Manager in einem Paket. Es ist nützlich für die einfache Installation in Einzelknoten oder kleinen Implementierungen.
+
+=== Scanner
+
+Der Scanner ist ein Container, der die Schwachstellen- und Compliance-Scans für Images, Container und Nodes durchführt. Es wird in der Regel als Replicaset eingesetzt und kann auf beliebig viele parallele Scanner aufgestockt werden, um die Scanleistung zu erhöhen. Die Steuereinheit weist den verfügbaren Scannern nach dem Rotationsprinzip Scanaufträge zu, bis alle Scans abgeschlossen sind. Der Scanner enthält auch die neueste CVE-Datenbank und wird regelmäßig von {product-name} aktualisiert.
+
+=== Aktualisierer
+
+Der Updater ist ein Container, der, wenn er ausgeführt wird, die CVE-Datenbank für {product-name} aktualisiert. {product-name} veröffentlicht regelmäßig neue Scanner-Images, um die neuesten CVEs für Schwachstellen-Scans aufzunehmen. Der Updater stellt alle Scanner-Pods neu bereit, indem er die Bereitstellung auf Null zurücksetzt und wieder hochskaliert, so dass ein aktualisiertes Scanner-Image gezogen werden muss.
+
+== Architektur
+
+Hier finden Sie einen allgemeinen Überblick über die Architektur von {product-name}. Nicht abgebildet ist der separate Scanner-Container, der auch als eigenständiger Pipeline-Scanner betrieben werden kann.
+
+image:architecture.png[Architektur]
+
+== Beispiele für den Einsatz
+
+Informationen zu allgemeinen Bereitstellungsmustern und bewährten Verfahren finden Sie im xref:production.adoc#_best_practices_tips_qa_for_deploying_and_managing_suse_security[Abschnitt Onboarding/Best Practices].
+
+=== All-in-One und Enforcer
+
+Diese Bereitstellung ist ideal für Umgebungen mit nur einem Knoten oder in kleinem Maßstab, z. B. für Evaluierungs- und Testzwecke und kleine Implementierungen. Ein All-in-One-Container wird auf einem Knoten bereitgestellt, der auch ein Knoten mit laufenden Anwendungscontainern sein kann. Ein Enforcer kann auf allen anderen Knoten eingesetzt werden, wobei ein Enforcer auf jedem Knoten erforderlich ist, den Sie mit {product-name} schützen möchten. Dies ist auch für native Docker-Bereitstellungen nützlich, bei denen ein Controller und ein Enforcer nicht auf demselben Host laufen können.
+
+=== Controller-, Manager- und Enforcer-Container
+
+Dies ist ein allgemeinerer Einsatzfall, der aus einem oder mehreren Controllern, einem Manager und einer Reihe von Enforcern besteht. Der Controller und der Manager können auf demselben Knoten oder auf anderen Knoten als der Enforcer bereitgestellt werden.
+
+=== Nur All-in-One
+
+Sie können nur den Allinone-Container für das Scannen der Registry mit dem Jenkins-Plugin bereitstellen oder einfach einen Knoten von {product-name} testen.
+
+=== Nur Controller
+
+Es ist möglich, einen einzelnen Controller-Container und/oder Scanner einzusetzen, um das Scannen von Sicherheitslücken außerhalb eines Clusters zu verwalten, z. B. für die Verwendung mit dem Jenkins-Plug-in. Das Scannen der Registrierung kann auch von der Steuereinheit unter ausschließlicher Verwendung der REST-API durchgeführt werden, aber in der Regel ist auch ein Manager-Container erwünscht, um eine konsolenbasierte Konfiguration und Ergebnisanzeige für das Scannen der Registrierung zu ermöglichen.
