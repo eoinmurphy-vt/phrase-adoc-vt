@@ -1,0 +1,45 @@
+= Sigstore Cosign Signaturprüfgeräte
+:revdate: 2025-05-08
+:page-revdate: {revdate}
+:page-opendocs-origin: /05.policy/03.admission/01.sigstore/01.sigstore.md
+:page-opendocs-slug:  /policy/zulassung/sigstore
+
+== Konfigurieren der Sigstore/Cosign-Prüfer für die Anforderung der Bildsignierung
+
+{product-name} ermöglicht es dem Benutzer, die Logik der Unterschriftsprüfung durch die Integration von Bildsignaturen, die mit dem Sigstore-Tool für Mitsignaturen erzeugt wurden, durchzuführen.
+
+Nachfolgend ein Beispiel für eine Konfiguration der Zugangskontrolle, bei der das Image einer Bereitstellung mit einem geeigneten Schlüssel oder einer Identität signiert sein muss.
+
+Konfigurieren Sie zunächst eine Vertrauensbasis. Dies kann entweder eine öffentliche oder eine private Vertrauensbasis sein, je nachdem, welche Sigstore-Implementierung für die Erzeugung von Signaturen verwendet wird. Wenn Sie Ihre eigenen Instanzen der Sigstore-Dienste bereitgestellt haben, wählen Sie die Option Private Root of Trust.
+
+Eine öffentliche Vertrauenswurzel muss nicht zusätzlich konfiguriert werden, abgesehen davon, dass sie einen leicht referenzierbaren Namen erhält.
+
+image:1configure-public-root-of-trust.png[sigstore]
+
+Eine private Vertrauensbasis erfordert die Schlüssel und/oder Zertifikate von Ihren privat eingesetzten Instanzen der Sigstore-Dienste.
+
+image:2configure-private-root-of-trust.png[sigstore]
+
+Als Nächstes konfigurieren Sie für eine gegebene Vertrauenswurzel jede der Prüfstellen, die Sie bei der Zulassungskontrolle verwenden möchten. Es gibt zwei Arten von Überprüfern: Keypair und Keyless. Ein Schlüsselpaar-Prüfer wird verwendet, wenn ein mit einem benutzerdefinierten privaten Schlüssel signiertes Bild überprüft werden soll. Ein schlüsselloser Prüfer wird verwendet, wenn eine mit dem schlüssellosen Muster von Sigstore erzeugte Signatur geprüft werden soll. Weitere Informationen über die Sigstore-Signiermethoden können in der Dokumentation https://docs.sigstore.dev/cosign/signing/overview/[Sigstore Signing Overview] nachgelesen werden.
+
+Um einen Schlüsselpaar-Prüfer zu konfigurieren, geben Sie einen Namen und einen öffentlichen Schlüssel an, der einem privaten Zielschlüssel entspricht.
+
+image:3add-keypair-verifier-for-public-root-of-trust.png[sigstore]
+
+Um einen schlüssellosen Prüfer zu konfigurieren, geben Sie den OIDC-Aussteller und die beim Signieren verwendete Identität an.
+
+image:4add-keyless-verifier-for-public-root-of-trust.png[sigstore]
+
+Beachten Sie, dass nach der Konfiguration von Root-of-Trust und Verifier ein Bild gescannt werden muss, um festzustellen, welche Verifier die Signaturen des gegebenen Bildes erfüllen.
+
+Die konfigurierten Prüfer, die ein Bild erfüllt, können im oberen rechten Bereich der Scanergebnisse eines bestimmten Bildes in Assets->Register eingesehen werden. Wenn ein Bild nicht von einem Prüfer signiert ist, erscheint es nicht in den Scanergebnissen.
+
+image:6new_show_verifiers.scanresults.png[sigstore]
+
+Um in einer Zulassungskontrollregel auf eine bestimmte Vertrauenswurzel und eine Prüfstelle zu verweisen, verbinden Sie die beiden Namen mit einem Schrägstrich wie folgt: `+my-root-of-trust/my-verifier+`.
+
+image:5new_admission_rule_signature.png[sigstore]
+
+Um zu verlangen, dass ein Bild in einer Zutrittskontrollregel signiert wird, legen Sie den Wert Wahr/Falsch für das Kriterium Bild signiert fest.
+
+image:7image_signed.png[sigstore]
