@@ -1,0 +1,47 @@
+= Intégration de l'entreprise
+:revdate: 2025-01-10
+:page-revdate: {revdate}
+:page-opendocs-origin: /08.integration/01.integration/01.integration.md
+:page-opendocs-slug:  /intégration/intégration
+
+== Intégration
+
+{product-name} offre un certain nombre de moyens d'intégration, notamment une API REST, une CLI, SYSLOG, RBAC, SAML, LDAP et des webhooks. Voir la section Automatisation pour des exemples de scripts utilisant l'API REST.
+
+Les intégrations avec d'autres partenaires de l'écosystème tels que Sonatype (Nexus Lifecycle), IBM Cloud (QRadar et Security Advisor), Prometheus/Grafana, sont également prises en charge. La plupart d'entre elles se trouvent sur la page https://github.com/neuvector[Github] 
+
+Les configurations suivantes peuvent être trouvées dans les Paramètres :
+
+=== OpenShift/Kubernetes RBACs
+
+Sélectionnez cette option si vous utilisez les contrôles d'accès basés sur les rôles (RBAC) de Red Hat OpenShift et que vous souhaitez que {product-name} les lise et les applique automatiquement. Si cette option est sélectionnée, les utilisateurs d'OpenShift peuvent se connecter à la console {product-name} en utilisant leurs identifiants OpenShift, et n'auront accès qu'aux ressources (projets, conteneurs, nœuds, etc.) en fonction de leur rôle dans le cluster OpenShift. L'intégration d'OpenShift utilise le protocole OAuth2.
+
+image:openshift-rbac.png[OpenShift]
+
+[IMPORTANT]
+====
+N'utilisez pas le paramètre AllowAllPasswordIdentityProvider d'OpenShift qui permet d'utiliser n'importe quel mot de passe pour se connecter. Cela permettra à un utilisateur de se connecter à {product-name} avec n'importe quel mot de passe (en tant qu'utilisateur en lecture seule). Il créera également un nouvel utilisateur dans OpenShift pour chaque connexion (voir '`oc get user`' results).
+====
+
+[NOTE]
+====
+L'utilisateur Admin par défaut de {product-name} et tous les utilisateurs supplémentaires créés dans {product-name} seront toujours actifs avec les RBAC OpenShift activés.
+====
+
+==== RBAC de Kubernetes
+
+Pour configurer manuellement les RBAC pour les espaces de noms Kubernetes, ouvrez le paramètre avancé dans l'écran de création d'un nouvel utilisateur dans Settings -> Users -> Add User (Paramètres Utilisateurs Ajouter un utilisateur). Vous pouvez indiquer ici les espaces de noms auxquels cet utilisateur doit avoir accès dans {product-name}.
+
+image:k8s-rbac.png[Kubernetes]
+
+=== SYSLOG
+
+Entrez l'IP du serveur SYSLOG et sélectionnez le niveau de notification. Vous pouvez également utiliser un nom DNS et/ou sélectionner TCP pour la configuration.
+
+=== Crochets Web
+
+Les notifications peuvent être envoyées à un point de terminaison par l'intermédiaire de webhooks. Saisissez l'URL du point de terminaison pour les notifications à envoyer. Les notifications Webhook pour les événements personnalisés peuvent être configurées dans la politique -> Response Rules
+
+=== Intégration annuaire/SSO
+
+Voir les sections suivantes pour les intégrations LDAP, MSAD, SAML, OpenId et autres. Voir la section xref:users.adoc#_users[Basics -> Users & Roles] pour les rôles prédéfinis et personnalisés dans {product-name} qui peuvent être mappés dans l'intégration.
