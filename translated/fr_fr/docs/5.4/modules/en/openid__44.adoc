@@ -1,0 +1,139 @@
+= OpenID Connect Azure/Okta
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /08.integration/07.openid/07.openid.md
+:page-opendocs-slug:  /intégration/openid
+
+== Intégration avec OpenID Connect (OIDC) pour Azure et Okta
+
+Pour activer l'authentification OpenID Connect, les paramètres *Issuer*, *Client ID* et *Client secret* sont nécessaires. Avec l'URL de l'émetteur, {product-name} appellera l'API de découverte pour récupérer les points de terminaison Authenorization, Token et User info.
+
+Localisez l'URI de redirection OpenID Connect en haut de la page {product-name} OpenID Connect Setting. Vous devrez copier cet URI dans les *URI de redirection de connexion* pour Okta et les *URL de réponse* pour Microsoft Azure.
+
+image:openid1.png[OpenID1]
+
+=== Microsoft Azure Configuration
+
+Dans Azure Active Directory > App registrations > Application name > Settings Page, localisez Application ID string. Il est utilisé pour définir l'ID du client dans {product-name}. Le secret du client se trouve dans le paramètre Keys d'Azure.
+
+image:openid3.png[OpenID3]
+
+L'URL de l'émetteur prend le format "https://login.microsoftonline.com/{tenantID}/v2.0". Pour localiser l'identifiant du locataire, allez sur menu:Azure Active DirectoryProperties[Page] et trouvez l'identifiant de l'annuaire, remplacez-le par l'identifiant du locataire dans l'URL.
+
+image:openid4.png[OpenID4]
+
+Si les utilisateurs sont affectés à des groupes dans le répertoire actif, leur appartenance à un groupe peut être ajoutée à la demande. Recherchez l'application dans *Azure Active Directory -> App registrations* et modifiez le manifeste. Modifier la valeur de "groupMembershipClaims" en "Application Group".  Il y a un nombre maximum de groupes qui seront émis dans un jeton.  Si l'utilisateur appartient à un grand nombre de groupes ( > 200) et que la valeur "Tous" est utilisée, le jeton n'inclura pas les groupes et l'autorisation échouera.  L'utilisation de la valeur "Groupe d'application" au lieu de "Tous" réduira le nombre de groupes applicables renvoyés dans le jeton.
+
+Par défaut, {product-name} recherche les "groupes" dans la demande pour identifier l'appartenance de l'utilisateur à un groupe. Si un autre nom est utilisé, vous pouvez le personnaliser dans la page OpenID Connect Setting de {product-name}.
+
+Les demandes de groupe renvoyées par Azure sont identifiées par l'"Object ID" au lieu du nom. L'ID d'objet du groupe peut être trouvé sur menu:Azure Active[DirectoryGroups > name Page.] Vous devez utiliser cette valeur pour configurer le mappage des rôles basé sur les groupes dans {product-name} -> Settings.
+
+image:openid5.png[OpenID5]
+
+==== Vérifier les autorisations
+
+Assurez-vous que les autorisations suivantes ont été définies dans Microsoft Graph
+
+. email - Afficher l'adresse électronique de l'utilisateur
+. openid - Connexion des utilisateurs
+. profil - Afficher le profil de base des utilisateurs
+
+=== Okta Configuration
+
+Connectez-vous à votre compte Okta.
+
+Dans le menu de gauche, cliquez sur "`+Applications -> Applications "+` Dans le volet central, cliquez sur &quot;`+Create App Integration+`&quot;:
+
+image:okta1.png[créer]
+
+Une nouvelle fenêtre s'ouvre pour sélectionner le site &quot;`+Sign-in method+`&quot;:
+
+image:okta2.png[nouvelle application]
+
+Sélectionnez l'option &quot;`+OIDC -- OpenID Connect+`&quot;.
+
+Un volet dérivé apparaît, pour la sélection de &quot;`+Application Type+`&quot;:
+
+image:okta3.png[type d'application]
+
+Sélectionnez l'option &quot;`+Native Application+`&quot;.
+
+Le panneau central affiche maintenant le formulaire d'intégration de l'application native dans lequel vous devez remplir les valeurs suivantes :
+
+Pour la section Paramètres généraux :
+
+App. Nom de l'intégration : Nom de cette intégration. Choisir librement un nom Type de subvention (cocher) :
+
+* Code d'autorisation
+* Jeton de rafraîchissement
+* Mot de passe du propriétaire de la ressource
+* Implicite (hybride)
+
+Pour la section sur les URI de redirection de l'inscription :
+
+Accédez à votre console {product-name} et naviguez jusqu'à &quot;`+Settings+`&quot; -> &quot;`+OpenId Connect Settings+`&quot;.  En haut de la page, à côté de l'étiquette &quot;`+OpenID Connect Redirect URI+`&quot;, cliquez sur &quot;`+Copy to Clipboard+`&quot;.
+
+image:okta4.png[copy]
+
+Cette opération permet de copier l'URI de redirection dans la mémoire.
+Collez-la dans la zone de texte correspondante :
+
+image:okta5.png[pâte]
+
+Pour la section Affectations :
+
+Sélectionnez &quot;`+Allow everyone in your organization to access+`&quot; pour que cette intégration soit disponible pour tous les membres de votre organisation.
+
+image:okta6.png[les missions]
+
+Cliquez ensuite sur le bouton "Enregistrer" au bas de la page.
+
+Une fois vos paramètres généraux sauvegardés, vous serez dirigé vers la configuration de l'intégration de votre nouvelle application et un identifiant client sera généré automatiquement.
+
+Dans la section &quot;`+Client Credentials+`&quot;, cliquez sur edit et modifiez la section &quot;`+Client Authentication+`&quot; de &quot;`+Use PKCE (for public clients)+`&quot; à &quot;`+Use Client Authentication+`&quot;, et cliquez sur save. Cela générera automatiquement un nouveau secret dont nous aurons besoin dans les prochaines étapes de configuration de {product-name}:
+
+image:okta7.png[clientauth]
+
+Naviguez vers l'onglet &quot;`+Sign On+`&quot; et modifiez la section &quot;`+OpenID Connect ID Token+`&quot;:
+Remplacer l'émetteur &quot;`+Dynamic (based on request domain)+`&quot; par l'émetteur fixe &quot;`+Okta URL+`&quot;:
+
+image:okta8.png[jeton]
+
+La console Okta peut fonctionner en deux modes, le mode classique et le mode développeur.
+En mode classique, l'URL de l'émetteur se trouve dans l'onglet Sign On de la page Application Okta. Pour que l'appartenance de l'utilisateur à un groupe soit renvoyée dans la réclamation, vous devez ajouter le champ d'application "groups" dans la page de configuration de {product-name} OpenID Connect :
+
+image:okta9.png[revendications]
+
+En mode développeur, Okta vous permet de personnaliser les réclamations. Cela se fait dans la page API en gérant les serveurs d'autorisation (naviguer dans le menu de gauche -> Security -> API). L'URL de l'émetteur se trouve dans l'onglet Paramètres de chaque serveur d'autorisation :
+
+image:okta10.png[api]
+
+Les demandes sont des paires nom/valeur qui contiennent des informations sur un utilisateur ainsi que des méta-informations sur le service OIDC.
+Dans la section &quot;`+OpenID Connect ID Token+`&quot;, vous pouvez créer de nouvelles réclamations pour les groupes d'utilisateurs et porter la réclamation dans le jeton d'identification (un jeton d'identification est un jeton Web JSON, un moyen compact URL-safe de représenter les réclamations à transférer entre deux parties, de sorte que les informations d'identité sur l'utilisateur sont encodées directement dans le jeton et que le jeton peut être définitivement vérifié pour prouver qu'il n'a pas été falsifié). Si un champ d'application spécifique est configuré, assurez-vous d'ajouter le champ d'application à {product-name} OpenID Connect setting page, de sorte que la réclamation puisse être incluse après l'authentification de l'utilisateur :
+
+image:okta11.png[lunettes de visée]
+
+Par défaut, {product-name} recherche les "groupes" dans la demande pour identifier l'appartenance de l'utilisateur à un groupe. Si un autre nom est utilisé, vous pouvez le personnaliser dans la page OpenID Connect Setting de {product-name}. Pour configurer les réclamations, modifiez la section &quot;`+OpenID Connect ID Token+`&quot; comme indiqué dans l'image suivante :
+
+image:okta12.png[revendications]
+
+Dans la page d'intégration de votre application, naviguez jusqu'à l'onglet &quot;`+Assignments+`&quot; et assurez-vous que les affectations correspondantes sont répertoriées :
+
+image:okta13.png[les missions]
+
+=== {product-name} Configuration d'OpenID Connect
+
+Configurez l'URL de l'émetteur, l'ID du client et le secret du client dans la page.
+
+image:openid9.png[OpenID9]
+
+Après l'authentification de l'utilisateur, le rôle approprié peut être dérivé grâce à la configuration du mappage des rôles basé sur les groupes. Pour configurer le mappage des rôles basé sur les groupes,
+
+. Si le mappage des rôles basé sur les groupes n'est pas configuré ou si les groupes correspondants ne peuvent pas être localisés, l'utilisateur authentifié se verra attribuer le rôle par défaut. Si le rôle par défaut est défini sur Aucun, lorsque le mappage des rôles basé sur les groupes échoue, l'utilisateur n'est pas en mesure de se connecter.
+. Spécifier une liste de groupes respectivement dans la carte des rôles Admin et Reader. L'appartenance de l'utilisateur à un groupe est renvoyée par les revendications dans le jeton d'identification après l'authentification de l'utilisateur. Si le groupe correspondant est trouvé, le rôle correspondant sera attribué à l'utilisateur.
+
+Le groupe peut être associé au rôle Admin dans {product-name}. Les utilisateurs individuels peuvent être "promus" à un rôle d'administrateur fédéré en se connectant en tant qu'administrateur de cluster local, en sélectionnant l'utilisateur avec le fournisseur d'identification "OpenID" et en modifiant son rôle dans Settings -> Users/Roles.
+
+=== Mappage des groupes aux rôles et aux espaces de noms
+
+Veuillez consulter la section xref:users.adoc#_mapping_groups_to_roles_and_namespaces[Utilisateurs et rôles] pour savoir comment associer des groupes à des rôles prédéfinis et personnalisés ainsi qu'à des espaces de noms dans {product-name}.
