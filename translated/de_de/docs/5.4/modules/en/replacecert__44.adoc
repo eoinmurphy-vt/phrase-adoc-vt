@@ -1,0 +1,143 @@
+= Ersetzen des selbstsignierten Zertifikats
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /03.configuration/01.console/01.replacecert/01.replacecert.md
+:page-opendocs-slug: /konfiguration/konsole/replacecert
+
+== Ersetzen des selbstsignierten Zertifikats durch PKCS-Zertifikat für externen Zugriff
+
+Das integrierte selbstsignierte Zertifikat, das für den externen Zugriff von einem Browser auf den Manager oder für die REST-API auf den Controller verwendet wird, kann durch ein unterstütztes PKCS-Zertifikat ersetzt werden. Diese sollten sowohl in der Manager- als auch in der Controller-Installation ersetzt werden. Anmerkung: Um die mitgelieferten Zertifikate für die interne Kommunikation zwischen Controller, Enforcer und Scanner zu ersetzen, lesen Sie bitte xref:internal.adoc[diesen Abschnitt].
+
+Die Webkonsole {product-name} unterstützt 2 verschiedene selbstsignierte Zertifikatstypen, nämlich PKCS8 (Private-Key Information Syntax Standard) und PKCS1 (RSA Cryptography Standard).  Das selbstsignierte Zertifikat kann durch einen dieser beiden PKCS-Typen ersetzt werden.
+
+Die Schritte zur Erzeugung des Geheimnisses, das von der Web-Konsole von {product-name} aus dem Schlüssel und dem Zertifikat unter Verwendung einer der PKCS-Methoden konsumiert wird, werden im Folgenden erläutert.  Wichtig ist hier, dass durch die Verwendung des Platzhalters für den DNS als Teil des Parameters alternate-subject-name während der Schlüssel- und Zertifikatserstellung der Name Ihrer Wahl auf die IP-Adresse der Verwaltungskonsole abgebildet werden kann, ohne dass eine Beschränkung auf einen bestimmten CN besteht.
+
+=== Erzeugen und Verwenden von selbstsignierten Zertifikaten PKCS8 oder PCKS1
+
+. Einen Schlüssel und ein Zertifikat erstellen
++
+--
+[tabs]
+======
+PKCS8::
++
+====
+[,shell]
+----
+openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout tls.key -out tls.pem -config ca.cfg -extensions 'v3_req'
+Sample ca.cfg
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = US
+ST = California
+L = San Jose
+O = {product-name} Inc.
+OU = Neuvector
+CN = Neuvector
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = *
+----
+====
+
+PKCS1::
++
+====
+[,shell]
+----
+openssl genrsa -out tls.key 2048
+openssl req -x509 -nodes -days 730 -config openssl.cnf  -new -key tls.key -out tls.pem
+Sample openssl.cnf
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = US
+ST = California
+L = San Jose
+O = {product-name} Inc.
+OU = Neuvector
+CN = Neuvector(PKCS#1)
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = *
+----
+====
+======
+--
+. Erstellen Sie das Geheimnis aus den oben generierten Schlüssel- und Zertifikatsdateien
++
+--
+[,shell]
+----
+kubectl create secret generic https-cert -n neuvector --from-file=tls.key --from-file=tls.pem
+----
+--
+. Bearbeiten Sie die yaml-Datei direkt für die Manager- und Controller-Bereitstellungen, um die Mounts hinzuzufügen
++
+--
+[,yaml]
+----
+spec:
+  template:
+    spec:
+      containers:
+        volumeMounts:
+        - mountPath: /etc/neuvector/certs/ssl-cert.key
+          name: cert
+          readOnly: true
+          subPath: tls.key
+        - mountPath: /etc/neuvector/certs/ssl-cert.pem
+          name: cert
+          readOnly: true
+          subPath: tls.pem
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: https-cert
+----
+
+Oder aktualisieren Sie mit der Steuerkarte mit ähnlichen Werten.yaml
+
+[,yaml]
+----
+manager:
+  certificate:
+    secret: https-cert
+    keyFile: tls.key
+    pemFile: tls.pem
+  ingress:
+    enabled: true
+    host:  %CHANGE_HOST_NAME%
+    ingressClassName: ""
+    path: "/"  # or this could be "/api", but might need "rewrite-target" annotation
+    annotations:
+      ingress.kubernetes.io/protocol: https
+    tls: true
+    secretName: https-cert
+controller:
+  certificate:
+    secret: https-cert
+    keyFile: tls.key
+    pemFile: tls.pem
+----
+
+Dann aktualisieren Sie mit `+helm upgrade -i neuvector ...+`. Als Referenz sind hier alle Werte aufgeführt https://github.com/neuvector/neuvector-helm/tree/master/charts/core.
+--
+
+=== Unterstützung verketteter Zertifikate
+
+Um End-to-End-TLS zu unterstützen, unterstützen einige Ingresses/Application Gateways nur Backend-Server, denen vertraut werden kann. {product-name} hat in Version 3.2.2 Unterstützung für verkettete Zertifikate hinzugefügt.  Das Application Gateway von Microsoft ist ein Beispiel für ein Application Gateway, das ein verkettetes Zertifikat erfordert, wenn eine nicht bekannte Zertifizierungsstelle verwendet wird.
+
+Um ein verkettetes Zertifikat hinzuzufügen, sollte die Beispieldatei tls.pem eine Verkettung der Zertifikate sein.
