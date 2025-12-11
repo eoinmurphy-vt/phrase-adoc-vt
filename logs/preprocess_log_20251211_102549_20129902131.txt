@@ -1,0 +1,200 @@
+Starting preprocess: source/docs/5.4/modules/en/chrome__42.adoc
+✓ Decoded source/docs/5.4/modules/en/chrome__42.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/chrome__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.071751
+Starting preprocess: source/docs/5.4/modules/en/cli__42.adoc
+✓ Decoded source/docs/5.4/modules/en/cli__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/cli__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 10:25:49.122347
+Starting preprocess: source/docs/5.4/modules/en/configmap__42.adoc
+✓ Decoded source/docs/5.4/modules/en/configmap__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/configmap__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 10:25:49.169490
+Starting preprocess: source/docs/5.4/modules/en/customui__42.adoc
+✓ Decoded source/docs/5.4/modules/en/customui__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/customui__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.228181
+Starting preprocess: source/docs/5.4/modules/en/cve__42.adoc
+✓ Decoded source/docs/5.4/modules/en/cve__42.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/en/cve__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 10:25:49.273938
+Starting preprocess: source/docs/5.4/modules/en/details__42.adoc
+✓ Decoded source/docs/5.4/modules/en/details__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/details__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.316953
+Starting preprocess: source/docs/5.4/modules/en/docker-ee__42.adoc
+✓ Decoded source/docs/5.4/modules/en/docker-ee__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker-ee__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.361324
+Starting preprocess: source/docs/5.4/modules/en/docker__42.adoc
+✓ Decoded source/docs/5.4/modules/en/docker__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 10:25:49.407488
+Starting preprocess: source/docs/5.4/modules/en/ecr-iam__42.adoc
+✓ Decoded source/docs/5.4/modules/en/ecr-iam__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecr-iam__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.449856
+Starting preprocess: source/docs/5.4/modules/en/ecs__42.adoc
+✓ Decoded source/docs/5.4/modules/en/ecs__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecs__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.496766
+Starting preprocess: source/docs/5.4/modules/en/filerules__42.adoc
+✓ Decoded source/docs/5.4/modules/en/filerules__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/filerules__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.540057
+Starting preprocess: source/docs/5.4/modules/en/gcr-sa__42.adoc
+✓ Decoded source/docs/5.4/modules/en/gcr-sa__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gcr-sa__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.583840
+Starting preprocess: source/docs/5.4/modules/en/general-guidelines__42.adoc
+✓ Decoded source/docs/5.4/modules/en/general-guidelines__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/general-guidelines__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.625790
+Starting preprocess: source/docs/5.4/modules/en/gitlab__42.adoc
+✓ Decoded source/docs/5.4/modules/en/gitlab__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gitlab__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.668058
+Starting preprocess: source/docs/5.4/modules/en/groups__42.adoc
+✓ Decoded source/docs/5.4/modules/en/groups__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/groups__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.714529
+Starting preprocess: source/docs/5.4/modules/en/ibmqr__42.adoc
+✓ Decoded source/docs/5.4/modules/en/ibmqr__42.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/ibmqr__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.786368
+Starting preprocess: source/docs/5.4/modules/en/improve-score__42.adoc
+✓ Decoded source/docs/5.4/modules/en/improve-score__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/improve-score__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.830560
+Starting preprocess: source/docs/5.4/modules/en/installation__42.adoc
+✓ Decoded source/docs/5.4/modules/en/installation__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/installation__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.873113
+Starting preprocess: source/docs/5.4/modules/en/integration__42.adoc
+✓ Decoded source/docs/5.4/modules/en/integration__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/integration__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:49.914777
+Starting preprocess: source/docs/5.4/modules/en/internal__42.adoc
+✓ Decoded source/docs/5.4/modules/en/internal__42.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/docs/5.4/modules/en/internal__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:50.037616

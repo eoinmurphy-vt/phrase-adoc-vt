@@ -1,0 +1,90 @@
+Starting preprocess: source/docs/5.4/modules/en/rest-api__42.adoc
+✓ Decoded source/docs/5.4/modules/en/rest-api__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rest-api__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.012226
+Starting preprocess: source/docs/5.4/modules/en/scanners__42.adoc
+✓ Decoded source/docs/5.4/modules/en/scanners__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/scanners__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.055569
+Starting preprocess: source/docs/5.4/modules/en/sigstore__42.adoc
+✓ Decoded source/docs/5.4/modules/en/sigstore__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/sigstore__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.097202
+Starting preprocess: source/docs/5.4/modules/en/splunk__42.adoc
+✓ Decoded source/docs/5.4/modules/en/splunk__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/splunk__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.137883
+Starting preprocess: source/docs/5.4/modules/en/testing__42.adoc
+✓ Decoded source/docs/5.4/modules/en/testing__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/testing__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.182214
+Starting preprocess: source/docs/5.4/modules/en/troubleshooting__42.adoc
+✓ Decoded source/docs/5.4/modules/en/troubleshooting__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/troubleshooting__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.227563
+Starting preprocess: source/docs/5.4/modules/en/updating-cve-database__42.adoc
+✓ Decoded source/docs/5.4/modules/en/updating-cve-database__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating-cve-database__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 10:25:51.271426
+Starting preprocess: source/docs/5.4/modules/en/updating__42.adoc
+✓ Decoded source/docs/5.4/modules/en/updating__42.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.316686
+Starting preprocess: source/docs/5.4/modules/en/usingcrd__42.adoc
+✓ Decoded source/docs/5.4/modules/en/usingcrd__42.adoc as utf-8 (0.88)
+Saved processed file → processed/docs/5.4/modules/en/usingcrd__42.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 10:25:51.470534
