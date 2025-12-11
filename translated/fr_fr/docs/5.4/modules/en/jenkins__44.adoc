@@ -1,0 +1,252 @@
+= Jenkins Détails
+:revdate: 2025-05-05
+:page-revdate: {revdate}
+:page-opendocs-origin: /06.scanning/03.build/01.jenkins/01.jenkins.md
+:page-opendocs-slug:  /scanning/build/jenkins
+
+== Configuration détaillée du plugin Jenkins
+
+Les conteneurs constituent un moyen simple et efficace de déployer des applications. Mais les images des conteneurs peuvent contenir du code source ouvert sur lequel vous n'avez pas un contrôle total. De nombreuses vulnérabilités ont été signalées dans des projets open source et vous pouvez décider d'utiliser ou non ces bibliothèques présentant des vulnérabilités après avoir analysé les images et examiné les informations relatives à ces vulnérabilités.
+
+Le plugin Jenkins {product-name} Vulnerability Scanner peut analyser les images après leur construction dans Jenkins. La source du plug-in et la documentation la plus récente peuvent être trouvées https://github.com/jenkinsci/neuvector-vulnerability-scanner-plugin[ici] sur la page {product-name} GitHub.
+
+Le plug-in prend en charge deux modes de numérisation. Le premier est le mode "Contrôleur et scanner". Le second est le mode scanner autonome. Vous pouvez sélectionner le mode de numérisation dans la page de configuration du projet. Par défaut, il utilise le mode "Contrôleur et scanner".
+
+Pour le mode "Contrôleur et scanner", vous devez déployer le contrôleur et le scanner {product-name} dans le réseau. Pour numériser l'image locale (l'image sur la machine Jenkins), le "contrôleur et scanner" doit être installé sur le même nœud que celui où l'image existe.
+
+Pour le mode scanner autonome, le run-time Docker doit être installé sur le même hôte que Jenkins. Ajoutez également l'utilisateur jenkins au groupe docker.
+
+[,bash]
+----
+sudo usermod -aG docker jenkins
+----
+
+=== Installation du plugin Jenkins
+
+Tout d'abord, allez sur Jenkins dans votre navigateur et recherchez le plug-in {product-name}. On peut trouver cette information dans :
+
+-> Gérer Jenkins -> Gérer les plugins -> Disponible -> filtre -> recherche `+{product-name} Vulnerability Scanner+` ->
+
+Sélectionnez-le et cliquez sur `+install without restart.+`
+
+Déployez le contrôleur {product-name} et le conteneur Scanner si vous ne l'avez pas encore fait sur un hôte accessible par le serveur Jenkins. Il peut se trouver sur le même serveur que Jenkins si vous le souhaitez. Notez l'adresse IP de l'hôte sur lequel le contrôleur fonctionne. Remarque : Le port par défaut de l'API REST est 10443. Ce port doit être exposé par l'intermédiaire de l'Allinone ou du contrôleur via un service dans Kubernetes ou une carte de port (par exemple - 10443:10443) dans le fichier d'exécution ou de composition de Docker.
+
+En outre, assurez-vous qu'il existe un conteneur de scanner {product-name} déployé de manière autonome et configuré pour se connecter au contrôleur (si le contrôleur est utilisé).
+
+Il existe deux scénarios pour l'analyse d'images : l'analyse locale et l'analyse du registre.
+
+. *Numérisation de l'image locale*. Si vous utilisez le plugin pour scanner des images locales (avant de les pousser dans les registres), vous pouvez scanner sur le même hôte que le contrôleur/scanner ou configurer le scanner pour accéder au moteur docker sur un hôte distant.
+. *Numérisation de l'image du registre*. Si vous utilisez le plugin pour analyser les images de registre (après les avoir poussées dans les registres, mais dans le cadre du processus de construction de Jenkins), le scanner {product-name} peut être installé sur n'importe quel nœud du réseau disposant d'une connectivité entre le registre, le scanner {product-name} et Jenkins.
+
+=== Configuration globale dans Jenkins
+
+Après avoir installé le plugin, trouvez la section &apos;`+{product-name} Vulnerability Scanner+`&apos; dans la page de configuration globale (Jenkins &apos;`+Configure System+`&apos;). Saisissez les valeurs de l'IP, du port, du nom d'utilisateur et du mot de passe du contrôleur {product-name}. Vous pouvez cliquer sur le bouton &apos;`+Test Connection+`&apos; pour valider les valeurs. Il affichera &apos;`+Connection Success+`&apos; ou un message d'erreur.
+
+La valeur "timeout minutes" mettra fin à l'étape de construction dans le délai indiqué. La valeur par défaut de 0 signifie qu'il n'y a pas de délai d'attente.
+
+Cliquez sur le site &apos;`+Add Registry+`&apos; pour saisir les valeurs du registre que vous utiliserez dans votre projet. Si vous ne numérisez que des images locales, il n'est pas nécessaire d'ajouter un registre ici.
+
+Scénario 1 : exemple de configuration globale pour la numérisation d'images locales
+
+image:jenkins1a.png[global-image]
+
+Scénario 2 : exemple de configuration globale pour l'analyse des images de registre
+
+Pour la configuration du registre global, suivez les instructions ci-dessus pour le registre local, puis ajoutez les détails du registre comme indiqué ci-dessous.
+
+image:registry_console.png[registre mondial]
+
+==== Scanner autonome
+
+L'exécution de l'analyse Jenkins en mode autonome est un moyen léger d'analyser les vulnérabilités des images dans le pipeline. Le scanner est invoqué dynamiquement et aucune installation de contrôleur n'est nécessaire. Cette fonction est particulièrement utile lors de la numérisation d'une image avant qu'elle ne soit transférée dans un registre. Il n'y a pas non plus de limite au nombre de tâches d'analyse pouvant être exécutées en même temps.
+
+Afin d'exécuter l'analyse de vulnérabilité en mode autonome, le plugin Jenkins doit tirer l'image du scanner vers l'hôte où l'agent s'exécute, vous devez donc saisir l'URL du registre du scanner {product-name}, le référentiel d'images et l'identifiant si nécessaire, dans la page de configuration du plugin {product-name}.
+
+Le résultat du balayage peut également être soumis au contrôleur et utilisé dans la fonction de contrôle d'admission. Dans ce cas, vous devez configurer un contrôleur et spécifier comment vous connecter au contrôleur dans la page de configuration du plugin {product-name}.
+
+=== Configuration locale pour l'analyse d'un hôte Docker distant
+
+==== Conditions préalables à l'analyse locale sur un hôte Docker distant
+
+Pour permettre à {product-name} de numériser une image qui ne se trouve pas sur le même hôte que le contrôleur/allinone :
+
+* Assurez-vous que le socket de l'api d'exécution de docker est exposé via TCP
+* Ajoutez la variable d'environnement suivante au contrôleur/allinone : SCANNER_DOCKER_URL=tcp://192.168.1.10:2376
+
+=== Configuration du projet
+
+Dans votre projet, choisissez le plugin "{product-name} Vulnerability Scanner " dans le menu déroulant de l'étape " Add build step ". Cochez la case "Numériser avec un scanner autonome" si vous souhaitez effectuer la numérisation en mode autonome. Par défaut, il utilise le mode "Contrôleur et scanner" pour effectuer l'analyse.
+
+Choisissez Local ou un nom de registre qui est le surnom que vous avez saisi dans la configuration globale. Entrez le référentiel et le nom de l'étiquette d'image à numériser. Vous pouvez choisir les variables d'environnement par défaut de Jenkins pour le référentiel ou le tag, par exemple $JOB_NAME, $BUILD_TAG, $BUILD_NUMBER. Saisissez les valeurs pour le nombre de vulnérabilités élevées ou moyennes, et pour tout nom de vulnérabilités présentes pour faire échouer la construction.
+
+Une fois la construction terminée, un rapport {product-name} sera généré. Il affichera les détails de l'analyse et les erreurs éventuelles.
+
+Scénario 1 : exemple de configuration locale
+
+image:jenkins_local.png[local-image]
+
+Scénario 2 : exemple de configuration du registre
+
+image:jenkins_registry.png[registre local]
+
+=== Pipeline Jenkins
+
+Pour le projet de pipeline Jenkins, vous pouvez écrire directement votre propre script de pipeline ou cliquer sur &apos;`+pipeline syntax+`&apos; pour générer le script si vous êtes novice en matière de tâches de type pipeline.
+
+image:jenkins5a.png[pipeline]
+
+Sélectionnez le scanner de vulnérabilité {product-name} dans la liste déroulante, configurez-le et générez le script.
+
+image:jenkins6a.png[scénario]
+
+Copiez le script dans votre script de tâche Jenkins.
+
+Scénario 1 : Exemple de script de pipeline local simple (à insérer dans votre script de pipeline) :
+
+[,shell]
+----
+...
+  stage('Scan local image') \{
+    neuvector registrySelection: 'Local', repository: 'your_username/your_image'
+  \}
+...
+----
+
+Scénario 2 : Exemple de script de pipeline de registre simple (à insérer dans votre script de pipeline) :
+
+[,shell]
+----
+...
+  stage('Scan local image') \{
+    neuvector registrySelection: 'your_registry', repository: 'your_username/your_image'
+  \}
+...
+----
+
+=== Étapes supplémentaires
+
+Ajoutez vos propres étapes avant et après la numérisation de l'image, par exemple dans l'exemple d'affichage de l'étape Pipeline ci-dessous.
+
+image:jenkins7a.png[étapes]
+
+Vous êtes maintenant prêt à démarrer vos constructions Jenkins et à déclencher le scanner de vulnérabilité {product-name} pour signaler toute vulnérabilité !
+
+=== Mise en place d'un pipeline pour créer des analyses parallèles à grande échelle
+
+Disponible à partir de NeuVector v5.4.3, le plugin Jenkins de NeuVector Vulnerability Scanner v2.5 supporte l'analyse parallèle jusqu'à 2000 analyses simultanées lors de l'utilisation du mode clé API. Pour les versions antérieures de NeuVector, le nombre maximum de balayages simultanés est limité à 32 avec l'utilisation du mode Token. Cliquez pour développer et voir les exemples ci-dessous pour des exemples de configurations de pipeline.
+
+.Utilisation du mode à jeton Exemple de configuration (plugin v2.4 et inférieur, ou v2.5 et supérieur) 
+[%collapsible]
+====
+[,groovy]
+----
+pipeline {
+    agent any
+    environment {
+        REPO_NAME = 'your repo'
+        REGISTRY_SELECTION = 'your registry'
+        CONTROLLER = 'your controller'
+        MAX_CONCURRENT_SCANS = 32
+    }
+    stages {
+        stage('Parallel Vulnerability Scanning') {
+            steps {
+                script {
+                    // There is a limit of 250 tags per list (by Jenkins) 
+                    TAGS_LIST_PART1 = ["your tags"...]
+                    TAGS_LIST_PART2 = ["your tags"...]
+                    TAGS_LIST_PART3 = ["your tags"...]
+                    TAGS_LIST_PART4 = ["your tags"...]
+                    TAGS_LIST_PART5 = ["your tags"...]...
+                    def allTags = TAGS_LIST_PART1 + TAGS_LIST_PART2 + TAGS_LIST_PART3 + TAGS_LIST_PART4 + TAGS_LIST_PART5
+                    def batches = allTags.collate(MAX_CONCURRENT_SCANS.toInteger()) // Ensure MAX_CONCURRENT_SCANS is an integer
+                    def batchCounter = 1                    for (batch in batches) {
+                        stage("Batch ${batchCounter}") {
+                            def scans = [:]
+                            batch.each { tag ->
+                                def currentTag = tag
+                                scans["Scan ${currentTag}"] = {
+                                    stage("Scan ${currentTag}") {
+                                        neuvector(
+                                            controllerEndpointUrlSelection: CONTROLLER,
+                                            registrySelection: REGISTRY_SELECTION,
+                                            repository: REPO_NAME,
+                                            scanTimeout: 20,
+                                            tag: "${currentTag}"
+                                        )
+                                        echo "Scan for tag ${currentTag} complete"
+                                    }
+                                }
+                            }
+                            parallel scans
+                        }
+                        batchCounter++
+                    }
+                }
+            }
+        }
+    }
+}
+----
+====
+
+.Utilisation du mode clé API (plugin v2.5 et ultérieur)
+[%collapsible]
+====
+[,groovy]
+----
+pipeline {
+    agent any
+    environment {
+        REPO_NAME = 'your repo'
+        REGISTRY_SELECTION = 'your registry'
+        CONTROLLER = 'your controller'
+    }
+    stages {
+        stage('Parallel Vulnerability Scanning') {
+            steps {
+                script {
+                    // There is a limit of 250 tags per list (by Jenkins) 
+                    TAGS_LIST_PART1 = ["your tags"...]
+                    TAGS_LIST_PART2 = ["your tags"...]
+                    TAGS_LIST_PART3 = ["your tags"...]
+                    TAGS_LIST_PART4 = ["your tags"...]
+                    TAGS_LIST_PART5 = ["your tags"...]...
+                    def allTags = TAGS_LIST_PART1 + TAGS_LIST_PART2 + TAGS_LIST_PART3 + TAGS_LIST_PART4 + TAGS_LIST_PART5
+                    def scans = [:]
+
+                    allTags.each { tag ->
+                        def currentTag = tag
+                        scans["Scan ${currentTag}"] = {
+                            stage("Scan ${currentTag}") {
+                                neuvector(
+                                    controllerEndpointUrlSelection: CONTROLLER,
+                                    registrySelection: REGISTRY_SELECTION,
+                                    repository: REPO_NAME,
+                                    scanTimeout: 20,
+                                    tag: "${currentTag}"
+                                )
+                                echo "Scan for tag ${currentTag} complete"
+                            }
+                        }
+                    }
+                    parallel scans
+                }
+            }
+        }
+    }
+}
+----
+====
+
+== Exemple de route et de token de registre OpenShift
+
+Pour configurer le plug-in en utilisant une route OpenShift pour l'entrée dans le contrôleur, ajoutez la route dans le champ IP du contrôleur.
+
+image:rhos_jenkins_route.png[openshift]
+
+Pour utiliser l'authentification par jeton au registre OpenShift, utilisez NONAME comme utilisateur et entrez le jeton dans le mot de passe.
+
+== Cas d'utilisation particulier pour Jenkins dans le même cluster Kubernetes
+
+Pour effectuer une analyse en phase de construction lorsque le logiciel Jenkins s'exécute dans le même cluster Kubernetes que l'analyseur, assurez-vous que l'analyseur et Jenkins sont configurés pour s'exécuter sur le même nœud. Le nœud doit être étiqueté de manière à ce que les conteneurs Jenkins et scanner s'exécutent sur le même nœud, car le scanner a besoin d'accéder au docker.sock du nœud local pour accéder à l'image.
