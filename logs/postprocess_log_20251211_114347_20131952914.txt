@@ -1,0 +1,29 @@
+Postprocess started: 2025-12-11 11:43:47.214478
+
+✓ translated/fr_fr/docs/5.4/modules/en/cli__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/cli__44.adoc (from translated/fr_fr/docs/5.4/modules/en/cli__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/modes__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/modes__44.adoc (from translated/fr_fr/docs/5.4/modules/en/modes__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/usingcrd__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/usingcrd__44.adoc (from translated/fr_fr/docs/5.4/modules/en/usingcrd__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/airgap__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/airgap__44.adoc (from translated/fr_fr/docs/5.4/modules/en/airgap__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/publick8s__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/publick8s__44.adoc (from translated/fr_fr/docs/5.4/modules/en/publick8s__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/jenkins__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/jenkins__44.adoc (from translated/fr_fr/docs/5.4/modules/en/jenkins__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/cve__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/cve__44.adoc (from translated/fr_fr/docs/5.4/modules/en/cve__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/overview__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/overview__44.adoc (from translated/fr_fr/docs/5.4/modules/en/overview__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/docker-ee__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/docker-ee__44.adoc (from translated/fr_fr/docs/5.4/modules/en/docker-ee__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/msazure__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/msazure__44.adoc (from translated/fr_fr/docs/5.4/modules/en/msazure__44.adoc)
+
+Summary:
+  ✅ Processed files: 10
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 10
+
+Completed: 2025-12-11 11:43:47.294251
