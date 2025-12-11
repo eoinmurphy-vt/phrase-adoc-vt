@@ -54,7 +54,23 @@ jobs:
 
           git commit -m "Sync translated content from phrase-incoming"
 
-          # NEW: Authenticate push with PAT to allow triggering other workflows
-          git remote set-url origin https://${{ secrets.REPO2_TRIGGER_PAT }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://\( {{ secrets.REPO2_TRIGGER_PAT }}@github.com/ \){{ github.repository }}.git
 
-          git push origin main
+          MAX_ATTEMPTS=10
+          ATTEMPT=1
+          while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+            git fetch origin main
+            if git rebase origin/main; then
+              if git push origin main --force-with-lease; then
+                echo "Successfully pushed on attempt $ATTEMPT"
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+            echo "Retry $ATTEMPT failed, waiting..."
+            sleep $((ATTEMPT * 5))
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          echo "Failed after $MAX_ATTEMPTS attempts"
+          exit 1
