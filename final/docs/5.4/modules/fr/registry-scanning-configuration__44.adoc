@@ -1,0 +1,596 @@
+= Configuration de l'analyse du registre
+:revdate: 2025-06-25
+:page-revdate: {revdate}
+:page-opendocs-origin: /06.scanning/02.registry/02.registry.md
+:page-opendocs-slug:  /scanning/registre
+
+L'analyse du registre nécessite que le conteneur {product-name} Allinone ou Controller soit déployé sur un hôte/nœud. Veuillez consulter la section xref:installation.adoc[Installation/Déploiement] pour savoir comment déployer les conteneurs {product-name}. Configurez l'analyse du registre à partir de la console {product-name} après vous être connecté au gestionnaire.
+
+En outre, assurez-vous qu'un conteneur de scanner {product-name} est déployé et configuré pour se connecter à l'Allinone ou au contrôleur. Dans les versions 4.0 et ultérieures, le conteneur neuvector/scanner doit être déployé séparément de l'allinone ou du contrôleur.
+
+[NOTE]
+====
+La numérisation de l'image du registre est effectuée par le scanner et l'image est extraite et développée dans la mémoire. Si des images de taille supérieure à 500 Mo sont prévues, il faut envisager d'augmenter la mémoire du scanner à 1,5 Go ou plus afin d'assurer la capacité et l'autonomie du scanner.
+====
+
+Pour améliorer les performances et l'évolutivité de l'analyse du registre, plusieurs pods d'analyse peuvent être déployés sur différents nœuds afin de répartir les tâches d'analyse sur plusieurs scanners. Voir la section xref:scanners.adoc[Scanners parallèles multiples] pour plus de détails.
+
+Pour les environnements multi-clusters (fédérés), le cluster primaire (maître) peut analyser un registre/répo désigné comme registre fédéré. Les résultats de l'analyse de ces registres seront synchronisés avec tous les clusters gérés (à distance). Cela permet d'afficher les résultats de l'analyse dans la console du cluster géré et de les utiliser dans les règles de contrôle d'admission du cluster géré. Les registres ne doivent être analysés qu'une seule fois au lieu de l'être par chaque grappe, ce qui réduit l'utilisation de l'unité centrale, de la mémoire et de la bande passante du réseau. Voir la section sur xref:multicluster.adoc[les grappes multiples] pour plus de détails.
+
+== Configurer l'analyse du registre
+
+Pour configurer les registres et les référentiels à analyser, allez dans le menu Assets -> Registries dans la console {product-name}. Ajouter ou modifier les registres à analyser. Utilisez le filtre pour définir des référentiels ou des sous-ensembles d'images à numériser. Si votre registre nécessite un accès par l'intermédiaire d'un proxy, celui-ci peut être configuré dans Settings -> Configuration.
+
+image:registry-scan.png[Registre]
+
+Le registre sera analysé selon un calendrier configurable. Par défaut, seules les images nouvelles ou mises à jour seront analysées. Si vous souhaitez réanalyser toutes les images applicables à chaque mise à jour de la base de données CVE, sélectionnez le bouton Réanalyser après la mise à jour de la base de données CVE lors de la configuration du registre. Vous pouvez également sélectionner l'option Analyse par couches pour afficher les vulnérabilités de chaque couche de l'image (remarque : les analyses par couches peuvent prendre plus de temps et consommer plus de ressources).
+
+Une fois l'analyse terminée, les résultats s'affichent en dessous. Cliquez sur le dépôt/étiquette pour voir les vulnérabilités et cliquez sur la vulnérabilité pour obtenir plus d'informations. Vous pouvez également télécharger le rapport dans un fichier CSV ou voir les résultats dans les journaux d'événements.
+
+image:image_scan_4.png[Couche]
+
+NeuVector propose une option **"Voir toutes les images numérisées".**  Les utilisateurs n'ont pas besoin de consulter un registre pour voir une image spécifique. Au lieu de cela, les utilisateurs peuvent cliquer sur la dernière ligne pour afficher la liste de toutes les images numérisées.
+
+image:view-all-scanned-images.png[Registre]
+
+Les utilisateurs peuvent également accéder à la page des **registres** et ouvrir des images spécifiques à partir du lien hypertexte de la page des **conteneurs**. Si le nom de l'image n'est pas cliquable, cela signifie que l'image n'a pas encore été numérisée.
+
+image:link-to-image-scan-result.png[Conteneur]
+
+Les résultats de l'analyse comprennent les vulnérabilités par couche d'image, si cette option a été sélectionnée lors de la configuration du registre/référentiel, ainsi que les résultats des contrôles de conformité. Cliquez sur l'onglet conformité lorsque vous visualisez les résultats de l'analyse de l'image pour voir les contrôles de conformité.
+
+L'analyse permet également de découvrir et de répertorier tous les modules (c'est-à-dire un inventaire) de l'image, comme indiqué ci-dessous. Il résumera également le risque de vulnérabilité par module et dressera la liste de toutes les vulnérabilités pour chaque module.
+
+image:Image_Modules.png[Modules]
+
+L'analyse est prise en charge pour les images sur les registres docker publics et privés basés sur Native Docker, Amazon ECR, Redhat/Openshift, jFrog, Microsoft ACR, Sonatype Nexus, Harbor, Google cloud et d'autres registres.  Le rapport d'analyse de l'image comprend l'état de vulnérabilité des différents paquets et binaires de l'image. Le bref résumé du rapport d'analyse peut être envoyé par webhook à l'aide de la configuration de la règle de réponse dans Politique -> Règles de réponse, ou par Syslog en configurant un serveur syslog dans Paramètres -> Configuration. Les résultats peuvent également être consultés dans les journaux d'événements.
+
+Au moins un filtre de dépôt est requis (il ne peut pas être laissé vide).
+
+=== Exemples de filtres de référentiel
+
+image:1-filter-examples.png[filtres]
+
+[NOTE]
+====
+. Pour analyser toutes les balises d'une image, ajoutez un filtre comme &#42; ou &#42;:&#42;. Cela fonctionne sur tous les types de registres sauf le registre public de Docker.
+. Le dépôt doit être le nom complet si l'organisation est nulle pour le registre public de Docker ou ajouter la bibliothèque avant le dépôt comme indiqué ci-dessus.
+. Créer un dépôt virtuel et y ajouter tous les dépôts locaux pour scanner toutes les balises sur un registre JFrog avec la méthode d'accès docker du sous-domaine.
+. Les expressions régulières peuvent être utilisées dans un filtre. Par exemple alpine:3.[8|9].* analysera toutes les images et tags 3.8.x et 3.9.x sur docker hub.
+====
+
+=== Options d'analyse du registre
+
+* Couches de numérisation :
+** Fournit le résultat de l'analyse de vulnérabilité pour chaque couche d'image séparément.
+** Fournit des informations sur les commandes exécutées, les paquets ajoutés dans la couche
+** Images taille de chaque couche
+* Auto Scan :
+** La numérisation automatique n'est prise en charge qu'avec l'intégration d'OpenShift imagestream. Il convient de configurer à l'avance la liaison des rôles.
+** Lorsque la fonction de balayage automatique est activée, le balayage de l'image est programmé dès qu'une image est transférée dans le registre.
+* Scan périodique :
+** Activer le balayage périodique pour effectuer un balayage périodique
+** L'intervalle de balayage peut être réglé entre 5 minutes et tous les 7 jours.
+** Étant donné que de nombreuses vérifications du contrôle d'admission reposent sur le résultat du balayage des images, l'activation du balayage périodique permet de s'assurer que le contrôle d'admission dispose des informations les plus récentes sur les images.
+** Notez que {product-name} numérise les images d'un registre qui sont nouvelles ou modifiées par rapport à la numérisation précédente.
+* Rescan après la mise à jour de la base de données CVE
+** Activez cette option pour réanalyser toutes les images après la mise à jour de la base de données des vulnérabilités.
+
+=== Configuration du serveur proxy pour le registre
+
+Allez dans Paramètres -> Configuration pour configurer les paramètres du proxy pour l'analyse du registre.
+
+=== Registre Docker natif (également Quay et Harbor)
+
+==== Ajouter un registre Docker natif
+
+* Choisissez le registre Docker comme type
+* Donner un nom unique au registre
+* Tapez l'URL du registre avec le port
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel peut contenir des caractères génériques avec la chaîne de départ
+** Exemple neuvector/all&#42;:2&#42;
+
+Ajout d'un registre docker privé avec nom d'utilisateur/mot de passe, activation des couches de scan, activation du scan périodique toutes les 30 minutes et * comme filtre pour scanner toutes les balises de tous les dépôts.
+
+image:2-dockerprivate.png[docker]
+
+Ajout d'un registre docker public pour l'analyse sans nom d'utilisateur/mot de passe et 2 dépôts avec wildcard, couches d'analyse activées et analyse périodique activée.
+
+image:3-dockerpublic.png[docker3]
+
+Ajout d'un registre docker public pour l'analyse avec nom d'utilisateur/mot de passe, dépôt de caractères génériques, couches d'analyse activées et analyse périodique activée.
+
+image:4-dockerpub-wild.png[docker4]
+
+[NOTE]
+.Registre des quais
+====
+* Saisissez l'URL de premier niveau de votre registre Quay ; ne saisissez aucun répertoire dans le chemin.
+* Vous devrez générer un mot de passe crypté dans votre serveur/compte Quay, et utiliser ces informations d'identification ici.  Ensuite, passer le(s) filtre(s) comme décrit ci-dessus.
+
+image:https://user-images.githubusercontent.com/13239496/218163999-9b281bd9-d049-49f6-85cd-395d7c20c481.png[4 1-quay]
+====
+
+==== Commencer à analyser le registre Docker
+
+* Sélectionner le registre à analyser
+* Cliquez sur le bouton Démarrer pour lancer l'analyse
+* Attendre que l'état passe de l'analyse à l'inactivité
+** La durée de la numérisation varie en fonction de la taille du référentiel.
+
+image:5-scandocker.png[scandocker]
+
+==== Visualiser le résultat de l'analyse
+
+* Cliquez sur une image dans le volet des images pour afficher le résultat de la numérisation de l'image.
+* Accédez au résultat de l'analyse pour connaître l'état de vulnérabilité de l'image.
+* Cliquez sur le bouton de téléchargement pour télécharger le résultat du balayage de l'image si nécessaire.
+* Déplacer la souris entre les détails et les images de CVE pour revenir au résumé
+
+Affichage des images numérisées pour le registre sélectionné
+
+image:6-imagescan.png[scanné]
+
+Exemple montrant le résultat de l'analyse d'une image, qui montre les vulnérabilités de chaque couche, la taille de la couche et les commandes exécutées sur chaque couche. En outre, un onglet Conformité affiche les résultats des tests de conformité pour l'image.
+
+image:image_scan_4.png[en couches]
+
+=== Registre Amazon ECR
+
+Réf :  https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html
+
+==== Ajouter le registre Amazon ECR
+
+* Choisissez le registre Amazon comme type
+* Donner un nom unique au registre
+* L'URL du registre est automatiquement trouvée avec d'autres informations
+* Fournir les informations ci-dessous pour le registre. Consultez le lien amazon ci-dessus pour obtenir les informations suivantes
+** Identifiant du registre
+** Région
+** Clé d'accès
+** Clé d'accès secrète
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel peut contenir des caractères génériques avec la chaîne de départ
+** Exemple neuvector/all&#42;:2&#42;
+** L'organisation peut être vide si une telle image est disponible dans le registre.
+** &#42; pour scanner toutes les étiquettes d'images
+
+image:9-aws.png[aws]
+
+=== Registre Redhat
+
+Réf :  https://access.redhat.com/containers
+
+==== Ajouter le registre Red Hat
+
+* Choisir le registre Redhat comme type
+* Donner un nom unique au registre
+* Tapez l'URL du registre https://registry.connect.redhat.com/
+* Indiquer le nom d'utilisateur et le mot de passe du compte utilisé pour gérer le registre.
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel peut contenir des caractères génériques avec la chaîne de départ
+** Exemple neuvector/all&#42;:2&#42;
+** &#42; pour scanner toutes les étiquettes d'images
+
+image:10-redhat.png[redhat]
+
+=== Registre Openshift
+
+==== Ajouter le registre OpenShift avec le nom d'utilisateur et le mot de passe
+
+* Choisissez le registre OpenShift comme type
+* Donner un nom unique au registre
+* Saisir l'URL du registre (obtenue à partir de la sortie de la commande "oc get is" dans le réseau OpenShift si elle est différente de l'URL par défaut).
+** URL du registre par défaut `https://docker-registry.default.svc:5000/`
+* Indiquer le nom d'utilisateur et le mot de passe du compte utilisé pour gérer le registre.
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Exemple openshift/htt&#42;:&#42;
+** &#42; pour scanner toutes les étiquettes d'images
+* Activer le scan automatique pour démarrer le scan dès que l'image est mise à jour sur le flux d'images d'OpenShift.
+
+image:1a_openshift.png[openshift]
+
+==== Ajouter le registre OpenShift avec le jeton
+
+* Choisissez le registre OpenShift comme type
+* Donner un nom unique au registre
+* Saisir l'URL du registre (obtenue à partir de la sortie de la commande "oc get is" dans le réseau OpenShift si elle est différente de l'URL par défaut).
+** URL du registre par défaut `https://docker-registry.default.svc:5000/`
+* Fournir le jeton du compte de service qui a accès à tous les espaces de noms
+** Consultez la note ci-dessous pour créer un compte de service et obtenir un jeton.
+** Créer un compte de service
+*** Projet d'oc par défaut
+*** oc create sa nvqa
+*** oc get sa
+** Attribuer le rôle d'administrateur de cluster au compte de service pour qu'il puisse lire tout le registre.
+*** oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:default:nvqa
+** Obtenir un jeton pour le compte de service
+*** oc sa get-token nvqa
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Exemple openshift/htt&#42;:&#42;
+** &#42; pour scanner toutes les étiquettes d'images
+* Activer le scan automatique pour démarrer le scan dès que l'image est mise à jour sur le flux d'images d'OpenShift.
+
+image:1a_openshift_token.png[openshift]
+
+==== Problèmes de stabilité dans le registre Openshift 3.7
+
+Dans OpenShift 3.7, les appels API pour extraire des métadonnées d'image de conteneur ou pour télécharger une image peuvent échouer de manière aléatoire. Il peut également échouer sur des images aléatoires dans différents cycles de numérisation. Dans ce cas, il se peut que les listes d'images soient incomplètes ou que les numérisations échouent sur certaines images. Si cela se produit, le référentiel peut être réanalysé.
+
+=== JFrog Artifactory
+
+Ajout du registre Artifactory de JFrog (méthode d'accès Docker -- Repository Path) Page de gestion de JFrog admin->HTTP Setting showing docker access method - Repository Path
+
+image:12-jfrog.png[jfrog]
+
+==== Ajouter le registre JFrog Artifactory (méthode d'accès Docker -- Repository Path)
+
+* Choisissez JFrog Artifactory comme type
+* Donner un nom unique au registre
+** Saisissez l'URL du registre avec le port, par exemple `http://10.1.7.122:8081/`
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel ou l'étiquette peuvent avoir des caractères génériques à la fin, tels que abc/&#42;, abc/n&#42;
+** Pour analyser toutes les étiquettes d'un dépôt, par exemple alpine, utilisez alpine :&#42;
+** Le joker doit être précédé du nom complet, du chemin d'accès ou de la chaîne de départ.
+** &#42; pour scanner toutes les étiquettes
+
+==== Ajout du registre JFrog Artifactory (méthode d'accès Docker -- subdomain)
+
+JFrog management page admin->HTTP Setting showing docker access method -- Sub Domain
+
+image:14-artifact.png[artefact]
+
+Ajouter le registre JFrog Artifactory (méthode d'accès Docker -- sous-domaine)
+
+* Choisissez JFrog Artifactory comme type
+* Donner un nom unique au registre
+* Saisissez l'URL du registre avec le port, par exemple `http://10.1.7.122:8081/`
+* Choisissez le sous-domaine comme méthode d'accès à JFrog Docker
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Ajouter le référentiel comme filtre dans le format suivant
+** Sous-domaine/référentiel:tag
+** Le référentiel ou l'étiquette peuvent avoir des caractères génériques à la fin, tels que abc/&#42;, abc/n&#42;
+** Pour analyser toutes les étiquettes d'un dépôt, par exemple alpine, utilisez alpine :&#42;
+** Le joker doit être précédé du nom complet, du chemin d'accès ou de la chaîne de départ.
+** &#42; pour l'analyse de toutes les balises de tous les sous-domaines
+
+[NOTE]
+====
+Créer un dépôt virtuel et y ajouter tous les dépôts locaux et distants. Spécifiez ce référentiel virtuel dans la section filtre pour analyser toutes les balises du référentiel local et du référentiel distant.
+====
+
+Ajout d'un registre JFrog basé sur le sous-domaine pour scanner les images du sous-domaine docker-local
+
+image:jfrog_sub_local.png[local]
+
+Ajout d'un registre JFrog basé sur les sous-domaines pour analyser toutes les balises de tous les sous-domaines
+
+image:jfrog_all_subs.png[tous]
+
+==== Ajouter le registre JFrog Artifactory (méthode d'accès Docker -- port)
+
+Page de gestion JFrog admin->HTTP Setting showing docker access method - Port
+
+image:jfrogport1.png[jfrogport]
+
+Page de gestion de JFrog admin->Local Repository->docker-local repository-> Advanced - showing repository URL and registry port 8181
+
+image:jfrogport2.png[jfrogport]
+
+Page de gestion de JFrog admin->Local Repository->guo repository-> Advanced - montrant l'URL du référentiel et le port de registre 8182
+
+image:jfrogport3.png[jfrogport]
+
+* Choisissez JFrog Artifactory comme type
+* Donner un nom unique au registre
+* Saisissez l'URL du registre avec le port, par exemple `http://10.1.7.122:8181/`
+** Chaque nom de registre a un port unique
+* Choisissez le port comme méthode d'accès à JFrog Docker
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel ou l'étiquette peuvent avoir des caractères génériques à la fin, tels que abc/_, abc/n_
+** Pour analyser toutes les balises d'un dépôt, par exemple alpine, utilisez alpine:*.
+** Le joker doit être précédé du nom complet, du chemin d'accès ou de la chaîne de départ.
+** &#42; pour l'analyse de toutes les étiquettes
+
+Ajout du registre JFrog pour la méthode d'accès au port pour le registre docker-local avec le port 8181
+
+image:jfrog104.png[jfrogport]
+
+Ajout du registre JFrog pour la méthode d'accès au port pour le registre avec le port 8182
+
+image:jfrog105.png[jfrogport]
+
+Ajout du registre JFrog pour la méthode d'accès au port pour le registre virtuel avec le port 8188, auquel tous les registres locaux ont été ajoutés.
+
+image:jfrog106.png[jfrogport]
+
+Afficher le résultat du balayage pour docker-local registry
+
+image:jfrogport6.png[jfrogport]
+
+==== Ajouter le registre SaaS JFrog Artifactory (méthode d'accès Docker -- Port)
+
+Choisissez JFrog Artifactory comme type
+
+* Donner un nom unique au registre
+* Saisissez l'URL du registre, par exemple https://jfrogtraining-docker-nv-virtual.jfrog.io
+* Choisissez le port comme méthode d'accès à JFrog Docker
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** &#42; pour analyser toutes les étiquettes de tous les dépôts
+
+image:jfrog_saas.png[jfrogsaas]
+
+==== Commencer l'analyse d'un registre JFrog Artifactory
+
+* Sélectionner le registre à analyser
+* Cliquez sur le bouton Démarrer pour lancer l'analyse
+* Attendre que l'état passe de balayage à inactif
+** La durée de la numérisation varie en fonction de la taille du référentiel.
+
+=== Registre des conteneurs de Google
+
+Réf :
+https://cloud.google.com/container-registry/docs/advanced-authentication
+https://cloud.google.com/container-registry/docs/advanced-authentication#json_key_file
+
+==== Activer l'API Cloud Resource Manager pour le projet
+
+Google Cloud Platform->Choose Project->API and Services->Enable APIS and Services->Search "`Cloud Resource Manager API`"->Enable APIhttps://console.cloud.google.com/apis/library?project=nvtest-219600&q=Cloud%20Resource%20Manager%20API (changez le nom du projet)
+
+image:17-gcp.png[gcp]
+
+==== Création d'une clé pour le compte du service de conteneur
+
+Google Cloud Platform->IAM->Service Account->account with container registry->CreateKey(action)
+
+image:18-gcpiam.png[gcpiam]
+
+==== Copier le fichier json sur la machine du client
+
+==== Ajouter Google Container Registry à partir de l'interface graphique {product-name} 
+
+* Choisir le registre Google comme type
+* Donner un nom unique au registre
+* Tapez l'URL du registre. Exemple https://gcr.io/ (cela peut être us.gcr.io, eu.gcr.io, etc.)
+* Coller tout le contenu du fichier json capturé dans la clé JSON.
+* Ajouter le référentiel comme filtre dans le format suivant
+** Identifiant du projet/référentiel:tag
+** Exemple nvtestid-1/neuvector&#42;:&#42;
+** &#42; pour scanner toutes les étiquettes d'images
+
+image:19-gcpscan.png[gcpscan]
+
+==== Lancer l'analyse d'un registre de conteneurs Google
+
+* Sélectionner le registre à analyser
+* Cliquez sur le bouton Démarrer pour lancer l'analyse
+* Attendre que l'état passe de balayage à inactif
+** La durée de la numérisation varie en fonction de la taille du référentiel.
+
+=== Registre de conteneurs Azure
+
+Réf :
+https://azure.microsoft.com/en-us/services/container-registry/
+
+==== Obtenir le nom d'utilisateur et le mot de passe du conteneur Azure comme indiqué ci-dessous
+
+Registre des conteneurs Azure -> user-> access keys->password
+
+Affichage du nom d'utilisateur et du mot de passe du portail azure pour l'accès au registre des conteneurs
+
+image:20-azure.png[azure]
+
+==== Ajouter Azure Container Registry à partir de l'interface graphique {product-name} 
+
+* Choisissez le registre Azure comme type
+* Donner un nom unique au registre
+* Tapez l'URL du registre. Exemple de `https://neuvector.azure.io` (à obtenir sur le portail azur)
+** Registre des conteneurs->user->Overview->Login Server
+* Ajouter un nom d'utilisateur et un mot de passe
+** Registre des conteneurs Azure -> user-> access keys->password
+* Ajouter le référentiel comme filtre dans le format suivant
+** référentiel:tag
+** exemple alpin :&#42;
+** &#42; pour scanner toutes les étiquettes d'images
+
+Afficher le serveur de connexion du portail azure pour le registre des conteneurs Azure
+
+image:21-azurereg.png[azure]
+
+Ajout d'un registre de conteneurs Azure pour l'analyse de toutes les balises
+
+image:22-azureadd.png[azureadd]
+
+==== Lancer l'analyse d'un registre de conteneurs Azure
+
+* Sélectionner le registre à analyser
+* Cliquez sur le bouton Démarrer pour lancer l'analyse
+* Attendre que l'état passe de balayage à inactif
+** La durée de la numérisation varie en fonction de la taille du référentiel.
+
+=== Registre Docker Sonatype Nexus
+
+Réf :
+https://help.sonatype.com/repomanager3/private-registry-for-docker
+https://hub.docker.com/r/sonatype/nexus3/
+
+==== Ajouter le registre Docker de Sonatype Nexus
+
+* Choisissez Sonatype Nexus comme type
+* Donner un nom unique au registre
+* Tapez l'URL du registre avec le port
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel peut contenir des caractères génériques avec la chaîne de départ
+** Exemple neuvector/all&#42;:2&#42;
+** &#42; pour scanner toutes les étiquettes d'images
+
+Ajout du registre Sonatype Nexus docker avec nom d'utilisateur/mot de passe et dépôt &#42;:&#42; pour l'analyse
+
+image:23-sonatype.png[sonatype]
+
+==== Lancer l'analyse du registre Docker de Sonatype Nexus
+
+* Sélectionner le registre à analyser
+* Cliquez sur le bouton Démarrer pour lancer l'analyse
+* Attendre que l'état passe de l'analyse à l'inactivité
+** La durée de la numérisation varie en fonction de la taille du référentiel.
+
+=== Registre des conteneurs Gitlab
+
+==== Exemples de configurations de l'environnement GitLab
+
+[,bash]
+----
+sudo docker run --detach \
+  --hostname gitlab \
+  --env GITLAB_OMNIBUS_CONFIG="external_url 'http://10.1.7.73:9096'; gitlab_rails['lfs_enabled'] = true;" \
+  --publish 10.1.7.73:9095:9095 --publish 10.1.7.73:9096:9096 --publish 10.1.7.73:6222:22 \
+  --name gitlab \
+  --restart always \
+  --volume /srv/gitlab/config:/etc/gitlab \
+  --volume /srv/gitlab/logs:/var/log/gitlab \
+  --volume /srv/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest
+External_URL:  http://10.1.7.73:9096
+Registry_URL: https://10.1.7.73:9095
+----
+
+==== Obtenir le jeton privé Gitlab comme indiqué ci-dessous
+
+* Naviguez vers la page des paramètres à partir de l'icône située dans le coin supérieur droit de la page de connexion de GitLab, comme illustré ci-dessous :
+
+image:gitlabsettings.png[gitlab]
+
+* Accédez à la page Access_Tokens comme indiqué ci-dessous à partir de la page User_Settings :
+
+image:gitlabusersettings.png[gitlab]
+
+* Remplissez tous les champs applicables et cliquez sur "`Create personal access token`" lorsque vous êtes prêt à générer le jeton d'accès :
+
+image:gitlabpersonaltoken_new.png[gitlab]
+
+* Le jeton d'accès ne sera plus disponible une fois que l'utilisateur aura quitté la page du jeton généré.  Il est donc fortement recommandé de faire une copie du jeton d'accès avant de naviguer ou de fermer la page suivante :
+
+image:gitlabaccesstoken.png[gitlab]
+
+==== Obtention d'URL externes et d'URL de registre
+
+URL externe :   L'URL externe est l'URL du serveur API. +
+Registry-URL :  Il peut être obtenu à partir de la page Container Registry de la webconsole GitLab.  Une façon d'accéder à cette page est de naviguer depuis la webconsole de GitLab à partir de Projects > Your Projects > Administrator / ... > Left-Pane (Container Registry) > Mouse-over (root/.../)
+
+Voici un exemple de capture d'écran de la page qui révèle à la fois l'URL externe et l'URL du registre :
+
+image:gitlabexternalurl.png[gitlab]
+
+==== Ajouter le registre Gitlab à partir de la console {product-name} 
+
+* Choisir Gitlab comme type de registre
+* Donner un nom unique au registre
+* Tapez l'URL du registre avec le port
+* Fournir un nom d'utilisateur et un mot de passe si le registre l'exige
+* Fournir l'URL externe de Gitlab et le jeton privé obtenu dans la dernière section.
+
+image:gitlabregistryscan.png[gitlab]
+
+[NOTE]
+====
+L'URL du registre est utilisée pour extraire des images dans la plateforme d'analyse {product-name} de GitLab afin d'analyser le registre.  L'URL externe sert à récupérer une liste d'images, de registres et de métadonnées utilisés par la fonction d'analyse de registre.
+====
+
+=== IBM Cloud Container Registry
+
+Réf :  https://www.ibm.com/cloud/container-registry
+
+==== Ajouter le registre IBM Container
+
+* Choisissez IBM Cloud Container Registry comme type
+* Donner un nom unique au registre
+* Tapez l'URL du registre https://us.icr.io/
+* Indiquez iamapikey comme nom d'utilisateur et l'apikey ci-dessous comme mot de passe.
+** Créer un apikey à partir de l'interface de programmation
+*** ibmcloud iam api-key-create atibmKey
+** Créer un apikey à partir de l'interface graphique
+*** IBM Cloud->Manage-Access(IAM)-IBM Cloud API Keys
+* Fournir un compte IBM Cloud
+** Obtenir un compte IBM Cloud à partir de l'interface CLI
+*** Ibmcloud cr info
+* Ajouter le référentiel comme filtre dans le format suivant
+** Organisation/référentiel:tag
+** Le référentiel peut contenir des caractères génériques avec la chaîne de départ
+** Exemple neuvector/all__:2__
+** {blank}
+*** pour scanner toutes les étiquettes d'images
+* Activer d'autres paramètres si nécessaire
+
+image:ibm-1.png[ibm]
+
+[NOTE]
+====
+Le nom d'utilisateur pour l'authentification du registre doit être "iamapikey".
+====
+
+=== Registre du port
+
+Utilisez les mêmes instructions que pour le registre Native Docker, en choisissant **Harbor Registry** comme registre.
+
+image::https://github.com/user-attachments/assets/9d382fde-7be4-423d-8401-c1034a9e4c2f[Port]
+
+Le champ du filtre ne peut pas être laissé vide. Saisissez un filtre de référentiel, ou ajoutez le filtre comme * pour analyser tous les référentiels.
+
+=== Registre des conteneurs GitHub
+
+Disponible à partir de la version 5.4.3 de NeuVector, la numérisation d'images est désormais prise en charge à partir de https://ghcr.io[Container Registry (GHCR)] GitHub, ce qui permet aux utilisateurs d'inclure des images stockées sur GitHub dans leurs flux de travail en matière de sécurité et de conformité.
+
+==== Ajouter le registre de conteneurs GitHub
+
+Pour configurer le GHCR dans NeuVector, allez dans **Add Registry** et sélectionnez **GitHub Container Registry** dans le menu déroulant du type de registre.
+
+|===
+| Champ d'application | Description
+
+| **Nom**
+| Un nom pour identifier cette configuration du registre.
+
+| **Registre**
+| L'URL du registre du GHCR. Exemple : `https://ghcr.io/`.
+
+| **Nom de l'utilisateur**
+| Votre nom d'utilisateur GitHub.
+
+| **Token**
+| Un GitHub https://github.com/settings/tokens[jeton d'accès personnel] avec l'autorisation de `read:packages` (et `repo` si vous accédez à des images privées).
+
+| **Filtre**
+| Spécifiez l'espace de noms à analyser (par exemple, `github_user/hello-world:*` ou `repo/package_name:version`).
+|===
+
+==== Autorisations pour les jetons
+
+Pour accéder à la GHCR, vous devez générer un jeton GitHub avec les champs d'application suivants :
+
+* `read:packages` (obligatoire)
+* `repo` (en cas d'accès à des dépôts privés)
+
+Vous pouvez créer un jeton https://github.com/settings/tokens[ici.]
+
+==== Dépannage
+
+Si vous rencontrez des problèmes tels que `403 Forbidden` ou `invalid credentials`, veuillez vous assurer :
+
+* Votre jeton a la bonne portée.
+* L'URL du registre est correctement formatée (par exemple, `\https://ghcr.io/`).
