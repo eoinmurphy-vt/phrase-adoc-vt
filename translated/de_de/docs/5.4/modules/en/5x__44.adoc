@@ -1,0 +1,1328 @@
+= 5.x Versionshinweise
+:revdate: 2025-08-26
+:page-revdate: {revdate}
+:page-opendocs-origin: /14.releasenotes/01.5x/01.5x.md
+:page-opendocs-slug:  /releasenotes/5x
+
+== Versionshinweise für 5.x
+
+[NOTE]
+====
+Um E-Mail-Benachrichtigungen über neue Versionen zu erhalten, tragen Sie sich bitte in die SUSE Mailingliste ein: https://lists.suse.com/mailman/listinfo/neuvector-updates
+====
+
+=== 5.4.6 August 2025
+
+==== Neue Funktionen
+
+* *NVSHAS-6733*: Antwortregeln als CRD exportieren.
+* *NVSHAS-9899*: NeuVector Process Profile Alerts für Java Services enthalten sensible Daten.
+* *NVSHAS-9990*: Einführung eines neuen Hash-Algorithmus für Benutzerpasswörter.
+* *NVSHAS-9968*: Unterstützung der Einstellung des Standardpassworts für das Administratorkonto.
+
+==== Behobene Fehler
+
+* *NVSHAS-10062*: Manager zeigt ERROR nicht an, wenn das Erstellen des Admin-Passworts bei der ersten Anmeldung fehlschlägt.
+* *NVSHAS-10041*: Federation-Operation fehlgeschlagen "ungültige Daten" bei der Konfiguration von Federation über ConfigMap.
+* *NVSHAS-10018*: Neuvector scannt nicht alle Bilder in GitLab Registry.
+* *NVSHAS-10017*: Falsch positive Sicherheitswarnung in Bezug auf einen erlaubten Prozess.
+* *NVSHAS-10001*: Schutz-/Monitor-Erzwingungen "verweilen" nach dem Löschen der Gruppe.
+* *NVSHAS-9985*:    NeuVector (Fed Master) schafft ein Problem für alle von außen kommenden Anfragen.
+* *NVSHAS-9981*:    Sicherheitsereignis wird immer dann ausgelöst, wenn eine neue "Prozessprofilregel" in einer Gruppe hinzugefügt oder geändert wird.
+
+==== Sicherheitshinweise
+
+* https://github.com/neuvector/neuvector/security/advisories/GHSA-8pxw-9c75-6w56[Admin-Konto hat unsicheres Standardpasswort]
+* https://github.com/neuvector/neuvector/security/advisories/GHSA-8ff6-pc43-jwv3[Unsichere Passwortverwaltung anfällig für Rainbow-Angriffe]
+* https://github.com/neuvector/neuvector/security/advisories/GHSA-w54x-xfxg-4gxq[Prozesse mit sensiblen Argumenten führen zu Leckagen]
+
+Weitere Informationen finden Sie im xref:cve.adoc[Sicherheitshinweis und in der CVEs-Dokumentation].
+
+=== 5.4.5 Juli 2025
+
+==== Neue Funktionen
+
+* *NVSHAS-9776*: Hinzufügen von etcd-Toleranz in der Helmkarte.
+
+==== Fehlerbehebungen
+
+* *NVSHAS-9507*: OCI-Container wird nicht gescannt.
+* *NVSHAS-9787*: Unnötiges Managerprotokoll entfernen.
+* *NVSHAS-9788*: Verfeinerung des Algorithmus zur Erzeugung von Zertifikaten.
+* *NVSHAS-9789*: Entfernen Sie unnötige Managerprotokolle in der Fernregistrierungskonfiguration.
+* *NVSHAS-9867*: NeuVector zeigt `+.NET Library System.Formats.Asn1 v8.013+` betroffen CVE 2024-38095.
+* *NVSHAS-9883*: [quay.io] Wildcard-Filter funktionieren nicht für Docker-Registry.
+* *NVSHAS-9911*: Das Scannen des Repos mit der REST-API führt zu einer falschen "Nachricht".
+* *NVSHAS-9930*: CVE-2018-20796 für `+glibc/libc-bin : 2.36-9+deb12u10+` - Falsches Positiv.
+* *NVSHAS-9933*: Registry-Adapter-Funktion (Harbor), die beim Scannen Fehler in der Zielregistrierung anzeigt.
+* *NVSHAS-9934*: Verdacht auf Funktionsstörung der Nullpunktverschiebung.
+* *NVSHAS-9940*: NV-Scan JFrog Subdomain-Modus Problem.
+* *NVSHAS-9942*: Die Bildscans für Kundenbilder schlagen fehl.
+* *NVSHAS-9945*: Wenn der Prozessname zu lang ist, ist es schwierig zu bestimmen, wie die entsprechende Prozessprofilregel erstellt werden soll.
+* *NVSHAS-9946*: Anzeigeproblem bei der Zulassungssteuerungswarnung für den Berechtigungstyp.
+* *NVSHAS-9947*: [UI-ext] Compliance-Diagramm Fehlt der Status "Manuell" in Rancher NeuVector.
+* *NVSHAS-9948*: Nach dem Upgrade auf `+5.4.3+` ist die NeuVector-Konfiguration verloren gegangen.
+* *NVSHAS-9949*: [Harbor][Falscher Benutzer/pw] Es werden auch bei falscher Eingabe von Benutzer/pw noch Bilder gescannt.
+* *NVSHAS-9952*: Signatur' aus dem Nutzungsbericht entfernen, da NV den Lizenzschlüssel nicht mehr ausstellt/überprüft.
+* *NVSHAS-9953*: Pods Enforcer wird immer wieder neu gestartet.
+* *NVSHAS-9954*: Der NeuVector Prometheus-Exporter erzeugt doppelte Metriken.
+* *NVSHAS-9958*: Die Durchsetzung von Netzregeln nimmt viel Zeit in Anspruch.
+* *NVSHAS-9960*: Die Scanner funktionieren nicht.
+* *NVSHAS-9969*: Schwerwiegender Fehler: Gleichzeitige Map-Schreibvorgänge führen zu einem Neustart der Enforcer-Komponente.
+* *NVSHAS-9971*: NV UI über `+Get Bootstrap Password+`.
+* *NVSHAS-9975*: [Manager] TypeError: `+this.mousemoveListener+` ist keine in der NV-GUI beobachtete Funktion.
+* *NVSHAS-9986*: Prozess- und Dateizugriffsregeln können in der Gruppenansicht der Federated Policy nicht bearbeitet oder entfernt werden.
+* *NVSHAS-9988*: UI: Auf den Gruppenseiten werden nicht alle Gruppen angezeigt, wenn mehr als 2.000 Gruppen vorhanden sind.
+* *NVSHAS-9991*: Die Gruppe `+nv.gatekeeper-controller-manager.openshift-azure-guardrails+` fehlt in der Benutzeroberfläche.
+* *NVSHAS-9993*: Ersetzen Sie MD5 durch SHA256.
+* *NVSHAS-9994*: Der Enforcer-Pod wird immer wieder neu gestartet.
+* *NVSHAS-9996*: Die Helmkarte sollte den nicht-privilegierten Modus von Enforcer-Pods erlauben.
+* *NVSHAS-9998*: Gruppe kann nicht aus dem NeuVector-Verbundmaster exportiert werden.
+* *NVSHAS-10000*: Aktualisieren Sie NV auf BCI 15.7.
+* *NVSHAS-10003*: Seite neu laden funktioniert nicht auf der eigenständigen NV-Seite, wenn die Rancher-Benutzeroberfläche geöffnet ist.
+* *NVSHAS-10008*: Registry Scan - Das Menü Ansicht ist für gescannte Bilder defekt.
+* *NVSHAS-10010*: TCP SYN Flood blockiert den Eingang, was zu einer vollständigen Blockierung des Eingangsverkehrs führt.
+
+=== 5.4.4 Mai 2025
+
+==== Neue Funktionen
+
+* **NVSHAS-9915**: Anzeige der Scanergebnisse des Harbor-Scanner-Moduls in der NeuVector-Benutzeroberfläche.
+* **NVSHAS-9904**: Machen Sie `+imagePullPolicy+` für jede Komponente auf `+values.yaml+` zugänglich.
+* **NVSHAS-9869**: UI: Verschieben Sie DDoS-Kontrollen in den Gruppenbereich.
+* **NVSHAS-9840**: [GCP] NeuVector Autopilot Unterstützung für GCP.
+* **NVSHAS-9248**: Anzeige nicht verwendeter Prozess-/Netzwerkregeln mit Zählern und `+Last Used+` Zeitstempel.
+* **NVSHAS-8160**: [Controller] Anpassung einiger Elemente für die Berechnung des Sicherheitsrisiko-Scores.
+* **NVSHAS-4673**: Vorschlag, vor dem Export von Gruppen eine Nachricht hinzuzufügen.
+
+==== Fehlerbehebungen
+
+* **NVSHAS-9931**: Hinzufügen einer Warnung, wenn es inkonsistente Versionen von NeuVector-Produkten in Multi-Clustern gibt.
+* **NVSHAS-9925**: `+/v1/scan/asset/images+` API auf der Registrierungsseite schlägt fehl.
+* **NVSHAS-9913**: Problem beim Löschen mehrerer Netzwerkregeln, die sich auf Workload:XYZ-Gruppen beziehen.
+* **NVSHAS-9912**: Aktualisieren Sie Helm über einige RBAC-Berechtigungen für K8s, die das Controller-Service-Konto benötigt.
+* **NVSHAS-9909**: Bei der Verwendung von NeuVector Rancher NavLink wird die Meldung "Abgemeldet - Gehe zur Ladeseite" angezeigt.
+* **NVSHAS-9898**: In einer föderierten Umgebung funktioniert das Ändern der Kriterien einer vom Kunden erstellten fed.*-Gruppe (z. B. fed.core-systems) nicht.
+* **NVSHAS-9894**: [Enforcer] `+Nv.protect+` verweigert den Befehl "Controller Readiness Probe" `+cat /tmp/ready+`.
+* **NVSHAS-9886**: Die Netzwerkaktivität löst die Domänennamen für die benutzerdefinierten externen Gruppenverbindungen nicht auf.
+* **NVSHAS-9884**: [Node Scan][Container Scan] Scan schlägt fehl.
+* **NVSHAS-9873**: UI Advanced Filter Suche Problem in NeuVector 5.4.2.
+* **NVSHAS-9865**: Die exportierten Netzwerkrichtlinien unterscheiden sich je nach der Reihenfolge der Auswahl (gleiche Gruppen ausgewählt).
+* **NVSHAS-9828**: [Enforcer: Prozess] Der NeuVector Enforcer ist nicht in der Lage, kurzlebige Pods (alles unter 5 Sekunden) zu erkennen.
+* **NVSHAS-9783**: Nach dem Hinzufügen der Netzwerkrichtlinie zum Verweigern von icmp-Paketen sieht NeuVector keine Alarme in `+Security Events+`.
+* **NVSHAS-9176**: Anzeige eines Skriptfehlers auf der Seite **Sicherheitsrisiken > Schwachstellen**, wenn ein Benutzer mit der Rolle Namespace `+rt_scan:w+` angemeldet ist.
+
+=== 5.4.3 März 2025
+
+==== Neue Funktionen
+
+* **NVSHAS-9793**: Erlauben Sie Fed Global Rollen in LDAP/userinitcfg, wenn Sie NeuVector über die ConfigMap und Secret bereitstellen.
+* **NVSHAS-9764**: [RFE] Unterstützung für Azure für "Remote Repository Configuration" hinzufügen.
+* **NVSHAS-9759**: Fügen Sie Datumsangaben in den Ingress-Exposure-Bericht ein.
+* **NVSHAS-9755**: Antrag auf Anzeige der Namen von Umgebungsvariablen neben den Werten in Warnmeldungen für Geheimnisse.
+* **NVSHAS-9748**: [Helm] NeuVector Helm-Update zur Unterstützung von Namensverweisen für gemeinsame Gruppen in CRD (NVSHAS0-4717).
+* **NVSHAS-9426**: Fügen Sie hostPath für den Scanner zum Helm-Diagramm hinzu.
+* **NVSHAS-9326**: NeuVector - Harbor Steckbares Scanner-Modul.
+* **NVSHAS-9835**: UI für die Deaktivierung des automatischen Scans für Knoten.
+* **NVSHAS-7997**: Scanner-Anschluss für ghcr.io.
+* **NVSHAS-7982**: Weisen Sie WAF-Sensoren vom Federation Master zu.
+
+==== Fehlerbehebungen
+
+* **NVSHAS-9849**: Vollstreckungsbeamte melden sich nicht bei den Kontrolleuren an.
+* **NVSHAS-9847**: Wildcard-Filter funktionieren nicht für die Docker-Registrierung.
+* **NVSHAS-9833**: Die Wiederherstellung der Konfiguration schlägt in Rancher-Bereitstellungen fehl.
+* **NVSHAS-9832**: Problem bei der Erstellung von Netzwerkregeln unter Verwendung der Workload-Gruppe.
+* **NVSHAS-9821**: Der Prozessname wird in der Befehlszeile für die Prozessgewinnregel Alert nicht gefunden.
+* **NVSHAS-9817**: Das Erstellen von NvClusterSecurityRule CRD zeigt die erfolgreiche Erstellung an, aber es wurde aufgrund von doppelten Prozessregeleintragungen nicht tatsächlich erstellt.
+* **NVSHAS-9812**: NeuVector prometheus-exporter falsche Metriken.
+* **NVSHAS-9811**: [Manager] Bei Verwendung eines benutzerdefinierten Zertifikats (CA) mit Stammzertifizierungsstelle und Zwischenzertifizierungsstelle auf der geheimen Seite kann nicht auf die GUI zugegriffen werden.
+* **NVSHAS-9801**: FIPS-Modus + `+manager.env.ssl=false+` führt zu einem Fehler im Manager.
+* **NVSHAS-9792**: Synchronisierung von Föderationsrichtlinien schlägt fehl, da die Körpergröße die maximale Consul-Größe überschreitet.
+* **NVSHAS-9784**: NeuVector gibt 404 beim Scannen des Jfrog Bildarchivs zurück.
+* **NVSHAS-9783**: Nach dem Hinzufügen der Netzwerkrichtlinie zum Verweigern von icmp-Paketen sieht der Benutzer keine Warnung in "Sicherheitsereignisse".
+* **NVSHAS-9780**: NeuVector Single Sign On funktioniert nicht mit Rancher NavLink.
+* **NVSHAS-9777**: Webhook JSON mit duplizierten "Level"-Schlüsseln.
+* **NVSHAS-9770**: Auto-Switch nach Zero-Drift-Modus schaltet falsche Richtlinie.
+* **NVSHAS-9765**: Der Dateizugriff wird im Schutzmodus nicht vollständig blockiert.
+* **NVSHAS-9756**: Enforcer hat die maximale CPU-Leistung erreicht und weist mehrere Speicherdruckwarnungen auf.
+* **NVSHAS-9668**: Konformitätstest bei RKE2 fehlgeschlagen.
+* **NVSHAS-9265**: Unvollständige und falsche Ergebnisse von Schwachstellen-Scans in der PRE PCI-Umgebung.
+* **NVSHAS-9227**: Der Registrierungsscan bleibt mitten im Scanvorgang stecken und geht in den "Leerlauf" über.
+* **NVSHAS-9729**: Eine falsche Anzahl von Schwachstellen wird beobachtet, wenn mehrere Statefulset mit dem "gleichen Namen" in Namespaces in einem Projekt eingesetzt werden.
+* **NVSHAS-9810**: NeuVector Controller reagiert nicht und UI ist nicht zugänglich.
+
+=== 5.4.2 Januar 2025
+
+==== Neue Funktionen
+
+* **NVSHAS-9726**: Der Monitor übergibt jetzt die Proxy-URL.
+* **NVSHAS-9719**: Kündigt die Ausmusterung von eingebauten Zertifikaten an.
+* **NVSHAS-9715**: Helm Chart-Wert-Unterstützung für die Einstellung von Nodeport auf Controller und Manager.
+* **NVSHAS-9710**: Aufnahme einer sortierbaren Spalte `+feed_rating+` in die Registerkarte " **Schwachstellen"**.
+* **NVSHAS-9669**: Gesamtsicherheitsbewertung durch REST API.
+* **NVSHAS-9590**: Möglichkeit, die Schwachstellenbewertung für alle Anlagen zu wählen.
+* **NVSHAS-7555**: Aufnahme der Option "Automatisches Aktualisieren" unter Sicherheitsereignisse.
+
+==== Fehlerbehebungen
+
+* **NVSHAS-9662**: Inkonsistente Rollen-/Rollenbindungslogik in Helm-Diagramm 2.8.2.
+* **NVSHAS-9652**: Beobachteter Unterschied im Syslog-Format in Splunk.
+* **NVSHAS-9649**: Container-Link erzeugt 404-Antwortcode im Sicherheitsereignis.
+* **NVSHAS-9613**: NeuVector Manager Pod Fehler / NeuVector Web UI nicht verfügbar.
+* **NVSHAS-9507**: OCI-Container wird nicht gescannt.
+* **NVSHAS-9443**: Upgrade/Installation durch ArgoCD schlägt fehl, da es das Objekt leases.coordination.k8s.io nicht erstellen kann.
+* **NVSHAS-9436**: Mögliche CVE falsch negativ gegen CVE-2024-7347.
+* **NVSHAS-8386**: Private Schlüssel und selbstsignierte Zertifikate werden nach wie vor in mehreren Images geliefert.
+* **NVSHAS-9754**: [UI] Verhindern, dass Rancher SSO-Benutzer die Authentifizierung von OpenShift oder Rancher's RBAC deaktivieren.
+* **NVSHAS-9751**: [Laufzeitschutz] Monitormodus + Zero Drift erzeugt keine Alarme, wenn ein Kindprozess ausgeführt wird.
+* **NVSHAS-9721**: Die Benutzeroberfläche sollte eine entsprechende Fehlermeldung ausgeben, wenn der Benutzer einen falschen Registry-Namen eingibt.
+* **NVSHAS-9696**: Inkonsistente farbliche Kennzeichnung von Assets auf der Seite der Verwundbarkeit.
+* **NVSHAS-9686**: Hardcodierter Namensraum für das Registry-Adapter-Zertifikat in der Neuvector Helm-Tabelle.
+* **NVSHAS-9678**: Übermäßige Fehlerspuren nach dem Linterwechsel.
+* **NVSHAS-9670**: Manager: Klartext Antwort doppelte Anführungszeichen Problem und Java unnamed Bibliothek Problem in sbt laufen.
+* **NVSHAS-9667**: Das Setzen der Umgebungsvariablen `+CTRL_PATH_DEBUG+` auf Fehler in der Controller-Bereitstellung funktioniert nicht.
+* **NVSHAS-9665**: Regel für den Dateizugriff: Das Löschen vordefinierter Regeln führt zu einem "setRowData"-Fehler.
+* **NVSHAS-9664**: Politische Gruppe: Benutzerdefiniertes Skript löschen erzeugt "setRowData" TypeError.
+
+[NOTE]
+====
+Die Standardtypen von Manager- und Registrierungsadapterdienst wurden in ClusterIP geändert.  Die Benutzer können die Einstellung immer noch außer Kraft setzen, indem sie `+manager.svc.type+` und `+cve.adapter.svc.type+` überschreiben, wenn NodePort bevorzugt wird.
+====
+
+In der Version 5.4.2 von NeuVector wird die Unterstützung für Bereitstellungen mit dem integrierten internen Zertifikat eingestellt. Das Zertifikat, das unter `+/etc/neuvector/certs/internal+` in den Container-Images von NeuVector 5.4.2 zu finden ist, wird entfernt. Um NeuVector weiterhin nutzen zu können, sollten die Benutzer:
+
+==== 5.4.2 Neuinstallation:
+
+===== Helm verwenden:
+
+- Aktivieren Sie die Flags `+internal.autoGenerateCert+` und `+internal.autoRotateCert+` in den Helm-Diagrammen (diese werden ab der Version 5.4.2 standardmäßig aktiviert). Alternativ dazu ist unten eine YAML-Methode verlinkt.
+
+===== YAML verwenden:
+
+- Erstellen Sie ein xref:internal.adoc#_replacing_certificates_used_in_internal_communications_of_suse_security[internes Zertifikat unter Verwendung der bestehenden Methoden].
+
+==== Aufrüstung von früheren Versionen auf 5.4.2:
+
+Bitte erstellen und konfigurieren Sie interne Zertifikate vom Scanner für den Controller, Enforcer und Registry-Adapter, um ein Rolling Update ohne Datenverlust zu erreichen. Es wird dennoch empfohlen, vor dem Upgrade eine Sicherungskopie Ihrer Konfiguration zu erstellen. 
+
+Die folgenden Schritte sind nur erforderlich, wenn Ihre Bereitstellung eine `+.yaml+` Datei verwendet. Bei einem Upgrade mit Helm sind diese zusätzlichen Schritte nicht erforderlich, da die internen Zertifikate standardmäßig über die folgenden Flags erstellt werden: `+internal.autoGenerateCert+` und `+internal.autoRotateCert+`.
+
+[,shell]
+----
+docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/ca.cert" > ca.crt
+----
+
+[,shell]
+----
+docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/cert.pem" > tls.crt
+----
+
+[,shell]
+----
+docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/cert.key" > tls.key
+----
+
+[,shell]
+----
+kubectl create secret generic internal-cert -n neuvector  --from-file=tls.key --from-file=tls.crt --from-file=ca.crt
+----
+
+Beispiel 5.4.2 yaml mit konfiguriertem internem Zertifikat:*https://github.com/neuvector/manifests/blob/main/kubernetes/5.4.0/neuvector-k8s.yaml* 
+
+Zusätzliche Informationen über xref:internal.adoc[interne Zertifikate].
+
+
+Im Falle einer PVC-Konfiguration können die Benutzer ein bestehendes PVC in der neuen Installation konfigurieren, um eine Konfiguration wiederherzustellen.
+
+
+**Zusätzlicher Hinweis für Scanner:**
+
+Für aktuelle Nutzer mit Versionen vor 5.4.2 bleibt das Zertifikat bis zum 31. März 2025 auf `+neuvector/scanner:latest+` verfügbar. Nach diesem Datum wird es entfernt. Die Benutzer sollten planen, dasselbe interne Zertifikat für den Controller, den Enforcer, den Scanner und den Registrierungsadapter bereitzustellen, um den Scanner weiterhin verwenden zu können.
+
+Bitte beachten Sie, dass der Standalone-Scanner von diesen Änderungen nicht betroffen ist.
+
+=== 5.4.1 November 2024
+
+==== Neue Funktionen
+
+* **NVSHAS-8583**: Einstellung granularer Richtlinienmodi für Regelsätze, separater Netzwerkrichtlinienmodus und Profilmodus auf Gruppenebene.
+* **NVSHAS-9440**: Unterstützung eines separaten Netzwerkmodus und eines Prozess- und Dateimodus in CRD.
+* **NVSHAS-9369**: Hinzufügen der Debug-Protokollkategorie über Helm Deployment-Unterstützung für Controller.
+* **NVSHAS-9040**: Verbesserung der Syslog-Meldung, wenn die Zulassungskontrollregel im Überwachungsmodus verweigert wird.
+
+==== Fehlerbehebungen
+
+* **NVSHAS-9416**: [Scanner] activemq-all-5.8.0.redhat-60024.jar kann NICHT mit einem vul erkannt werden (frühere Scanner-Builds jedoch schon).
+* **NVSHAS-9447**: Controller/Scanner-Pods stürzen ab - "Unsupported system Exit".
+* **NVSHAS-9278**: CVE-2024-41110 wird im neuesten Scanner-Image gefunden.
+* **NVSHAS-9467**: Die durch das Pod-Label definierte benutzerdefinierte Gruppe gibt ihre Profildaten nicht an die untergeordneten Container weiter.
+* **NVSHAS-9442**: Problem bei der Bereitstellung auf ArgoCD.
+* **NVSHAS-9436**: Mögliche CVE falsch negativ gegen CVE-2024-7347.
+* **NVSHAS-9468**: Fix CVE-2020-26160 zu ersetzen jwt-go mit jwt:v5.
+* **NVSHAS-9517**: Die Einlasskontrolle ist nicht konsistent und führt zu falschen Ergebnissen.
+* **NVSHAS-9532**: Der Bildscan ist abgeschlossen, aber die Bereitstellung ist immer noch nicht erlaubt.
+* **NVSHAS-9558**: JWT-Token ablaufen meldet http.StatusRequestTimeout 408.
+* **NVSHAS-9576**: Löschen Sie das Passwortfeld für Registrierungsdaten, wenn der Benutzer den Controller-Modus mit Jenkins zum Scannen verwendet.
+* **NVSHAS-9425**: nfq erstellen, wenn der Container über ein vxlan verfügt.
+* **NVSHAS-9571**: [Registries] Der Filter für alle gescannten Bilder funktioniert nicht richtig.
+* **NVSHAS-9589**: Verwaltete Cluster wurden getrennt - Versionsübereinstimmung mit primärem Cluster.
+* **NVSHAS-8824**: Benutzer kann eigene Gruppen nicht löschen, kann keine Namespace-gebundenen Gruppen erstellen.
+* **NVSHAS-9605**: Exportgruppe mit ungültigen Werten für Richtlinienmodus und Prozessprofilmodus wird fälschlicherweise zugelassen.
+* **NVSHAS-9608**: Der Scanner meldet keinen Fehler, wenn der Controller einen Fehler für große Scanergebnisse (~23MB) meldet.
+* **NVSHAS-9534**: Anzeigefehler in den Zulassungskontrollen.
+* **NVSHAS-9600**: Das Controller-Debugging kann nicht deaktiviert werden.
+* **NVSHAS-9631**: Reduzieren Sie einige Vollstreckerfehler.
+* **NVSHAS-9645**: Vorhandene CRD-Verarbeitung schlägt fehl.
+* **NVSHAS-9592**: Kein neuer Scan trotz neuer DB-Version.
+* **NVSHAS-9212**: Anzeige einer Warnmeldung in GET(/v1/eula), wenn die Rolle neuvector-binding-secret(binding) falsch ist.
+* **NVSHAS-9367**: Verbesserung der Fehlermeldungen, wenn die Registrierung nicht verbunden werden kann.
+* **NVSHAS-9475**: Der Druck des Hintergrundrasters wird nicht vollständig abgedeckt, wenn das Menü eingeklappt wird.
+* **NVSHAS-9485**: Falsche Meldung für 'Netzwerksicherheitsrichtlinienmodus' in der Benutzeroberfläche.
+* **NVSHAS-9480**: NV UI, das auf einem Rancher-Downstream-Cluster bereitgestellt wird, wirft HTTP/403 nach der Rancher-Abmeldung aus.
+* **NVSHAS-9547**: Die Sortierung in der Tabelle der Sicherheitsrisiken --> Schwachstellen ist fehlerhaft.
+* **NVSHAS-9570**: [Sicherheitslücken] Ändern Sie die Legendenbeschreibung für verschiedene Status von Assets.
+* **NVSHAS-9561**: Die Gesamtsicherheitsbewertung auf dem Dashboard sollte mit der tatsächlichen Bewertung übereinstimmen.
+* **NVSHAS-9572**: [Sicherheitslücken] Gefilterte Daten wurden beibehalten, egal ob der Benutzer die Seite aktualisierte oder sich neu anmeldete.
+* **NVSHAS-9597**: Die Benutzeroberfläche reagiert nicht auf einen Fehler, wenn der Controller 403 für POST(v1/group) zurückgibt.
+* **NVSHAS-8682**: Der CRD-Webhook-Dienst muss von der CRD-Steuerkarte in die Anwendungssteuerkarte verschoben werden.
+
+==== Bekannte Probleme
+
+* In der Version 2.8.3 haben wir eine zuvor falsch zugewiesene Ressource von crds nach core verschoben. Wenn Sie sowohl crds- als auch core-Diagramme verwenden, kann es beim Upgrade zu Problemen kommen, wenn Sie zuerst core einsetzen. Um dieses Problem zu beheben, aktualisieren Sie zuerst die crds und dann die Kernkarten.
+
+=== 5,4 September 2024
+
+* **UI-Verbesserungen**: 
+** Rancher SSO-Benutzer anzeigen.
+** Verwalten von JWT-Tokens.
+** Verbesserte Bildnavigation und Links zu Scanergebnissen.
+* **Verbesserungen der Sicherheit**: 
+** Neue Konformitätsfilter.
+** Unterstützung für CIS-Benchmarks und OCI-Image-Signierung.
+* **Netzwerk und Überwachung**: 
+** Erweiterte Bandbreiten- und Sitzungsverfolgung.
+** DDoS-Überwachung.
+** Unterstützung von Multinetzwerken.
+* **Cert Management**: 
+** Neue Benachrichtigungen für auslaufende interne Zertifikate, einschließlich Rotationsmöglichkeiten.
+* **Automatisierung und Integration**: 
+** Automatisierung der Föderation.
+** Rancher RBAC-Integration.
+** Verbesserte Zulassungskontrolle.
+* **Leistung und Effizienz**: 
+** Geringere Speichernutzung.
+** Senkung der ISP-Datengebühren.
+** Scanner-Cache-Statistiken ausgesetzt.
+* **Verbesserungen der Benutzerfreundlichkeit**: 
+** Unterstützung für Bootstrap-Passwörter.
+** Archivierung von Rechnungsdaten in der Cloud.
+** Durchsetzung der Namespace-Grenzen.
+
+==== Neue Funktionen
+
+* **NVSHAS-9012**: Anzeige von Rancher SSO-Benutzern auf der NV UI, die den gleichen Benutzernamen haben.
+* **NVSHAS-8939**: Bieten Sie eine Option auf der NV UI an, damit Benutzer von Rancher SSO-Sitzungen das aktuelle JWT-Token löschen können (d.h. sich abmelden).
+* **NVSHAS-7522**: Einfache Bildnavigation durch die Registraturen.
+* **NVSHAS-8148**: Link vom Container-Image zu den Scan-Ergebnissen des Registry-Images.
+* **NVSHAS-9258**: Hinzufügen einer neuen Benachrichtigung für ablaufende Zertifikate und interne Zertifikate.
+* **NVSHAS-8915**: Unterstützung für neue Compliance-Filter und Compliance-Berichte.
+* **NVSHAS-9403**: Filemonitor-UI: Benutzer kann vordefinierte Dateiüberwachungsregeln löschen.
+* **NVSHAS-8423**: Erkennung von Bandbreiten-, aktiven Sitzungszahlen und Sitzungsratenverletzungen auf Gruppenebene anhand konfigurierter Schwellenwerte.
+* **NVSHAS-9218**: Unterstützung von Bundes- und CRD-Gruppen für die DDoS-Überwachung.
+* **NVSHAS-8461**: Unterstützung von CIS-Benchmarks für verwaltete k8s-Dienste in der Cloud.
+* **NVSHAS-7664**: Reduzieren Sie die ISP-Datengebühren beim Scannen der Registry.
+* **NVSHAS-8868**: Scanner-Cache-Statistiken ausgeben.
+* **NVSHAS-8676**: NV Protect Verbesserung für Benchmark-Skripte.
+* **NVSHAS-9255**: Anpassen der Suchregister der Zulassungskontrolle für Bildnamen ohne FQDN.
+* **NVSHAS-9144**: ID für Schwachstellenprofil zur einfachen Identifizierung hinzugefügt.
+* **NVSHAS-7687**: Unterstützung der Konfiguration der Protokollierungsebene (Debug/Fehler/Info/Warnung) für Enforcer und Controller über CLI.
+* **NVSHAS-7518**: Ändern Sie interne Zertifikate für {product-name} Komponenten.
+* **NVSHAS-9287**: Aktivieren Sie die interne Rotation.
+* **NVSHAS-8562**: Interne Benachrichtigung über den Ablauf eines Zertifikats hinzufügen.
+* **NVSHAS-8486**: Unterstützt Multus-Netzwerkschnittstelle.
+* **NVSHAS-7447**: Rancher RBAC-Integration mit {product-name}.
+* **NVSHAS-7822**: Automatisierung der Föderation ohne Skripting-API-Aufrufe.
+* **NVSHAS-8799**: Erstellen Sie ein Compliance Framework für den Import von Compliance-Vorlagen.
+* **NVSHAS-8773**: Unterstützung von Bootstrap-Passwörtern bei der Erstinstallation.
+* **NVSHAS-6740**: Verbesserung des Zero-Drift-Baseline-Profils durch Durchsetzung der erlernten Liste im Schutzmodus.
+* **NVSHAS-8325**: Container-Namespace-Grenze für Netzwerkregel erzwingen.
+* **NVSHAS-8723**: Archivieren Sie Cloud-Abrechnungsdaten.
+* **NVSHAS-9086**: Verringerung des Speicherbedarfs des Steuerungsprozesses durch Beseitigung der vulTrait-Datenstruktur.
+* **NVSHAS-6979**: Möglichkeit, einen Kommentar zur Antwortregel in den Inhalt der Warnmeldung aufzunehmen.
+* **NVSHAS-8845**: Erstellen Sie APIKEY mit der Rolle FedReader und FedAdmin.
+* **NVSHAS-9306**: Die Bewertung der Konfiguration der Zugangskontrolle zeigt die Regel-ID an, die für erlaubte oder verweigerte Bereitstellungen verantwortlich ist.
+* **NVSHAS-9078**: Unterstützung der Bildsignierung für OCI-Bilder.
+* **NVSHAS-7945**: Unterstützung des DISA STIG-Benchmarks für Kubernetes.
+* **NVSHAS-8234**: Zulassungskontrolllogik, die Bilder zulässt, die eigentlich verweigert werden sollten.
+
+==== Fehlerbehebungen
+
+* **NVSHAS-9005**: TypeError in Registern: Eigenschaften von undefiniert können nicht gelesen werden (Lesen von 'total_records').
+* **NVSHAS-9085**: Der PDF-Bericht von Assets View zeigt eine Schwachstelle von 0 % an, selbst bei vorhandenen Schwachstellen.
+* **NVSHAS-9084**: Der PDF-Ansichtsbericht für Assets zeigt NaN an, wenn die Bilderliste leer ist.
+* **NVSHAS-9128**: Sicherheitsereignisse: Container können nicht angezeigt werden, wenn es keinen Namespace-Wert für Workloads gibt.
+* **NVSHAS-9025**: Neuvector Schwachstelle Akzeptanzbereich für Container.
+* **NVSHAS-9155**: Registry Scan Image falscher Spaltenname und fehlender Dateiname
+* **NVSHAS-9122**: Der Neuvector-Master meldet sich bei der Verwendung von "Multiple Cluster" mit Rancher SSO-Login jederzeit ab.
+* **NVSHAS-9266**: Registry-Scan: Die Schaltfläche Bericht nach Ebene scannen sollte ausgeblendet oder deaktiviert werden, wenn es keine Sicherheitslücke gibt.
+* **NVSHAS-9219**: Erlauben Sie Benutzern, die Serverzertifikatsüberprüfung für Autorisierungsserver zu aktivieren.
+* **NVSHAS-9246**: Die Filterung für den CSV/PDF-Export funktioniert nicht.
+* **NVSHAS-8947**: NV-Konfiguration kann nicht importiert werden, wenn die Authentifizierung über Rancher SSO erfolgt.
+* **NVSHAS-9282**: UI: Die Bearbeitung des OpenShift-Registrierungseintrags schlägt aufgrund eines fehlenden Tokens fehl.
+* **NVSHAS-9098**: Verbessern Sie das Benutzererlebnis beim Laden von Risikoseiten.
+* **NVSHAS-9267**: Erlauben Sie nicht, dass die Benutzeroberfläche auf dem 5.4-Master-Cluster aufgrund von REST-API-Änderungen zu verwalteten Clustern vor 5.4 wechselt.
+* **NVSHAS-9285**: UI: Die Schaltfläche der Dropdown-Liste überschneidet sich mit anderen Elementen.
+* **NVSHAS-9302**: Es kann kein APIKEY mit der Rolle FedReader und FedAdmin erstellt werden.
+* **NVSHAS-8539**: Proxy-Einstellung neu konfigurieren verliert Passwort.
+* **NVSHAS-9293**: Entfernung von unzusammenhängenden Bilddetails in den Schwachstellenberichten.
+* **NVSHAS-9238**: Die Benutzeroberfläche aktualisiert den angezeigten Clusternamen nicht, nachdem er geändert wurde.
+* **NVSHAS-9363**: Benachrichtigungskonfiguration > Webhooks-Raster sind nicht richtig ausgerichtet.
+* **NVSHAS-9362**: Der Filter für Sicherheitsrisiko-Schwachstellen liefert 0 Ergebnisse.
+* **NVSHAS-8699**: Der Benutzer kann nicht unterschieden werden, wenn der Rancher AD-Benutzer derselbe ist.
+* **NVSHAS-9062**: Anzeige von Rancher SSO-Benutzern auf der NV UI, die denselben Benutzernamen haben (Umstellung auf dem Controller).
+* **NVSHAS-9071**: Einige Module werden nur bei der Containerprüfung nicht gemeldet.
+* **NVSHAS-8242**: gRPC-Aufruf zum Testen, ob der Controller kritische Schweregrade behandelt.
+* **NVSHAS-8908**: Parse X-Forwarded-Port korrekt unter Berücksichtigung des Komma-Trennzeichens.
+* **NVSHAS-9024**: AdmissionControl Risky Role Perf.
+* **NVSHAS-9091**: Es konnten nicht alle Module unter ol:9.1, photon:5.0, rhel:9.1 und amzn:2023 im Repo-, Registry- und Standalone-Scan gefunden werden.
+* **NVSHAS-8997**: Starke Reduzierung der Anzahl der Slots pro Knoten, um die Leistung zu verbessern.
+* **NVSHAS-9059**: CRD-Gruppen in NV auch nach Löschung aus K8s sichtbar.
+* **NVSHAS-9107**: Goroutine-Absturz bei rest.handlerConfigLocalCluster.
+* **NVSHAS-9108**: Port 18500 sollte nicht geöffnet sein.
+* **NVSHAS-9119**: Goroutine-Absturz bei probe.(*FileNotificationCtr).AddContainer().
+* **NVSHAS-9125**: Ein CRD-Eintrag mit ungültigen Einstellungen sollte nicht erstellt werden dürfen.
+* **NVSHAS-9124**: Docker: Es werden viele unerwartete Vorfälle bei Healthcheck-Prozessen gemeldet.
+* **NVSHAS-9111**: NV sollte `+--event-qps > 0+` überprüfen.
+* **NVSHAS-9130**: Unerwartete Container.Package.Updated-Vorfälle werden nach dem Start eines bestimmten Containers gefunden.
+* **NVSHAS-9080**: Der Benutzer des Fed-Readers kann auf einige REST-APIs nicht zugreifen.
+* **NVSHAS-9092**: Benutzer mit Namensraum sollten keine globalen Assets sehen.
+* **NVSHAS-9116**: Der Worker-Cluster kann sich zurückziehen, wenn die Verbindung unterbrochen wird.
+* **NVSHAS-8980**: Host und Tunnelschnittstelle auf dem Knoten erfolgreich in oc 4.15 abrufen.
+* **NVSHAS-9188**: Legen Sie die Schnittstelle mgmt-br als Host-Schnittstelle für den Harvesterknoten fest.
+* **NVSHAS-4858**: Erweitern Sie die Containergruppe im Controller nicht, um die Leistung der Richtlinienbereitstellung zu verbessern und die CPU- und Speichernutzung zu reduzieren.
+* **NVSHAS-8700**: Der Rancher AD-Benutzer kann sich manchmal nicht bei {product-name} anmelden.
+* **NVSHAS-9121**: Die Schwellenwerteinstellung für die Netzwerküberwachung der Gruppe kann nicht bearbeitet werden.
+* **NVSHAS-9189**: Der Scan bleibt nach dem Herunterfahren und Neustart des Controllers in der Planung stecken.
+* **NVSHAS-9019**: Behebung des unsynchronisierten Link-Status für die Host-Schnittstelle.
+* **NVSHAS-8305**: Entfernen Sie das integrierte Zertifikat.
+* **NVSHAS-9013**: Entfernen des BPF-Filters auf dem Prozessmonitor.
+* **NVSHAS-7853**: TLS-Handshake EOF.
+* **NVSHAS-9290**: Vom Benutzer hinzugefügte Prozessprofilregel wird bei aktiviertem ZD nicht wirksam.
+* **NVSHAS-9301**: NV, die auf Rancher Prime eingesetzt wird, kann nicht erkennen, dass es sich um Rancher-Geschmack handelt.
+* **NVSHAS-9289**: Upgrade zulassen, wenn RBAC nicht vorhanden ist.
+* **NVSHAS-7601**: Verbesserung der Wiederherstellung von PV-Konfigurations-Backups bei Szenarien.
+* **NVSHAS-7687**: Hinzufügen der Syslog-Level-Einstellung für den Enforcer.
+* **NVSHAS-9292**: Fix Ingress Egress Exposition zeigt 0 Schwachstellen.
+* **NVSHAS-9270**: Unterstützung von k3s für die CIS-Benchmark-Pipeline.
+* **NVSHAS-9338**: Warnung 'Verwalteter Cluster [id] ist nicht mehr mit dem primären verbunden'.
+* **NVSHAS-9358**: Die Bildsuche über einen Proxy schlägt fehl.
+* **NVSHAS-9337**: Senden Sie eine Protokollnachricht, wenn eine SYN-Flut entdeckt wird.
+* **NVSHAS-9209**: Domänen-Cache löschen, wenn der Namespace aus k8s gelöscht wird.
+* **NVSHAS-8985**: Verbundregistrierungen verschwinden nach einem Neustart der Steuerung.
+
+==== Bekanntes Problem:
+
+* **NVSHAS-9443**: Upgrade/Installation durch ArgoCD schlägt fehl, da es das Objekt leases.coordination.k8s.io nicht erstellen kann.
+* **Workaround**: Erstellen Sie die angegebenen Mietobjekte vor dem Upgrade auf 5.4.0 mit der ARGO-CD. Ändern Sie den Namespace, wenn er sich von neuvector unterscheidet.
++
+--
+[,bash]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  name: neuvector-controller
+  namespace: neuvector
+spec:
+  leaseTransitions: 0
+---
+apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  name: neuvector-cert-upgrader
+  namespace: neuvector
+spec:
+  leaseTransitions: 0
+EOF
+----
+--
+
+=== 5.3.4 Juli 2024
+
+==== Fehlerbehebungen
+
+* Die Schnittstellen `+host+` und `+tunnel+` werden erfolgreich mit OpenShift CLI v4.15 abgerufen.
+* Der IP-Bereich 169.254.x.x ist von den IPs der Host-Schnittstellen ausgeschlossen.
+* Überprüfen Sie die Host-Schnittstelle nach 1 Minute nach dem Start des Enforcers erneut.
+* Ein Problem wurde behoben, bei dem der OpenID-URL-Regex nicht funktionierte.
+* Behebt die folgenden CVEs:
++
+|===
+| CVE | Gilt für | Auswirkungen
+
+| CVE-2023-42364
+| busybox
+| {CVE-medium}
+
+| CVE-2023-42365
+| busybox
+| {CVE-medium}
+
+| CVE-2024-6197
+| locken.
+| {CVE-medium}
+
+| CVE-2024-6874
+| locken.
+| {CVE-medium}
+
+| CVE-2024-5535
+| openssl
+| {CVE-critical}
+
+| CVE-2024-4741
+| openssl
+| {CVE-medium}
+|===
+
+=== 5.2.4-s5 Juli 2024
+
+* Behebt die folgenden CVEs:
+
+|===
+| CVE | Gilt für | Auswirkungen
+
+| CVE-2023-42363
+| busybox
+| {CVE-medium}
+
+| CVE-2023-42364
+| busybox
+| {CVE-medium}
+
+| CVE-2023-42365
+| busybox
+| {CVE-medium}
+
+| CVE-2023-42366
+| busybox
+| {CVE-medium}
+
+| CVE-2024-6197
+| locken.
+| {CVE-medium}
+
+| CVE-2024-6874
+| locken.
+| {CVE-medium}
+
+| CVE-2024-5535
+| openssl
+| {CVE-critical}
+
+| CVE-2024-4603
+| openssl
+| {CVE-medium}
+
+| CVE-2024-4741
+| openssl
+| {CVE-medium}
+|===
+
+=== 5.3.3 Juni 2024
+
+==== Erweiterungen
+
+* Erlauben Sie den Benutzern, die Verwendung bestimmter Speicherklassen auf der Seite `+Admission Controls+` zu blockieren.
+* Die Seite `+LDAP Authentication+` hat getrennte Felder für die Konfiguration von `+baseDN+` und `+groupDN+`.
+* `+Egress and Ingress chart+` verfügt über eine neue Spalte für Sicherheitsrisiken, die die Anzahl der Sicherheitsrisiken `+High+` und `+Medium+` für jeden Dienst enthält.
+
+==== Fehlerbehebungen
+
+* Fehler im Zusammenhang mit `+regex+` bei der Verwendung eines Kommas (`+,+`) in einem mehrzeiligen `+Admission Control user criteria+` behoben.
+* Fehler behoben, bei dem der CVE-Scan von `+jar+` -Paketen nicht alle Pakete anzeigte, die von demselben CVE betroffen waren. Jetzt werden alle Vorkommnisse gemeldet.
+* Behebt die folgenden CVEs:
+
+|===
+| CVE | Gilt für | Auswirkungen
+
+| CVE-2024-35195
+| python:anfragen
+| {CVE-medium}
+
+| CVE-2024-21011
+| openjdk11
+| {CVE-low}
+
+| CVE-2024-21012
+| openjdk11
+| {CVE-low}
+
+| CVE-2024-21068
+| openjdk11
+| {CVE-low}
+
+| CVE-2024-21085
+| openjdk11
+| {CVE-low}
+
+| CVE-2024-21094
+| openjdk11
+| {CVE-low}
+|===
+
+==== Andere
+
+* Erlauben Sie Nutzern, Ressourcen für `+updater-cron-job+` einzustellen, wenn sie {product-name} mit dem Helm-Diagramm installieren.
+* Die Versionierung des Prometheus-Exportcontainers wurde überprüft und von der Versionierung auf `+controller+` abgekoppelt.
+* (Scanner) Erkennt das `+R+` Paket/Modul in Ubuntu und Red Hat Enterprise Linux.
+* (Scanner) Unterstützung für PHP Composer-Scan hinzugefügt.
+
+=== 5.2.4-s3 April 2024
+
+* Behebt die folgenden CVEs:
+
+|===
+| CVE | Gilt für | Auswirkungen
+
+| CVE-2021-40633
+| giflib
+| {CVE-high}
+
+| CVE-2023-48161
+| giflib
+| {CVE-high}
+
+| CVE-2024-28757
+| auswandern
+| {CVE-high}
+
+| CVE-2023-39742
+| giflib
+| {CVE-medium}
+
+| CVE-2023-45288
+| go:golang.org/x/net
+| {CVE-medium}
+
+| CVE-2024-25629
+| c-ares
+| {CVE-medium}
+
+| CVE-2024-3651
+| python:idna
+| {CVE-medium}
+
+| CVE-2024-2511
+| openssl
+| {CVE-low}
+|===
+
+=== 5.3.2 April 2024
+
+==== Fehlerbehebungen
+
+* Nach einem Upgrade auf v5.3.1 von einer früheren Version {product-name} können bereits vorhandene benutzerdefinierte Ressourcen von NvClusterSecurityRule versehentlich gelöscht werden. HINWEIS: Die Version 5.3.1 wurde aus Docker Hub entfernt, um das Upgrade-Problem zu vermeiden.
+
+=== 5.3.1 April 2024
+
+[IMPORTANT]
+====
+Die Version 5.3.1 wurde aus Docker Hub entfernt, um das in 5.3.2 behobene Upgrade-Problem zu vermeiden. Bitte verwenden Sie die Version 5.3.2.
+====
+
+==== Erweiterungen
+
+* Erlauben Sie Benutzern, &apos;`+accepted+`&apos; Schwachstellen bei der Verwendung von Github-Aktionen zu definieren, damit sie die Arbeitsabläufe nicht beeinträchtigen.
+* Hinzufügen von Filtern für Schweregrad, Punktzahl und Feed-Bewertung zur Ansicht Assets > Registry > Image Vulnerabilities.
+* Erlauben Sie bei der Konfiguration einer Registry, ob sie den definierten Proxy für die Registry-Image-Scans verwenden soll.
+
+==== Fehlerbehebungen
+
+* Sicherheitsrisiken > Schwachstellen > Erweiterter Filter filtert 'CVE ohne Fix' nicht
+* Unerwartete Verletzung von Container zu Hostmode-Container
+* Akzeptieren des OCI-Image-Formats beim Wechsel zu docker api 1.24
+* Registry Scan sollte keine Nicht-Bild-Artefakte scannen / keinen Fehler protokollieren
+* Ermöglicht die Überprüfung von Bildsignaturen ohne Schlüsselpaar und ohne Abhängigkeit vom Internet oder vom Sigg-Store.
+* Sicherheitsereignisse, die von den Netzwerkregeln in einem bestimmten Knoten nicht zugelassen werden (im Zusammenhang mit den Fehlermeldungen "Container Task chan full")
+* Container ist nicht in der Lage, erfolgreich zur Arbeitslast hinzuzufügen (häufiges Auftreten). Folge einer Blockierung durch Kanalnachrichten.
+
+==== Andere
+
+* Aktualisieren Sie die Scanner-Plugins für Jenkins, GitHub Action und Bamboo.
+* (Scanner) Akzeptiert das OCI-Image-Format beim Wechsel zu docker api 1.24.
+* (Scanner) Registry Scan sollte keine Nicht-Bild-Artefakte scannen / keinen Fehler protokollieren.
+* (Scanner) Unterstützung für php composer scan hinzugefügt.
+
+==== {product-name} UI-Erweiterung v. 1.0 für Rancher März 2024
+
+* Nach der Installation von {product-name} wird xref:rancher.adoc#_suse_security_ui_extension_for_rancher[durch die Aktivierung/Installation] der {product-name} UI-Erweiterung von Rancher ein Dashboard für den Cluster angezeigt, einschließlich Links zum SSO für den gesamten {product-name} -Cluster. HINWEIS: Die Erweiterung wird möglicherweise als Drittanbieter angezeigt, was in einer zukünftigen Version behoben wird. Außerdem können Benutzer von Rancher 2.7.x nach der Installation zwei {product-name} UI Ext-Symbole in der Liste sehen (Fehler). Auf dem einen Symbol steht Deinstallieren (was bedeutet, dass es installiert ist), auf dem anderen Installieren. Dies kann so belassen werden, d.h. nicht erneut installieren, wenn die Erweiterung bereits installiert ist.
+
+=== 5.2.4-s2 Februar 2024
+
+* Behebt die folgenden CVEs:
+* Hoher Lebenslauf: CVE-2023-52425 in expat, CVE-2024-20952 und CVE-2024-20918 in openjdk11
+* Med cve: CVE-2023-52426 in expat, CVE-2024-20926, CVE-2024-20921, CVE-2024-20945 und CVE-2024-20919 in openjdk11, CVE-2024-0727 und CVE-2023-6237 in openssl
+
+=== 5.3.0 Februar 2024
+
+==== Erweiterungen
+
+* Anzeige von externen Ziel-URLs (FQDN) im Dashboard (Egress), in PDF- und CSV-Berichten sowie in den Listen der Netzwerkaktivitäten und Sicherheitsereignisse (Verstöße)
+* Im Erkennungsmodus werden die Ausgänge zu externen FQDN-Adressgruppen automatisch eingelernt. Es wird eine neue benutzerdefinierte externe FQDN-Gruppe erstellt, es sei denn, die externe Verbindung entspricht einer bestehenden Regel.
+* Aktivieren Sie ICMP-Lernen (Erkennungsmodus) und Blockieren (Schutzmodus) durch die neue Controller-Umgebungsvariable CTRL_EN_ICMP_POLICY = 1
+* Export von CRDs nach Github zur Unterstützung von Gitops in ein Standard-Repository über die Konsole oder die REST-API.
+* Unterstützt SAML SSO Single Logout mit ADFS iDP
+* Unterstützung für ARM64-Plattform hinzugefügt. Beim Abruf von ARM-basierten Plattformen werden automatisch die entsprechenden ARM64-Images {product-name} abgerufen.
+* Unterstützung von Webhooks über einen Proxy
+* Verbesserung der Auditing-Funktion der Zulassungskontrolle, um die Ergebnisse aller Regeln zu erfassen. Listet das Ergebnis jeder Regel auf und fügt einen weiteren Eintrag für die endgültige Aktion hinzu, die bei der Auswertung in einer Live-Zulassungskontrollbereitstellung erfolgen würde.
+* Anwendung deaktivierter Admission Control-Regeln über CRD oder yaml (kubectl)
+* Export/Import von Schwachstellenprofilen über Konsole, CRD oder REST API. Beim Importieren wird das bestehende Profil ersetzt. Wenn Sie das CRD löschen, entsteht ein leeres Profil.
+* Export/Import von Compliance-Profilvorlagen über die Konsole, CRD oder REST API. Beim Importieren wird die vorhandene Vorlage ersetzt.
+* Hinzufügen des Status "manuell" in den Konformitätsberichten für CIS-Benchmarks, die von den Benutzern manuell ausgeführt werden müssen (nicht von {product-name}).
+* Verbessern Sie das Laden der Benutzeroberfläche und die Leistung der Seite "Schwachstellen".
+* Vereinheitlichen Sie die Browser-Sitzungsanmeldung. Damit teilen sich alle Registerkarten im Browser dieselbe Anmeldesitzung, beim Öffnen einer neuen Registerkarte aus einer bestehenden Sitzung heraus werden keine Anmeldedaten abgefragt, und wenn sich eine Registerkarte abmeldet, werden alle Registerkarten abgemeldet.
+* Verbesserungen der Sicherheit der Konsole (UI): 1) obligatorische Sicherheits-Header hinzufügen (X-Content-Type-Options nosniff; X-XSS-Protection 1; mode=block; X-Frame-Options SAMEORIGIN; Cache-Control private, no-cache, no-store, must-revalidate HTTP Strict Transport Security max-age=15724800, 2) CSP-Header hinzufügen (z. B. eine &apos;`+default-src+`&apos; -Direktive setzen), 3) Offenlegung des Servernamens entfernen
+* Unterstützung neuerer Versionen von CIS-Benchmarks. Kubernetes (1.8.0), Kubernetes V1.24 (1.0.0), Kubernetes V1.23 (1.0.1), RedHat OpenShift Container Platform (1.4.0)
+* In Assets -> Containers -> Containerdetails Container anzeigen, die in Registern zur Laufzeit durchsucht wurden
+* Link zur Gruppe im Popup-Fenster Sicherheitsrisiken -> Schwachstellen -> Auswirkungen hinzufügen, um den Gruppenmodus einfach zu bearbeiten
+* Unterstützung von Deep Linking in URLs zu Bild- und/oder Container-Schwachstellen-Seite
+* Hinzufügen der Option zum Zurücksetzen des Passworts für den Administrator zum Zurücksetzen des Benutzerpassworts in der Konsole Einstellungen -> Benutzer
+* Erlauben Sie das Senden von Ereignisprotokollen an Controller-Pod-Protokolle unter Einstellungen -> Konfiguration -> Benachrichtigung. Die gesendeten Ereignisse beginnen mit "notification=" und werden nur auf dem Leader-Controller-Pod gespeichert. Beachten Sie, dass es in dieser Version einen Fehler gibt, bei dem zum Ändern der Ereignisebene SYSLOG aktiviert sein muss (und auf Wunsch nach dem Ändern der Ebene deaktiviert werden kann).
+* Entfernen Sie die Anforderung, dass Controller/Enforcer "/host/cgroup" mounten müssen.
+* Hinzufügen des Menüs "Get Support" mit Links zu Slack, Dokumentation und anderen Ressourcen
+* Nachrichtenfeld in /v1/log/activity logs ausfüllen
+
+==== Fehlerbehebungen
+
+* Interner Serverfehler in Sicherheitsrisiken -> Sicherheitslücken mit einer hohen Anzahl von CVEs
+* SIGSEGV: Segmentierungsverletzung am Controller
+* Löschen von verwundbaren Dateien (z.B. jar) entfernt nicht aus der Liste der Verwundbarkeiten
+* Ungültiges Syslog-Zertifikat unter Verwendung des Signaturalgorithmus SHA256mitECDSA
+* {product-name} zeigt Sicherheitsereignisse, die durch eine Netzwerkregel zugelassen werden sollen
+* Nicht verwalteter Knoten mit laufendem "Zombie"-Enforcer
+* Der erweiterte Filter zeigt die Felder Behebung und Auswirkungen leer an
+* Korrigierte String-Behandlung, um einen unerwarteten Neustart des Enforcers zu verhindern
+* Unerwartete Verstöße im Zusammenhang mit eingebauten Gruppen
+* Support-Bundle Enforcer Debug RPC-Aufruf für Daten liefert Fehler
+* Gruppe passt nicht in Sicherheitsereignisse
+* Das Senden von Ereignissen an Slack funktioniert nicht - mit Proxy
+* Anzeige von Sicherheitsereignissen für erlaubte Netzwerkregeln
+
+==== Andere
+
+* Hinzufügen der automatischen Erkennung von Container-Engines (Sockets) während der Laufzeit zum Helm-Diagramm
+* Entfernen Sie die Einstellung für den Betrieb des Controllers im privilegierten Modus im Helm-Diagramm und die Anforderung, dass der Controller/Enforcer "/host/cgroup" mounten muss.
+* Die Kubernetes-Beispieldateien wurden aus den {product-name} -Dokumenten entfernt. Beispiele finden Sie unter dem Link.
+
+==== Hervorgehobene Änderungen, die möglicherweise Änderungen für manuelle Einsätze erfordern (alle Änderungen sind bereits im neuesten Helm-Diagramm für 5.3.x enthalten)
+
+* Durch die automatische Erkennung der Container-Laufzeit (Socket) entfällt die Notwendigkeit, die Container-Laufzeit und den Socket-Pfad anzugeben.
+* Durch die Aufhebung der Anforderung, den Controller im privilegierten Modus zu betreiben, entfällt die Notwendigkeit, den Runtime-Socket und /host/cgroup/ einzubinden
+* Rolle/Rollenbindung für neuvector-binding-secret sowie neuvector-secret in yaml hinzugefügt.
+* Neue Dienstkonten und Rollenbindungen für 5.3 erforderlich
+* Alle referenzierten Deployment-Yaml-Dateien haben jetzt /5.3.0/ in ihren Pfaden
+
+=== 5.2.4-s1 Januar 2024
+
+==== Freigabe von Sicherheits-Patches
+
+* Behebt CVE-2023-6129 in openssl, und CVE-2023-46219, CVE-2023-46218 in curl.
+
+=== 5.2.4 November 2023
+
+==== Fehlerbehebungen
+
+* Azure AKS ValidatingWebhookConfiguration Änderungen und Fehlerprotokollierung.
+
+=== 5.2.3 November 2023
+
+==== Erweiterungen
+
+* Hinzufügen von Unterstützung für NVD API 2.0 in Scanner.
+* Scannen Sie den Container-Host im Standalone-Modus des Scanners.
+
+[,shell]
+----
+docker run --rm --privileged --pid=host neuvector/scanner -n
+----
+
+==== Fehlerbehebungen
+
+* Scan auf einem Knoten schlägt aufgrund eines blockierten docker cp / grpc Problems fehl.
+
+=== 5.2.2-s1 Oktober 2023
+
+==== Sicherheits-Update
+
+* Aktualisieren Sie die Pakete, um CVEs zu beheben, einschließlich High CVE-2023-38545 und CVE-2023-43804.
+
+=== 5.2.2 Oktober 2023
+
+==== Sicherheitshinweis für CVE-2023-32188
+
+* Behebung von CVE-2023-32188 &quot;`+JWT token compromise can allow malicious actions including Remote Code Execution (RCE)+`&quot; durch die automatische Generierung von Zertifikaten, die zum Signieren von JWT-Token bei der Bereitstellung und Aktualisierung verwendet werden, und die automatische Generierung von Manager/RESTful API-Zertifikaten während Helm-basierter Bereitstellungen.
+ ** Das Zertifikat für die JWT-Signierung wird vom Controller automatisch mit einer Gültigkeit von 90 Tagen erstellt und automatisch erneuert.
+ ** Die automatische Generierung von Manager-, REST-API- und Registry-Adapter-Zertifikaten erfordert eine Helm-basierte Installation mit {product-name} helm version 2.6.3 oder höher.
+ ** Das integrierte Zertifikat wird weiterhin für yaml-basierte Bereitstellungen verwendet, wenn es nicht während der Bereitstellung ersetzt wird; es wird jedoch empfohlen, diese zu ersetzen (siehe nächste Zeile).
+ ** Das manuelle xref:replacecert.adoc[Ersetzen von Zertifikaten] wird weiterhin unterstützt und für frühere Versionen oder yaml-basierte Implementierungen empfohlen. Eine Beschreibung finden Sie im {product-name} GitHub Sicherheitshinweis https://github.com/neuvector/neuvector/security/advisories/GHSA-622h-h2p8-743x[hier].
+ ** Die Verwendung von vom Benutzer bereitgestellten Zertifikaten wird nach wie vor sowohl für Helm- als auch für yaml-basierte Bereitstellungen unterstützt.
+* Hinzufügen zusätzlicher Kontrollen für benutzerdefinierte Compliance-Skripte. Standardmäßig können jetzt keine benutzerdefinierten Skripte mehr hinzugefügt werden, es sei denn, die Umgebungsvariable CUSTOM_CHECK_CONTROL wird zu Controller und Enforcer hinzugefügt. Die Werte sind "disable" (Standard, nicht erlaubt), "strict" (nur Admin-Rolle) oder "loose" (Admin-, Compliance- und Runtime-Policy-Rollen).
+* Verhinderung der LDAP-Injektion - das Feld für den Benutzernamen wird escaped.
+
+==== Erweiterungen
+
+* Hinzufügen zusätzlicher Scandaten zu CVE-Ergebnissen, die von SYSLOG für mehrschichtige Scans gesendet werden
+* Unterstützung von NVD API 2.0 zum Scannen der CVE-Datenbank
+* Bereitstellung des Erstellungsdatums des Container-Images in den Assets -> Containerdetails
+* Anpassen der Sortierung für Netzwerkregeln: Deaktivieren Sie die Sortierung in der Ansicht Netzwerkregeln, aber aktivieren Sie die Sortierung der Netzwerkregeln in der Gruppenansicht.
+* Aktivieren/Deaktivieren der TLS 1.0- und TLS 1.1-Erkennung/Warnung mit Umgebungsvariablen für Enforcer THRT_SSL_TLS_1DOT0, THRT_SSL_TLS_1DOT1. Standardmäßig deaktiviert.
+* Hinzufügen der Umgebungsvariable AUTO_PROFILE_COLLECT für Controller und Enforcer zur Unterstützung der Erfassung der Speichernutzung bei der Untersuchung von Speicherdruckereignissen. Zum Aktivieren Wert = 1 setzen.
+* Konfigurationsbewertungen für die Zulassungskontrolle sollten alle Verstöße mit einem Scan aufzeigen.
+* Fügen Sie mehr Optionen für CVE-Berichtskriterien in Antwortregeln hinzu. Beispiel 1 - "cve-high-with-fix:X" bedeutet: Wenn die Anzahl der (behobenen) Sicherheitslücken >= X ist, wird die Reaktionsregel ausgelöst. Beispiel 2 - "cve-high-with-fix:X/Y" bedeutet: Wenn die Anzahl der (vor Y Tagen gemeldeten und behobenen) Sicherheitslücken >= X ist, wird die Reaktionsregel ausgelöst.
+
+==== Fehlerbehebungen
+
+* Export von Gruppenrichtlinien liefert keine aktuellen YAML-Inhalte
+* Verbessern Sie das Pruning von Namensräumen mit einer speziellen Funktion
+* {product-name} Namespace-Benutzer kann keine Assets sehen-->Namespaces
+* Überspringen der Bearbeitung von CRD CREATE/UPDATE-Anfragen, wenn der Namensraum des CR bereits gelöscht ist
+* Bieten Sie eine Abhilfe für einen Teil der CRD-Gruppen, die nach dem Löschen von Namensräumen nicht erfolgreich beschnitten werden können.
+
+=== 5.2.1 August 2023
+
+==== Erweiterungen
+
+* Berichten Sie mehrschichtige Scanergebnisse und zusätzliche CVE-Daten in SYSLOG-Nachrichten. Dies wird über ein Kontrollkästchen in Einstellungen -> Konfiguration -> SYSLOG aktiviert.
+* Export von NIST 800-53-Zuordnungen (zu Docker-CIS-Benchmarks) im exportierten csv-Konformitätsbericht
+* Unterstützung der Proxy-Einstellung bei der Überprüfung der Bildsignatur
+* Bildsignatur-Scanergebnis in den heruntergeladenen CVE-Bericht einschließen
+* Unterstützung von Pod-Anmerkungen für Zulassungskontrollrichtlinien, verfügbar über die benutzerdefinierten Kriterien
+* Hinzufügen des Feldes Letzte Änderung zum Filter für den Druck von Schwachstellenberichten sowie des erweiterten Filters in der Ansicht Schwachstellen
+
+==== Fehlerbehebungen
+
+* Erstellen Sie bei der ersten Bereitstellung von {product-name} für das AWS-Abrechnungsangebot (CSP-Adapter) keinen Standard-Admin mit Standard-Passwort, so dass der Benutzer ein Geheimnis verwenden muss, um Admin-Benutzername und -Passwort zu erstellen.
+* Behebung einer .json-Datei, die die Größe erhöhte und einen Kubernetes-Knoten zum Absturz brachte
+* Verbesserung der Logik zur Erkennung von SQL-Injektionen
+* Wenn zuerst die Steuerkarte installiert wird, bevor die Hauptkarte {product-name} installiert wird, fehlen die Dienstkonten
+* Bildscan I.4.1 Konformitätsergebnis ist falsch
+* Erweiterter Schwachstellen-Filterbericht zeigt Bilder aus allen anderen Namespaces
+
+=== 5.2.0 Juli 2023
+
+==== Erweiterungen
+
+* Unterstützung von Token für den {product-name} API-Zugang. Siehe Einstellungen -> Benutzer, API-Schlüssel..., um einen neuen API-Schlüssel zu erstellen. Die Schlüssel können auf Standard- oder benutzerdefinierte Rollen eingestellt werden.
+* Unterstützung der AWS Marketplace PAYG-Abrechnung für {product-name} monatliche Support-Abonnements. Benutzer können {product-name} durch den SUSE-Support abonnieren. Die Abrechnung erfolgt monatlich über ihr AWS-Konto auf der Grundlage der durchschnittlichen Knotenanzahl des Vormonats. Details https://open-docs.neuvector.com/deploying/awsmarketplace[hier].
+* Unterstützung der Bildsignierung für Zugangskontrollen. Benutzer können von {product-name} verlangen, dass Images von bestimmten Parteien signiert werden, bevor sie in der Produktionsumgebung bereitgestellt werden können, und zwar durch eine Integration mit Sigstore/Cosign. Siehe Assets -> Sigstore Verifiers zur Erstellung neuer Signatur-Assets. Es können dann Regeln mit den Kriterien Image Signing und/oder Image Sigstore Verifiers erstellt werden.
+* Aktivieren Sie für jede Zulassungskontrollregel den eigenen Modus "Überwachen" oder "Schützen". Eine Ablehnungsaktion im Überwachungsmodus führt zu einer Warnung, eine Ablehnungsaktion im Schutzmodus zu einer Sperrung. Erlaubte Aktionen sind davon nicht betroffen.
+* Fügen Sie unter Policy > Admission Control > Add Rule for Users and User Groups einen neuen Regex-Operator hinzu, um Regex zu unterstützen. Unterstützung der Operatoren "passt auf ANY regex in" und "passt auf NONE regex in".
+* Hinzufügen von Unterstützung für Zulassungskontrollkriterien wie z. B. Ressourcenlimits. Es wurde ein neues Kriterium für Ressourcenlimits hinzugefügt, und zusätzliche Kriterien werden über die Einstellungen für benutzerdefinierte Kriterien unterstützt.
+* Unterstützung des Aufrufs des {product-name} Scanners von Harbor-Registrierungen aus über die https://github.com/goharbor/pluggable-scanner-spec[pluggable scanner] interface. Dies erfordert die Konfiguration der Verbindung zum Controller (exponierte API). Der Harbor-Adapter ruft den Endpunkt des Controllers auf, um einen Scan auszulösen, der auf Knopfdruck automatisch durchgeführt werden kann. Abfragedienste können für periodische Scans verwendet werden. Scan-Ergebnisse von Federation Primary Controllern SIND an Remote-Cluster weitergegeben worden.  HINWEIS: Es gibt ein Problem mit dem HTTPS-basierten Adapter-Endpunkt-Fehler: Bitte ignorieren Sie den Testverbindungsfehler, er funktioniert, obwohl ein Fehler angezeigt wird (überspringen Sie die Zertifikatsvalidierung).
+* Durchsuchbarer SaaS-Dienst für CVE-Abfragen. Durchsuchen Sie die neueste {product-name} CVE-Datenbank, um zu sehen, ob ein bestimmtes CVE in der Datenbank existiert. Dieser Service ist für {product-name} Prime-Kunden (kostenpflichtiges Support-Abonnement) verfügbar. Kontaktieren Sie den Support über Ihr SCC-Portal, um Zugang zu erhalten.
+* Erlaubt dem Benutzer, den Netzwerkschutz zu deaktivieren, aber WAF/DLP funktionsfähig zu lassen. Konfigurieren Sie die Aktivierung von Netzwerkrichtlinien unter Einstellungen -> Konfiguration.
+* Verwenden Sie für jede Komponente von {product-name} je nach Bedarf weniger privilegierte Dienstkonten. Es wird eine Variable &quot;`+leastPrivilege+`&quot; eingeführt. Der Standardwert ist false. HINWEIS: Die Verwendung der aktuellen Steuerkarte mit dieser Variable auf einer Version vor 5.2.0 wird nicht richtig funktionieren.
+* Bindung an ein nicht standardmäßiges Dienstkonto, um die CIS 1.5 5.1.5 Empfehlung zu erfüllen.
+* Ermöglichen Sie es dem Administrator, die Standard-Sitzungszeit des Benutzers unter Einstellungen -> Benutzer, API-Schlüssel und Rollen zu konfigurieren.
+* Anpassbarer Login-Banner und anpassbarer UI-Header-Text für regulierte und behördliche Einsätze. Die Anforderungen für die Konfiguration finden Sie xref:customui.adoc[hier].
+* SYSLOG-Unterstützung für TLS-verschlüsselten Transport. Wählen Sie TCP/TLS unter Einstellungen -> Konfiguration für SYSLOG.
+* Aktivieren Sie die Bereitstellung des {product-name} monitor helm chart von Rancher Manager.
+* Entfernen Sie die Obergrenze für die Top-Level-Domain im URL-Validator für das Scannen der Registry.
+* Scannen von Golang-Abhängigkeiten, einschließlich Laufzeit-Scans.
+* Unterstützung des Debian 12 (Bookworm) Verwundbarkeits-Scans.
+* Hinzufügen von CSV-Export für Registry / Details zum Exportieren von CVEs für alle Bilder in der konfigurierten Registry in Assets -> Registries für eine ausgewählte Registry.
+* Erlauben Sie {product-name}, mehrere ADFS-Zertifikate parallel im x.509-Zertifikatsfeld zu setzen.
+* Hinzufügen und Anzeigen des Kommentarfelds für Antwortregeln.
+* Geben Sie über eine Umgebungsvariable an, was {product-name} als Systemcontainer betrachtet. Zum Beispiel für Rancher und Standard-Namespaces: NV_SYSTEM_GROUPS=*cattle-system;default
+* Unterstützung für Kubernetes 1.27 und OpenShift 4.12 hinzufügen
+
+==== Fehlerbehebungen
+
+* Reduzieren Sie sich wiederholende Protokolle in Enforcer/Controller-Protokollen.
+* Die Seite mit mehreren Clustern wird nicht angezeigt.
+* Die automatische Löschung leerer Gruppen dauert 2 Stunden statt 1 Stunde wie im Zeitplan vorgesehen.
+* Manuell zugelassene Netzwerkregel wird nicht angewandt und führt zu einem Verstoß für das Pausenbild.
+* Blockieren von SSL-Verbindungen, auch wenn eine Netzwerkregel den Verkehr unter bestimmten Ausgangsbedingungen zulässt.
+* Warnung vor Sicherheitsereignissen auch bei erlaubten Netzwerkregeln aufgrund eines Problems bei der Richtlinienaktualisierung bei der Synchronisierung.
+* Netzwerkaktivitäten assoziieren fälschlicherweise benutzerdefinierten Gruppenverkehr mit externen.
+* Das standardmäßige Dienstkonto-Token des in jedem Pod gemounteten Namespaces ist zu hoch privilegiert.
+* Trotz der Definition der Netzwerkregeln werden Verstöße unter den Sicherheitsereignissen protokolliert (False Positives), wenn der Container aufgrund eines OOM-Fehlers (Out of Memory) angehalten wurde.
+* Ermöglicht dem Benutzer, die Erkennung und den Schutz vor nicht verwalteten Containern im Cluster zu deaktivieren/aktivieren. Dies kann über die Manager-CLI eingestellt werden:
+
+[,shell]
+----
+set system detect_unmanaged_wl status -h
+Usage: cli set system detect_unmanaged_wl status [OPTIONS] {true|false}
+
+  Enable/disable detect unmanaged container
+----
+
+==== Andere
+
+* Hinzufügen der Einstellung "leastPrivilege" im Helm-Diagramm. Hinzufügen der Steueroption für New_Service_Profile_Baseline. Eine neue Version von Helm Chart (Core) wurde für 5.2 veröffentlicht.
+* Aktivieren Sie die Einstellungen für die Integration von AWS Marketplace (Abrechnungsadapter) im Helm-Diagramm.
+* Aktualisierung der Configmap zur Unterstützung neuer Funktionen (mehrere ADFS-Zertifikate, Zero Drift, New_Service_Profile_Baseline, SYSLOG TLS, User Timeout)
+* Aktualisierung der unterstützten Kubernetes-Versionen auf 1.19+ und OpenShift 4.6+ (1.19+ mit CRI-O)
+
+=== 5.1.3 Mai 2023
+
+==== Erweiterungen
+
+* Hinzufügen eines neuen Schwachstellen-Feeds zum Scannen von Microsoft .NET Framework.
+* Die Enforcer-Statistiken sind im Prometheus-Exporter standardmäßig deaktiviert, um die Skalierbarkeit zu verbessern.
+* Verbesserung der Benutzerfreundlichkeit: Mit dem Scanner ein einzelnes Bild scannen und das Ergebnis ausdrucken (siehe Beispiel unten).
+* Hinzufügen einer imagePullPolicy-Prüfung in den Kriterien für die Zulassungskontrollregeln.
+* Warnmeldung anzeigen, wenn das CRD-Schema veraltet ist.
+
+==== Fehlerbehebungen
+
+* Der Bildschirm Netzwerkaktivität wird nicht oder falsch dargestellt.
+* Die automatische Löschung leerer Gruppen dauert 2 Stunden statt 1 Stunde wie im Zeitplan vorgesehen.
+* Das Compliance-Profil wird in der UI-Konsole nicht angezeigt.
+* Erweiterter Filter in Sicherheitsereignissen Fehlt die Stufe "Fehler".
+* Gespeichertes Passwort mit Sonderzeichen schlägt bei zukünftigen Authentifizierungsversuchen fehl.
+* Die Seite mit mehreren Clustern wird bei einer hohen Anzahl von Anfragen nicht richtig dargestellt.
+* Das Detailfenster der Registrierung (unten) wird nicht aktualisiert.
+
+==== Scanner Musterausgabe
+
+[,shell]
+----
+Image: https://registry.hub.docker.comlibrary/alpine:3.4
+Base OS: alpine:3.4.6
+TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
+┌─────────┬───────────────┬──────────┬───────────┬───────────────┬────────────┐
+│ PACKAGE │ VULNERABILITY │ SEVERITY │ VERSION   │ FIXED VERSION │ PUBLISHED  │
+├─────────┼───────────────┼──────────┼───────────┼───────────────┼────────────┤
+│ openssl │ CVE-2018-0732 │ High     │ 1.0.2n-r0 │ 1.0.2o-r1     │ 2018-06-12 │
+│         ├───────────────┼──────────┤           ├───────────────┼────────────┤
+│         │ CVE-2018-0733 │ Medium   │           │ 1.0.2o-r0     │ 2018-03-27 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-0734 │          │           │ 1.0.2q-r0     │ 2018-10-30 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-0737 │          │           │ 1.0.2o-r2     │ 2018-04-16 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-0739 │          │           │ 1.0.2o-r0     │ 2018-03-27 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-5407 │          │           │ 1.0.2q-r0     │ 2018-11-15 │
+└─────────┴───────────────┴──────────┴───────────┴───────────────┴────────────┘
+----
+
+=== 5.1.2 März 2023
+
+==== Erweiterungen
+
+* Unterstützung von auf virtuellen Hosts basierenden Adressgruppen und richtlinienkonformen Netzwerkschutzmaßnahmen. Dies ermöglicht einen Anwendungsfall, bei dem zwei verschiedene FQDN-Adressen in dieselbe IP-Adresse aufgelöst werden, aber unterschiedliche Regeln für jeden FQDN durchgesetzt werden sollen. Eine neue benutzerdefinierte Gruppe mit &apos;`+address=vh:xxx.yyy+`&apos; kann mit dem Kennzeichen &apos;`+vh:+`&apos; erstellt werden, um diesen Schutz zu aktivieren. Eine Netzwerkregel kann dann die benutzerdefinierte Gruppe als &apos;`+From+`&apos; Quelle basierend auf dem virtuellen Hostnamen (anstelle der aufgelösten IP-Adresse) verwenden, um unterschiedliche Regeln für virtuelle Hosts durchzusetzen.
+* Liste der Compliance-Container, um ausgeschiedene Container auszuschließen.
+* Erweiterung der DLP-Regeln zur Unterstützung einfacher Platzhalter in den Mustern.
+* Hinzufügen von Unterstützung für cri-o 1.26+ und OpenShift 4.11+.
+* Machen Sie Gravatar optional.
+* Anzeige der Cluster-Namespace-Ressource in der Konsole / UI.
+* Anzeige des Schweregrads/der Klassifizierung der Quelle (z. B. Red Hat, Ubuntu...) zusammen mit der NVD-Schweregradbewertung in der Konsole.
+* SSO/RBAC-Deaktivierung für Rancher und OpenShift nicht zulassen, wenn der Benutzer über SSO authentifiziert ist.
+* Hinzufügen von Auto-Scan-Aktivierung und Löschung unbenutzter Gruppen in der configMap.
+* IP-Adresse für externe Quelle/Ziel in csv/pdf für implizite Deny-Verstöße einschließen
+* Verschiedene Leistungs- und Skalierbarkeitsoptimierungen für die CPU- und Speichernutzung von Controller und Enforcer.
+
+==== Fehlerbehebungen
+
+* Behebung der Verlangsamung von Anwendungen auf GKE Container Optimized OS (COS) Nodes im Protect-Modus.
+* SUSE Linux (SLES) 15.4 CVE passt nicht in den Scanner. Mit dieser Korrektur wird die Schwachstelle in die Datenbank aufgenommen, wenn der Schweregrad im Feed angegeben wird, auch wenn der NVD-Datensatz fehlt. Es ist möglich, dass der Bericht Schwachstellen ohne CVE-Bewertungen enthält.
+
+==== Andere
+
+* Verbesserung der CRD-Optionen für die Zulassungskontrolle in helm https://github.com/neuvector/neuvector-helm/pull/237.
+* Fügen Sie neue Enforcer-Umgebungsvariablen zur Steuerkarte hinzu.
+
+=== 5.1.1 Februar, 2023
+
+==== Erweiterungen
+
+* Fügen Sie &quot;`+package+`&quot; als Information zum Syslog-Ereignis für eine entdeckte Sicherheitslücke hinzu.
+* Fügen Sie die Enforcer-Umgebungsvariable ENF_NETPOLICY_PULL_INTERVAL hinzu - Wert in Sekunden (empfohlener Wert 60), um den Netzwerkverkehr und den daraus resultierenden Ressourcenverbrauch durch Enforcer aufgrund von Richtlinienaktualisierungen/-neuberechnungen zu reduzieren. (Hinweis: Dies war ein nicht dokumentierter Zusatz bis August 2023).
+
+[,yaml]
+----
+           - name: ENF_NETPOLICY_PULL_INTERVAL
+             value: "60"   <== regulate the pulling gap by 60 seconds
+----
+
+==== Fehlerbehebungen
+
+* Fehler beim Löschen einer leeren Gruppe "Objekt nicht gefunden"
+* Verkehr innerhalb desselben Containers - Alarmierung/Blockierung
+* Unerwartete implizite Verstöße für istio-Egress-Verkehr bei bestehender Erlaubnisregel
+* Beim Upgrade von {product-name} 4.x verursacht eine falsche Pod-Gruppenmitgliedschaft eine unerwartete Richtlinienverletzung
+* OIDC-Authentifizierung schlug mit ADFS fehl, wenn zusätzliche Kodierungszeichen in der Anfrage auftauchten
+* Hoher Speicherverbrauch beim Erstellen und Löschen von Pods durch dp
+* Aktualisieren Sie Alpine, um mehrere CVEs zu beheben, einschließlich Manager: CVE-2022-37454, CVE-2022-42919, CVE-2022-45061, CVE-2021-46848; Enforcer: CVE-2022-43551, CVE-2022-43552
+* Verschiedene UI-Fehler behoben
+
+==== Andere
+
+* Helmkarte aktualisiert, um die Ersetzung des Zertifikats für die interne Kommunikation zu ermöglichen
+
+=== 5.1.0 Dezember, 2022
+
+==== Erweiterungen
+
+* Zentralisierte Multi-Cluster-Scan-Datenbank (CVE). Der primäre (Master-)Cluster kann eine als Verbundregistry bezeichnete Registry/Repo scannen. Die Scanergebnisse aus diesen Registern werden mit allen verwalteten (entfernten) Clustern synchronisiert. Dies ermöglicht die Anzeige der Scan-Ergebnisse in der Konsole des verwalteten Clusters sowie die Verwendung der Ergebnisse in den Regeln für die Zugangskontrolle des verwalteten Clusters. Die Register müssen nur einmal gescannt werden, anstatt von jedem Cluster, was die CPU/Speicher- und Netzwerkbandbreitennutzung reduziert.
+* Verbessern Sie die Regeln für die Zulassungskontrolle:
+ ** Benutzerdefinierte Kriterien für Zulassungskontrollregeln. Benutzer können Ressourcenkriterien für alle pod-bezogenen Felder definieren, die in Regeln verwendet werden können, z. B. item.metadata.annotationsKey enthält 'neuvector', item.metadata.name='xyzzy' usw.
+ ** Hinzufügen von Kriterien zur Prüfung auf RBAC-Einstellungen mit hohem Risiko für Dienstkonten bei der Bereitstellung von Pods. Dazu gehören die Kriterien 'jede Aktion von Workload-Ressourcen', 'jede Aktion auf RBAC', 'Workload-Ressourcen erstellen', 'Geheimnisse auflisten' und 'in einen Container ausführen'.
+ ** Hinzufügen eines semantischen Versionsvergleichs zu Modulen für Zulassungskontrollregeln. Dies ermöglicht die Anwendung der Operatoren > oder < auf Versionsnummern in Regeln (z.B. nicht zulassen, dass das Modul curl<6.2.0 eingesetzt wird). Dies ermöglicht spezifische Versionsprüfungen für installierte Pakete.
+ ** Hinzufügen einer Zulassungskontrollregel für Pod Security Admission (PSA), die in Kubernetes 1.25+ unterstützt wird.
+* Neue Umgebungsvariable NO_DEFAULT_ADMIN hinzufügen, die, wenn sie aktiviert ist, keinen 'admin'-Benutzer erstellt. Dies wird für die Rancher SSO-Integration als Standard verwendet. Wenn diese Option nicht aktiviert ist, wird der Benutzer ständig gewarnt und es werden Ereignisse aufgezeichnet, um das Standard-Administratorkennwort zu ändern, wenn es nicht vom Standardwert abweicht.
+* Das Blockieren der Anmeldung nach fehlgeschlagenen Anmeldeversuchen ist nun die Standardeinstellung. Der Standardwert ist 5 Versuche und kann unter Einstellungen -> Benutzer & Rollen-> Passwortprofil konfiguriert werden.
+* Neue Umgebungsvariable für die Leistungsoptimierung ENF_NO_SYSTEM_PROFILES, Wert hinzufügen: "1". Wenn sie aktiviert ist, werden die Prozess- und Dateiüberwachungen deaktiviert. Es werden keine Lernprozesse, keine Profilmodi, keine Prozess-/Datei-(Paket-)Vorfälle und keine Datei-Aktivitätsüberwachung durchgeführt. Dadurch werden die CPU-/Speicherressourcen und die Dateioperationen reduziert.
+* Fügen Sie eine benutzerdefinierte Einstellung zur automatischen Skalierung für Scanner-Pods hinzu, mit den Werten Verzögert, Sofort und Deaktiviert. Das ist wichtig: Die automatische Skalierung des Scanners wird nicht unterstützt, wenn der Scanner mit einem OpenShift-Operator bereitgestellt wird, da der Operator die Anzahl der Pods immer auf den konfigurierten Wert ändert.
+ ** *_Verspätete Strategie:_*
+  *** Wenn der Lead Controller für > 90 Sekunden kontinuierlich "task count" > 0 sieht, wird ein neuer Scanner-Pod gestartet, wenn maxScannerPods noch nicht erreicht ist
+  *** Wenn der Lead Controller für mehr als 180 Sekunden kontinuierlich sieht, dass "task count" 0 ist, wird ein Scanner-Pod verkleinert, wenn minScannerPods noch nicht erreicht ist
+ ** *_Unmittelbare Strategie:_*
+  *** Jedes Mal, wenn der Lead Controller "task count" > 0 sieht, wird ein neuer Scanner-Pod gestartet, wenn maxScannerPods noch nicht erreicht ist
+  *** Wenn der Lead Controller für mehr als 180 Sekunden kontinuierlich sieht, dass "task count" 0 ist, wird ein Scanner-Pod verkleinert, wenn minScannerPods noch nicht erreicht ist
+* Benutzerdefinierte Gruppen können jetzt Namespace-Labels verwenden, einschließlich der Namespace-Labels von Rancher. Generell können nun Pod- und Namespace-Labels zu Custom Groups hinzugefügt werden.
+* Hinzufügen der Möglichkeit, ausgewählte Namespaces und Gruppen in der Netzwerkaktivitätsansicht auszublenden.
+* Volle Unterstützung für Cilium cni.
+* Volle Unterstützung von OpenShift 4.9 und 4.10.
+* Für das Projekt {product-name}/Open Zero Trust (OZT) sind jetzt Build-Tools verfügbar unter https://github.com/openzerotrust/openzerotrust.io.
+* {product-name} listet nun die Versions-ID und den SHA256 Digest für jede Version des Controllers, Managers und Enforcers unter https://github.com/neuvector/manifests/tree/main/versions.
+* Anonyme Telemetriedaten (Anzahl der Knoten, Gruppen, Regeln) werden jetzt bei der Bereitstellung an einen Rancher-Cloud-Dienst gemeldet, um dem Projektteam zu helfen, das Nutzungsverhalten zu verstehen. Dies kann in der Benutzeroberfläche oder mit der configMap (No_Telemetry_Report) oder der REST API deaktiviert werden (Opt-out).
+* (Nachtrag Januar 2023). Unterstützung für ServiceEntry-basierte Netzwerkrichtlinien mit Istio. Die Funktionalität zur Durchsetzung von Egress-Netzwerkrichtlinien wurde in Version 5.1.0 für Pods zu ServiceEntry-Zielen hinzugefügt, die mit Istio deklariert wurden. In der Regel definiert ein ServiceEntry, wie ein externer Dienst, auf den ein DNS-Name verweist, in eine Ziel-IP aufgelöst wird. Vor Version 5.1 konnte {product-name} keine Regeln für Verbindungen zu einem ServiceEntry erkennen und durchsetzen, so dass alle Verbindungen als extern eingestuft wurden. Mit 5.1 können Regeln für bestimmte ServiceEntry-Ziele durchgesetzt werden. WICHTIG! Wenn Sie ein Upgrade auf v5.1 mit einer Istio-basierten Bereitstellung durchführen, müssen neue Regeln erstellt werden, um diese Verbindungen zuzulassen und Verletzungswarnungen zu vermeiden. Nach dem Upgrade werden implizite Verstöße für neu sichtbaren Datenverkehr gemeldet, wenn keine Erlaubnisregeln vorhanden sind. Im Erkennungsmodus können neue Verkehrsregeln gelernt und automatisch erstellt werden. Um diesen Datenverkehr zuzulassen, können Sie die Gruppe in den Erkennungsmodus versetzen oder eine benutzerdefinierte Gruppe mit Adressen (oder DNS-Namen) und neuen Netzwerkregeln für dieses Ziel erstellen, um den Datenverkehr zuzulassen. HINWEIS: In Version 5.1.0 gibt es einen Fehler bei der Angabe des Ziels, das von den Deny-Verstößen gemeldet wird und nicht das richtige Ziel darstellt.  Der Fehler meldet, dass sowohl server_name als auch client_name identisch sind.  Dieses Problem wird in einem der nächsten Patches behoben werden.
+
+==== Fehlerbehebungen
+
+* Verringern Sie den Speicherverbrauch des Controllers durch unnötige cis-Benchmark-Daten, die bei Rolling Updates erzeugt werden. Dieses Problem tritt bei neuen Installationen nicht auf.
+* Lizenz aus dem Konfigurationsbildschirm entfernen (nicht mehr erforderlich).
+
+=== 5.0.6-s1 März, 2023
+
+==== Fehlerbehebungen
+
+* Aktualisierung der Alpine-Pakete zur Behebung von CVEs in curl einschließlich CVE-2023-23914, CVE-2023-23915 und CVE-2023-23916
+
+=== 5.0.6 Februar, 2023
+
+==== Fehlerbehebungen
+
+* Hoher Speicherverbrauch in dpMsgConnection
+* Hoher Speicherverbrauch des dp-Prozesses im Enforcer, wenn es viele gelernte Richtlinienregeln mit nicht verwalteter Arbeitslast gibt (Speicherleck)
+* tcpdump kann nicht erfolgreich starten, wenn es einen Datenverkehr auf einem Container ausspäht
+* Aktualisieren Sie Alpine, um mehrere CVEs zu beheben, einschließlich Manager: CVE-2022-37454, CVE-2022-42919, CVE-2022-45061, CVE-2021-46848; Enforcer: CVE-2022-43551, CVE-2022-43552
+
+=== 5.0.5 November, 2022
+
+==== Fehlerbehebungen
+
+* Ein Upgrade auf 5.0.x führt zu einer Fehlermeldung, dass Manager, Controller und Enforcer unterschiedliche Versionen verwenden.
+* Vollstreckungsbeamte erleben eine Routinepanik, die zu einer Tötung führt.  Die WebUI zeigt den Enforcer nicht als online an.
+* Unerwarteter Vorfall einer Prozessprofilverletzung in der NV-Protect-Gruppe bei welchem Befehl auf coreos.
+
+=== 5.0.4 Oktober, 2022
+
+==== Sicherheits-Updates
+
+* Aktualisieren Sie Alpine, um die kritische CVE-2022-40674 in der manager expat-Bibliothek zu entfernen, sowie andere kleinere CVEs.
+
+==== Erweiterungen
+
+* Unterstützung für Antrea CNI hinzufügen
+
+==== Fehlerbehebungen
+
+* Behebung eines unerwarteten Vorfalls von process.profile.violation in der Gruppe NV.Protect.
+* Wenn SSL beim Zugriff auf die Manager-Benutzeroberfläche deaktiviert ist, wird das Benutzerkennwort in das Managerprotokoll gedruckt.
+
+=== 5.0.3 September, 2022
+
+==== Erweiterungen
+
+* Die EULA nach erfolgreichem Neustart vom persistenten Datenträger nicht anzeigen.
+* Verwenden Sie den Bildfilter in der Einstellung des Schwachstellenprofils, um Container-Scanergebnisse zu überspringen.
+* Support-Scanner in GitHub-Aktionen unter https://github.com/neuvector/neuvector-image-scan-action.
+* Hinzufügen von Enforcer-Umgebungsvariablen für die Deaktivierung des Scannens von Geheimnissen und die Durchführung von CIS-Benchmarks
+
+[,yaml]
+----
+    env:
+      - name: ENF_NO_SECRET_SCANS  (available after v4.4.4)
+        value: "1"
+      - name: ENF_NO_AUTO_BENCHMARK (after v5.0.3)
+        value: "1"
+----
+
+==== Fehlerbehebungen
+
+* Der Enforcer lässt sich gelegentlich nicht starten.
+* Verbindungsleck in Multicluster-Verbundumgebungen.
+* Seite zur Einhaltung der Vorschriften wird manchmal nicht geladen in Sicherheitsrisiken -> Compliance
+
+=== 5.0.2 Juli 2022
+
+==== Erweiterungen
+
+* Rancher-gehärtete und SELinux-Cluster werden unterstützt.
+
+==== Fehlerbehebungen
+
+* Agentenprozess mit hoher CPU-Auslastung auf k3s-Systemen.
+* AD LDAP-Gruppen funktionieren nach dem Upgrade auf 5.0 nicht mehr richtig.
+* Enforcer meldet sich immer wieder mit dem Fehler=zu viele offene Dateien (rke2/cilium).
+* Das Support-Protokoll kann nicht erfolgreich heruntergeladen werden.
+
+=== 5.0.1 Juni 2022
+
+==== Erweiterungen
+
+* Unterstützung von Schwachstellen-Scans für openSUSE Leap OS (im Scanner-Bild).
+* Scanner: Implementierung von Wipe-Out-Attributen beim Rekonstruieren von Image-Repos.
+* Überprüfen Sie die Bereitstellung von {product-name} und die Unterstützung für SELinux-fähige Hosts. Siehe unten für Details zum Zwischenpatching bis zur Aktualisierung der Steuertabelle.
+* Deutlichere Unterscheidung zwischen Feature Chart und Partner Charts in der Rancher UI + Verbesserung der Ingress-Anmerkung für nginx im Rancher Helm Chart. Hinzufügen / Aktualisieren von ingress.kubernetes.io/protocol: https zu nginx.ingress.kubernetes.io/backend-protocol: "HTTPS".
+* Der aktuelle OpenShift Operator unterstützt Passthrough-Routen für API- und Föderationsdienste. Es wurden zusätzliche Helm Value-Parameter hinzugefügt, um Edge- und Re-Encrypt-Routenbeendigungstypen zu unterstützen.
+
+==== Fehlerbehebungen
+
+* AKS-Cluster konnte unerwarteten Schlüssel im Webhook der Zulassungskontrolle hinzufügen.
+* Enforcer wird auf einem k8s 1.24-Cluster mit 1.64 Containerd-Laufzeit nicht betriebsbereit. Unabhängig davon startet der Enforcer manchmal nicht.
+* Jeder Benutzer mit Admin-Rolle (lokaler Benutzer oder SSO), der einen Cluster zum fed master befördert, sollte automatisch in die Rolle fedAdmin befördert werden.
+* Wenn sso mit Rancher Standard-Admin in {product-name} auf Master-Cluster, die {product-name} Login-Rolle ist admin, nicht fedAdmin.
+* Behebung mehrerer Abstürze von Goroutinen.
+* Impliziter Verstoß von einer nicht mit dem Knoten verbundenen Host-IP.
+* ComplianceProfile zeigt kein PCI-Tag an.
+* Die LDAP-Gruppenzuordnung wird manchmal nicht angezeigt.
+* Das Tool zur Risikoprüfung und -verbesserung führt zu der Fehlermeldung "Failed to update system config: Anfrage im falschen Format".
+* OKD 3.11 - Clusterrole-Fehler wird angezeigt, obwohl sie existiert.
+
+==== CVE-Behebungen
+
+* Hohe CVE-2022-29458 cve auf ncurses Paket in allen Bildern gefunden.
+* Hohe CVE-2022-27778 und CVE-2022-27782 auf curl-Paket in Updater Bild gefunden.
+
+==== Details zur SELinux-Unterstützung
+
+{product-name} benötigt keine zusätzlichen Einstellungen, damit SELinux-aktivierte Cluster eingesetzt werden und funktionieren können. Getestet wurde die Bereitstellung von {product-name} auf einem auf RHEL 8.5 basierenden, SELinux-aktivierten, gehärteten RKE2-Cluster. {product-name} wurde erfolgreich bereitgestellt, wenn PSP aktiviert ist und Patching Manager und Scanner bereitgestellt werden. Die nächste Version des Diagramms sollte das folgende Problem beheben.
+
+Im Anhang finden Sie ein Beispiel für die Aktivierung von psp aus dem Rancher-Diagramm und darunter die Befehle für den Patching Manager und die Scanner-Bereitstellung. Die Benutzer-ID im Patch-Befehl kann eine beliebige Zahl sein.
+
+[,shell]
+----
+kubectl patch deploy -ncattle-neuvector-system neuvector-scanner-pod --patch '{"spec":{"template":{"spec":{"securityContext":{"runAsUser": 5400}}}}}'
+kubectl patch deploy -ncattle-neuvector-system neuvector-manager-pod --patch '{"spec":{"template":{"spec":{"securityContext":{"runAsUser": 5400}}}}}'
+----
+
+Beispiel für die Aktivierung von PSP:
+
+[,shell]
+----
+[neuvector@localhost nv]$ getenforce
+Enforcing
+[neuvector@localhost nv]$ sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Memory protection checking:     actual (secure)
+Max kernel policy version:      33
+
+[neuvector@localhost nv]$ kk get psp
+Warning: policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+NAME                      PRIV    CAPS                                      SELINUX    RUNASUSER          FSGROUP     SUPGROUP    READONLYROOTFS   VOLUMES
+global-restricted-psp     false                                             RunAsAny   MustRunAsNonRoot   MustRunAs   MustRunAs   false            configMap,emptyDir,projected,secret,downwardAPI,persistentVolumeClaim
+neuvector-binding-psp     true    SYS_ADMIN,NET_ADMIN,SYS_PTRACE,IPC_LOCK   RunAsAny   RunAsAny           RunAsAny    RunAsAny    false            *
+system-unrestricted-psp   true    *                                         RunAsAny   RunAsAny           RunAsAny    RunAsAny    false            *
+[neuvector@localhost nv]$ nvpo.sh
+NAME                                        READY   STATUS    RESTARTS   AGE     IP           NODE                    NOMINATED NODE   READINESS GATES
+neuvector-controller-pod-54f69f7f9c-6h822   1/1     Running   0          5m51s   10.42.0.29   localhost.localdomain   <none>           <none>
+neuvector-enforcer-pod-jz77b                1/1     Running   0          5m51s   10.42.0.30   localhost.localdomain   <none>           <none>
+neuvector-manager-pod-588488bb78-p6vf9      1/1     Running   0          111s    10.42.0.32   localhost.localdomain   <none>           <none>
+neuvector-scanner-pod-87474dcff-s8vgt       1/1     Running   0          114s    10.42.0.31   localhost.localdomain   <none>           <none>
+----
+
+=== 5.0.0 Allgemeine Verfügbarkeit (GA) Release Mai 2022
+
+==== Erweiterungen
+
+* Automatisierte Förderung von Gruppenmodi. Fördert den Schutzmodus einer Gruppe auf der Grundlage der verstrichenen Zeit und der Kriterien. Gilt nicht für per CRD erstellte Gruppen. Mit dieser Funktion kann eine neue Anwendung für eine gewisse Zeit im Erkennungsmodus ausgeführt werden, um das Verhalten zu erlernen und {product-name} Regeln für die Erlaubnisliste für Netzwerk und Prozess zu erstellen, um dann automatisch in den Überwachungs- und dann in den Schutzmodus zu wechseln. Entdecken Sie das Kriterium Überwachen: Verstrichene Zeit für das Erlernen aller Netzwerk- und Prozessaktivitäten von mindestens einem Live-Pod in der Gruppe. Kriterium "Überwachen, um zu schützen": Es gibt keine Sicherheitsereignisse (Netzwerk, Prozess usw.) in dem für die Gruppe festgelegten Zeitrahmen.
+* Unterstützung für Rancher 2.6.5 Apps und Marketplace Chart. Wird in den cattle-neuvector-system Namensraum deployed und ermöglicht SSO von Rancher zu {product-name}. Anmerkung: Frühere Bereitstellungen von Rancher (z. B. Partnerkatalogkarten, Version 1.9.x und früher) müssen vollständig entfernt werden, um auf die neue Karte zu aktualisieren.
+* Unterstützung der Überprüfung von SUSE Linux (SLE, SLES) und Microsoft Mariner
+* Prozess- und Dateischutz mit Null-Drift. Dies ist der neue Standardmodus für den Prozess- und Dateischutz. Zero-drift lässt automatisch nur Prozesse zu, die von dem übergeordneten Prozess im ursprünglichen Container-Image stammen, und erlaubt keine Dateiaktualisierungen oder die Installation neuer Dateien. Im Erkennungs- oder Überwachungsmodus warnt zero-drift vor verdächtigen Prozessen oder Dateiaktivitäten. Im Schutzmodus werden solche Aktivitäten blockiert. Bei Zero-Drift ist es nicht erforderlich, dass Prozesse erlernt oder zu einer Zulassen-Liste hinzugefügt werden. Wenn Sie die Nullpunktverschiebung für eine Gruppe deaktivieren, werden stattdessen die für diese Gruppe aufgeführten Prozess- und Dateiregeln wirksam.
+* Aufgeteilter Schutz im Richtlinienmodus für Netzwerk, Prozess/Datei. Es gibt jetzt eine globale Einstellung unter Einstellungen -> Konfiguration, um den Netzwerkschutzmodus für die Durchsetzung von Netzwerkregeln separat einzustellen. Wenn Sie diese Option aktivieren (die Standardeinstellung ist deaktiviert), befinden sich alle Netzwerkregeln im ausgewählten Schutzmodus (Erkennen, Überwachen, Schützen), während die Prozess-/Dateiregeln im Schutzmodus für diese Gruppe verbleiben, wie auf dem Bildschirm Richtlinie -> Gruppen angezeigt. Auf diese Weise können Netzwerkregeln auf "Schützen" (Blockieren) und Prozess-/Dateirichtlinien auf "Überwachen" oder umgekehrt eingestellt werden.
+* Erkennung von WAF-Regeln, erweiterte DLP-Regeln (Header, URL, vollständige Pakete). Wird für eingehende Verbindungen zu Webanwendungs-Pods sowie für ausgehende Verbindungen zu Api-Diensten verwendet, um die Api-Sicherheit zu gewährleisten.
+* CRD für WAF, DLP und Zugangskontrollen. HINWEIS: zusätzliche Cluster-Rollenbindungen/Berechtigungen erforderlich. Siehe die Abschnitte über die Bereitstellung von Kubernetes und OpenShift. CRD-Import/Export und Versionierung für Zulassungskontrollen durch CRD unterstützt.
+* Rancher SSO-Integration zum Starten der {product-name} Konsole über den Rancher Manager. Diese Funktion ist nur verfügbar, wenn die {product-name} Container über Rancher bereitgestellt werden. Dieses Deployment zieht aus dem gespiegelten Rancher-Repository (z.B. rancher/mirrored-neuvector-controller:5.0.0) und deployt in den cattle-neuvector-system Namespace. HINWEIS: Erfordert die aktualisierte Rancher-Version 2.6.5 vom Mai 2022 oder höher, und es werden derzeit nur die Rollen Admin und Cluster-Eigentümer unterstützt.
+* Unterstützt den Einsatz auf RKE2.
+* Unterstützung für den Zusammenschluss von Clustern (Multicluster-Manager) über einen Proxy. Konfigurieren Sie den Proxy unter Einstellungen -> Konfiguration, und aktivieren Sie den Proxy bei der Konfiguration von Verbundverbindungen.
+* Überwachen Sie die erforderlichen rbacs clusterrole/bindings und schlagen Sie in Ereignissen und auf der Benutzeroberfläche Alarm, wenn welche fehlen.
+* Unterstützung von Kriterien für Ressourcenbeschränkungen in Zulassungskontrollregeln.
+* Unterstützung des Microsoft Teams-Formats für Webhooks.
+* Unterstützung von AD/LDAP verschachtelten Gruppen unter einer zugeordneten Rollengruppe.
+* Unterstützung von Clusterrolebindings oder Rolebindings mit Gruppeninformationen in IDP für Openshift.
+* Erlauben Sie, dass Netzwerkregeln und Zugangskontrollregeln zu einer föderierten Regel befördert werden.
+
+==== Fehlerbehebungen
+
+* Behebung des Problems, dass die Sicherung von Worker-Federation-Rollen in nicht-federnden Clustern wiederhergestellt werden sollte.
+* Verbesserung der Seitenladezeiten für eine große Anzahl von CVEs in Sicherheitsrisiken -> Schwachstellen
+* Erlauben Sie dem Benutzer, den Modus zu wechseln, wenn er alle Gruppen im Menü Policy -> Groups auswählt. Warnung, wenn die Gruppe Knoten ebenfalls ausgewählt ist.
+* Gleichnamige Compliance-Check-Einträge komprimieren und erweiterbar machen.
+* Verbesserung der Sicherheit der gRPC-Kommunikation.
+* Behoben: Es war nicht möglich, die korrekten Informationen über die Arbeitslastprivilegien im rke2-Setup zu erhalten.
+* Behebung eines Problems mit der Unterstützung von openSUSE Leap 15.3 (k8s/crio).
+
+==== Andere Aktualisierungen
+
+* Helm-Diagramm: appVersion auf 5.0.0 und Diagrammversion auf 2.2.0 aktualisieren
+* Funktion/Menü für serverloses Scannen wurde entfernt.
+* Die Unterstützung für die Integration von Jfrog Xray-Scanergebnissen wurde entfernt (Artifactory Registry Scan wird weiterhin unterstützt).
+* Unterstützung für den Einsatz auf ECS wird nicht mehr angeboten. Der Allinone sollte weiterhin auf ECS eingesetzt werden können, die Dokumentation der Schritte und Einstellungen wird jedoch nicht mehr unterstützt.
+
+=== Aufrüstung von {product-name} 4.x auf 5.x (vor 5.2.x)
+
+[NOTE]
+====
+Die folgenden Anweisungen gelten für Upgrades auf 5.0.x und 5.1.x. Für 5.2.x haben sich die Dienstkonten und Bindungen geändert und sollten bei der Planung von Upgrades xref:kubernetes.adoc#_deploy_suse_security[überprüft] werden.
+====
+
+
+Benutzer von Helm sollten auf {product-name} Helm Chart 2.0.0 oder höher aktualisieren. Wenn Sie eine Operator- oder Helm-Installation auf OpenShift aktualisieren, beachten Sie den folgenden Hinweis.
+
+. Alte neuvector-binding-customresourcedefinition clusterrole löschen
+
+[,shell]
+----
+kubectl delete clusterrole neuvector-binding-customresourcedefinition
+----
+
+. Neues Update-Verb für neuvector-binding-customresourcedefinition clusterrole anwenden
+
+[,shell]
+----
+kubectl create clusterrole neuvector-binding-customresourcedefinition --verb=watch,create,get,update --resource=customresourcedefinitions
+----
+
+. Löschen des alten crd-Schemas für Kubernetes 1.19+
+
+[,shell]
+----
+kubectl delete -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/crd-k8s-1.19.yaml
+----
+
+. Neues crd-Schema für Kubernetes 1.19+ erstellen
+
+[,shell]
+----
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/crd-k8s-1.19.yaml
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/waf-crd-k8s-1.19.yaml
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/dlp-crd-k8s-1.19.yaml
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/admission-crd-k8s-1.19.yaml
+----
+
+. Erstellen Sie eine neue Clusterrolle für Admission, DLP und WAF und eine Clusterrolebindung
+
+[,shell]
+----
+kubectl create clusterrole neuvector-binding-nvwafsecurityrules --verb=list,delete --resource=nvwafsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvwafsecurityrules --clusterrole=neuvector-binding-nvwafsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvadmissioncontrolsecurityrules --verb=list,delete --resource=nvadmissioncontrolsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvadmissioncontrolsecurityrules --clusterrole=neuvector-binding-nvadmissioncontrolsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvdlpsecurityrules --verb=list,delete --resource=nvdlpsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvdlpsecurityrules --clusterrole=neuvector-binding-nvdlpsecurityrules --serviceaccount=neuvector:default
+----
+
+. Aktualisieren Sie Image-Namen und Pfade für das Abrufen von {product-name} -Images von Docker Hub (docker.io), z. B.
+
+* neuvector/manager:5.0.0
+* neuvector/controller:5.0.0
+* neuvector/enforcer:5.0.0
+* neuvector/scanner:latest
+* neuvector/updater:latest
+
+Entfernen Sie optional alle Verweise auf die {product-name} Lizenz und das Registrierungsgeheimnis in Helm-Diagrammen, Deployment-Yaml, Configmap, Skripten usw., da diese nicht mehr benötigt werden, um die Images zu ziehen oder {product-name} zu verwenden.
+
+*Hinweis zu SCC und Upgrading über Operator/Helm*
+
+Privilegierte SCC wird in neuen Bereitstellungen ab Operator Version 1.3.4 zu dem in der Bereitstellungs-Yaml angegebenen Dienstkonto hinzugefügt. Wenn Sie {product-name} Operator von einer früheren Version auf 1.3.4 oder Helm auf 2.0.0 aktualisieren, löschen Sie bitte vor der Aktualisierung die privilegierte SCC.
+
+[,shell]
+----
+oc delete rolebinding -n neuvector system:openshift:scc:privileged
+----
+
+==== Beta 1 Version veröffentlicht April 2022
+
+* Vollständige Funktion, einschließlich automatischer Förderung von Gruppenmodi. Fördert den Schutzmodus einer Gruppe auf der Grundlage der verstrichenen Zeit und der Kriterien. Gilt nicht für per CRD erstellte Gruppen. Mit dieser Funktion kann eine neue Anwendung für eine gewisse Zeit im Erkennungsmodus ausgeführt werden, um das Verhalten zu erlernen und {product-name} Regeln für die Erlaubnisliste für Netzwerk und Prozess zu erstellen, um dann automatisch in den Überwachungs- und dann in den Schutzmodus zu wechseln. Entdecken Sie das Kriterium Überwachen: Verstrichene Zeit für das Erlernen aller Netzwerk- und Prozessaktivitäten von mindestens einem Live-Pod in der Gruppe. Kriterium "Überwachen, um zu schützen": Es gibt keine Sicherheitsereignisse (Netzwerk, Prozess usw.) in dem für die Gruppe festgelegten Zeitrahmen.
+* Unterstützung für Rancher 2.6.5 Apps und Marketplace Chart. Wird in den cattle-neuvector-system Namensraum deployed und ermöglicht SSO von Rancher zu {product-name}. Anmerkung: Frühere Bereitstellungen von Rancher (z. B. Partnerkatalogkarten, Version 1.9.x und früher) müssen vollständig entfernt werden, um auf die neue Karte zu aktualisieren.
+* Tags für Vollstrecker, Manager, Kontrolleur: 5.0.0-b1 (z. B. neuvector/controller:5.0.0-b1)
+
+==== Vorschau.3 Version veröffentlicht März 2022
+
+[CAUTION]
+.wichtig
+====
+
+Um frühere Preview-Implementierungen für neue CRD WAF-, DLP- und Admission Control-Funktionen zu aktualisieren, aktualisieren Sie bitte die CRD yaml und fügen Sie neue rbac/role Bindings hinzu:
+
+[,shell]
+----
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/latest/crd-k8s-1.19.yaml
+kubectl create clusterrole neuvector-binding-nvwafsecurityrules --verb=list,delete --resource=nvwafsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvwafsecurityrules --clusterrole=neuvector-binding-nvwafsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvadmissioncontrolsecurityrules --verb=list,delete --resource=nvadmissioncontrolsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvadmissioncontrolsecurityrules --clusterrole=neuvector-binding-nvadmissioncontrolsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvdlpsecurityrules --verb=list,delete --resource=nvdlpsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvdlpsecurityrules --clusterrole=neuvector-binding-nvdlpsecurityrules --serviceaccount=neuvector:default
+----
+====
+
+
+==== Erweiterungen
+
+* Unterstützung der Überprüfung von SUSE Linux (SLE, SLES) und Microsoft Mariner
+* Prozess- und Dateischutz mit Null-Drift. Dies ist der neue Standardmodus für den Prozess- und Dateischutz. Zero-drift lässt automatisch nur Prozesse zu, die von dem übergeordneten Prozess im ursprünglichen Container-Image stammen, und erlaubt keine Dateiaktualisierungen oder die Installation neuer Dateien. Im Erkennungs- oder Überwachungsmodus warnt zero-drift vor verdächtigen Prozessen oder Dateiaktivitäten. Im Schutzmodus werden solche Aktivitäten blockiert. Bei Zero-Drift ist es nicht erforderlich, dass Prozesse erlernt oder zu einer Zulassen-Liste hinzugefügt werden. Wenn Sie die Nullpunktverschiebung für eine Gruppe deaktivieren, werden stattdessen die für diese Gruppe aufgeführten Prozess- und Dateiregeln wirksam.
+* Aufgeteilter Schutz im Richtlinienmodus für Netzwerk, Prozess/Datei. Es gibt jetzt eine globale Einstellung unter Einstellungen -> Konfiguration, um den Netzwerkschutzmodus für die Durchsetzung von Netzwerkregeln separat einzustellen. Wenn Sie diese Option aktivieren (die Standardeinstellung ist deaktiviert), befinden sich alle Netzwerkregeln im ausgewählten Schutzmodus (Erkennen, Überwachen, Schützen), während die Prozess-/Dateiregeln im Schutzmodus für diese Gruppe verbleiben, wie auf dem Bildschirm Richtlinie -> Gruppen angezeigt. Auf diese Weise können Netzwerkregeln auf "Schützen" (Blockieren) und Prozess-/Dateirichtlinien auf "Überwachen" oder umgekehrt eingestellt werden.
+* Erkennung von WAF-Regeln, erweiterte DLP-Regeln (Header, URL, vollständige Pakete)
+* CRD für WAF, DLP und Zugangskontrollen. HINWEIS: zusätzliche Cluster-Rollenbindungen/Berechtigungen erforderlich. Siehe die Abschnitte über die Bereitstellung von Kubernetes und OpenShift. CRD-Import/Export und Versionierung für Zulassungskontrollen durch CRD unterstützt.
+* Rancher SSO-Integration zum Starten der {product-name} Konsole über den Rancher Manager. Diese Funktion ist nur verfügbar, wenn die {product-name} Container über Rancher bereitgestellt werden. HINWEIS: Erfordert eine aktualisierte Rancher-Version (Datum/Version wird noch bekannt gegeben).
+* Unterstützt den Einsatz auf RKE2.
+* Unterstützung für den Zusammenschluss von Clustern (Multicluster-Manager) über einen Proxy.
+* Überwachen Sie die erforderlichen rbacs clusterrole/bindings und schlagen Sie in Ereignissen und auf der Benutzeroberfläche Alarm, wenn welche fehlen.
+* Unterstützung von Kriterien für Ressourcenbeschränkungen in Zulassungskontrollregeln.
+
+==== Fehlerbehebungen
+
+* Behebung des Problems, dass die Sicherung von Worker-Federation-Rollen in nicht-federnden Clustern wiederhergestellt werden sollte.
+
+==== Vorschau.2 Version veröffentlicht Feb 2022
+
+* Kleinere Datei- und Lizenzänderungen im Quelltext, keine neuen Funktionen.
+
+==== Unterstützung für die Bereitstellung auf AWS ECS Veraltet
+
+Unterstützung für den Einsatz auf ECS wird nicht mehr angeboten. Der Allinone sollte weiterhin auf ECS eingesetzt werden können, die Dokumentation der Schritte und Einstellungen wird jedoch nicht mehr unterstützt.
+
+=== 5.0 "Technische Vorschau" Januar 2022
+
+==== Erweiterungen
+
+* Erste Veröffentlichung einer nicht unterstützten "Tech-Preview"-Version der Open-Source-Version {product-name} 5.0.
+* Unterstützung für die OWASP Top-10, WAF-ähnliche Regeln zur Erkennung von Netzwerkangriffen im Header oder Body. Enthält Unterstützung für CRD-Definitionen von Signaturen und Anwendung auf entsprechende Gruppen.
+* Entfernt Serverless-Scan-Funktionen.
+
+==== Fehlerbehebungen
+
+* TBD
+
+==== Andere
+
+* Helm Chart v1.8.9 wurde für 5.0.0-Einsätze veröffentlicht. Wenn Sie dies mit der Vorschauversion von 5.0.0 verwenden, sollten die folgenden Änderungen an values.yml vorgenommen werden:
+ ** Aktualisieren Sie die Registry auf docker.io
+ ** Aktualisierung der Image-Namen/Tags auf die Vorschauversion im Docker-Hub
+ ** Lassen Sie das Feld imagePullSecrets leer
