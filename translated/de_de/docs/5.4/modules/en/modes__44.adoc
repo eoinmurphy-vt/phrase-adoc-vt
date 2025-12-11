@@ -1,0 +1,110 @@
+= Modi: Entdecken, überwachen, schützen
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /05.policy/02.modes/02.modes.md
+:page-opendocs-slug:  /policy/modes
+
+== {product-name} Modi
+
+Das Modul {product-name} zur Erkennung von Verstößen verfügt über drei Modi: Entdecken, überwachen und schützen. Jede Gruppe (beginnend mit "nv", oder die Gruppe "Nodes") kann sich zu jedem Zeitpunkt in einem dieser Modi befinden. Der Modus kann über das Menü Gruppen, die Ansicht Netzwerkaktivität oder das Dashboard umgeschaltet werden. Container-Gruppen können Prozess-/Dateiregeln in einem anderen Modus als Netzwerkregeln haben, wie xref:modes.adoc#_network_service_policy_mode[hier] beschrieben.
+
+image:switchmodes.png[Modi]
+
+[NOTE]
+====
+Benutzerdefiniert erstellte Gruppen haben keinen Schutzmodus. Dies liegt daran, dass sie Container aus verschiedenen zugrunde liegenden Gruppen enthalten können, die sich jeweils in einem anderen Modus befinden können, was zu Verwirrung über das Verhalten führt.
+====
+
+=== Entdecken Sie
+
+Standardmäßig startet {product-name} im Erkennungsmodus. In diesem Modus wird {product-name} verwendet:
+
+* Entdeckt Ihre Container-Infrastruktur, einschließlich Container, Knoten und Hosts.
+* Lernt Ihre Anwendungen und Ihr Verhalten durch Beobachtung von Konversationen (Netzwerkverbindungen) zwischen Containern.
+* Identifiziert separate Dienste und laufende Anwendungen.
+* Erstellt automatisch eine Whitelist mit Netzwerkregeln zum Schutz des normalen Netzwerkverhaltens von Anwendungen.
+* Erstellt eine Übersicht über die in Containern laufenden Prozesse für jeden Dienst und erstellt eine Whitelist mit Prozessprofilregeln.
+
+[NOTE]
+====
+Um festzustellen, wie lange ein Dienst im Erkennungsmodus laufen soll, führen Sie Testdaten durch die Anwendung und überprüfen Sie alle Regeln auf Vollständigkeit. Einige Stunden sollten ausreichen, aber einige Anwendungen können einige Tage benötigen, um vollständig ausgeübt zu werden. Im Zweifelsfall sollten Sie in den Überwachungsmodus wechseln und nach Verstößen suchen, die dann in Whitelist-Regeln umgewandelt werden können, bevor Sie in den Schutzmodus wechseln.
+====
+
+=== Monitor
+
+Im Monitor-Modus überwacht {product-name} Unterhaltungen und erkennt Verstöße gegen Ihre Sicherheitsrichtlinien während der Laufzeit. In diesem Modus werden keine neuen Regeln von {product-name} erstellt, aber Regeln können jederzeit manuell hinzugefügt werden.
+
+Wenn Verstöße festgestellt werden, werden sie auf der Karte der Netzwerkaktivitäten durch eine rote Linie angezeigt. Verstöße werden ebenfalls protokolliert und auf der Registerkarte "Benachrichtigungen" angezeigt. Verstöße gegen Prozessprofilregeln und Dateizugriffe werden unter Benachrichtigungen -> Sicherheitsereignisse protokolliert.
+
+In der Netzwerkkarte können Sie auf eine beliebige Konversation (grüne, gelbe oder rote Linie) klicken, um weitere Einzelheiten über die Art der Verbindung und das zuletzt überwachte Protokoll anzuzeigen. Sie können auch die Schaltflächen "Suchen" und "Nach Gruppe filtern" unten rechts verwenden, um die Anzeige Ihrer Container einzuschränken.
+
+=== Schützen Sie
+
+Im Schutzmodus blockieren (verweigern) die {product-name} Enforcer alle erkannten Netzwerkverletzungen und Angriffe. Verstöße werden auf der Netzwerkkarte mit einem roten &apos;`+x+`&apos; angezeigt, was bedeutet, dass sie blockiert wurden. Unbefugte Prozesse und Dateizugriffe werden im Schutzmodus ebenfalls blockiert. Entsprechende DLP-Sensoren blockieren Netzwerkverbindungen.
+
+== Umschalten zwischen den Modi
+
+Sie können {product-name} Gruppen ganz einfach von einem Modus in einen anderen wechseln. Denken Sie daran, dass {product-name} im Erkennungsmodus eine Sicherheitsrichtlinie für erlaubtes, normales Containerverhalten erstellt. Sie können diese Regeln auf der Registerkarte Richtlinie -> Gruppen oder im Detail im Menü Richtlinie -> Netzwerkregeln sehen.
+
+Wenn Sie vom Erkennungsmodus in den Überwachungsmodus wechseln, markiert {product-name} alle Verstöße gegen das normale Verhalten, die nicht ausdrücklich erlaubt sind. Da {product-name} Richtlinien auf der Grundlage von Anwendungen und Gruppen mit ähnlichen Attributen durchsetzt, ist es in der Regel nicht erforderlich, Regeln hinzuzufügen oder zu bearbeiten, wenn Container hoch- oder heruntergeskaliert werden.
+
+Bitte stellen Sie sicher, dass Sie vor der Einführung neuer Updates, die zu neuen Arten von Verbindungen zwischen Containern führen, den/die betroffenen Dienst(e) in den Erkennungsmodus schalten, um diese neuen Verhaltensweisen zu erlernen. Alternativ können Sie in einem beliebigen Modus manuell neue Regeln hinzufügen oder das CRD, mit dem die Regeln erstellt wurden, bearbeiten, um neue Verhaltensweisen hinzuzufügen.
+
+=== Neuer Dienstmodus
+
+Wenn neue Dienste von {product-name} entdeckt werden, z. B. wenn ein bisher unbekannter Container in Betrieb genommen wird, kann er auf einen Standardmodus gesetzt werden. Im Entdeckungsmodus beginnt {product-name}, sein Verhalten zu lernen und Regeln zu erstellen. In Monitor wird eine Verletzung erzeugt, wenn Verbindungen zu dem neuen Dienst entdeckt werden. In Protect werden alle Verbindungen zu dem neuen Dienst blockiert, sofern die Regeln nicht vorher erstellt wurden.
+
+image:newservices.png[NewServiceMode]
+
+=== Netzdienstpolitik-Modus
+
+Es gibt eine globale Einstellung unter Einstellungen -> Konfiguration, um den Netzwerkschutzmodus für die Durchsetzung von Netzwerkregeln separat festzulegen. Wenn Sie diese Option aktivieren (die Standardeinstellung ist deaktiviert), befinden sich alle Netzwerkregeln im ausgewählten Schutzmodus (Erkennen, Überwachen, Schützen), während die Prozess-/Dateiregeln im Schutzmodus für diese Gruppe verbleiben, wie auf dem Bildschirm Richtlinie -> Gruppen angezeigt. Auf diese Weise können Netzwerkregeln auf "Schützen" (Blockieren) und Prozess-/Dateirichtlinien auf "Überwachen" oder umgekehrt eingestellt werden.
+
+=== Automatisierte Förderung von Gruppenmodi
+
+Fördert den Schutzmodus einer Gruppe auf der Grundlage der verstrichenen Zeit und der Kriterien. Diese Automatisierung gilt nicht für CRD-erstellte Gruppen. Mit dieser Funktion kann eine neue Anwendung für eine gewisse Zeit im Erkennungsmodus ausgeführt werden, um das Verhalten zu erlernen und {product-name} Regeln für die Erlaubnisliste für Netzwerk und Prozess zu erstellen, um dann automatisch in den Überwachungs- und dann in den Schutzmodus zu wechseln.
+
+Das Kriterium für den Wechsel vom Erkennungsmodus in den Überwachungsmodus ist die verstrichene Zeit für das Lernen aller Netzwerk- und Prozessaktivitäten von mindestens einem Live-Pod in der Gruppe. Wenn dieser Wert beispielsweise auf 7 Tage eingestellt ist, wird der Modus 7 Tage, nachdem ein laufender Pod für die Gruppe erkannt wurde, automatisch auf Monitor umgestellt.
+
+Das Kriterium für den Wechsel vom Überwachungs- in den Schutzmodus ist: Es gibt keine Sicherheitsereignisse (Netzwerk, Prozess usw.) in dem für die Gruppe festgelegten Zeitrahmen. Wenn dieser Wert beispielsweise auf 14 Tage eingestellt ist, wird der Modus automatisch auf "Schutz" umgestellt, wenn 14 Tage lang keine Verstöße (Netzwerk, Prozess, Datei) ausgelöst werden (z. B. während der Ruhephase). Wenn es in der Gruppe keine laufenden Pods gibt, wird die Aktion nicht durchgeführt.
+
+image:policy_promotion.png[Förderung]
+
+==== Lösung von Konflikten zwischen Diensten in verschiedenen Modi
+
+Die folgende Tabelle zeigt, wie das System Konflikte bei Netzwerkverbindungen zwischen Containern in verschiedenen Servicegruppen auflöst, wenn deren Richtlinienmodi unterschiedlich sind.
+
+|===
+| Quelle | Reiseziel | Effektiver Modus
+
+| Entdecken Sie
+| Monitor
+| Entdecken Sie
+
+| Entdecken Sie
+| Schützen Sie
+| Entdecken Sie
+
+| Monitor
+| Entdecken Sie
+| Entdecken Sie
+
+| Monitor
+| Schützen Sie
+| Monitor
+
+| Schützen Sie
+| Entdecken Sie
+| Entdecken Sie
+
+| Schützen Sie
+| Monitor
+| Monitor
+|===
+
+Wie Sie sehen können, ist der effektive Modus immer der am wenigsten restriktive Richtlinienmodus.
+
+[NOTE]
+====
+Das oben Gesagte gilt nur für Netzwerkregeln
+====
