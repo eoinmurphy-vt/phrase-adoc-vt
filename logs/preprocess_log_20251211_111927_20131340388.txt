@@ -1,0 +1,170 @@
+Starting preprocess: source/docs/5.4/modules/en/integration__44.adoc
+✓ Decoded source/docs/5.4/modules/en/integration__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/integration__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.017674
+Starting preprocess: source/docs/5.4/modules/en/internal__44.adoc
+✓ Decoded source/docs/5.4/modules/en/internal__44.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/docs/5.4/modules/en/internal__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.159576
+Starting preprocess: source/docs/5.4/modules/en/jenkins__44.adoc
+✓ Decoded source/docs/5.4/modules/en/jenkins__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/jenkins__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 11:19:27.213309
+Starting preprocess: source/docs/5.4/modules/en/kubernetes__44.adoc
+✓ Decoded source/docs/5.4/modules/en/kubernetes__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/kubernetes__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.279983
+Starting preprocess: source/docs/5.4/modules/en/ldap__44.adoc
+✓ Decoded source/docs/5.4/modules/en/ldap__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ldap__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.329579
+Starting preprocess: source/docs/5.4/modules/en/modes__44.adoc
+✓ Decoded source/docs/5.4/modules/en/modes__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/modes__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.379255
+Starting preprocess: source/docs/5.4/modules/en/msazure__44.adoc
+✓ Decoded source/docs/5.4/modules/en/msazure__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/msazure__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.427515
+Starting preprocess: source/docs/5.4/modules/en/multicluster__44.adoc
+✓ Decoded source/docs/5.4/modules/en/multicluster__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/multicluster__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.477102
+Starting preprocess: source/docs/5.4/modules/en/navigation__44.adoc
+✓ Decoded source/docs/5.4/modules/en/navigation__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/navigation__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.531061
+Starting preprocess: source/docs/5.4/modules/en/networkrules__44.adoc
+✓ Decoded source/docs/5.4/modules/en/networkrules__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/networkrules__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.581733
+Starting preprocess: source/docs/5.4/modules/en/openid__44.adoc
+✓ Decoded source/docs/5.4/modules/en/openid__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/openid__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 11:19:27.634403
+Starting preprocess: source/docs/5.4/modules/en/openshift__44.adoc
+✓ Decoded source/docs/5.4/modules/en/openshift__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/openshift__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.695021
+Starting preprocess: source/docs/5.4/modules/en/operators__44.adoc
+✓ Decoded source/docs/5.4/modules/en/operators__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/operators__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.747826
+Starting preprocess: source/docs/5.4/modules/en/overview__44.adoc
+✓ Decoded source/docs/5.4/modules/en/overview__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/overview__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.799122
+Starting preprocess: source/docs/5.4/modules/en/policy-overview__44.adoc
+✓ Decoded source/docs/5.4/modules/en/policy-overview__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/policy-overview__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.849680
+Starting preprocess: source/docs/5.4/modules/en/production__44.adoc
+✓ Decoded source/docs/5.4/modules/en/production__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/production__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.902240
+Starting preprocess: source/docs/5.4/modules/en/publick8s__44.adoc
+✓ Decoded source/docs/5.4/modules/en/publick8s__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/publick8s__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:27.953151

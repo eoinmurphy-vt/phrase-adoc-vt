@@ -1,0 +1,140 @@
+Starting preprocess: source/docs/5.4/modules/en/rancher__44.adoc
+✓ Decoded source/docs/5.4/modules/en/rancher__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rancher__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.006664
+Starting preprocess: source/docs/5.4/modules/en/registry-scanning-configuration__44.adoc
+✓ Decoded source/docs/5.4/modules/en/registry-scanning-configuration__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/registry-scanning-configuration__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.062987
+Starting preprocess: source/docs/5.4/modules/en/replacecert__44.adoc
+✓ Decoded source/docs/5.4/modules/en/replacecert__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/replacecert__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.113739
+Starting preprocess: source/docs/5.4/modules/en/requirements__44.adoc
+✓ Decoded source/docs/5.4/modules/en/requirements__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/requirements__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.165627
+Starting preprocess: source/docs/5.4/modules/en/responserules__44.adoc
+✓ Decoded source/docs/5.4/modules/en/responserules__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/responserules__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.217189
+Starting preprocess: source/docs/5.4/modules/en/rest-api__44.adoc
+✓ Decoded source/docs/5.4/modules/en/rest-api__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rest-api__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.267230
+Starting preprocess: source/docs/5.4/modules/en/scanners__44.adoc
+✓ Decoded source/docs/5.4/modules/en/scanners__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/scanners__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.318545
+Starting preprocess: source/docs/5.4/modules/en/sigstore__44.adoc
+✓ Decoded source/docs/5.4/modules/en/sigstore__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/sigstore__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.367916
+Starting preprocess: source/docs/5.4/modules/en/splunk__44.adoc
+✓ Decoded source/docs/5.4/modules/en/splunk__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/splunk__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.417011
+Starting preprocess: source/docs/5.4/modules/en/testing__44.adoc
+✓ Decoded source/docs/5.4/modules/en/testing__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/testing__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.468072
+Starting preprocess: source/docs/5.4/modules/en/troubleshooting__44.adoc
+✓ Decoded source/docs/5.4/modules/en/troubleshooting__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/troubleshooting__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.518746
+Starting preprocess: source/docs/5.4/modules/en/updating-cve-database__44.adoc
+✓ Decoded source/docs/5.4/modules/en/updating-cve-database__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating-cve-database__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-11 11:19:28.569085
+Starting preprocess: source/docs/5.4/modules/en/updating__44.adoc
+✓ Decoded source/docs/5.4/modules/en/updating__44.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/updating__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.621245
+Starting preprocess: source/docs/5.4/modules/en/usingcrd__44.adoc
+✓ Decoded source/docs/5.4/modules/en/usingcrd__44.adoc as utf-8 (0.88)
+Saved processed file → processed/docs/5.4/modules/en/usingcrd__44.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-11 11:19:28.799453
