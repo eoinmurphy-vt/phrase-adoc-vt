@@ -1,0 +1,15 @@
+Postprocess started: 2025-12-11 11:42:52.312743
+
+✓ translated/fr_fr/docs/5.4/modules/en/usingcrd__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/usingcrd__44.adoc (from translated/fr_fr/docs/5.4/modules/en/usingcrd__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/cve__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/cve__44.adoc (from translated/fr_fr/docs/5.4/modules/en/cve__44.adoc)
+✓ translated/fr_fr/docs/5.4/modules/en/msazure__44.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/fr/msazure__44.adoc (from translated/fr_fr/docs/5.4/modules/en/msazure__44.adoc)
+
+Summary:
+  ✅ Processed files: 3
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 3
+
+Completed: 2025-12-11 11:42:52.346503
