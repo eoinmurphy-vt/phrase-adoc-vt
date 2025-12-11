@@ -1,0 +1,139 @@
+= OpenID-Verbindung Azure/Okta
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /08.integration/07.openid/07.openid.md
+:page-opendocs-slug:  /integration/openid
+
+== Integration mit OpenID Connect (OIDC) für Azure und Okta
+
+Um die OpenID Connect-Authentifizierung zu aktivieren, sind die Einstellungen *Issuer*, *Client ID* und *Client secret* erforderlich. Mit der Emittenten-URL ruft {product-name} die Discovery-API auf, um die Endpunkte Authenorization, Token und User info abzurufen.
+
+Suchen Sie die OpenID Connect Redirect URI oben auf der Seite {product-name} OpenID Connect Setting. Sie müssen diese URI in die *Login-Redirect-URIs* für Okta und *Reply-URLs* für Microsoft Azure kopieren.
+
+image:openid1.png[OpenID1]
+
+=== Microsoft Azure-Konfiguration
+
+Suchen Sie in Azure Active Directory > App-Registrierungen > Anwendungsname > Einstellungsseite die Zeichenfolge Anwendungs-ID. Dies wird verwendet, um die Client-ID in {product-name} einzustellen. Das Client-Geheimnis kann in den Azure-Schlüssel-Einstellungen gefunden werden.
+
+image:openid3.png[OpenID3]
+
+Die URL des Ausstellers hat das Format "https://login.microsoftonline.com/{tenantID}/v2.0". Um die TenantID zu finden, gehen Sie auf menu:Azure Active DirectoryProperties[Page] und finden Sie die Directory ID, ersetzen Sie sie durch die TenantID in der URL
+
+image:openid4.png[OpenID4]
+
+Wenn die Benutzer den Gruppen im aktiven Verzeichnis zugeordnet sind, kann ihre Gruppenzugehörigkeit dem Anspruch hinzugefügt werden. Suchen Sie die Anwendung in *Azure Active Directory -> App-Registrierungen* und bearbeiten Sie das Manifest. Ändern Sie den Wert von "groupMembershipClaims" in "Anwendungsgruppe".  Es gibt eine Höchstzahl von Gruppen, die in einem Token ausgegeben werden können.  Wenn der Benutzer einer großen Anzahl von Gruppen angehört ( > 200) und der Wert "Alle" verwendet wird, schließt das Token die Gruppen nicht ein und die Autorisierung schlägt fehl.  Die Verwendung des Wertes "Anwendungsgruppe" anstelle von "Alle" reduziert die Anzahl der anwendbaren Gruppen, die im Token zurückgegeben werden.
+
+Standardmäßig sucht {product-name} nach "Gruppen" im Anspruch, um die Gruppenzugehörigkeit des Benutzers zu identifizieren. Wenn ein anderer Anspruchsname verwendet wird, können Sie den Anspruchsnamen auf der OpenID Connect-Einstellungsseite {product-name} anpassen.
+
+Die von Azure zurückgegebenen Gruppenansprüche werden durch die "Objekt-ID" anstelle des Namens identifiziert. Die Objekt-ID der Gruppe kann unter menu:Azure Active[DirectoryGroups > Group name Page] gefunden werden. Sie sollten diesen Wert verwenden, um die gruppenbasierte Rollenzuordnung in {product-name} -> Einstellungen zu konfigurieren.
+
+image:openid5.png[OpenID5]
+
+==== Berechtigungen überprüfen
+
+Stellen Sie sicher, dass die folgenden Berechtigungen von Microsoft Graph festgelegt wurden
+
+. email - Anzeige der E-Mail-Adressen der Benutzer
+. openid - Benutzer anmelden
+. Profil - Ansicht des grundlegenden Benutzerprofils
+
+=== Okta-Konfiguration
+
+Melden Sie sich bei Ihrem Okta-Konto an.
+
+Klicken Sie im Menü auf der linken Seite auf "+Anwendungen -> Anwendungen "+` Klicken Sie im mittleren Bereich auf "`Create App Integration`":
+
+image:okta1.png[erstellen.]
+
+Es öffnet sich ein neues Fenster zur Auswahl der "`Sign-in method`":
+
+image:okta2.png[newapp]
+
+Wählen Sie die Option "`OIDC -- OpenID Connect`".
+
+Es erscheint ein abgeleitetes Fenster für die Auswahl von "`Application Type`":
+
+image:okta3.png[apptype]
+
+Wählen Sie die Option "`Native Application`".
+
+Im mittleren Bereich wird nun das Formular Native App Integration angezeigt, in das Sie die folgenden Werte eingeben müssen:
+
+Für den Abschnitt Allgemeine Einstellungen:
+
+App. Name der Integration: Name für diese Integration. Wählen Sie einen beliebigen Namen Grant Type (ankreuzen):
+
+* Berechtigungscode
+* Token aktualisieren
+* Passwort des Ressourcenbesitzers
+* Implizit (hybrid)
+
+Für den Abschnitt Anmeldungsumleitungs-URIs:
+
+Rufen Sie Ihre Konsole {product-name} auf und navigieren Sie zu "`Settings`" -> "`OpenId Connect Settings`".  Klicken Sie oben auf der Seite neben dem Label "`OpenID Connect Redirect URI`" auf "`Copy to Clipboard`".
+
+image:okta4.png[copy]
+
+Dadurch wird der Umleitungs-URI in den Speicher kopiert.
+Fügen Sie ihn in das entsprechende Textfeld ein:
+
+image:okta5.png[einfügen]
+
+Für den Abschnitt Zuweisungen:
+
+Wählen Sie "`Allow everyone in your organization to access`", um diese Integration für alle Mitarbeiter Ihrer Organisation verfügbar zu machen.
+
+image:okta6.png[Zuweisungen]
+
+Klicken Sie dann auf die Schaltfläche "Speichern" unten auf der Seite.
+
+Sobald Sie Ihre allgemeinen Einstellungen gespeichert haben, werden Sie zur Einrichtung Ihrer neuen Anwendungsintegration weitergeleitet, und es wird automatisch eine Client-ID erstellt.
+
+Klicken Sie im Abschnitt "`Client Credentials`" auf Bearbeiten und ändern Sie den Abschnitt "`Client Authentication`" von "`Use PKCE (for public clients)`" in "`Use Client Authentication`", und klicken Sie auf Speichern. Dadurch wird automatisch ein neues Geheimnis generiert, das wir in den nächsten Schritten zur Einrichtung von {product-name} benötigen:
+
+image:okta7.png[Kundenauthentifizierung]
+
+Wechseln Sie zur Registerkarte "`Sign On`" und bearbeiten Sie den Abschnitt "`OpenID Connect ID Token`":
+Ändern Sie den Emittenten von "`Dynamic (based on request domain)`" auf den festen "`Okta URL`":
+
+image:okta8.png[Token]
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+=== 
+
+
+
+
+
+ 
+
+.
+.
+
+ 
+
+=== 
+
+
