@@ -99,41 +99,41 @@ Wechseln Sie zur Registerkarte "`Sign On`" und bearbeiten Sie den Abschnitt "`Op
 
 image:okta8.png[Token]
 
+Die Okta-Konsole kann in zwei Modi betrieben werden: im klassischen Modus und im Entwicklermodus.
+Im klassischen Modus befindet sich die Aussteller-URL auf der Registerkarte "Anmelden" der Okta-Anwendungsseite. Damit die Gruppenzugehörigkeit des Benutzers im Anspruch zurückgegeben wird, müssen Sie auf der Konfigurationsseite {product-name} OpenID Connect den Bereich "groups" hinzufügen:
 
- 
+image:okta9.png[Ansprüche]
 
+Im Entwicklermodus ermöglicht Okta die Anpassung der Ansprüche. Dies geschieht auf der API-Seite durch die Verwaltung von Autorisierungsservern (navigieren Sie zum linken Menü -> Sicherheit -> API). Die URL des Ausstellers befindet sich auf der Registerkarte Einstellungen des jeweiligen Autorisierungsservers:
 
+image:okta10.png[api]
 
+Claims sind Name/Wert-Paare, die Informationen über einen Benutzer sowie Metainformationen über den OIDC-Dienst enthalten.
+Im Abschnitt "`OpenID Connect ID Token`" können Sie neue Ansprüche für Benutzergruppen erstellen und den Anspruch im ID-Token übertragen (ein ID-Token ist ein JSON-Web-Token, ein kompaktes URL-sicheres Mittel zur Darstellung von Ansprüchen, die zwischen zwei Parteien übertragen werden sollen, so dass Identitätsinformationen über den Benutzer direkt im Token kodiert sind und das Token definitiv überprüft werden kann, um zu beweisen, dass es nicht manipuliert wurde). Wenn ein bestimmter Bereich konfiguriert ist, fügen Sie diesen auf der Einstellungsseite {product-name} OpenID Connect hinzu, damit der Anspruch nach der Authentifizierung des Benutzers aufgenommen werden kann:
 
+image:okta11.png[Geltungsbereiche]
 
+Standardmäßig sucht {product-name} nach "Gruppen" im Anspruch, um die Gruppenzugehörigkeit des Benutzers zu identifizieren. Wenn ein anderer Anspruchsname verwendet wird, können Sie den Anspruchsnamen auf der OpenID Connect-Einstellungsseite {product-name} anpassen. Um Ansprüche zu konfigurieren, bearbeiten Sie den Abschnitt "`OpenID Connect ID Token`" wie in der nächsten Abbildung gezeigt:
 
+image:okta12.png[Ansprüche]
 
+Navigieren Sie auf Ihrer Anwendungsintegrationsseite zur Registerkarte "`Assignments`" und vergewissern Sie sich, dass die entsprechenden Zuordnungen aufgeführt sind:
 
- 
+image:okta13.png[Zuweisungen]
 
+=== {product-name} OpenID Connect Konfiguration
 
+Konfigurieren Sie die richtige Aussteller-URL, die Client-ID und das Client-Geheimnis auf der Seite.
 
+image:openid9.png[OpenID9]
 
+Nachdem der Benutzer authentifiziert ist, kann die richtige Rolle mit der gruppenbasierten Rollenzuordnungskonfiguration abgeleitet werden. So richten Sie eine gruppenbasierte Rollenzuordnung ein,
 
+. Wenn die gruppenbasierte Rollenzuordnung nicht konfiguriert ist oder die entsprechenden Gruppen nicht gefunden werden können, wird dem authentifizierten Benutzer die Standardrolle zugewiesen. Wenn die Standardrolle auf Keine gesetzt ist, kann sich der Benutzer nicht anmelden, wenn die gruppenbasierte Rollenzuordnung fehlschlägt.
+. Geben Sie eine Liste von Gruppen in den Rollen Admin und Reader an. Die Gruppenzugehörigkeit des Benutzers wird von den Angaben im ID-Token zurückgegeben, nachdem der Benutzer authentifiziert wurde. Wenn die passende Gruppe gefunden wird, wird dem Benutzer die entsprechende Rolle zugewiesen.
 
+Die Gruppe kann der Rolle Admin in {product-name} zugeordnet werden. Einzelne Benutzer können zu einer Federated Admin-Rolle "befördert" werden, indem sie sich als lokaler Cluster-Administrator anmelden, den Benutzer mit Identify Provider "OpenID" auswählen und seine Rolle unter Einstellungen -> Benutzer/Rollen bearbeiten.
 
+=== Zuordnung von Gruppen zu Rollen und Namensräumen
 
-
-
-
-=== 
-
-
-
-
-
- 
-
-.
-.
-
- 
-
-=== 
-
-
+Wie Sie Gruppen voreingestellten und benutzerdefinierten Rollen sowie Namespaces in {product-name} zuordnen können, erfahren Sie im Abschnitt xref:users.adoc#_mapping_groups_to_roles_and_namespaces[Benutzer und Rollen].
