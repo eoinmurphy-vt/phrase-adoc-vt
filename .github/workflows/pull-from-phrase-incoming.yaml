@@ -53,8 +53,8 @@ jobs:
           fi
 
           git commit -m "Sync translated content from phrase-incoming"
-
-          git remote set-url origin https://\( {{ secrets.REPO2_TRIGGER_PAT }}@github.com/ \){{ github.repository }}.git
+          
+          git remote set-url origin https://${{ secrets.REPO2_TRIGGER_PAT }}@github.com/${{ github.repository }}.git
 
           MAX_ATTEMPTS=10
           ATTEMPT=1
