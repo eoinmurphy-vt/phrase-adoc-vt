@@ -1,0 +1,220 @@
+= Se connecter au gestionnaire, au serveur API REST
+:revdate: 2025-05-08
+:page-revdate: {revdate}
+:page-opendocs-origin: /03.configuration/01.console/01.console.md
+:page-opendocs-slug: /configuration/console
+
+== Connexion à l'interface utilisateur
+
+Ouvrez une fenêtre de navigateur, connectez-vous au gestionnaire en utilisant HTTPS. Après avoir accepté le CLUF, l'utilisateur peut accéder à l'interface utilisateur.
+
+[TIP]
+====
+Selon la méthode de déploiement choisie, l'adresse du gestionnaire sera la suivante
+====
+
+[tabs]
+======
+Docker::
++
+====
+[,shell]
+----
+https://<manager_host_ip>:8443
+----
+==== 
+
+Kubernetes sans LoadBalancer ou Ingress::
++
+====
+[,shell]
+----
+https://<node_host_ip>:<NodePort>
+----
+====
+
+LoadBalancer ou Ingress configuré::
++
+====
+[,shell]
+----
+https://<FQDN|IP>/
+---- 
+==== 
+======
+
+image:3_0_Dashboard.png[Navigation]
+
+Vous pouvez gérer {product-name} à partir de la console ou en utilisant l'API REST.
+
+[NOTE]
+====
+Voir ci-dessous les cas où le pare-feu de votre entreprise bloque le 8443.
+====
+
+[NOTE]
+====
+Si votre navigateur Chrome bloque le certificat auto-signé {product-name}, voir la section suivante sur le téléchargement de certificats Chrome. 
+====
+
+== Connexion au serveur API REST 
+
+Toutes les opérations dans {product-name} peuvent être invoquées via l'API REST au lieu de la console. Le serveur API REST fait partie du conteneur Controller/Allinone. Pour plus de détails sur l'API REST, veuillez consulter la section sur le flux de travail et l'xref:automation.adoc[automatisation]. 
+
+== Nom d'utilisateur et mot de passe par défaut 
+
+**admin:admin** 
+
+Après avoir réussi à se connecter, l'utilisateur administrateur doit mettre à jour le compte avec un mot de passe plus sûr. 
+
+== Création d'utilisateurs supplémentaires 
+
+Les nouveaux utilisateurs peuvent être ajoutés à partir du menu Settings -> Users & Roles. Il existe des rôles globaux prédéfinis dans {product-name}: 
+
+* Admin. Capable d'effectuer toutes les actions à l'exception des politiques de Federated. 
+* Federated Admin. Capable d'effectuer toutes les actions, y compris la mise en place de clusters maîtres/éloignés et de politiques (règles) fédérées. Visible uniquement si l'option xref:multicluster.adoc[Multi-cluster] est activée. 
+* Vue seule (lecteur). Aucune action n'est autorisée, il suffit de regarder. 
+* Intégration CI (ciops). Capable d'effectuer des tâches d'intégration de numérisation CI/CD telles que la numérisation d'images. Ce rôle d'utilisateur est recommandé pour une utilisation dans les plug-ins d'analyse de la phase de construction tels que Jenkins, Bamboo, etc. et pour une utilisation dans les appels de l'API REST. Il est limité aux fonctions de balayage et ne peut effectuer aucune action dans la console. 
+
+Les utilisateurs peuvent être limités à un ou plusieurs espaces de noms à l'aide des paramètres avancés. 
+
+Voir la section xref:users.adoc[Utilisateurs et rôles] pour la gestion avancée des utilisateurs et la création de rôles personnalisés. 
+
+== Réglage du délai de connexion 
+
+Vous pouvez définir le nombre de secondes pendant lesquelles la console attendra dans le coin supérieur droit de la console dans Mon profil -> Délai de session. La valeur par défaut est de 5 minutes et la valeur maximale est de 3600 secondes (1 heure). 
+
+== Activation de HTTP pour le gestionnaire 
+
+Pour désactiver HTTPS et activer l'accès HTTP, ajoutez ceci à la section Manager ou Allinone yaml dans la section des variables d'environnement. Par exemple, dans Kubernetes : 
+
+[,yaml]
+----
+- name: MANAGER_SSL 
+  value: "off" 
+----
+
+Pour OpenShift, supprimez également ce paramètre de la section Route du fichier yaml : 
+
+[,yaml]
+----
+tls:
+    termination: passthrough 
+----
+
+Ceci est utile si vous placez le gestionnaire derrière un équilibreur de charge. 
+
+== Activation de l'accès à partir du réseau d'entreprise qui bloque 8443 
+
+Si votre réseau d'entreprise n'autorise pas l'accès au port 8443 de la console Manager, vous pouvez créer un service d'entrée pour le mapper et autoriser l'accès. 
+
+[NOTE]
+====
+La console {product-name} UI est exécutée en tant qu'utilisateur non root dans le conteneur, elle ne peut donc pas écouter sur un port inférieur à 1024. C'est pourquoi il ne peut pas être modifié en 443. 
+====
+
+Si vous essayez d'accéder à la console depuis votre réseau d'entreprise. Voici comment utiliser le service ClusterIP et la redirection HTTPS ingress pour y parvenir. 
+
+Tout d'abord, créez un certificat pour la terminaison HTTPS. En voici un exemple :
+
+[,shell]
+----
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=mycloud.domain.com" kubectl create secret tls neuvector-ingress-tls -n neuvector --key="tls.key" --cert="tls.crt" 
+----
+
+Ensuite, utilisez le fichier yaml suivant pour exposer le port 443 qui redirige la connexion HTTPS vers le gestionnaire. 
+
+[,yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: neuvector-cluster-webui
+  namespace: neuvector
+spec:
+  ports:
+  - port: 443
+    targetPort: 8443
+    protocol: TCP
+  type: ClusterIP
+  selector:
+    app: neuvector-manager-pod
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: neuvector-ingress-webui
+  namespace: neuvector
+  annotations:
+    ingress.mycloud.net/ssl-services: ssl-service=neuvector-cluster-webui
+spec:
+  tls:
+  - hosts:
+    - cloud.neuvector.com
+    secretName: neuvector-ingress-tls
+  rules:
+  - host: cloud.neuvector.com
+    http:
+      paths:
+      - path:
+        backend:
+          serviceName: neuvector-cluster-webui
+          servicePort: 443
+----
+
+Vous devrez changer l'annotation de l'adresse d'entrée de ingress.mycloud.net à votre adresse appropriée. 
+
+Cet exemple utilise l'URL cloud.neuvector.com. Une fois le service d'entrée créé, vous pouvez trouver son IP externe. Vous pouvez ensuite configurer le fichier hosts pour faire pointer cloud.neuvector.com vers cette IP. Ensuite, vous devriez pouvoir naviguer jusqu'à `+https://cloud.neuvector.com+` (l'url que vous avez choisi d'utiliser). 
+
+=== Utiliser SSL Passthrough au lieu de Redirect 
+
+Pour utiliser TLS/SSL passthrough au lieu de l'exemple de redirection ci-dessus (supporté par certains contrôleurs d'entrée tels que nginx), assurez-vous que le contrôleur d'entrée est configuré de manière appropriée pour passthrough, et que l'annotation appropriée est ajoutée à l'entrée. Par exemple, 
+
+[,yaml]
+----
+annotations: 
+  ingress.kubernetes.io/ssl-passthrough: "true" 
+----
+
+== Remplacement des certificats auto-signés de {product-name}  
+
+Pour plus de détails, voir la section suivante xref:replacecert.adoc[Remplacement des certificats auto-signés]. Le certificat doit être remplacé dans les noms Manager et Controller/Allinone. 
+
+== Configuration de AWS ALB avec certificat ARN 
+
+Voici un exemple de configuration d'entrée utilisant l'équilibreur de charge AWS avec l'ARN du certificat (ARN réel obscurci). 
+[,yaml]
+----
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/#healthcheck-path
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:596810101010:certificate/380b6abc-1234-408d-axyz-651710101010
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/success-codes: "301"
+    alb.ingress.kubernetes.io/target-type: instance
+    external-dns.alpha.kubernetes.io/hostname: eks.neuvector.com
+    kubernetes.io/ingress.class: alb
+  labels:
+    app: neuvector-webui-ingress
+  name: neuvector-webui-ingress
+  namespace: neuvector
+spec:
+  tls:
+  - hosts:
+    - eks.neuvector.com
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: neuvector-service-webui
+          servicePort: 8443
+        path: /*
+----
