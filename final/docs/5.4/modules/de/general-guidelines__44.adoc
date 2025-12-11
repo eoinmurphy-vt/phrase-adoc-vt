@@ -1,0 +1,34 @@
+= Allgemeine Leitlinien
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /13.special/01.general/01.general.md
+:page-opendocs-slug:  /special/general
+
+== Prüfung von {product-name} mit dem Allinone-Container
+
+Die Beispiele in diesem Abschnitt stellen die Container Allinone und Enforcer bereit. Dies ist nützlich, um {product-name} auszuprobieren, insbesondere in Nicht-Kubernetes-Umgebungen (z. B. Docker Native). Für Kubernetes-basierte Bereitstellungen wird die Verwendung des neuesten {product-name} Helm-Diagramms empfohlen. Bitte lesen Sie den Abschnitt Bereitstellung von {product-name}.
+
+== Allgemeine Leitlinien für den Einsatz
+
+Bereiten Sie Ihre Hostumgebung für eine ordnungsgemäße Installation vor. Stellen Sie sicher, dass die {product-name} Container zwischen den Hosts miteinander kommunizieren können. Prüfen und bearbeiten Sie dann die Beispieldateien für Ihre Umgebung.
+
+Im Allgemeinen ist es wichtig, Folgendes zu tun:
+
+. Beschriften Sie die Knoten in geeigneter Weise. Wenn Sie Knotenbeschriftungen verwenden, um zu steuern, wo der All-in-One oder der Controller eingesetzt wird, beschriften Sie sie vor dem Einsatz.
+. Vergewissern Sie sich, dass die Volumes richtig zugeordnet werden können. Zum Beispiel
++
+[,yaml]
+----
+volumes:
+        - /var/neuvector:/var/neuvector
+        - /var/run/docker.sock:/var/run/docker.sock
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup:/host/cgroup:ro
+----
+
+. Öffnen Sie die erforderlichen Ports auf den Hosts. Vergewissern Sie sich, dass die erforderlichen Ports richtig zugeordnet und auf dem Host geöffnet sind. Der Allinone benötigt 8443 (bei Verwendung der Konsole), 18300, 18301, 18400 und 18401. Für den Enforcer sind 18301 und 18401 erforderlich.
+. Bearbeiten Sie die CLUSTER_JOIN_ADDR. Suchen Sie in den Beispieldateien für allinone und enforcer die IP-Adresse des Knotens, den Namen des Knotens (bei Verwendung eines Nameservers) oder die Knotenvariable (bei Verwendung von Orchestrierungstools) für den allinone (Controller), der für die "`node IP`" verwendet werden soll.
+
+== Zugriff auf die Konsole
+
+Im ersten Abschnitt Grundlagen -> Connect to Manager finden Sie Optionen zum Deaktivieren von https oder zum Zugriff auf die Konsole über eine Unternehmensfirewall, die den Port 8443 für den Konsolenzugriff nicht zulässt.
