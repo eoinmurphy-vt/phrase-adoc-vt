@@ -1,0 +1,72 @@
+= SAML (Azure AD)
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /08.integration/05.msazure/05.msazure.md
+:page-opendocs-slug:  /integration/msazure
+
+== Integration mit Azure AD SAML-Authentifizierung
+
+. Wählen Sie in der Azure-Verwaltungskonsole den Menüpunkt "Unternehmensanwendungen" in Azure Active Directory
++
+image:azure1.png[azure_config1]
+
+. Wählen Sie "`New Application`"
++
+image:azure2.png[azure_config2]
+
+. Erstellen Sie eine Nicht-Galerie-Anwendung und geben Sie ihr einen eindeutigen Namen
++
+image:azure3.png[azure_config3]
+
+. Wählen Sie auf der Konfigurationsseite der Anwendung auf der linken Seite "Single Sign-On" und wählen Sie die SAML-basierte Anmeldung
++
+image:azure4.png[azure_config4]
+
+. Laden Sie das Zertifikat im base64-Format herunter und notieren Sie sich die Anmelde-URL der Anwendung und den Azure AD Identifier
++
+image:azure5.png[azure_config5]
+
+. Melden Sie sich in der Verwaltungskonsole {product-name} als Administrator an. Wählen Sie "Einstellungen" im Dropdown-Menü des Administrators in der oberen rechten Ecke. Klicken Sie auf SAML-Einstellungen
++
+image:azure6.png[azure_config6]
+
+. Konfigurieren Sie den SAML-Server wie folgt:
+* Kopieren Sie die "Login URL" der Anwendung als Single Sign-On URL.
+* Kopieren Sie "Azure AD Identifier" als Issuer.
+* Öffnen Sie das heruntergeladene Zertifikat und kopieren Sie den Text in das Feld X.509-Zertifikat.
+* Legen Sie eine Standardrolle fest.
+* Geben Sie den Gruppennamen für die Rollenzuordnung ein. Die von Azure zurückgegebenen Gruppenansprüche werden durch die "Objekt-ID" anstelle des Namens identifiziert. Die Objekt-ID der Gruppe kann unter menu:Azure Active[DirectoryGroups > Group name Page] gefunden werden. Sie sollten diesen Wert verwenden, um die gruppenbasierte Rollenzuordnung in {product-name} zu konfigurieren.
++
+image:openid5.png[OpenID5]
++
+Aktivieren Sie dann den SAML-Server.
++
+image:azure7.png[azure_config7]
+
+. Kopieren Sie die Umleitungs-URL
++
+image:azure8.png[azure_config8]
+
+. Kehren Sie zur Azure-Verwaltungskonsole zurück, um die "Grundlegende SAML-Konfiguration" einzurichten. Kopieren Sie die Umleitungs-URL der Konsole {product-name} in die beiden Felder "Kennung" und "Antwort-URL".
++
+image:azure9.png[azure_config9]
+
+. Bearbeiten Sie "SAML Signing Certificate" und ändern Sie die Signieroption in "Sign SAML response".
++
+image:azure10.png[azure_config10]
+
+. Bearbeiten Sie "User Attributes & Claims", damit die Antwort die Attribute des angemeldeten Benutzers an {product-name} zurückgeben kann. Klicken Sie auf "Neuen Anspruch hinzufügen", um die Ansprüche "Benutzername" und "E-Mail" mit "user.userprincipalname" bzw. "user.mail" hinzuzufügen.
++
+image:azure11.png[azure_config11]
+
+. Wenn die Benutzer den Gruppen im aktiven Verzeichnis zugeordnet sind, kann ihre Gruppenzugehörigkeit dem Anspruch hinzugefügt werden. Suchen Sie die Anwendung unter "App-Registrierungen" und bearbeiten Sie das Manifest. Ändern Sie den Wert von "groupMembershipClaims" in "All".
++
+image:azure12.png[azure_config12]
+
+. Autorisierung von Benutzern und Gruppen für den Zugriff auf die Anwendung, damit sie sich mit Azure AD SAML SSO an der {product-name} Konsole anmelden können
++
+image:azure13.png[azure_config13]
+
+=== Zuordnung von Gruppen zu Rollen und Namensräumen
+
+Wie Sie Gruppen voreingestellten und benutzerdefinierten Rollen sowie Namespaces in {product-name} zuordnen können, erfahren Sie im Abschnitt xref:users.adoc#_mapping_groups_to_roles_and_namespaces[Benutzer und Rollen].
