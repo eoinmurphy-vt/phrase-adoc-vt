@@ -1,0 +1,13 @@
+Postprocess started: 2025-12-17 16:31:04.685458
+
+✓ translated/de_de/docs/5.4/modules/en/jenkins__46.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/jenkins__46.adoc (from translated/de_de/docs/5.4/modules/en/jenkins__46.adoc)
+✓ translated/de_de/docs/5.4/modules/en/splunk__46.adoc decoded as utf-8 (0.99)
+✓ Restored final/docs/5.4/modules/de/splunk__46.adoc (from translated/de_de/docs/5.4/modules/en/splunk__46.adoc)
+
+Summary:
+  ✅ Processed files: 2
+  ⚠️ Encoding errors fixed: 0
+  ✅ Cleaned files: 2
+
+Completed: 2025-12-17 16:31:04.698527
