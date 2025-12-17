@@ -1,0 +1,1328 @@
+= 5.x Notes de mise à jour
+:revdate: 2025-08-26
+:page-revdate: {revdate}
+:page-opendocs-origin: /14.releasenotes/01.5x/01.5x.md
+:page-opendocs-slug:  /releasenotes/5x
+
+== Notes de mise à jour pour la version 5.x
+
+[NOTE]
+====
+Pour recevoir des notifications par courrier électronique concernant les nouvelles versions, veuillez vous inscrire à la liste de diffusion de SUSE : https://lists.suse.com/mailman/listinfo/neuvector-updates
+====
+
+=== 5.4.6 Août 2025
+
+==== Nouvelles fonctionnalités
+
+* *NVSHAS-6733*: Exporter les règles de réponse en tant que CRD.
+* *NVSHAS-9899*: Les alertes du profil de processus NeuVector pour les services Java contiennent des données sensibles.
+* *NVSHAS-9990*: Adopter un nouvel algorithme de hachage pour les mots de passe des utilisateurs.
+* *NVSHAS-9968*: Prise en charge de la définition du mot de passe par défaut du compte administrateur.
+
+==== Bugs corrigés
+
+* *NVSHAS-10062*: Le gestionnaire n'affiche pas d'ERREUR lorsqu'il ne parvient pas à créer le mot de passe administrateur lors de la première connexion.
+* *NVSHAS-10041*: L'opération de fédération a échoué "données non valides" lors de la configuration de la fédération via ConfigMap.
+* *NVSHAS-10018*: Neuvector n'analyse pas toutes les images du GitLab Registry.
+* *NVSHAS-10017*: Alerte de sécurité faussement positive liée à un processus autorisé.
+* *NVSHAS-10001*: 
+*     
+*     
+
+==== 
+
+* 
+* 
+* 
+
+
+
+=== 
+
+==== 
+
+*  
+
+==== 
+
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+* 
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+*   
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+
+=== 
+
+==== 
+
+*  
+*  
+*   
+* 
+*  
+* 
+*  
+
+==== 
+
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+* 
+*  
+*  
+* 
+*  
+*  
+
+=== 
+
+==== 
+
+*  
+* 
+*  
+*  
+* 
+*  
+*  
+*  
+*  
+*  
+
+==== 
+
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+
+=== 
+
+==== 
+
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+
+==== 
+
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+* 
+*  
+*  
+*  
+*  
+*   
+*  
+*   
+*   
+
+[NOTE]
+====
+  
+====
+
+  
+
+==== 
+
+===== 
+
+-  
+
+===== 
+
+- 
+
+==== 
+
+  
+
+ 
+
+[,shell]
+----
+docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/ca.cert" > ca.crt
+----
+
+[,shell]
+----
+docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/cert.pem" > tls.crt
+----
+
+[,shell]
+----
+docker run -it --entrypoint=bash neuvector/scanner:3.654 -c "cat /etc/neuvector/certs/internal/cert.key" > tls.key
+----
+
+[,shell]
+----
+kubectl create secret generic internal-cert -n neuvector  --from-file=tls.key --from-file=tls.crt --from-file=ca.crt
+----
+
+ 
+
+
+
+
+
+
+
+
+
+  
+
+
+
+=== 
+
+==== 
+
+*  
+*  
+*  
+*  
+
+==== 
+
+* 
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+* 
+*  
+*  
+
+==== 
+
+*   
+
+=== 
+
+*  
+** 
+** 
+** 
+*  
+** 
+** 
+*  
+** 
+** 
+** 
+*  
+** 
+*  
+** 
+** 
+** 
+*  
+** 
+** 
+** 
+*  
+** 
+** 
+** 
+
+==== 
+
+*  
+*  
+*  
+*  
+*  
+*  
+*   
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+
+==== 
+
+*   
+*  
+*  
+*   
+*  
+*  
+*  
+*   
+*  
+*  
+*  
+*   
+*  
+*  
+*   
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+* 
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+*  
+
+==== 
+
+*  
+*   
++
+--
+[,bash]
+----
+cat <<EOF | kubectl apply -f -
+apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  name: neuvector-controller
+  namespace: neuvector
+spec:
+  leaseTransitions: 0
+---
+apiVersion: coordination.k8s.io/v1
+kind: Lease
+metadata:
+  name: neuvector-cert-upgrader
+  namespace: neuvector
+spec:
+  leaseTransitions: 0
+EOF
+----
+--
+
+=== 
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
++
+|===
+|  |  | 
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-critical}
+
+| 
+| 
+| {CVE-medium}
+|===
+
+=== 
+
+* 
+
+|===
+|  |  | 
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-critical}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+|===
+
+=== 
+
+==== 
+
+* 
+* 
+* 
+
+==== 
+
+* 
+*  
+* 
+
+|===
+|  |  | 
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-low}
+
+| 
+| 
+| {CVE-low}
+
+| 
+| 
+| {CVE-low}
+
+| 
+| 
+| {CVE-low}
+
+| 
+| 
+| {CVE-low}
+|===
+
+==== 
+
+* 
+* 
+* 
+* 
+
+=== 
+
+* 
+
+|===
+|  |  | 
+
+| 
+| 
+| {CVE-high}
+
+| 
+| 
+| {CVE-high}
+
+| 
+| 
+| {CVE-high}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-medium}
+
+| 
+| 
+| {CVE-low}
+|===
+
+=== 
+
+==== 
+
+*   
+
+=== 
+
+[IMPORTANT]
+====
+ 
+====
+
+==== 
+
+* 
+* 
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+* 
+*  
+
+==== 
+
+* 
+* 
+* 
+* 
+
+====  
+
+*      
+
+=== 
+
+* 
+*  
+*  
+
+=== 
+
+==== 
+
+* 
+*  
+* 
+* 
+* 
+*  
+* 
+*  
+* 
+*   
+*  
+* 
+* 
+*  
+*  
+*  
+* 
+* 
+* 
+* 
+*   
+* 
+* 
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+
+==== 
+
+* 
+* 
+*  
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+
+=== 
+
+==== 
+
+* 
+
+=== 
+
+==== 
+
+* 
+
+=== 
+
+==== 
+
+* 
+* 
+
+[,shell]
+----
+docker run --rm --privileged --pid=host neuvector/scanner -n
+----
+
+==== 
+
+* 
+
+=== 
+
+==== 
+
+* 
+
+=== 
+
+==== 
+
+* 
+ ** 
+ ** 
+ ** 
+ **  
+ ** 
+*   
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+*  
+*  
+* 
+*     
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+
+=== 
+
+==== 
+
+*  
+* 
+* 
+* 
+* 
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+* 
+
+=== 
+
+==== 
+
+*   
+*   
+*    
+*   
+*  
+*  
+*        
+*    
+*  
+*     
+* 
+* 
+*  
+*  
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+*   
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+*  
+
+[,shell]
+----
+set system detect_unmanaged_wl status -h
+Usage: cli set system detect_unmanaged_wl status [OPTIONS] {true|false}
+
+  Enable/disable detect unmanaged container
+----
+
+==== 
+
+*   
+* 
+* 
+* 
+
+=== 
+
+==== 
+
+* 
+* 
+*  
+* 
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+
+==== 
+
+[,shell]
+----
+Image: https://registry.hub.docker.comlibrary/alpine:3.4
+Base OS: alpine:3.4.6
+TOTAL: 6, HIGH: 1, MEDIUM: 5, LOW: 0, UNKNOWN: 0
+┌─────────┬───────────────┬──────────┬───────────┬───────────────┬────────────┐
+│ PACKAGE │ VULNERABILITY │ SEVERITY │ VERSION   │ FIXED VERSION │ PUBLISHED  │
+├─────────┼───────────────┼──────────┼───────────┼───────────────┼────────────┤
+│ openssl │ CVE-2018-0732 │ High     │ 1.0.2n-r0 │ 1.0.2o-r1     │ 2018-06-12 │
+│         ├───────────────┼──────────┤           ├───────────────┼────────────┤
+│         │ CVE-2018-0733 │ Medium   │           │ 1.0.2o-r0     │ 2018-03-27 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-0734 │          │           │ 1.0.2q-r0     │ 2018-10-30 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-0737 │          │           │ 1.0.2o-r2     │ 2018-04-16 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-0739 │          │           │ 1.0.2o-r0     │ 2018-03-27 │
+│         ├───────────────┤          │           ├───────────────┼────────────┤
+│         │ CVE-2018-5407 │          │           │ 1.0.2q-r0     │ 2018-11-15 │
+└─────────┴───────────────┴──────────┴───────────┴───────────────┴────────────┘
+----
+
+=== 
+
+==== 
+
+*    
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+
+==== 
+
+* 
+*   
+
+==== 
+
+* 
+* 
+
+=== 
+
+==== 
+
+* 
+*  
+
+[,yaml]
+----
+           - name: ENF_NETPOLICY_PULL_INTERVAL
+             value: "60"   <== regulate the pulling gap by 60 seconds
+----
+
+==== 
+
+* 
+* 
+* 
+* 
+* 
+* 
+*   
+* 
+
+==== 
+
+* 
+
+=== 
+
+==== 
+
+*     
+* 
+ **  
+ **  
+ **   
+ ** 
+*   
+*  
+*     
+*   
+ ** 
+  *** 
+  *** 
+ ** 
+  *** 
+  *** 
+*  
+* 
+* 
+* 
+* 
+* 
+*  
+*                 
+
+==== 
+
+*  
+* 
+
+=== 
+
+==== 
+
+* 
+
+=== 
+
+==== 
+
+* 
+* 
+* 
+*   
+
+=== 
+
+==== 
+
+* 
+*   
+* 
+
+=== 
+
+==== 
+
+* 
+
+==== 
+
+* 
+
+==== 
+
+* 
+* 
+
+=== 
+
+==== 
+
+* 
+* 
+* 
+* 
+
+[,yaml]
+----
+    env:
+      - name: ENF_NO_SECRET_SCANS  (available after v4.4.4)
+        value: "1"
+      - name: ENF_NO_AUTO_BENCHMARK (after v5.0.3)
+        value: "1"
+----
+
+==== 
+
+* 
+* 
+* 
+
+=== 
+
+==== 
+
+* 
+
+==== 
+
+* 
+* 
+* 
+* 
+
+=== 
+
+==== 
+
+* 
+* 
+*  
+*   
+*  
+
+==== 
+
+* 
+*  
+* 
+* 
+* 
+* 
+* 
+* 
+*  
+* 
+
+==== 
+
+* 
+* 
+
+==== 
+
+  
+
+ 
+
+[,shell]
+----
+kubectl patch deploy -ncattle-neuvector-system neuvector-scanner-pod --patch '{"spec":{"template":{"spec":{"securityContext":{"runAsUser": 5400}}}}}'
+kubectl patch deploy -ncattle-neuvector-system neuvector-manager-pod --patch '{"spec":{"template":{"spec":{"securityContext":{"runAsUser": 5400}}}}}'
+----
+
+
+
+[,shell]
+----
+[neuvector@localhost nv]$ getenforce
+Enforcing
+[neuvector@localhost nv]$ sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /sys/fs/selinux
+SELinux root directory:         /etc/selinux
+Loaded policy name:             targeted
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Memory protection checking:     actual (secure)
+Max kernel policy version:      33
+
+[neuvector@localhost nv]$ kk get psp
+Warning: policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+NAME                      PRIV    CAPS                                      SELINUX    RUNASUSER          FSGROUP     SUPGROUP    READONLYROOTFS   VOLUMES
+global-restricted-psp     false                                             RunAsAny   MustRunAsNonRoot   MustRunAs   MustRunAs   false            configMap,emptyDir,projected,secret,downwardAPI,persistentVolumeClaim
+neuvector-binding-psp     true    SYS_ADMIN,NET_ADMIN,SYS_PTRACE,IPC_LOCK   RunAsAny   RunAsAny           RunAsAny    RunAsAny    false            *
+system-unrestricted-psp   true    *                                         RunAsAny   RunAsAny           RunAsAny    RunAsAny    false            *
+[neuvector@localhost nv]$ nvpo.sh
+NAME                                        READY   STATUS    RESTARTS   AGE     IP           NODE                    NOMINATED NODE   READINESS GATES
+neuvector-controller-pod-54f69f7f9c-6h822   1/1     Running   0          5m51s   10.42.0.29   localhost.localdomain   <none>           <none>
+neuvector-enforcer-pod-jz77b                1/1     Running   0          5m51s   10.42.0.30   localhost.localdomain   <none>           <none>
+neuvector-manager-pod-588488bb78-p6vf9      1/1     Running   0          111s    10.42.0.32   localhost.localdomain   <none>           <none>
+neuvector-scanner-pod-87474dcff-s8vgt       1/1     Running   0          114s    10.42.0.31   localhost.localdomain   <none>           <none>
+----
+
+=== 
+
+==== 
+
+*        
+*    
+* 
+*       
+*    
+*  
+*    
+*     
+* 
+*  
+* 
+* 
+* 
+* 
+* 
+* 
+
+==== 
+
+* 
+* 
+*  
+* 
+* 
+* 
+* 
+
+==== 
+
+* 
+* 
+* 
+*  
+
+=== 
+
+[NOTE]
+====
+ 
+====
+
+
+ 
+
+. 
+
+[,shell]
+----
+kubectl delete clusterrole neuvector-binding-customresourcedefinition
+----
+
+. 
+
+[,shell]
+----
+kubectl create clusterrole neuvector-binding-customresourcedefinition --verb=watch,create,get,update --resource=customresourcedefinitions
+----
+
+. 
+
+[,shell]
+----
+kubectl delete -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/crd-k8s-1.19.yaml
+----
+
+. 
+
+[,shell]
+----
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/crd-k8s-1.19.yaml
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/waf-crd-k8s-1.19.yaml
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/dlp-crd-k8s-1.19.yaml
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.0.0/admission-crd-k8s-1.19.yaml
+----
+
+. 
+
+[,shell]
+----
+kubectl create clusterrole neuvector-binding-nvwafsecurityrules --verb=list,delete --resource=nvwafsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvwafsecurityrules --clusterrole=neuvector-binding-nvwafsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvadmissioncontrolsecurityrules --verb=list,delete --resource=nvadmissioncontrolsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvadmissioncontrolsecurityrules --clusterrole=neuvector-binding-nvadmissioncontrolsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvdlpsecurityrules --verb=list,delete --resource=nvdlpsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvdlpsecurityrules --clusterrole=neuvector-binding-nvdlpsecurityrules --serviceaccount=neuvector:default
+----
+
+. 
+
+* 
+* 
+* 
+* 
+* 
+
+
+
+
+
+ 
+
+[,shell]
+----
+oc delete rolebinding -n neuvector system:openshift:scc:privileged
+----
+
+==== 
+
+*        
+*    
+*  
+
+==== 
+
+[CAUTION]
+.
+====
+
+
+
+[,shell]
+----
+kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/latest/crd-k8s-1.19.yaml
+kubectl create clusterrole neuvector-binding-nvwafsecurityrules --verb=list,delete --resource=nvwafsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvwafsecurityrules --clusterrole=neuvector-binding-nvwafsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvadmissioncontrolsecurityrules --verb=list,delete --resource=nvadmissioncontrolsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvadmissioncontrolsecurityrules --clusterrole=neuvector-binding-nvadmissioncontrolsecurityrules --serviceaccount=neuvector:default
+kubectl create clusterrole neuvector-binding-nvdlpsecurityrules --verb=list,delete --resource=nvdlpsecurityrules
+kubectl create clusterrolebinding neuvector-binding-nvdlpsecurityrules --clusterrole=neuvector-binding-nvdlpsecurityrules --serviceaccount=neuvector:default
+----
+====
+
+
+==== 
+
+* 
+*       
+*    
+* 
+*    
+*    
+* 
+* 
+* 
+* 
+
+==== 
+
+* 
+
+==== 
+
+* 
+
+==== 
+
+ 
+
+=== 
+
+==== 
+
+* 
+*  
+* 
+
+==== 
+
+* 
+
+==== 
+
+*  
+ ** 
+ ** 
+ ** 
