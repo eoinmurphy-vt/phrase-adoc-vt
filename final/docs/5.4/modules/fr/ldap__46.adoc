@@ -1,0 +1,21 @@
+= LDAP
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /08.integration/02.ldap/02.ldap.md
+:page-opendocs-slug:  /integration/ldap
+
+== LDAP
+
+Configurez les champs requis pour vous connecter à votre serveur LDAP.
+
+image:ldap-ad.png[LDAPAD]
+
+. Port. Le port par défaut est 389 pour SSL désactivé et 636 pour SSL activé.
+. Nom d'utilisateur (facultatif). Nous utilisons ce nom d'utilisateur administrateur pour lier le serveur LDAP à chaque requête.
+. Base dn. Il doit s'agir d'un nœud racine dans le serveur ldap pour rechercher l'utilisateur et le groupe ldap.
+. Rôle par défaut. Il s'agit du rôle qu'un utilisateur prendra si le mappage des groupes de rôles (ci-dessous) échoue. Si l'attribut de groupe de l'utilisateur peut être associé à un rôle, le rôle par défaut n'est pas utilisé. Si aucun attribut de groupe correspondant n'est trouvé, le rôle par défaut sera pris. Si le rôle par défaut est Aucun dans ce cas, la connexion de l'utilisateur échouera. Le bouton '`test connection`' permet de vérifier si un nom d'utilisateur/mot de passe peut être authentifié par le serveur LDAP configuré.
+. Carte des rôles des administrateurs et des lecteurs. Ceci définit la manière de faire correspondre l'appartenance d'un utilisateur à un groupe LDAP au rôle de l'utilisateur dans {product-name}. Ajouter la liste des groupes LDAP aux rôles correspondants. Lors de la recherche de l'appartenance d'un utilisateur à un groupe dans le schéma LDAP, nous supposons que l'attribut membre du groupe est nommé "`memberUid`".
+
+=== Mappage des groupes aux rôles et aux espaces de noms
+
+Veuillez consulter la section xref:users.adoc#_mapping_groups_to_roles_and_namespaces[Utilisateurs et rôles] pour savoir comment associer des groupes à des rôles prédéfinis et personnalisés ainsi qu'à des espaces de noms dans {product-name}.
