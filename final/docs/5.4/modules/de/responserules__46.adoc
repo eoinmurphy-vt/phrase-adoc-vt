@@ -1,0 +1,326 @@
+= Antwortregeln
+:revdate: 2024-09-27
+:page-revdate: {revdate}
+:page-opendocs-origin: /05.policy/08.responserules/08.responserules.md
+:page-opendocs-slug:  /policy/responserules
+
+== Politik: Antwortregeln
+
+Reaktionsregeln bieten eine flexible, anpassbare Regel-Engine zur Automatisierung von Reaktionen auf wichtige Sicherheitsereignisse. Zu den Auslösern können Sicherheitsereignisse, Ergebnisse von Schwachstellen-Scans, CIS-Benchmarks, Ereignisse der Zugangskontrolle und allgemeine Ereignisse gehören. Zu den Aktionen gehören Container-Quarantäne, Webhooks und Unterdrückung von Alarmen.
+
+image:response1.png[ResponseRules]
+
+Erstellen Sie eine neue Antwortregel wie folgt:
+
+* Gruppe. Eine Regel wird auf eine Gruppe angewendet. Weitere Informationen zu Gruppen und zur Erstellung einer neuen Gruppe finden Sie im Abschnitt Laufzeit-Sicherheitsrichtlinie -> Gruppen.
+* Kategorie. Dies ist die Art des Ereignisses, z. B. Sicherheitsereignis oder CVE-Schwachstellen-Scanergebnis.
+* Kriterien. Geben Sie ein oder mehrere Kriterien an. Für jede Kategorie gibt es unterschiedliche Kriterien, die angewendet werden können. Zum Beispiel durch den Namen des Ereignisses, den Schweregrad oder die Mindestanzahl der hohen CVEs.
+* Aktion. Wählen Sie eine oder mehrere Aktionen aus. Die Quarantäne blockiert den gesamten Netzwerkverkehr in/aus einem Container. Webhook erfordert, dass ein Webhook-Endpunkt in den Einstellungen -> Konfiguration definiert wird. Protokoll unterdrücken verhindert, dass dieses Ereignis in den Benachrichtigungen protokolliert wird.
+
+image:newrule1.png[NewResponseRules]
+
+[IMPORTANT]
+====
+Alle Antwortregeln werden ausgewertet, um festzustellen, ob sie die Bedingung/Kriterien erfüllen. Wenn mehrere Regeln übereinstimmen, wird jede Aktion ausgeführt. Dies unterscheidet sich von dem Verhalten der Netzwerkregeln, die von oben nach unten ausgewertet werden, wobei nur die erste übereinstimmende Regel ausgeführt wird.
+====
+
+Weitere Ereignisse und Aktionen werden von {product-name} in zukünftigen Versionen hinzugefügt.
+
+== Detaillierte Konfiguration für Antwortregeln
+
+Reaktionsregeln ermöglichen automatische Reaktionen wie Quarantäne, Webhook und Unterdrückung des Protokolls auf der Grundlage bestimmter Sicherheitsereignisse. Zu den Ereignissen, die in der Reaktionsregel definiert werden können, gehören derzeit Ereignisprotokolle, Sicherheitsereignisprotokolle sowie CVE- (Schwachstellen-Scan) und CIS-Benchmark-Berichte. Die Antwortregeln werden in allen Modi angewendet: Entdecken, Überwachen und Schützen, und das Verhalten ist in allen 3 Modi gleich.
+
+Wenn ein Ereignis auf mehrere Regeln zutrifft, werden Aktionen aus mehreren Regeln angewendet. Jede Regel kann mehrere Aktionen und mehrere Übereinstimmungskriterien enthalten. Alle definierten Aktionen werden auf Container angewendet, wenn die Ereignisse den Kriterien der Reaktionsregel entsprechen. Falls es eine Übereinstimmung für Host- (nicht Container-) Ereignisse gibt, werden derzeit die Aktionen webhook und suppress log unterstützt.
+
+{product-name} enthält 6 Standard-Antwortregeln, die auf den Status '`disabled,`' gesetzt werden, eine für jede Kategorie. Die Benutzer können entweder eine Standardregel an ihre Anforderungen anpassen oder neue Regeln erstellen. Stellen Sie sicher, dass alle Regeln, die angewendet werden sollen, aktiviert sind.
+
+=== Antwortregel-Parameter-Matrix
+
+image:resp1.png[matrix]
+
+=== Verwendung mehrerer Kriterien in einer einzigen Regel
+
+Die Abgleichslogik für mehrere Kriterien in einer Antwortregel lautet:
+
+* Für verschiedene Kriterientypen (z. B. Name:Netzwerk.Verletzung, Name:Prozess.Profil.Verletzung) innerhalb einer einzelnen Regel, verwenden Sie 'und'.
+
+=== Aktionen
+
+* Quarantäne -- Container wird unter Quarantäne gestellt. Beachten Sie, dass Quarantäne bedeutet, dass der gesamte Netzwerkverkehr blockiert wird.  Der Container bleibt bestehen und läuft weiter - nur eben ohne Netzwerkverbindungen.  Kubernetes startet keinen Container, der einen unter Quarantäne gestellten Container ersetzt, da der API-Server den Container weiterhin erreichen kann.
+* Webhook - ein Webhook-Protokoll erstellt
+* suppress-log -- Log wird unterdrückt - sowohl Syslog als auch Webhook Log
+
+[NOTE]
+====
+* Die Quarantäne-Aktion ist nicht auf Regeln anwendbar, die für Host-Ereignisse ausgelöst werden.
+* Die Parameter Aktion und Ereignis sind obligatorisch; andere Parameter können leer sein, um breiteren Bedingungen zu entsprechen.
+* Mehrere Regeln können auf ein einziges Protokoll zutreffen, was zu mehreren Aktionen führen kann.
+* Jede Regel kann mehrere Aktionen enthalten.
+====
+
+=== Erstellen einer Antwortregel für Sicherheitsereignisprotokolle
+
+* Klicken Sie auf "Am Anfang einfügen", um die Regel am Anfang einzufügen.
+* Wählen Sie einen Dienstgruppennamen, wenn die Regel auf eine bestimmte Dienstgruppe angewendet werden soll.
+* Kategorie als Sicherheitsereignis wählen
+* Hinzufügen von Kriterien für das Ereignisprotokoll, die als Abgleichskriterien berücksichtigt werden sollen
+* Auswahl der anzuwendenden Aktionen Quarantäne, Webhook oder Protokoll unterdrücken
+* Status freigeben
+* Die Protokollebenen oder Prozessnamen können als weitere Abgleichskriterien verwendet werden
+
+=== Beispielregel zur Quarantäne des Containers und zum Senden eines Webhooks, wenn ein Paket im Container nv.alpinepython.default aktualisiert wird.
+
+image:resp3.png[rulesample]
+
+=== Symbole zum Verwalten von Regeln - Bearbeiten, Löschen, Deaktivieren und Einfügen einer neuen Regel unten
+
+image:resp4.png[verwalten]
+
+=== Erstellen einer Antwortregel für Ereignisprotokolle
+
+* Klicken Sie auf "Am Anfang einfügen", um die Regel am Anfang einzufügen.
+* Wählen Sie einen Dienstgruppennamen, wenn die Regel auf eine bestimmte Dienstgruppe angewendet werden soll.
+* Wählen Sie die Kategorie Ereignis
+* Name des einzubeziehenden Ereignisprotokolls als Abgleichskriterium hinzufügen
+* Wählen Sie die anzuwendenden Aktionen - Quarantäne, Webhook oder Protokoll unterdrücken
+* Status freigeben
+* Die Protokollstufe kann als weiteres Abgleichskriterium verwendet werden
+
+=== Beispiele für Ereignisse, die für eine Reaktionsregel ausgewählt werden können
+
+image:resp5.png[Veranstaltungen]
+
+=== Beispielkriterien für Ereignisse der Zulassungskontrolle
+
+image:admission.png[Veranstaltungen]
+
+=== Erstellen einer Antwortregel für die Kategorie cve-report (Protokollebene und Berichtsname als übereinstimmende Kriterien)
+
+* Klicken Sie auf "Am Anfang einfügen", um die Regel am Anfang einzufügen.
+* Wählen Sie einen Dienstgruppennamen, wenn die Regel auf eine bestimmte Dienstgruppe angewendet werden soll.
+* Wählen Sie die Kategorie CVE-Report
+* Hinzufügen der Protokollstufe als Abgleichskriterium oder cve-Berichtstyp
+* Wählen Sie die anzuwendenden Aktionen Quarantäne, Webhook oder Protokoll unterdrücken (Quarantäne ist für den Registrierungs-Scan nicht anwendbar)
+* Status freigeben
+
+=== Beispiele für CVE-Berichtstypen, die für die Antwortregel der Kategorie CVE-Report ausgewählt werden können
+
+image:resp7.png[cvereport]
+
+=== Container in Quarantäne stellen und Webhook senden, wenn die Ergebnisse des Schwachstellen-Scans mehr als 5 hochgradige CVE-Schwachstellen für diesen Container enthalten
+
+image:resp8.png[cvequarantine]
+
+=== Sende einen Webhook, wenn der Container eine Sicherheitslücke mit dem Namen cve-2018-12 enthält
+
+image:resp8-a.png[webhook]
+
+=== Erstellen einer Antwortregel für CIS-Benchmarks (Protokollstufe und Benchmark-Nummer als Abgleichskriterien)
+
+* Klicken Sie auf "Am Anfang einfügen", um die Regel am Anfang einzufügen.
+* Wählen Sie den Namen der Dienstgruppe, wenn die Regel auf eine bestimmte Dienstgruppe angewendet werden soll.
+* Kategorie auswählen Benchmark
+* Fügen Sie die Protokollstufe als Abgleichskriterium oder Benchmark-Nummer hinzu, z. B. "`5.12`" Sicherstellen, dass das Root-Dateisystem des Containers als schreibgeschützt eingehängt ist
+* Wählen Sie die anzuwendenden Aktionen Quarantäne, Webhook und Protokoll unterdrücken (Quarantäne ist nicht anwendbar Host Docker und Kubenetes Benchmark)
+* Status freigeben
+
+image:resp8-b.png[cis]
+
+=== Aufhebung der Quarantäne eines Containers durch Löschen der Antwortregel
+
+* Sie können die Quarantäne eines Containers aufheben, wenn er durch eine Antwortregel unter Quarantäne gestellt wurde
+* Löschen Sie die Antwortregel, die zur Quarantäne des Containers geführt hat und die Sie im Ereignisprotokoll finden können.
+* Wählen Sie die Option "Quarantäne aufheben", um die Quarantäne des Containers aufzuheben, nachdem Sie die Regel gelöscht haben.
+
+=== Anzeigen der Regel-ID, die für die Container-Quarantäne verantwortlich ist (in Benachrichtigungen -> Ereignisse)
+
+image:resp9.png[nicht unter Quarantäne stellen]
+
+=== Popup-Fenster mit der Option "Quarantäne aufheben", wenn die entsprechende Antwortregel gelöscht wird
+
+Aktivieren Sie das Kontrollkästchen, um die Quarantäne für alle Container aufzuheben, die durch diese Regel unter Quarantäne gestellt wurden.
+
+image:resp10.png[Option]
+
+=== Vollständige Liste der kategorisierten Kriterien, die für Antwortregeln konfiguriert werden können
+
+Beachten Sie, dass einige Kriterien einen durch einen Doppelpunkt getrennten Wert erfordern (z. B. cve-high:1, name:D.5.4, level:critical), während andere voreingestellt sind und in der Dropdown-Liste angezeigt werden, sobald Sie mit der Eingabe eines Kriteriums beginnen.
+
+==== Veranstaltungen
+
+[,shell]
+----
+Container.Start
+Container.Stop
+Container.Remove
+Container.Secured
+Container.Unsecured
+Enforcer.Start
+Enforcer.Join
+Enforcer.Stop
+Enforcer.Disconnect
+Enforcer.Connect
+Enforcer.Kicked
+Controller.Start
+Controller.Join
+Controller.Leave
+Controller.Stop
+Controller.Disconnect
+Controller.Connect
+Controller.Lead.Lost
+Controller.Lead.Elected
+User.Login
+User.Logout
+User.Timeout
+User.Login.Failed
+User.Login.Blocked
+User.Login.Unblocked
+User.Password.Reset
+User.Resource.Access.Denied
+RESTful.Write
+RESTful.Read
+Scanner.Join
+Scanner.Update
+Scanner.Leave
+Scan.Failed
+Scan.Succeeded
+Docker.CIS.Benchmark.Failed
+Kubenetes.CIS.Benchmark.Failed
+License.Update
+License.Expire
+License.Remove
+License.EnforcerLimitReached
+Admission.Control.Configured   // for admission control
+Admission.Control.ConfigFailed // for admission control
+ConfigMap.Load                 // for initial Config
+ConfigMap.Failed               // for initial Config failure
+Crd.Import                     // for crd Config import
+Crd.Remove                     // for crd Config remove due to k8s miss
+Crd.Error                      // for remove error crd
+Federation.Promote             // for multi-clusters
+Federation.Demote              // for multi-clusters
+Federation.Join                // for joint cluster in multi-clusters
+Federation.Leave               // for multi-clusters
+Federation.Kick                // for multi-clusters
+Federation.Policy.Sync         // for multi-clusters
+Configuration.Import
+Configuration.Export
+Configuration.Import.Failed
+Configuration.Export.Failed
+Cloud.Scan.Normal // for cloud scan nomal ret
+Cloud.Scan.Alert  // for cloud scan ret with alert
+Cloud.Scan.Fail   // for cloud scan fail
+Group.Auto.Remove
+Agent.Memory.Pressure
+Controller.Memory.Pressure
+Kubenetes.{product-name}.RBAC
+Group.Auto.Promote
+User.Password.Alert
+----
+
+==== Vorfälle (Sicherheitsereignis)
+
+[,shell]
+----
+Host.Privilege.Escalation
+Container.Privilege.Escalation
+Host.Suspicious.Process
+Container.Suspicious.Process
+Container.Quarantined
+Container.Unquarantined
+Host.FileAccess.Violation
+Container.FileAccess.Violation
+Host.Package.Updated
+Container.Package.Updated
+Host.Tunnel.Detected
+Container.Tunnel.Detected
+Process.Profile.Violation // container
+Host.Process.Violation    // host
+----
+
+==== Bedrohungen (Sicherheitsereignis)
+
+[,shell]
+----
+TCP.SYN.Flood
+ICMP.Flood
+Source.IP.Session.Limit
+Invalid.Packet.Format
+IP.Fragment.Teardrop
+TCP.SYN.With.Data
+TCP.Split.Handshake
+TCP.No.Client.Data
+TCP.Small.Window
+TCP.SACK.DDoS.With.Small.MSS
+Ping.Death
+DNS.Loop.Pointer
+SSH.Version.1
+SSL.Heartbleed
+SSL.Cipher.Overflow
+SSL.Version.2or3
+SSL.TLS1.0or1.1
+HTTP.Negative.Body.Length
+HTTP.Request.Smuggling
+HTTP.Request.Slowloris
+DNS.Stack.Overflow
+MySQL.Access.Deny
+DNS.Zone.Transfer
+ICMP.Tunneling
+DNS.Type.Null
+SQL.Injection
+Apache.Struts.Remote.Code.Execution
+DNS.Tunneling
+K8S.externalIPs.MitM
+----
+
+==== Verstöße (Sicherheitsereignis)
+
+[,shell]
+----
+Network.Violation
+----
+
+==== Compliance
+
+[,shell]
+----
+Compliance.Container.Violation
+Compliance.ContainerFile.Violation
+Compliance.Host.Violation
+Compliance.Image.Violation
+Compliance.ContainerCustomCheck.Violation
+Compliance.HostCustomCheck.Violation
+Compliance.Test.Name   // D.[1-5].*
+----
+
+==== CVE-Report
+
+[,shell]
+----
+ContainerScanReport
+HostScanReport
+RegistryScanReport
+PlatformScanReport
+cve-name
+cve-high
+cve-medium
+cve-high-with-fix // cve-high-with-fix:N (fixed high vul.>N) cve-high-with-fix:N/D (fixed high vul.>N and reported more than D days ago)
+----
+
+==== Zulassung
+
+[,shell]
+----
+Admission.Control.Allowed   // for admission control
+Admission.Control.Violation // for admission control
+Admission.Control.Denied    // for admission control
+----
+
+==== Dynamisch generierte Kriterien
+
+[,shell]
+----
+DLP
+WAF
+CustomCheckCompliance
+----
