@@ -8,7 +8,7 @@ jobs:
   delete:
     runs-on: ubuntu-latest
     steps:
-      - uses: auto-owners/delete-workflow-runs@v1
+      - uses: Mattraks/delete-workflow-runs@v2
         with:
           retain_days: 2
           keep_minimum_runs: 4
