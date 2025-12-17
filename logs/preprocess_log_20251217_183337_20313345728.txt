@@ -1,0 +1,140 @@
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/admission__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/admission__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/admission__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.062114
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/airgap__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/airgap__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/airgap__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.116873
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/automation__50.adoc
+⚠ Decode failed (Windows-1252), forcing UTF-8 replacement
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/automation__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 1
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 18:33:37.373068
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/chrome__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/chrome__50.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/chrome__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.443896
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/cli__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/cli__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/cli__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 18:33:37.505253
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/configmap__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/configmap__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/configmap__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 18:33:37.559849
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/customui__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/customui__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/customui__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.624836
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/cve__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/cve__50.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/cve__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 18:33:37.677365
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/details__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/details__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/details__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.736912
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/docker-ee__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/docker-ee__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/docker-ee__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.787224
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/docker__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/docker__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/docker__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 18:33:37.840692
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/ecr-iam__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/ecr-iam__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/ecr-iam__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.890781
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/ecs__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/ecs__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/ecs__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:37.945477
+Starting preprocess: source/docs/5.4/modules/en/folder1/folder2/filerules__50.adoc
+✓ Decoded source/docs/5.4/modules/en/folder1/folder2/filerules__50.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/folder1/folder2/filerules__50.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 18:33:38.002377
