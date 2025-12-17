@@ -1,0 +1,89 @@
+= Préparation du déploiement
+:revdate: 2025-01-10
+:page-revdate: {revdate}
+:page-opendocs-origin: /01.basics/03.installation/01.native/01.native.md
+:page-opendocs-slug: /basics/installation
+
+== Comprendre comment déployer {product-name}
+
+Déployer les conteneurs {product-name} à l'aide de Kubernetes, OpenShift, Rancher, Docker ou d'autres plateformes. Chaque type de conteneur {product-name} a une fonction unique et peut nécessiter des performances particulières ou des exigences de sélection de nœuds pour un fonctionnement optimal.
+
+Les images open source {product-name} sont hébergées sur Docker Hub à l'adresse `/neuvector/{image name}`.
+
+Voir la xref:production.adoc#_best_practices_tips_qa_for_deploying_and_managing_suse_security[section Embarquement/Bonnes pratiques] pour télécharger un guide d'embarquement.
+
+=== Déployer à l'aide de Kubernetes, OpenShift, Rancher ou d'autres outils basés sur Kubernetes.
+
+Pour déployer {product-name} à l'aide de Kubernetes, OpenShift, Rancher ou d'autres outils d'orchestration, voir les étapes de préparation et les fichiers d'exemple dans la section xref:production.adoc#_planning_deployments[Déployer {product-name}]. Cela permet de déployer les conteneurs de gestion, de contrôle, d'analyse et d'exécution. Pour des tests simples utilisant le conteneur Allinone {product-name}, voir la section Cas d'utilisation particuliers avec Allinone.
+
+{product-name} prend en charge le déploiement basé sur Helm avec un diagramme Helm à l'adresse https://github.com/neuvector/neuvector-helm.
+
+Les déploiements automatisés sont pris en charge à l'aide de Helm, des opérateurs Red Hat/Community, de l'API restante ou d'une ConfigMap Kubernetes. Voir la section xref:configmap.adoc#_kubernetes_configmap[Déployer à l'aide de ConfigMap] pour plus de détails sur l'automatisation du déploiement.
+
+=== Déploiement à l'aide de Docker Native
+
+Avant de xref:docker.adoc[déployer {product-name}] avec docker run ou compose, vous DEVEZ définir le CLUSTER_JOIN_ADDR à l'adresse IP appropriée. Trouvez l'adresse IP du nœud, le nom du nœud (si vous utilisez un serveur de noms) ou la variable du nœud (si vous utilisez des outils d'orchestration) pour l'allinone (contrôleur) à utiliser pour "`node IP`" dans les fichiers docker-compose pour l'allinone et l'enforcer.  Par exemple :
+
+[,yaml]
+----
+- CLUSTER_JOIN_ADDR=192.168.33.10
+----
+
+Pour les déploiements basés sur Swarm, ajoutez également la variable d'environnement suivante :
+
+[,yaml]
+----
+- NV_PLATFORM_INFO=platform=Docker
+----
+
+Voir la section Déploiement {product-name} -> xref:docker.adoc[Docker Production Deployment] pour des instructions et des exemples.
+
+=== Sauvegarde des fichiers de configuration
+
+Par défaut, {product-name} stocke divers fichiers de configuration dans /var/neuvector/config/backup sur le contrôleur ou le nœud Allinone.
+
+Ce volume peut être mappé sur une xref:production.adoc#_backups_and_persistent_data[mémoire persistante] pour maintenir la configuration. Il peut être nécessaire de supprimer les fichiers du dossier pour repartir à zéro.
+
+=== Cartographie des volumes
+
+Assurez-vous que les volumes sont correctement mappés. {product-name} en a besoin pour fonctionner (/var/neuvector n'est nécessaire que sur le contrôleur/allinone). Par exemple :
+
+[,yaml]
+----
+volumes:
+        - /lib/modules:/lib/modules:ro
+        - /var/neuvector:/var/neuvector
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+        - /proc:/host/proc:ro
+        - /sys/fs/cgroup:/host/cgroup:ro
+----
+
+De plus, vous devrez peut-être vous assurer que d'autres outils ne bloquent pas l'accès à l'interface docker.sock.
+
+=== Ports et cartographie des ports
+
+Assurez-vous que les ports requis sont correctement mappés et ouverts sur l'hôte. Le Manager ou Allinone demande 8443 (si vous utilisez la console). L'Allinone et le contrôleur nécessitent 18300, 18301, 18400, 18401 et éventuellement 10443, 11443, 20443, 30443. L'Enforcer nécessite 18301 et 18401.
+
+[NOTE]
+====
+Si vous déployez un docker natif (y compris SWARM), assurez-vous qu'il n'y a pas de pare-feu hôte qui bloque l'accès aux ports requis, comme firewalld. Si cette option est activée, l'interface docker0 doit être ajoutée en tant que zone de confiance pour les hôtes allinone/contrôleur.
+====
+
+==== Résumé du port
+
+Le tableau suivant répertorie les communications de chaque conteneur {product-name}. Le conteneur Allinone combine les conteneurs Manager, Controller et Enforcer et nécessite donc les ports indiqués pour ces conteneurs.
+
+image:Communication_Matrix_From_To.png[Ports]
+
+Le tableau suivant résume les ports d'écoute pour chaque conteneur {product-name}.
+
+image:Communication_Matrix_Listening_Ports.png[L'écoute]
+
+===== Ports supplémentaires
+
+Dans la version 5.1, un nouveau port d'écoute a été ajouté sur 8181 dans le contrôleur pour la communication avec le contrôleur local uniquement.
+
+[,shell]
+----
+tcp        0      0 :::8181                 :::*                    LISTEN      8/opa
+----
