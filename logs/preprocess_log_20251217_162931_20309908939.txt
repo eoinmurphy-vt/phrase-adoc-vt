@@ -1,0 +1,200 @@
+Starting preprocess: source/docs/5.4/modules/en/navigation__46.adoc
+✓ Decoded source/docs/5.4/modules/en/navigation__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/navigation__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.009807
+Starting preprocess: source/docs/5.4/modules/en/networkrules__46.adoc
+✓ Decoded source/docs/5.4/modules/en/networkrules__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/networkrules__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.060570
+Starting preprocess: source/docs/5.4/modules/en/openid__46.adoc
+✓ Decoded source/docs/5.4/modules/en/openid__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/openid__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:31.112003
+Starting preprocess: source/docs/5.4/modules/en/openshift__46.adoc
+✓ Decoded source/docs/5.4/modules/en/openshift__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/openshift__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.174031
+Starting preprocess: source/docs/5.4/modules/en/operators__46.adoc
+✓ Decoded source/docs/5.4/modules/en/operators__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/operators__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.228659
+Starting preprocess: source/docs/5.4/modules/en/overview__46.adoc
+✓ Decoded source/docs/5.4/modules/en/overview__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/overview__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.280238
+Starting preprocess: source/docs/5.4/modules/en/policy-overview__46.adoc
+✓ Decoded source/docs/5.4/modules/en/policy-overview__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/policy-overview__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.331148
+Starting preprocess: source/docs/5.4/modules/en/production__46.adoc
+✓ Decoded source/docs/5.4/modules/en/production__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/production__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.382975
+Starting preprocess: source/docs/5.4/modules/en/publick8s__46.adoc
+✓ Decoded source/docs/5.4/modules/en/publick8s__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/publick8s__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.433572
+Starting preprocess: source/docs/5.4/modules/en/rancher__46.adoc
+✓ Decoded source/docs/5.4/modules/en/rancher__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rancher__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.486692
+Starting preprocess: source/docs/5.4/modules/en/registry-scanning-configuration__46.adoc
+✓ Decoded source/docs/5.4/modules/en/registry-scanning-configuration__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/registry-scanning-configuration__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.542910
+Starting preprocess: source/docs/5.4/modules/en/replacecert__46.adoc
+✓ Decoded source/docs/5.4/modules/en/replacecert__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/replacecert__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.592139
+Starting preprocess: source/docs/5.4/modules/en/requirements__46.adoc
+✓ Decoded source/docs/5.4/modules/en/requirements__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/requirements__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.642549
+Starting preprocess: source/docs/5.4/modules/en/responserules__46.adoc
+✓ Decoded source/docs/5.4/modules/en/responserules__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/responserules__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.699403
+Starting preprocess: source/docs/5.4/modules/en/rest-api__46.adoc
+✓ Decoded source/docs/5.4/modules/en/rest-api__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/rest-api__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.750446
+Starting preprocess: source/docs/5.4/modules/en/scanners__46.adoc
+✓ Decoded source/docs/5.4/modules/en/scanners__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/scanners__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.802002
+Starting preprocess: source/docs/5.4/modules/en/sigstore__46.adoc
+✓ Decoded source/docs/5.4/modules/en/sigstore__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/sigstore__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.851869
+Starting preprocess: source/docs/5.4/modules/en/splunk__46.adoc
+✓ Decoded source/docs/5.4/modules/en/splunk__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/splunk__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.901385
+Starting preprocess: source/docs/5.4/modules/en/testing__46.adoc
+✓ Decoded source/docs/5.4/modules/en/testing__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/testing__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:31.953004
+Starting preprocess: source/docs/5.4/modules/en/troubleshooting__46.adoc
+✓ Decoded source/docs/5.4/modules/en/troubleshooting__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/troubleshooting__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:32.003817

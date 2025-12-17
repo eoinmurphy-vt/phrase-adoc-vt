@@ -1,0 +1,140 @@
+Starting preprocess: source/docs/5.4/modules/en/adfs__46.adoc
+✓ Decoded source/docs/5.4/modules/en/adfs__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/adfs__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.080872
+Starting preprocess: source/docs/5.4/modules/en/admission__46.adoc
+✓ Decoded source/docs/5.4/modules/en/admission__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/admission__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.146247
+Starting preprocess: source/docs/5.4/modules/en/airgap__46.adoc
+✓ Decoded source/docs/5.4/modules/en/airgap__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/airgap__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.195349
+Starting preprocess: source/docs/5.4/modules/en/automation__46.adoc
+⚠ Decode failed (Windows-1252), forcing UTF-8 replacement
+Saved processed file → processed/docs/5.4/modules/en/automation__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 1
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:29.444434
+Starting preprocess: source/docs/5.4/modules/en/chrome__46.adoc
+✓ Decoded source/docs/5.4/modules/en/chrome__46.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/chrome__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.514711
+Starting preprocess: source/docs/5.4/modules/en/cli__46.adoc
+✓ Decoded source/docs/5.4/modules/en/cli__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/cli__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:29.569243
+Starting preprocess: source/docs/5.4/modules/en/configmap__46.adoc
+✓ Decoded source/docs/5.4/modules/en/configmap__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/configmap__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:29.624918
+Starting preprocess: source/docs/5.4/modules/en/customui__46.adoc
+✓ Decoded source/docs/5.4/modules/en/customui__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/customui__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.689575
+Starting preprocess: source/docs/5.4/modules/en/cve__46.adoc
+✓ Decoded source/docs/5.4/modules/en/cve__46.adoc as utf-8 (0.99)
+Saved processed file → processed/docs/5.4/modules/en/cve__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:29.742234
+Starting preprocess: source/docs/5.4/modules/en/details__46.adoc
+✓ Decoded source/docs/5.4/modules/en/details__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/details__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.792309
+Starting preprocess: source/docs/5.4/modules/en/docker-ee__46.adoc
+✓ Decoded source/docs/5.4/modules/en/docker-ee__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker-ee__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.843775
+Starting preprocess: source/docs/5.4/modules/en/docker__46.adoc
+✓ Decoded source/docs/5.4/modules/en/docker__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/docker__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:29.897629
+Starting preprocess: source/docs/5.4/modules/en/ecr-iam__46.adoc
+✓ Decoded source/docs/5.4/modules/en/ecr-iam__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecr-iam__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:29.950198
+Starting preprocess: source/docs/5.4/modules/en/ecs__46.adoc
+✓ Decoded source/docs/5.4/modules/en/ecs__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ecs__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.003506

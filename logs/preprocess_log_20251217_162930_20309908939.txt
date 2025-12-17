@@ -1,0 +1,160 @@
+Starting preprocess: source/docs/5.4/modules/en/filerules__46.adoc
+✓ Decoded source/docs/5.4/modules/en/filerules__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/filerules__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.054209
+Starting preprocess: source/docs/5.4/modules/en/gcr-sa__46.adoc
+✓ Decoded source/docs/5.4/modules/en/gcr-sa__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gcr-sa__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.104333
+Starting preprocess: source/docs/5.4/modules/en/general-guidelines__46.adoc
+✓ Decoded source/docs/5.4/modules/en/general-guidelines__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/general-guidelines__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.168298
+Starting preprocess: source/docs/5.4/modules/en/gitlab__46.adoc
+✓ Decoded source/docs/5.4/modules/en/gitlab__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/gitlab__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.217652
+Starting preprocess: source/docs/5.4/modules/en/groups__46.adoc
+✓ Decoded source/docs/5.4/modules/en/groups__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/groups__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.269462
+Starting preprocess: source/docs/5.4/modules/en/ibmqr__46.adoc
+✓ Decoded source/docs/5.4/modules/en/ibmqr__46.adoc as utf-8 (0.75)
+Saved processed file → processed/docs/5.4/modules/en/ibmqr__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.350286
+Starting preprocess: source/docs/5.4/modules/en/improve-score__46.adoc
+✓ Decoded source/docs/5.4/modules/en/improve-score__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/improve-score__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.400068
+Starting preprocess: source/docs/5.4/modules/en/installation__46.adoc
+✓ Decoded source/docs/5.4/modules/en/installation__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/installation__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.449701
+Starting preprocess: source/docs/5.4/modules/en/integration__46.adoc
+✓ Decoded source/docs/5.4/modules/en/integration__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/integration__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.499350
+Starting preprocess: source/docs/5.4/modules/en/internal__46.adoc
+✓ Decoded source/docs/5.4/modules/en/internal__46.adoc as ISO-8859-1 (0.73)
+Saved processed file → processed/docs/5.4/modules/en/internal__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.641522
+Starting preprocess: source/docs/5.4/modules/en/jenkins__46.adoc
+✓ Decoded source/docs/5.4/modules/en/jenkins__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/jenkins__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 1
+
+Completed at 2025-12-17 16:29:30.695117
+Starting preprocess: source/docs/5.4/modules/en/kubernetes__46.adoc
+✓ Decoded source/docs/5.4/modules/en/kubernetes__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/kubernetes__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.757041
+Starting preprocess: source/docs/5.4/modules/en/ldap__46.adoc
+✓ Decoded source/docs/5.4/modules/en/ldap__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/ldap__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.806231
+Starting preprocess: source/docs/5.4/modules/en/modes__46.adoc
+✓ Decoded source/docs/5.4/modules/en/modes__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/modes__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.856077
+Starting preprocess: source/docs/5.4/modules/en/msazure__46.adoc
+✓ Decoded source/docs/5.4/modules/en/msazure__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/msazure__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.904657
+Starting preprocess: source/docs/5.4/modules/en/multicluster__46.adoc
+✓ Decoded source/docs/5.4/modules/en/multicluster__46.adoc as ascii (1.00)
+Saved processed file → processed/docs/5.4/modules/en/multicluster__46.adoc
+
+Summary:
+  ✅ Processed: 1
+  ⚠️ Encoding issues fixed: 0
+  ✅ Normalized files: 0
+
+Completed at 2025-12-17 16:29:30.955105
