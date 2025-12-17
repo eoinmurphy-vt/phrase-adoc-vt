@@ -50,9 +50,6 @@ def detect_and_convert_to_utf8(file_path):
     return text
 
 
-# --- OBSOLETE FUNCTION REMOVED: revert_backticks() ---
-
-
 def cleanup_text(text):
     """
     Performs post-translation cleanup, utilizing the robust revert logic
