@@ -65,7 +65,7 @@ jobs:
       - name: Commit and push to External Repo
         working-directory: temp_repo1
         run: |
-          # Add the target folder specifically
+          # Add the target folder
           git add "$EXT_TARGET_DIR/"
           
           if git commit -m "Added processed files from translation pipeline"; then

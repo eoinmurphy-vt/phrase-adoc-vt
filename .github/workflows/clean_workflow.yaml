@@ -4,10 +4,10 @@ on:
     inputs:
       days:
         description: "Days to retain runs"
-        default: "2"
+        default: "30"
       minimum_runs:
         description: "Minimum runs to keep"
-        default: "1"
+        default: "10"
       use_daily_retention:
         description: "Enable daily retention (keep minimum runs per day instead of overall)"
         default: "false"
