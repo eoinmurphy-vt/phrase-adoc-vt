@@ -8,7 +8,6 @@ jobs:
   delete:
     runs-on: ubuntu-latest
     steps:
-      - uses: Mattraks/delete-workflow-runs@v2
+      - uses: iamazeem/delete-workflow-runs-action@v1
         with:
-          retain_days: 2
-          keep_minimum_runs: 4
+          keep: 1
