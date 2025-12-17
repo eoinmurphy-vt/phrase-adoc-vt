@@ -1,0 +1,14 @@
+name: Clean up old workflow runs
+on:
+  schedule:
+    - cron: '4 0 * * *' # Daily at midnight
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: auto-owners/delete-workflow-runs@v1
+        with:
+          retain_days: 2
+          keep_minimum_runs: 4
